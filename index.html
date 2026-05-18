@@ -68,8 +68,74 @@
 <body class="bg-neri text-tetsu font-body antialiased">
 
   <!-- ===== 1. Announcement bar ===== -->
+  <div class="bg-akane text-gofun">
+    <p class="mx-auto max-w-7xl px-4 py-2 text-center text-[11px] font-medium uppercase tracking-[0.18em]">
+      Free shipping on orders over $50 &nbsp;·&nbsp; 30-day returns
+    </p>
+  </div>
 
   <!-- ===== 2. Header ===== -->
+  <header id="site-header" class="sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ease-out border-b border-transparent">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+
+      <!-- Logo -->
+      <a href="#" class="shrink-0 rounded-sm transition-transform duration-200 ease-out hover:scale-[1.03] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
+        <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-9 w-auto" />
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+          Shop
+          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
+        </a>
+        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+          Collections
+          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
+        </a>
+        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+          Our Story
+          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
+        </a>
+        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+          Sizing
+          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
+        </a>
+      </nav>
+
+      <!-- Right cluster -->
+      <div class="flex items-center gap-2">
+        <!-- Cart -->
+        <a href="#" aria-label="Cart" class="relative rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4h2l2.4 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" />
+            <circle cx="9.5" cy="20" r="1.4" />
+            <circle cx="17" cy="20" r="1.4" />
+          </svg>
+          <span class="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-akane px-1 text-[10px] font-semibold leading-none text-gofun">2</span>
+        </a>
+
+        <!-- Hamburger (mobile) -->
+        <button id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" class="rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri md:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="3" y1="7" x2="21" y2="7" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="17" x2="21" y2="17" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown panel -->
+    <div id="mobile-menu" class="hidden border-t border-shiracha bg-neri/98 backdrop-blur md:hidden">
+      <nav class="mx-auto flex max-w-7xl flex-col px-4 py-2">
+        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Shop</a>
+        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Collections</a>
+        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Our Story</a>
+        <a href="#" class="py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Sizing</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- ===== 3. Hero ===== -->
 
@@ -88,6 +154,36 @@
   <!-- ===== 10. Newsletter ===== -->
 
   <!-- ===== 11. Footer ===== -->
+
+  <script>
+    // Sticky header: transparent over hero, solid off-white on scroll.
+    (function () {
+      var header = document.getElementById('site-header');
+      var solid = ['bg-neri/95', 'backdrop-blur', 'border-shiracha', 'shadow-[0_4px_24px_-12px_rgba(40,26,20,0.25)]'];
+      function onScroll() {
+        if (window.scrollY > 24) {
+          header.classList.add.apply(header.classList, solid);
+          header.classList.remove('border-transparent');
+        } else {
+          header.classList.remove.apply(header.classList, solid);
+          header.classList.add('border-transparent');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // Mobile menu toggle.
+    (function () {
+      var btn = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+    })();
+  </script>
 
 </body>
 </html>
