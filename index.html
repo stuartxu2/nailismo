@@ -39,6 +39,17 @@
       font-weight: 900;
       font-display: swap;
     }
+
+    /* Transparent header (over hero): light treatment for legibility */
+    #site-header.header-light .nav-logo {
+      filter: brightness(0) invert(1);
+    }
+    #site-header.header-light .nav-link:not(:hover):not(:focus-visible) {
+      color: #f7f3ec; /* near-white */
+    }
+    #site-header.header-light .nav-icon:not(:hover):not(:focus-visible) {
+      color: #f7f3ec;
+    }
   </style>
 
   <!-- Tailwind custom-token config -->
@@ -75,29 +86,29 @@
   </div>
 
   <!-- ===== 2. Header ===== -->
-  <header id="site-header" class="sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ease-out border-b border-transparent">
+  <header id="site-header" class="header-light sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ease-out border-b border-transparent">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
 
       <!-- Logo -->
       <a href="#" class="shrink-0 rounded-sm transition-transform duration-200 ease-out hover:scale-[1.03] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
-        <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-9 w-auto" />
+        <img src="brand_assets/Logo/01.png" alt="Nailismo" class="nav-logo h-9 w-auto transition-[filter] duration-300 ease-out" />
       </a>
 
       <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-8">
-        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
           Shop
           <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
         </a>
-        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
           Collections
           <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
         </a>
-        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
           Our Story
           <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
         </a>
-        <a href="#" class="group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
+        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
           Sizing
           <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
         </a>
@@ -106,7 +117,7 @@
       <!-- Right cluster -->
       <div class="flex items-center gap-2">
         <!-- Cart -->
-        <a href="#" aria-label="Cart" class="relative rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
+        <a href="#" aria-label="Cart" class="nav-icon relative rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 4h2l2.4 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" />
             <circle cx="9.5" cy="20" r="1.4" />
@@ -116,7 +127,7 @@
         </a>
 
         <!-- Hamburger (mobile) -->
-        <button id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" class="rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri md:hidden">
+        <button id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" class="nav-icon rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri md:hidden">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
             <line x1="3" y1="7" x2="21" y2="7" />
             <line x1="3" y1="12" x2="21" y2="12" />
@@ -194,9 +205,11 @@
         if (window.scrollY > 24) {
           header.classList.add.apply(header.classList, solid);
           header.classList.remove('border-transparent');
+          header.classList.remove('header-light');
         } else {
           header.classList.remove.apply(header.classList, solid);
           header.classList.add('border-transparent');
+          header.classList.add('header-light');
         }
       }
       window.addEventListener('scroll', onScroll, { passive: true });
