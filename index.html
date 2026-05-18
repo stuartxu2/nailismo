@@ -680,10 +680,22 @@
     (function () {
       var btn = document.getElementById('menu-toggle');
       var menu = document.getElementById('mobile-menu');
+      var header = document.getElementById('site-header');
       btn.addEventListener('click', function () {
         var open = menu.classList.toggle('hidden') === false;
         btn.setAttribute('aria-expanded', String(open));
         btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        // When open, force the solid (dark-logo) header so the logo
+        // stays legible against the light menu panel — even over the hero.
+        if (open) {
+          header.classList.remove('header-light');
+          header.classList.remove('border-transparent');
+          header.classList.add('bg-neri/95', 'backdrop-blur', 'border-shiracha');
+        } else if (window.scrollY <= 24) {
+          header.classList.add('header-light');
+          header.classList.add('border-transparent');
+          header.classList.remove('bg-neri/95', 'backdrop-blur', 'border-shiracha');
+        }
       });
     })();
   </script>
