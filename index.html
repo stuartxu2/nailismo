@@ -3,702 +3,1627 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nailismo — Wear Your Edge</title>
+  <title>Nailismo | Press-On Manicures for Men</title>
+  <meta name="description" content="Press-on manicures designed for men's hands. Shop masculine, minimalist, and statement nail sets built for daily wear, nightlife, and modern style." />
 
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Body font: Inter via Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
   <style>
-    /* Headings font: Ekster — loaded locally */
-    @font-face {
-      font-family: 'Ekster';
-      src: url('brand_assets/Font/Ekster/Ekster_Regular.woff2') format('woff2');
+    /* Geograph — primary sans/UI */
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-light.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-light-italic.woff2') format('woff2'); font-weight: 300; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-regular-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Geograph'; src: url('brand_assets/Font/Geograph/geograph-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+    /* Akkurat Mono — monospace */
+    @font-face { font-family: 'Akkurat Mono'; src: url('brand_assets/Font/AkkuratMono/Akkurat-Mono.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+    :root {
+      /* Font system */
+      --font-sans:  "Geograph", system-ui, sans-serif;
+      --font-serif: "Noto Serif", ui-serif, serif;
+      --font-mono:  "Akkurat Mono", ui-monospace, monospace;
+
+      /* Nippon Colors */
+      --paper:      #F5F5F5;  /* 練色 base */
+      --toriko:     #F2EDE0;  /* 鳥子 cream alt */
+      --shiracha:   #E4DDCC;  /* 白茶 third surface */
+      --tetsu:      #281A14;  /* 鉄黒 primary text + dark blocks */
+      --sumi:       #1C1816;  /* 墨 deepest */
+      --rikyu:      #656765;  /* 利休鼠 muted text */
+      --gin:        #9EA1A3;  /* 銀鼠 silver mute */
+      --hair:       rgba(40,26,20,0.16);  /* hairline on light */
+      --hair-strong:rgba(40,26,20,0.30);
+      --hair-dark:  rgba(242,237,224,0.18); /* hairline on dark */
+      --akane:      #B7282E;  /* 茜 primary accent */
+      --bengara:    #913225;  /* 弁柄 deep red */
+      --konnezumi:  #44617B;  /* 紺鼠 navy gray secondary */
+      --kodou:      #543F32;  /* 古銅 old copper */
+      --kikuchiba:  #D4AC68;  /* 黄朽葉 warm metal */
+    }
+
+    html { background: var(--paper); color: var(--tetsu); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; scrollbar-gutter: stable; }
+    body { font-family: var(--font-sans); font-weight: 400; }
+
+    .font-display { font-family: var(--font-sans); }
+    .font-serif { font-family: var(--font-serif); }
+    .font-mono { font-family: var(--font-mono); }
+
+    .tracking-tightest { letter-spacing: -0.045em; }
+    .tracking-display { letter-spacing: -0.035em; }
+
+    .hairline { background: var(--hair); height: 1px; width: 100%; }
+    .border-hair { border-color: var(--hair); }
+    .border-hair-dark { border-color: var(--hair-dark); }
+
+    .grain::after {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      opacity: 0.10; mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+    }
+
+    .eyebrow, .cap {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
       font-weight: 400;
-      font-display: swap;
+      color: var(--rikyu);
     }
-    @font-face {
-      font-family: 'Ekster';
-      src: url('brand_assets/Font/Ekster/Ekster_Bold.woff2') format('woff2');
-      font-weight: 700;
-      font-display: swap;
+    .cap-dark { color: rgba(242,237,224,0.55); }
+
+    @keyframes scroll-x { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+    .ticker-track { animation: scroll-x 60s linear infinite; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .rise { animation: rise .9s cubic-bezier(.22,1,.36,1) both; }
+    .delay-1 { animation-delay: .08s; }
+    .delay-2 { animation-delay: .18s; }
+    .delay-3 { animation-delay: .28s; }
+    .delay-4 { animation-delay: .38s; }
+
+    /* Buttons — primary dark on light */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 22px; background: var(--tetsu); color: var(--paper);
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+      border: 1px solid var(--tetsu);
+      transition: background-color .25s ease, color .25s ease;
     }
-    @font-face {
-      font-family: 'Ekster';
-      src: url('brand_assets/Font/Ekster/Ekster_Extrabold.woff2') format('woff2');
-      font-weight: 800;
-      font-display: swap;
+    .btn-primary:hover { background: transparent; color: var(--tetsu); }
+    .btn-primary .arrow { transition: transform .35s cubic-bezier(.22,1,.36,1); }
+    .btn-primary:hover .arrow { transform: translateX(6px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 22px; color: var(--tetsu); background: transparent;
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+      border: 1px solid var(--hair-strong);
+      transition: background-color .25s ease, color .25s ease, border-color .25s ease;
     }
-    @font-face {
-      font-family: 'Ekster';
-      src: url('brand_assets/Font/Ekster/Ekster_Black.woff2') format('woff2');
-      font-weight: 900;
-      font-display: swap;
+    .btn-ghost:hover { background: var(--tetsu); color: var(--paper); border-color: var(--tetsu); }
+    .btn-ghost .arrow { transition: transform .35s cubic-bezier(.22,1,.36,1); }
+    .btn-ghost:hover .arrow { transform: translateX(6px); }
+
+    /* Buttons on dark surfaces */
+    .btn-on-dark {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 22px; background: var(--paper); color: var(--tetsu);
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+      border: 1px solid var(--paper);
+      transition: background-color .25s ease, color .25s ease;
+    }
+    .btn-on-dark:hover { background: transparent; color: var(--paper); }
+    .btn-on-dark .arrow { transition: transform .35s cubic-bezier(.22,1,.36,1); }
+    .btn-on-dark:hover .arrow { transform: translateX(6px); }
+
+    .btn-ghost-on-dark {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 22px; color: var(--paper); background: transparent;
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+      border: 1px solid var(--hair-dark);
+      transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+    }
+    .btn-ghost-on-dark:hover { background: var(--paper); color: var(--tetsu); border-color: var(--paper); }
+    .btn-ghost-on-dark .arrow { transition: transform .35s cubic-bezier(.22,1,.36,1); }
+    .btn-ghost-on-dark:hover .arrow { transform: translateX(6px); }
+
+    .ulink { position: relative; display: inline-block; }
+    .ulink::after {
+      content: ''; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+      background: currentColor; transform: scaleX(0); transform-origin: right center;
+      transition: transform .45s cubic-bezier(.22,1,.36,1);
+    }
+    .ulink:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+    .edit-card { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+    .edit-card:hover .edit-image { transform: scale(1.04); }
+    .edit-image { transition: transform 1.2s cubic-bezier(.22,1,.36,1); }
+
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .acc-icon { transform: rotate(45deg); }
+    .acc-icon { transition: transform .4s cubic-bezier(.22,1,.36,1); }
+    details[open] .acc-answer { opacity: 1; max-height: 480px; }
+    .acc-answer { opacity: 0; max-height: 0; overflow: hidden; transition: opacity .5s ease, max-height .5s ease; }
+
+    .shadow-editorial {
+      box-shadow:
+        0 40px 80px -30px rgba(40,26,20,0.22),
+        0 12px 24px -12px rgba(40,26,20,0.14);
+    }
+    .shadow-editorial-dark {
+      box-shadow:
+        0 1px 0 rgba(242,237,224,0.04) inset,
+        0 40px 80px -30px rgba(0,0,0,0.7),
+        0 12px 24px -12px rgba(0,0,0,0.6);
     }
 
-    /* Transparent header (over hero): light treatment for legibility */
-    #site-header.header-light .nav-logo {
-      filter: brightness(0) invert(1);
+    .tape {
+      display: inline-block; padding: 4px 10px; background: var(--akane); color: var(--paper);
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
     }
-    #site-header.header-light .nav-link:not(:hover):not(:focus-visible) {
-      color: #f7f3ec; /* near-white */
+    .tape-navy { background: var(--konnezumi); }
+    .tape-dark { background: var(--tetsu); }
+
+    .crosshair { position: absolute; width: 16px; height: 16px; pointer-events: none; }
+    .crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(40,26,20,0.45); }
+    .crosshair::before { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-50%); }
+    .crosshair::after { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-50%); }
+    .crosshair-light::before, .crosshair-light::after { background: rgba(242,237,224,0.55); }
+
+    .nail-container { max-width: 1440px; margin: 0 auto; padding-left: clamp(20px,4vw,56px); padding-right: clamp(20px,4vw,56px); }
+    .fade-x { mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%); }
+
+    .corner-mark {
+      position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      letter-spacing: 0.22em; text-transform: uppercase; color: rgba(40,26,20,0.45);
     }
-    #site-header.header-light .nav-icon:not(:hover):not(:focus-visible) {
-      color: #f7f3ec;
+    .corner-mark-dark { color: rgba(242,237,224,0.55); }
+
+    .spec strong { font-family: 'Ekster', serif; font-weight: 500; font-size: 36px; display: block; letter-spacing: -0.02em; line-height: 1; color: var(--tetsu); }
+    .spec-dark strong { color: var(--paper); }
+
+    .edit-pill { padding: 8px 16px; border: 1px solid var(--hair); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tetsu); }
+    .edit-pill-active { border-color: var(--akane); color: var(--akane); }
+
+    .img-cover { object-fit: cover; width: 100%; height: 100%; }
+    .acc-tile { aspect-ratio: 1/1; border: 1px solid var(--hair); position: relative; overflow: hidden; }
+    .acc-tile.is-product { background: var(--tetsu); border-color: var(--akane); }
+
+    p { line-height: 1.55; }
+    .sec { padding-top: clamp(72px,9vw,140px); padding-bottom: clamp(72px,9vw,140px); }
+
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 1px solid var(--akane); outline-offset: 4px;
     }
+
+    .look-card { position: relative; overflow: hidden; }
+    .look-card img { transition: transform 1.4s cubic-bezier(.22,1,.36,1), filter .8s ease; filter: grayscale(0.05) contrast(1.04); }
+    .look-card:hover img { transform: scale(1.06); filter: grayscale(0) contrast(1.1); }
+    .look-card .look-overlay { transition: background-color .45s ease, opacity .45s ease; }
+    .look-card:hover .look-overlay { background-color: rgba(40,26,20,0); }
+
+    .dot { display: inline-block; width: 6px; height: 6px; background: var(--akane); border-radius: 50%; vertical-align: middle; margin: 0 32px; }
+
+    /* Logo natural (no invert on light bg) */
+    .logo-natural { filter: none; }
+    .logo-invert { filter: invert(1); }
+
+    @media (max-width: 768px) { .spec strong { font-size: 28px; } }
   </style>
-
-  <!-- Tailwind custom-token config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            neri:     '#FCFAF2',  // page background (練色)
-            gofun:    '#FFFFFB',  // card / surface white (胡粉色)
-            tetsu:    '#281A14',  // text / headings (鉄黒)
-            akane:    '#B7282E',  // accent (茜色)
-            shiracha: '#DDD3C0',  // borders / bands (利休白茶)
-            nezumi:   '#BDC0BA',  // muted text (白鼠)
-          },
-          fontFamily: {
-            display: ['Ekster', 'sans-serif'],
-            body: ['Inter', 'sans-serif'],
-          },
-          letterSpacing: { tightest: '-0.03em' },
-        },
-      },
-    };
-  </script>
 </head>
 
-<body class="bg-neri text-tetsu font-body antialiased">
+<body class="bg-[var(--paper)] text-[var(--tetsu)]">
 
-  <!-- ===== 1. Announcement bar ===== -->
-  <div class="bg-akane text-gofun">
-    <p class="mx-auto max-w-7xl px-4 py-2 text-center text-[11px] font-medium uppercase tracking-[0.18em]">
-      Free shipping on orders over $50 &nbsp;·&nbsp; 30-day returns
-    </p>
+  <!-- ============ ANNOUNCEMENT TICKER ============ -->
+  <div class="border-b border-hair overflow-hidden bg-[var(--paper)] relative">
+    <div class="flex whitespace-nowrap ticker-track fade-x" style="width:max-content;">
+      <div class="flex items-center py-3 text-[11px] tracking-[0.22em] uppercase text-[var(--rikyu)] font-mono">
+        <span>Free shipping on starter sets over $60</span><span class="dot"></span>
+        <span>24 sizes per set</span><span class="dot"></span>
+        <span>Temporary or long-wear adhesive</span><span class="dot"></span>
+        <span>No salon required</span><span class="dot"></span>
+        <span>New: The Architectural Edit</span><span class="dot"></span>
+        <span>Built for men's hands</span><span class="dot"></span>
+        <span>Free shipping on starter sets over $60</span><span class="dot"></span>
+        <span>24 sizes per set</span><span class="dot"></span>
+        <span>Temporary or long-wear adhesive</span><span class="dot"></span>
+        <span>No salon required</span><span class="dot"></span>
+        <span>New: The Architectural Edit</span><span class="dot"></span>
+        <span>Built for men's hands</span><span class="dot"></span>
+      </div>
+    </div>
   </div>
 
-  <!-- ===== 2. Header ===== -->
-  <header id="site-header" class="header-light sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ease-out border-b border-transparent">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-
-      <!-- Logo -->
-      <a href="#" class="shrink-0 rounded-sm transition-transform duration-200 ease-out hover:scale-[1.03] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
-        <img src="brand_assets/Logo/01.png" alt="Nailismo" class="nav-logo h-9 w-auto transition-[filter] duration-300 ease-out" />
+  <!-- ============ NAV ============ -->
+  <header class="sticky top-0 z-50 bg-[rgba(245,245,245,0.85)] backdrop-blur-md border-b border-hair">
+    <div class="nail-container flex items-center justify-between h-[72px]">
+      <a href="#" class="flex items-center gap-3" aria-label="Nailismo home">
+        <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-9 logo-natural" />
       </a>
-
-      <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
-          Shop
-          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
-        </a>
-        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
-          Collections
-          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
-        </a>
-        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
-          Our Story
-          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
-        </a>
-        <a href="#" class="nav-link group relative py-1 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
-          Sizing
-          <span class="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-akane transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"></span>
-        </a>
+      <nav class="hidden md:flex items-center gap-8 text-[12px] tracking-[0.18em] uppercase font-medium text-[var(--tetsu)]">
+        <a href="#starter-gateway" class="ulink">Shop</a>
+        <a href="#starter-gateway" class="ulink">Starter Sets</a>
+        <a href="#edits" class="ulink">Style Edits</a>
+        <a href="#fit" class="ulink">Fit Guide</a>
+        <a href="#lookbook" class="ulink">Lookbook</a>
+        <a href="#faq" class="ulink">FAQ</a>
       </nav>
-
-      <!-- Right cluster -->
-      <div class="flex items-center gap-2">
-        <!-- Cart -->
-        <a href="#" aria-label="Cart" class="nav-icon relative rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 4h2l2.4 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" />
-            <circle cx="9.5" cy="20" r="1.4" />
-            <circle cx="17" cy="20" r="1.4" />
-          </svg>
-          <span class="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-akane px-1 text-[10px] font-semibold leading-none text-gofun">2</span>
+      <div class="flex items-center gap-4 md:gap-5 text-[12px] tracking-[0.18em] uppercase font-medium">
+        <a href="#" class="hidden sm:inline ulink">Account</a>
+        <a href="#" class="flex items-center gap-2 ulink">
+          Cart <span class="font-mono text-[10px] border border-[var(--hair-strong)] px-1.5 py-0.5">0</span>
         </a>
-
-        <!-- Hamburger (mobile) -->
-        <button id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" class="nav-icon rounded-full p-2 text-tetsu transition-transform duration-200 ease-out hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri md:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <line x1="3" y1="7" x2="21" y2="7" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="17" x2="21" y2="17" />
-          </svg>
+        <button id="nav-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] border border-hair" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="block w-4 h-px bg-[var(--tetsu)]"></span>
+          <span class="block w-4 h-px bg-[var(--tetsu)]"></span>
+          <span class="block w-4 h-px bg-[var(--tetsu)]"></span>
         </button>
       </div>
     </div>
-
-    <!-- Mobile dropdown panel -->
-    <div id="mobile-menu" class="hidden border-t border-shiracha bg-neri/98 backdrop-blur md:hidden">
-      <nav class="mx-auto flex max-w-7xl flex-col px-4 py-2">
-        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Shop</a>
-        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Collections</a>
-        <a href="#" class="border-b border-shiracha/60 py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Our Story</a>
-        <a href="#" class="py-3 text-sm font-medium text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Sizing</a>
-      </nav>
-    </div>
   </header>
 
-  <!-- ===== 3. Hero ===== -->
-  <section
-    class="relative -mt-[72px] flex min-h-[85vh] items-center bg-cover bg-center"
-    style="background-image: url('website%20images/banner%20picture%201.jpg');"
-  >
-    <div class="mx-auto flex w-full max-w-7xl px-4 sm:px-6">
-      <div class="relative max-w-xl pt-[72px]">
-        <!-- Mobile legibility scrim -->
-        <div class="absolute -inset-x-4 -inset-y-6 -z-10 rounded-2xl bg-neri/70 backdrop-blur-[2px] sm:hidden"></div>
+  <!-- ============ MOBILE MENU PANEL ============ -->
+  <div id="mobile-menu" class="md:hidden fixed inset-0 z-[60] bg-[var(--paper)] flex-col" style="display:none;" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-between h-[72px] px-5 border-b border-hair">
+      <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-9 logo-natural" />
+      <button id="nav-close" class="w-9 h-9 flex items-center justify-center border border-hair" aria-label="Close menu">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#281A14" stroke-width="1.4"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+      </button>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-5 py-8">
+      <span class="cap">Browse</span>
+      <ul class="mt-5 space-y-1 font-display">
+        <li><a href="#starter-gateway" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">Shop</a></li>
+        <li><a href="#starter-gateway" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">Starter Sets</a></li>
+        <li><a href="#edits" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">Style <span class="italic font-serif font-light">Edits</span></a></li>
+        <li><a href="#fit" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">Fit Guide</a></li>
+        <li><a href="#lookbook" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">Lookbook</a></li>
+        <li><a href="#bundle" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">First Fit Kit</a></li>
+        <li><a href="#faq" data-nav-link class="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display">FAQ</a></li>
+      </ul>
 
-        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-akane">
-          Press-On Nails for Men
-        </p>
-        <h1 class="mt-4 font-display font-black tracking-tightest text-tetsu leading-[0.95]"
-            style="font-size: clamp(2.75rem, 6vw, 5rem);">
-          Wear Your Edge
+      <div class="mt-10">
+        <span class="cap">Account</span>
+        <ul class="mt-4 space-y-3 text-[14px] tracking-[0.18em] uppercase font-medium">
+          <li><a href="#" data-nav-link class="ulink">Sign In</a></li>
+          <li><a href="#" data-nav-link class="ulink">Cart · <span class="font-mono">0</span></a></li>
+        </ul>
+      </div>
+
+      <div class="mt-10 pt-6 border-t border-hair">
+        <a href="#starter-gateway" data-nav-link class="btn-primary w-full justify-center">Shop Starter Sets <span class="arrow">→</span></a>
+        <p class="mt-4 text-[12px] text-[var(--rikyu)]">24 sizes · tabs + liquid · no salon required</p>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    (function(){
+      var menu = document.getElementById('mobile-menu');
+      var open = document.getElementById('nav-toggle');
+      var close = document.getElementById('nav-close');
+      function show(){ menu.style.display = 'flex'; document.body.style.overflow = 'hidden'; open.setAttribute('aria-expanded','true'); }
+      function hide(){ menu.style.display = 'none'; document.body.style.overflow = ''; open.setAttribute('aria-expanded','false'); }
+      open.addEventListener('click', show);
+      close.addEventListener('click', hide);
+      menu.querySelectorAll('[data-nav-link]').forEach(function(a){ a.addEventListener('click', hide); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && menu.style.display !== 'none') hide(); });
+    })();
+  </script>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden bg-[var(--paper)]">
+    <div class="corner-mark top-6 left-6">N°01 / Hero</div>
+    <div class="corner-mark top-6 right-6">52.3717° N, 4.8910° E</div>
+    <div class="corner-mark bottom-6 left-6">SS / AW · 26</div>
+    <div class="corner-mark bottom-6 right-6">Nailismo / Edition 01</div>
+
+    <div class="nail-container relative z-10 pt-20 md:pt-24 pb-20 md:pb-28 grid grid-cols-12 gap-6 md:gap-10 items-end min-h-[88vh]">
+      <div class="col-span-12 lg:col-span-6 relative">
+        <div class="flex items-center gap-3 mb-8 rise">
+          <span class="tape">N°00 / Manifesto</span>
+          <span class="cap">Wear · Your · Edge</span>
+        </div>
+        <h1 class="font-display font-light tracking-tightest leading-[0.88] text-[clamp(56px,9.5vw,150px)] rise delay-1">
+          <span class="block">The Final</span>
+          <span class="block italic font-thin">Detail<span class="text-[var(--akane)] not-italic">.</span></span>
         </h1>
-        <p class="mt-5 max-w-md text-base leading-7 text-tetsu/80 sm:text-lg">
-          Salon-grade sets that go on in five minutes and come off when you say so.
+        <p class="max-w-[520px] mt-10 text-[17px] md:text-[18px] text-[var(--rikyu)] leading-relaxed rise delay-2">
+          Press-on manicures designed for men's hands. Sharp, durable, and built to finish the look — from tailoring to streetwear.
         </p>
-        <a href="#"
-           class="group mt-8 inline-flex items-center gap-2 rounded-xl bg-akane px-8 py-4 text-sm font-semibold uppercase tracking-wide text-gofun shadow-[0_10px_30px_-8px_rgba(183,40,46,0.55),0_4px_12px_-4px_rgba(40,26,20,0.35)] transition-transform duration-200 ease-out hover:-translate-y-1 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-neri">
-          Shop Press-Ons
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="4" y1="12" x2="19" y2="12" />
-            <polyline points="13 6 19 12 13 18" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 4. Value props ===== -->
-  <section class="bg-neri">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <div class="grid grid-cols-2 gap-y-12 md:grid-cols-4 md:gap-y-0">
-
-        <!-- Salon-grade finish -->
-        <div class="flex flex-col items-center px-4 text-center md:border-l md:border-shiracha md:first:border-l-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-akane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 16.3 7.2 18.7l.9-5.4L4.2 8.7l5.4-.8L12 3z" />
-          </svg>
-          <h3 class="mt-4 font-display text-base font-bold tracking-tightest text-tetsu">Salon-grade finish</h3>
+        <div class="mt-10 flex flex-wrap items-center gap-4 rise delay-3">
+          <a href="#starter-gateway" class="btn-primary">Shop Starter Sets <span class="arrow">→</span></a>
+          <a href="#fit" class="btn-ghost">See The Fit System <span class="arrow">→</span></a>
         </div>
 
-        <!-- 5-minute application -->
-        <div class="flex flex-col items-center px-4 text-center md:border-l md:border-shiracha">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-akane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="13" r="8" />
-            <path d="M12 9v4l2.5 2" />
-            <path d="M9 2h6" />
-          </svg>
-          <h3 class="mt-4 font-display text-base font-bold tracking-tightest text-tetsu">5-minute application</h3>
+        <div class="mt-14 grid grid-cols-3 max-w-[560px] border-t border-hair pt-6 rise delay-4">
+          <div class="spec border-r border-hair pr-4">
+            <strong>24</strong>
+            <span class="cap mt-2 block">Sizes / Set</span>
+          </div>
+          <div class="spec border-r border-hair px-4">
+            <strong>7+</strong>
+            <span class="cap mt-2 block">Days Wear</span>
+          </div>
+          <div class="spec pl-4">
+            <strong>05<span class="text-[var(--akane)]">′</span></strong>
+            <span class="cap mt-2 block">Application</span>
+          </div>
         </div>
+      </div>
 
-        <!-- Reusable, set after set -->
-        <div class="flex flex-col items-center px-4 text-center md:border-l md:border-shiracha">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-akane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
-            <polyline points="21 3 21 8 16 8" />
-            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
-            <polyline points="3 21 3 16 8 16" />
-          </svg>
-          <h3 class="mt-4 font-display text-base font-bold tracking-tightest text-tetsu">Reusable, set after set</h3>
+      <div class="col-span-12 lg:col-span-6 relative h-[60vh] md:h-[78vh] rise delay-2">
+        <div class="absolute inset-0">
+          <figure class="absolute right-0 top-0 w-[78%] h-[78%] overflow-hidden shadow-editorial">
+            <img src="website_images/08e092eaeea1f881e8319ac91bad76eb.jpg" alt="Man with masculine matte press-on manicure styled with neutral tee" class="img-cover" loading="eager" />
+            <span class="crosshair" style="left:-8px;top:-8px;"></span>
+            <span class="crosshair" style="right:-8px;bottom:-8px;"></span>
+          </figure>
+          <figure class="absolute left-0 bottom-0 w-[44%] h-[44%] border border-hair bg-[var(--toriko)] p-3 shadow-editorial">
+            <img src="listing_v1/cat eye black press on nails.jpg" alt="Matte Charcoal cat-eye press-on nails arranged in a sizing grid" class="img-cover" loading="eager" />
+            <figcaption class="absolute -bottom-7 left-0 cap">N°01 — Matte Charcoal · Squoval · Long-wear</figcaption>
+          </figure>
         </div>
+      </div>
+    </div>
 
-        <!-- Designed for men -->
-        <div class="flex flex-col items-center px-4 text-center md:border-l md:border-shiracha">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-akane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="10" cy="14" r="6" />
-            <line x1="14.5" y1="9.5" x2="20" y2="4" />
-            <polyline points="15 4 20 4 20 9" />
-          </svg>
-          <h3 class="mt-4 font-display text-base font-bold tracking-tightest text-tetsu">Designed for men</h3>
-        </div>
-
+    <div class="border-t border-hair">
+      <div class="nail-container py-4 flex flex-wrap items-center justify-between gap-4 text-[11px] tracking-[0.22em] uppercase font-mono text-[var(--rikyu)]">
+        <span>24 Sizes · Temporary or long-wear adhesive · No salon required</span>
+        <span class="hidden md:inline">Scroll <span class="ml-2 inline-block translate-y-[1px]">↓</span></span>
       </div>
     </div>
   </section>
 
-  <!-- ===== 5. New Drops ===== -->
-  <section class="bg-neri">
-    <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
-      <header class="mb-10 max-w-xl">
-        <h2 class="font-display text-4xl font-extrabold tracking-tightest text-tetsu sm:text-5xl">
-          New Drops
-        </h2>
-        <p class="mt-3 text-base leading-7 text-tetsu/70">
-          Fresh sets straight off the bench — limited runs, restocked when they sell out.
-        </p>
-      </header>
-
-      <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
-
-        <!-- Card: Monochrome -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/black%20and%20white%20press%20on%20nails.jpg" alt="Monochrome press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
+  <!-- ============ PRODUCT GATEWAY: STARTER SETS ============ -->
+  <section id="starter-gateway" class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 md:gap-12 mb-10 md:mb-14 items-end">
+        <div class="col-span-12 md:col-span-7">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°02</span><span class="cap">Product Gateway</span>
           </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Monochrome</h3>
-            <p class="font-body text-sm font-semibold text-akane">$24</p>
-          </div>
-        </a>
-
-        <!-- Card: Crimson Edge -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/cool%20red%20press%20on%20nails.jpg" alt="Crimson Edge press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Crimson Edge</h3>
-            <p class="font-body text-sm font-semibold text-akane">$26</p>
-          </div>
-        </a>
-
-        <!-- Card: Sterling -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/silver%20press%20on%20nails.jpg" alt="Sterling press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Sterling</h3>
-            <p class="font-body text-sm font-semibold text-akane">$24</p>
-          </div>
-        </a>
-
-        <!-- Card: Amber Gold -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/amber%20and%20gold%20press%20on%20nails.jpg" alt="Amber Gold press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Amber Gold</h3>
-            <p class="font-body text-sm font-semibold text-akane">$28</p>
-          </div>
-        </a>
-
-        <!-- Card: Black Cat Eye -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/cat%20eye%20black%20press%20on%20nails.jpg" alt="Black Cat Eye press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Black Cat Eye</h3>
-            <p class="font-body text-sm font-semibold text-akane">$26</p>
-          </div>
-        </a>
-
-        <!-- Card: Ocean Blue -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/ocean%20blue%20press%20on%20nails.jpg" alt="Ocean Blue press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Ocean Blue</h3>
-            <p class="font-body text-sm font-semibold text-akane">$24</p>
-          </div>
-        </a>
-
-        <!-- Card: 24K Dazzle -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/dazzling%20gold%20press%20on%20nails.jpg" alt="24K Dazzle press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">24K Dazzle</h3>
-            <p class="font-body text-sm font-semibold text-akane">$28</p>
-          </div>
-        </a>
-
-        <!-- Card: Wild Card -->
-        <a href="#" class="group block rounded-2xl bg-gofun p-3 ring-1 ring-shiracha/70 transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 hover:shadow-[0_18px_40px_-14px_rgba(40,26,20,0.32),0_6px_16px_-8px_rgba(183,40,46,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <div class="relative aspect-square overflow-hidden rounded-xl bg-shiracha/30">
-            <img src="Listing%202025.7.30/green%20leopard%20press%20on%20nails.jpg" alt="Wild Card press-on nails" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-            <span class="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-akane text-gofun opacity-0 shadow-[0_8px_20px_-6px_rgba(183,40,46,0.6)] transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </span>
-          </div>
-          <div class="flex items-baseline justify-between px-1 pt-3 pb-1">
-            <h3 class="font-body text-sm font-medium text-tetsu">Wild Card</h3>
-            <p class="font-body text-sm font-semibold text-akane">$26</p>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 6. Brand story ===== -->
-  <section class="bg-shiracha">
-    <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-2 md:gap-16 md:py-28">
-
-      <!-- Image -->
-      <div class="relative overflow-hidden rounded-3xl shadow-[0_24px_60px_-20px_rgba(40,26,20,0.45)]">
-        <img src="website%20images/banner%20picture%206.jpg" alt="Nailismo press-on nails worn with confidence" class="aspect-[4/5] w-full object-cover md:aspect-[5/6]" />
-        <!-- Color treatment layer -->
-        <div class="pointer-events-none absolute inset-0 bg-akane/25 mix-blend-multiply"></div>
-        <!-- Gradient overlay -->
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-tetsu/55 via-transparent to-transparent"></div>
-      </div>
-
-      <!-- Copy -->
-      <div class="max-w-lg">
-        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-akane">Our Story</p>
-        <h2 class="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tightest text-tetsu sm:text-5xl">
-          Redefining masculine fashion
-        </h2>
-        <p class="mt-6 text-base leading-7 text-tetsu/75">
-          Nailismo started with a simple belief: self-expression has no gender. We craft press-on nails for the Gen Z trendsetters, the LGBTQ+ community, and the modern professionals who refuse to dim their edge to fit in.
-        </p>
-        <p class="mt-4 text-base leading-7 text-tetsu/75">
-          Every set is built to look salon-perfect, go on in minutes, and come off on your terms — so masculine style can be whatever you decide it is.
-        </p>
-        <a href="#" class="group mt-8 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-tetsu transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">
-          Our Story
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="4" y1="12" x2="19" y2="12" />
-            <polyline points="13 6 19 12 13 18" />
-          </svg>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== 7. Shop by vibe ===== -->
-  <section class="bg-neri">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
-      <header class="mb-10 max-w-xl">
-        <h2 class="font-display text-4xl font-extrabold tracking-tightest text-tetsu sm:text-5xl">
-          Shop by vibe
-        </h2>
-        <p class="mt-3 text-base leading-7 text-tetsu/70">
-          Find the set that matches your mood — three directions, every one of them yours.
-        </p>
-      </header>
-
-      <div class="grid gap-6 md:grid-cols-3">
-
-        <!-- Tile: Bold & Graphic -->
-        <a href="#" class="group relative block aspect-[3/4] overflow-hidden rounded-2xl ring-1 ring-shiracha/70 shadow-[0_18px_44px_-18px_rgba(40,26,20,0.4)] transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <img src="website%20images/banner%20picture%205.jpg" alt="Bold and graphic press-on nails" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-          <div class="pointer-events-none absolute inset-0 bg-akane/30 mix-blend-multiply"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-          <div class="absolute inset-x-0 bottom-0 p-6">
-            <h3 class="font-display text-2xl font-extrabold tracking-tightest text-gofun">Bold &amp; Graphic</h3>
-            <span class="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-gofun">
-              Explore
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" />
-              </svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- Tile: Minimal -->
-        <a href="#" class="group relative block aspect-[3/4] overflow-hidden rounded-2xl ring-1 ring-shiracha/70 shadow-[0_18px_44px_-18px_rgba(40,26,20,0.4)] transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <img src="website%20images/banner%20picture%203.jpg" alt="Minimal press-on nails" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-          <div class="pointer-events-none absolute inset-0 bg-tetsu/20 mix-blend-multiply"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-          <div class="absolute inset-x-0 bottom-0 p-6">
-            <h3 class="font-display text-2xl font-extrabold tracking-tightest text-gofun">Minimal</h3>
-            <span class="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-gofun">
-              Explore
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" />
-              </svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- Tile: Seasonal -->
-        <a href="#" class="group relative block aspect-[3/4] overflow-hidden rounded-2xl ring-1 ring-shiracha/70 shadow-[0_18px_44px_-18px_rgba(40,26,20,0.4)] transition-transform duration-300 ease-out hover:-translate-y-1.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane">
-          <img src="website%20images/banner%20picture%208a.jpg" alt="Seasonal press-on nails" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
-          <div class="pointer-events-none absolute inset-0 bg-akane/25 mix-blend-multiply"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-          <div class="absolute inset-x-0 bottom-0 p-6">
-            <h3 class="font-display text-2xl font-extrabold tracking-tightest text-gofun">Seasonal</h3>
-            <span class="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-gofun">
-              Explore
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" />
-              </svg>
-            </span>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 8. How it works ===== -->
-  <section class="bg-neri">
-    <div class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24">
-      <div class="border-t border-shiracha pt-16 sm:pt-20">
-        <header class="mb-12 max-w-xl">
-          <h2 class="font-display text-4xl font-extrabold tracking-tightest text-tetsu sm:text-5xl">
-            Three steps to a fresh set
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(36px,5vw,72px)]">
+            Built to start.<br/>Built to <span class="italic font-serif font-light">wear</span><span class="text-[var(--akane)]">.</span>
           </h2>
-        </header>
-
-        <div class="grid gap-12 md:grid-cols-3 md:gap-10">
-
-          <!-- Step 01 -->
-          <div class="md:border-l md:border-shiracha md:pl-8 md:first:border-l-0 md:first:pl-0">
-            <p class="font-display text-7xl font-black leading-none tracking-tightest text-shiracha sm:text-8xl">01</p>
-            <h3 class="mt-4 font-display text-xl font-bold tracking-tightest text-tetsu">Measure</h3>
-            <p class="mt-2 text-base leading-7 text-tetsu/70">Match your nail width with our sizing guide.</p>
+        </div>
+        <div class="col-span-12 md:col-span-5">
+          <p class="text-[var(--rikyu)] max-w-[440px]">Three sets engineered for first-time wear. Familiar shapes, masculine finishes, full sizing range. Pick a signal level and start there.</p>
+          <div class="mt-6 flex flex-wrap items-center gap-2">
+            <span class="edit-pill">Starter Friendly</span>
+            <span class="edit-pill">24 Sizes</span>
+            <span class="edit-pill">Tabs + Liquid</span>
           </div>
-
-          <!-- Step 02 -->
-          <div class="md:border-l md:border-shiracha md:pl-8">
-            <p class="font-display text-7xl font-black leading-none tracking-tightest text-shiracha sm:text-8xl">02</p>
-            <h3 class="mt-4 font-display text-xl font-bold tracking-tightest text-tetsu">Apply</h3>
-            <p class="mt-2 text-base leading-7 text-tetsu/70">Buff, glue or tab, press for thirty seconds.</p>
-          </div>
-
-          <!-- Step 03 -->
-          <div class="md:border-l md:border-shiracha md:pl-8">
-            <p class="font-display text-7xl font-black leading-none tracking-tightest text-shiracha sm:text-8xl">03</p>
-            <h3 class="mt-4 font-display text-xl font-bold tracking-tightest text-tetsu">Wear</h3>
-            <p class="mt-2 text-base leading-7 text-tetsu/70">Two weeks of edge. Pop them off, reuse the set.</p>
-          </div>
-
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== 9. Testimonials ===== -->
-  <section class="bg-gofun">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
-      <header class="mb-12 max-w-xl">
-        <h2 class="font-display text-4xl font-extrabold tracking-tightest text-tetsu sm:text-5xl">
-          Worn by men with edge
-        </h2>
-      </header>
+      <div class="grid grid-cols-12 gap-5 lg:gap-6">
+        <!-- Card 1: Midnight French -->
+        <article class="col-span-12 md:col-span-4 group relative border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/black and white press on nails.jpg" alt="Men's Midnight French press-on manicure starter set styled for daily wear and nightlife" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 tape">Editor's Pick</span>
+            <span class="absolute top-3 right-3 cap text-[var(--tetsu)] bg-[var(--paper)]/85 px-2 py-1">Architectural</span>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-display text-[20px] md:text-[22px] leading-[1.05]">Midnight French Starter Set</h3>
+              <span class="font-display text-[18px] whitespace-nowrap">$48</span>
+            </div>
+            <p class="text-[13px] text-[var(--rikyu)] mt-2">Dark French tip. Clean enough for the office, sharp enough for the bar.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Gloss tip</span>
+              <span class="px-2 py-1 border border-hair">Squoval</span>
+              <span class="px-2 py-1 border border-hair">Starter</span>
+            </div>
+            <div class="mt-5 pt-5 border-t border-hair flex items-center justify-between gap-3">
+              <a href="#" class="ulink text-[11px] tracking-[0.18em] uppercase font-medium">View Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
 
-      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Card 2: Matte Charcoal -->
+        <article class="col-span-12 md:col-span-4 group relative border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/cat eye black press on nails.jpg" alt="Men's Matte Charcoal press-on manicure starter set for office and daily wear" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--tetsu)] px-2 py-1">Office Ready</span>
+            <span class="absolute top-3 right-3 cap text-[var(--tetsu)] bg-[var(--paper)]/85 px-2 py-1">Stealth</span>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-display text-[20px] md:text-[22px] leading-[1.05]">Matte Charcoal Set</h3>
+              <span class="font-display text-[18px] whitespace-nowrap">$42</span>
+            </div>
+            <p class="text-[13px] text-[var(--rikyu)] mt-2">Low-signal matte black. Reads like a watch detail — present but quiet.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Matte</span>
+              <span class="px-2 py-1 border border-hair">Short</span>
+              <span class="px-2 py-1 border border-hair">First Set</span>
+            </div>
+            <div class="mt-5 pt-5 border-t border-hair flex items-center justify-between gap-3">
+              <a href="#" class="ulink text-[11px] tracking-[0.18em] uppercase font-medium">View Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
 
-        <!-- Quote 1 -->
-        <figure class="relative rounded-2xl bg-neri p-8 ring-1 ring-shiracha/70 shadow-[0_16px_38px_-16px_rgba(40,26,20,0.3),0_5px_14px_-8px_rgba(183,40,46,0.2)]">
-          <span aria-hidden="true" class="font-display text-6xl font-black leading-none text-akane">&ldquo;</span>
-          <blockquote class="-mt-4 text-lg leading-7 text-tetsu/85">
-            First set that didn&rsquo;t feel like a costume. They look sharp on stage and nobody asks if they&rsquo;re fake.
-          </blockquote>
-          <figcaption class="mt-6">
-            <p class="font-display text-sm font-bold tracking-tightest text-tetsu">Marcus T.</p>
-            <p class="text-sm text-nezumi">DJ, Brooklyn</p>
-          </figcaption>
-        </figure>
+        <!-- Card 3: Slate Nude -->
+        <article class="col-span-12 md:col-span-4 group relative border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/pale pinkish and silver press on nails.jpg" alt="Men's Slate Nude press-on manicure starter set with subtle metallic detail" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--konnezumi)] px-2 py-1">Low Signal</span>
+            <span class="absolute top-3 right-3 cap text-[var(--tetsu)] bg-[var(--paper)]/85 px-2 py-1">Stealth</span>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-display text-[20px] md:text-[22px] leading-[1.05]">Slate Nude Set</h3>
+              <span class="font-display text-[18px] whitespace-nowrap">$42</span>
+            </div>
+            <p class="text-[13px] text-[var(--rikyu)] mt-2">Nude base, slate chrome accent. The quietest entry to a finished hand.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Nude</span>
+              <span class="px-2 py-1 border border-hair">Chrome Detail</span>
+              <span class="px-2 py-1 border border-hair">First Set</span>
+            </div>
+            <div class="mt-5 pt-5 border-t border-hair flex items-center justify-between gap-3">
+              <a href="#" class="ulink text-[11px] tracking-[0.18em] uppercase font-medium">View Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
+      </div>
 
-        <!-- Quote 2 -->
-        <figure class="relative rounded-2xl bg-neri p-8 ring-1 ring-shiracha/70 shadow-[0_16px_38px_-16px_rgba(40,26,20,0.3),0_5px_14px_-8px_rgba(183,40,46,0.2)]">
-          <span aria-hidden="true" class="font-display text-6xl font-black leading-none text-akane">&ldquo;</span>
-          <blockquote class="-mt-4 text-lg leading-7 text-tetsu/85">
-            Five minutes before a client meeting and I&rsquo;m done. They survive a keyboard all day and still look clean.
-          </blockquote>
-          <figcaption class="mt-6">
-            <p class="font-display text-sm font-bold tracking-tightest text-tetsu">Devon R.</p>
-            <p class="text-sm text-nezumi">Product Designer</p>
-          </figcaption>
-        </figure>
-
-        <!-- Quote 3 -->
-        <figure class="relative rounded-2xl bg-neri p-8 ring-1 ring-shiracha/70 shadow-[0_16px_38px_-16px_rgba(40,26,20,0.3),0_5px_14px_-8px_rgba(183,40,46,0.2)]">
-          <span aria-hidden="true" class="font-display text-6xl font-black leading-none text-akane">&ldquo;</span>
-          <blockquote class="-mt-4 text-lg leading-7 text-tetsu/85">
-            I reuse the same set three or four times. Edge that pays for itself — that&rsquo;s the whole pitch.
-          </blockquote>
-          <figcaption class="mt-6">
-            <p class="font-display text-sm font-bold tracking-tightest text-tetsu">Theo M.</p>
-            <p class="text-sm text-nezumi">Photographer</p>
-          </figcaption>
-        </figure>
-
+      <div class="mt-10 flex items-center justify-between flex-wrap gap-3">
+        <span class="cap">Free shipping over $60 · 24 sizes · No salon</span>
+        <a href="#" class="btn-ghost">Shop All Starter Sets <span class="arrow">→</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ===== 10. Newsletter ===== -->
-  <section class="bg-tetsu text-gofun">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-      <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-        <div class="max-w-md">
-          <h2 class="font-display text-3xl font-extrabold tracking-tightest sm:text-4xl">
-            Get first access to drops
+  <!-- ============ CULTURAL ANCHOR ============ -->
+  <section class="bg-[var(--toriko)] sec relative overflow-hidden">
+    <div class="nail-container grid grid-cols-12 gap-6 md:gap-12">
+      <div class="col-span-12 lg:col-span-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-8">
+            <span class="cap">N°03</span>
+            <span class="cap">Cultural Anchor</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Your hands<br/>are part of<br/>the <span class="italic font-serif font-light">outfit</span><span class="text-[var(--akane)]">.</span>
           </h2>
-          <p class="mt-3 text-base leading-7 text-gofun/70">
-            Limited runs sell out fast. Join the list and you&rsquo;ll hear before anyone else.
+          <p class="max-w-[440px] mt-8 text-[16px] md:text-[17px] text-[var(--rikyu)]">
+            You choose the watch, the ring, the scent, the shoes, the jacket. Your hands should carry the same intention. Nailismo turns the most visible detail into a finished part of your style.
           </p>
         </div>
-        <form onsubmit="return false" class="flex flex-col gap-3 sm:flex-row md:justify-end">
-          <label for="newsletter-email" class="sr-only">Email address</label>
-          <input
-            id="newsletter-email" type="email" required placeholder="you@email.com"
-            class="w-full rounded-xl border border-gofun/20 bg-gofun/5 px-5 py-3.5 text-sm text-gofun placeholder-gofun/40 transition-colors duration-200 focus-visible:outline-none focus-visible:border-akane focus-visible:bg-gofun/10 sm:w-72"
-          />
-          <button
-            type="submit"
-            class="rounded-xl bg-akane px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-gofun shadow-[0_10px_30px_-8px_rgba(183,40,46,0.55)] transition-transform duration-200 ease-out hover:-translate-y-1 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-tetsu">
-            Sign up
-          </button>
-        </form>
+        <div class="mt-12">
+          <div class="border-t border-hair pt-6 max-w-[440px] flex items-start gap-6">
+            <span class="font-serif italic text-[64px] leading-none text-[var(--akane)]">&ldquo;</span>
+            <p class="text-[15px] italic font-serif text-[var(--rikyu)]">Socks disappear. Ties come off. Your hands stay visible.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7">
+        <div class="grid grid-cols-3 gap-px bg-[var(--hair)] border border-hair">
+          <div class="acc-tile bg-[var(--paper)] flex flex-col justify-between p-5">
+            <span class="cap">01 — Watch</span>
+            <svg viewBox="0 0 100 100" class="w-full h-auto mx-auto my-4" fill="none" stroke="#281A14" stroke-width="1.4">
+              <circle cx="50" cy="50" r="26"/>
+              <path d="M50 30v20l12 6"/>
+              <path d="M44 24h12M44 76h12"/>
+            </svg>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--tetsu)]">Time</span>
+          </div>
+          <div class="acc-tile bg-[var(--paper)] flex flex-col justify-between p-5">
+            <span class="cap">02 — Ring</span>
+            <svg viewBox="0 0 100 100" class="w-full h-auto mx-auto my-4" fill="none" stroke="#281A14" stroke-width="1.4">
+              <ellipse cx="50" cy="58" rx="22" ry="20"/>
+              <path d="M38 38l4-12h16l4 12"/>
+              <circle cx="50" cy="32" r="3" fill="#281A14"/>
+            </svg>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--tetsu)]">Signet</span>
+          </div>
+          <div class="acc-tile bg-[var(--paper)] flex flex-col justify-between p-5">
+            <span class="cap">03 — Scent</span>
+            <svg viewBox="0 0 100 100" class="w-full h-auto mx-auto my-4" fill="none" stroke="#281A14" stroke-width="1.4">
+              <rect x="34" y="30" width="32" height="50" rx="2"/>
+              <rect x="42" y="18" width="16" height="12"/>
+              <path d="M42 50h16M42 60h16"/>
+            </svg>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--tetsu)]">Signal</span>
+          </div>
+          <div class="acc-tile bg-[var(--paper)] flex flex-col justify-between p-5">
+            <span class="cap">04 — Sneakers</span>
+            <svg viewBox="0 0 100 100" class="w-full h-auto mx-auto my-4" fill="none" stroke="#281A14" stroke-width="1.4">
+              <path d="M14 66c8-4 18-6 28-8 6-1 10-6 14-12l10 6c8 4 18 6 22 12-6 4-46 10-74 8z"/>
+              <path d="M52 56l4 6M46 58l3 6M40 60l2 6"/>
+            </svg>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--tetsu)]">Step</span>
+          </div>
+          <!-- NAIL TILE (featured) -->
+          <div class="acc-tile is-product flex flex-col justify-between p-0 relative overflow-hidden">
+            <img src="listing_v1/black and white press on nails.jpg" alt="Midnight French masculine press-on manicure for men, the missing detail" class="absolute inset-0 w-full h-full object-cover opacity-95" />
+            <div class="relative z-10 p-5 flex flex-col justify-between h-full bg-gradient-to-b from-[rgba(40,26,20,0.4)] via-transparent to-[rgba(40,26,20,0.85)]">
+              <div class="flex items-center justify-between">
+                <span class="cap cap-dark">05 — Nails</span>
+                <span class="tape">Missing detail</span>
+              </div>
+              <div>
+                <div class="font-display text-[26px] leading-[0.95] text-[var(--paper)]">Nailismo</div>
+                <span class="text-[11px] uppercase tracking-[0.18em] text-[rgba(245,245,245,0.85)]">Wear Your Edge</span>
+              </div>
+            </div>
+          </div>
+          <div class="acc-tile bg-[var(--paper)] flex flex-col justify-between p-5">
+            <span class="cap">06 — Tailoring</span>
+            <svg viewBox="0 0 100 100" class="w-full h-auto mx-auto my-4" fill="none" stroke="#281A14" stroke-width="1.4">
+              <path d="M30 18l20 14 20-14 14 12-10 60H26L16 30z"/>
+              <path d="M50 32v54M40 50l6-6M60 50l-6-6"/>
+            </svg>
+            <span class="text-[11px] uppercase tracking-[0.18em] text-[var(--tetsu)]">Form</span>
+          </div>
+        </div>
+        <div class="mt-6 grid grid-cols-3 gap-px cap">
+          <span>Daily-wear hardware</span>
+          <span class="text-center">Visible · Curated · Owned</span>
+          <span class="text-right">— since 26</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 11. Footer ===== -->
-  <footer class="bg-tetsu text-gofun">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6">
-      <div class="grid gap-10 border-t border-gofun/10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+  <!-- ============ CHOOSE YOUR EDIT ============ -->
+  <section id="edits" class="bg-[var(--toriko)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 mb-12 md:mb-16">
+        <div class="col-span-12 md:col-span-7">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°04</span><span class="cap">Choose Your Edit</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Choose<br/>your <span class="italic font-serif font-light">edit</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <div class="col-span-12 md:col-span-5 flex flex-col justify-end">
+          <p class="text-[var(--rikyu)] text-[17px] max-w-[420px]">Start quiet. Go louder when you're ready.</p>
+          <div class="mt-6 flex flex-wrap items-center gap-2">
+            <span class="edit-pill">01 · Stealth</span>
+            <span class="edit-pill edit-pill-active">02 · Architectural</span>
+            <span class="edit-pill">03 · High-Signal</span>
+          </div>
+        </div>
+      </div>
 
-        <!-- Brand -->
-        <div class="max-w-xs">
-          <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-9 w-auto" style="filter: brightness(0) invert(1);" />
-          <p class="mt-4 text-sm leading-6 text-gofun/60">
-            Salon-grade press-on nails for men. Wear Your Edge — on your terms.
+      <div class="grid grid-cols-12 gap-6 lg:gap-8">
+        <article class="col-span-12 md:col-span-4 edit-card group">
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)] border border-hair">
+            <img src="listing_v1/pale pinkish and silver press on nails.jpg" alt="Slate Nude press-on nails for men — low-signal stealth edit" class="img-cover edit-image" />
+            <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+              <span class="cap">N°01 · Stealth</span>
+              <span class="cap">Low Signal</span>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[var(--paper)] via-[rgba(245,245,245,0.85)] to-transparent">
+              <span class="text-[11px] uppercase tracking-[0.22em] text-[var(--rikyu)] font-mono">For: Office · Daily · First time</span>
+            </div>
+          </div>
+          <div class="pt-6">
+            <h3 class="font-display text-[32px] md:text-[36px] leading-[0.95] tracking-display">The Stealth Edit</h3>
+            <p class="mt-3 text-[14px] text-[var(--rikyu)] max-w-[340px]">Low signal. High intention. Matte nudes, sheer grays, soft charcoal, and micro-details made for office, daily wear, and first-time buyers.</p>
+            <div class="mt-6 flex items-center gap-4">
+              <a href="#" class="ulink text-[12px] tracking-[0.18em] uppercase font-medium">Shop The Stealth Edit →</a>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Matte</span>
+              <span class="px-2 py-1 border border-hair">Nude</span>
+              <span class="px-2 py-1 border border-hair">Starter</span>
+            </div>
+            <div class="mt-6 pt-5 border-t border-hair">
+              <span class="cap mb-3 block">In this edit</span>
+              <div class="grid grid-cols-4 gap-2">
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Slate Nude"><img src="listing_v1/pale pinkish and silver press on nails.jpg" alt="Slate Nude press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Matte Charcoal"><img src="listing_v1/cat eye black press on nails.jpg" alt="Matte Charcoal press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Concrete Gray"><img src="listing_v1/autumn retro press on nails.jpg" alt="Concrete Gray press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Sheer Smoke"><img src="listing_v1/amber and gold press on nails.jpg" alt="Sheer Smoke press-on set" class="img-cover"/></a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-span-12 md:col-span-4 edit-card group relative">
+          <span class="absolute -top-4 left-0 z-20 tape">Featured · Editor's pick</span>
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)] border border-[var(--akane)]">
+            <img src="listing_v1/black and white press on nails.jpg" alt="Midnight French architectural press-on nails for men — clean lines, dark contrast" class="img-cover edit-image" />
+            <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+              <span class="cap">N°02 · Architectural</span>
+              <span class="cap text-[var(--akane)]">Editor's Pick</span>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[var(--paper)] via-[rgba(245,245,245,0.85)] to-transparent">
+              <span class="text-[11px] uppercase tracking-[0.22em] text-[var(--rikyu)] font-mono">For: Dates · Galleries · Creative work</span>
+            </div>
+          </div>
+          <div class="pt-6">
+            <h3 class="font-display text-[32px] md:text-[36px] leading-[0.95] tracking-display">The Architectural <span class="italic font-serif font-light text-[var(--akane)]">Edit</span></h3>
+            <p class="mt-3 text-[14px] text-[var(--rikyu)] max-w-[340px]">Clean lines. Dark contrast. Controlled edge. Midnight French, slate lines, and brushed metallic accents for men who want style without noise.</p>
+            <div class="mt-6 flex items-center gap-4">
+              <a href="#" class="ulink text-[12px] tracking-[0.18em] uppercase font-medium text-[var(--akane)]">Shop The Architectural Edit →</a>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Midnight</span>
+              <span class="px-2 py-1 border border-hair">Slate</span>
+              <span class="px-2 py-1 border border-hair">Brushed metal</span>
+            </div>
+            <div class="mt-6 pt-5 border-t border-hair">
+              <span class="cap mb-3 block">In this edit</span>
+              <div class="grid grid-cols-4 gap-2">
+                <a href="#" class="aspect-square overflow-hidden border border-[var(--akane)] block bg-[var(--shiracha)]" title="Midnight French"><img src="listing_v1/black and white press on nails.jpg" alt="Midnight French press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Slate Line"><img src="listing_v1/cat eye black press on nails.jpg" alt="Slate Line press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Brushed Graphite"><img src="listing_v1/cat eye gel red press on nails.jpg" alt="Brushed Graphite press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Black Edge"><img src="listing_v1/black and red business press on nails.jpg" alt="Black Edge press-on set" class="img-cover"/></a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-span-12 md:col-span-4 edit-card group">
+          <div class="relative aspect-[4/5] overflow-hidden bg-[var(--shiracha)] border border-hair">
+            <img src="listing_v1/silver press on nails.jpg" alt="Liquid Silver chrome high-signal press-on nails for men — nightlife and statement outfits" class="img-cover edit-image" />
+            <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+              <span class="cap">N°03 · High-Signal</span>
+              <span class="cap">Statement</span>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[var(--paper)] via-[rgba(245,245,245,0.85)] to-transparent">
+              <span class="text-[11px] uppercase tracking-[0.22em] text-[var(--rikyu)] font-mono">For: Nightlife · Events · Statement</span>
+            </div>
+          </div>
+          <div class="pt-6">
+            <h3 class="font-display text-[32px] md:text-[36px] leading-[0.95] tracking-display">The High-Signal Edit</h3>
+            <p class="mt-3 text-[14px] text-[var(--rikyu)] max-w-[340px]">For nights that need a sharper finish. Chrome, liquid silver, gloss, and graphic contrast built for nightlife, parties, and statement outfits.</p>
+            <div class="mt-6 flex items-center gap-4">
+              <a href="#" class="ulink text-[12px] tracking-[0.18em] uppercase font-medium">Shop The High-Signal Edit →</a>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)]">
+              <span class="px-2 py-1 border border-hair">Chrome</span>
+              <span class="px-2 py-1 border border-hair">Gloss</span>
+              <span class="px-2 py-1 border border-hair">Graphic</span>
+            </div>
+            <div class="mt-6 pt-5 border-t border-hair">
+              <span class="cap mb-3 block">In this edit</span>
+              <div class="grid grid-cols-4 gap-2">
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Liquid Silver"><img src="listing_v1/silver press on nails.jpg" alt="Liquid Silver press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Chrome Graphic"><img src="listing_v1/pink and silver press on nails.jpg" alt="Chrome Graphic press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Oxblood Gloss"><img src="listing_v1/black and red business press on nails.jpg" alt="Oxblood Gloss press-on set" class="img-cover"/></a>
+                <a href="#" class="aspect-square overflow-hidden border border-hair block bg-[var(--shiracha)]" title="Mirror Black"><img src="listing_v1/cat eye black press on nails.jpg" alt="Mirror Black press-on set" class="img-cover"/></a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED PRODUCT: MIDNIGHT FRENCH ============ -->
+  <section id="featured" class="bg-[var(--toriko)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 md:gap-12 items-stretch border border-hair bg-[var(--tetsu)]">
+        <div class="col-span-12 lg:col-span-7 relative aspect-[5/4] lg:aspect-auto bg-[var(--paper)]">
+          <img src="listing_v1/black and white press on nails.jpg" alt="Midnight French Starter Set — masculine French manicure press-on nails for men" class="img-cover" />
+          <div class="absolute top-6 left-6 right-6 flex items-center justify-between">
+            <span class="tape">Starter · N°01</span>
+            <span class="cap">Best for first sets</span>
+          </div>
+          <div class="absolute bottom-6 left-6 cap">Sku · NLS-MF-001</div>
+          <div class="absolute bottom-6 right-6 cap">Squoval · Short · Matte gloss tip</div>
+        </div>
+        <div class="col-span-12 lg:col-span-5 p-8 md:p-12 flex flex-col justify-between text-[var(--paper)]">
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="cap cap-dark">N°05</span><span class="cap cap-dark">Featured Product</span>
+            </div>
+            <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(36px,4.4vw,68px)]">
+              Start with the set<br/>built for <span class="italic font-serif font-light">first-time wear</span><span class="text-[var(--akane)]">.</span>
+            </h2>
+            <p class="mt-6 text-[16px] text-[rgba(245,245,245,0.85)] max-w-[440px]">
+              <strong class="text-[var(--paper)] font-medium">The Midnight French Starter Set.</strong> A dark, masculine take on the classic French manicure. Clean enough for daily wear, sharp enough to get noticed.
+            </p>
+
+            <ul class="mt-8 grid grid-cols-1 gap-px bg-[rgba(242,237,224,0.18)] border border-hair-dark">
+              <li class="bg-[var(--tetsu)] py-3 px-4 flex items-center justify-between text-[13px]"><span class="cap cap-dark">Includes</span><span>24 sizing options</span></li>
+              <li class="bg-[var(--tetsu)] py-3 px-4 flex items-center justify-between text-[13px]"><span class="cap cap-dark">Wear</span><span>Tabs + liquid adhesive</span></li>
+              <li class="bg-[var(--tetsu)] py-3 px-4 flex items-center justify-between text-[13px]"><span class="cap cap-dark">Tools</span><span>Prep kit + application guide</span></li>
+              <li class="bg-[var(--tetsu)] py-3 px-4 flex items-center justify-between text-[13px]"><span class="cap cap-dark">Signal</span><span>Architectural · Gloss detail</span></li>
+            </ul>
+
+            <div class="mt-6 grid grid-cols-1 gap-2 text-[13px] text-[rgba(245,245,245,0.85)]">
+              <div class="flex items-start gap-3"><span class="cap text-[var(--akane)] mt-[2px]">Fit</span><span>Full sizing range for narrow, average, and broader nail beds.</span></div>
+              <div class="flex items-start gap-3"><span class="cap text-[var(--akane)] mt-[2px]">Wear</span><span>One night with tabs · up to 7+ days with liquid adhesive.</span></div>
+              <div class="flex items-start gap-3"><span class="cap text-[var(--akane)] mt-[2px]">Stars</span><span>★★★★★ 4.9 / 5 — 248 reviews</span></div>
+            </div>
+          </div>
+
+          <div class="mt-10">
+            <div class="flex items-baseline justify-between border-t border-hair-dark pt-6">
+              <div>
+                <span class="cap cap-dark">Price</span>
+                <div class="font-display text-[40px] leading-none mt-1">$48<span class="text-[var(--akane)]">.</span><span class="text-[18px] align-top">00</span></div>
+              </div>
+              <span class="cap cap-dark">In stock · Ships in 24h</span>
+            </div>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#" class="btn-on-dark">Add To Cart <span class="arrow">→</span></a>
+              <a href="#" class="btn-ghost-on-dark">View Details <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIT SYSTEM ============ -->
+  <section id="fit" class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 md:gap-12 items-start">
+        <div class="col-span-12 lg:col-span-5">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°06</span><span class="cap">Fit System</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Built to fit<br/><span class="italic font-serif font-light">men's hands</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+          <p class="max-w-[440px] mt-8 text-[16px] md:text-[17px] text-[var(--rikyu)]">
+            Men's hands vary in width, nail-bed shape, and proportion. Each starter set includes a full sizing range so you can test the fit before committing to your final look.
           </p>
-          <!-- Social icons -->
-          <div class="mt-6 flex items-center gap-3">
-            <a href="#" aria-label="Instagram" class="rounded-full border border-gofun/15 p-2.5 text-gofun/80 transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-tetsu">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
-              </svg>
-            </a>
-            <a href="#" aria-label="TikTok" class="rounded-full border border-gofun/15 p-2.5 text-gofun/80 transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-tetsu">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 3v3.2a5.8 5.8 0 0 0 4 1.6v3a8.7 8.7 0 0 1-4-1v6.1A6.1 6.1 0 1 1 10 9.9v3.2a3 3 0 1 0 3 3V3z" />
-              </svg>
-            </a>
-            <a href="#" aria-label="X" class="rounded-full border border-gofun/15 p-2.5 text-gofun/80 transition-transform duration-200 ease-out hover:scale-110 hover:text-akane active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-tetsu">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.5 3h3l-6.5 7.4L21.7 21h-5.9l-4.6-6-5.3 6H3l7-8L2.6 3h6l4.1 5.5L17.5 3zm-1 16h1.6L8 4.7H6.3L16.5 19z" />
-              </svg>
-            </a>
+
+          <div class="mt-10 space-y-px bg-[var(--hair)] border border-hair">
+            <div class="bg-[var(--paper)] p-5 flex items-start gap-5">
+              <span class="font-display text-[32px] leading-none text-[var(--tetsu)]">24</span>
+              <div>
+                <h4 class="font-display text-[18px]">Size Options</h4>
+                <p class="text-[14px] text-[var(--rikyu)] mt-1">A wider range to fit narrow, average, and broader nail beds.</p>
+              </div>
+            </div>
+            <div class="bg-[var(--paper)] p-5 flex items-start gap-5">
+              <span class="font-display text-[32px] leading-none text-[var(--tetsu)]">02</span>
+              <div>
+                <h4 class="font-display text-[18px]">Wear Modes</h4>
+                <p class="text-[14px] text-[var(--rikyu)] mt-1">Temporary tabs for short wear. Liquid adhesive for longer hold.</p>
+              </div>
+            </div>
+            <div class="bg-[var(--paper)] p-5 flex items-start gap-5">
+              <span class="font-display text-[32px] leading-none text-[var(--tetsu)]">01</span>
+              <div>
+                <h4 class="font-display text-[18px]">Clean Removal</h4>
+                <p class="text-[14px] text-[var(--rikyu)] mt-1">Designed for easy removal when applied and removed correctly.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10">
+            <a href="#" class="btn-primary">See How Sizing Works <span class="arrow">→</span></a>
           </div>
         </div>
 
-        <!-- Shop -->
-        <div>
-          <h3 class="font-display text-sm font-bold uppercase tracking-[0.16em] text-gofun">Shop</h3>
-          <ul class="mt-4 space-y-3">
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">New Drops</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Collections</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Sizing Guide</a></li>
-          </ul>
-        </div>
+        <div class="col-span-12 lg:col-span-7 relative">
+          <div class="relative border border-hair p-6 md:p-10 bg-[var(--toriko)]">
+            <span class="crosshair" style="left:-8px;top:-8px;"></span>
+            <span class="crosshair" style="right:-8px;top:-8px;"></span>
+            <span class="crosshair" style="left:-8px;bottom:-8px;"></span>
+            <span class="crosshair" style="right:-8px;bottom:-8px;"></span>
 
-        <!-- Company -->
-        <div>
-          <h3 class="font-display text-sm font-bold uppercase tracking-[0.16em] text-gofun">Company</h3>
-          <ul class="mt-4 space-y-3">
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Our Story</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Contact</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Stockists</a></li>
-          </ul>
-        </div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="cap">Fig. 01 — Size Chart · mm</span>
+              <span class="cap">XS · S · M · L · XL</span>
+            </div>
 
-        <!-- Help -->
-        <div>
-          <h3 class="font-display text-sm font-bold uppercase tracking-[0.16em] text-gofun">Help</h3>
-          <ul class="mt-4 space-y-3">
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Shipping</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">Returns</a></li>
-            <li><a href="#" class="text-sm text-gofun/60 transition-colors duration-200 hover:text-akane focus-visible:outline-none focus-visible:text-akane">FAQ</a></li>
-          </ul>
-        </div>
+            <svg viewBox="0 0 600 280" class="w-full h-auto">
+              <line x1="40" y1="240" x2="560" y2="240" stroke="#281A14" stroke-width="0.7"/>
+              <g stroke="#281A14" stroke-width="0.5">
+                <line x1="40" y1="240" x2="40" y2="248"/>
+                <line x1="170" y1="240" x2="170" y2="248"/>
+                <line x1="300" y1="240" x2="300" y2="248"/>
+                <line x1="430" y1="240" x2="430" y2="248"/>
+                <line x1="560" y1="240" x2="560" y2="248"/>
+              </g>
+              <g font-size="9" fill="#281A14" font-family="JetBrains Mono" text-anchor="middle">
+                <text x="40" y="262">7mm</text>
+                <text x="170" y="262">10mm</text>
+                <text x="300" y="262">13mm</text>
+                <text x="430" y="262">16mm</text>
+                <text x="560" y="262">18mm</text>
+              </g>
+              <g transform="translate(60,60)">
+                <g fill="#281A14" opacity="0.92">
+                  <rect x="0" y="0" width="34" height="46" rx="14"/>
+                  <rect x="60" y="-6" width="40" height="56" rx="16"/>
+                  <rect x="126" y="-14" width="46" height="68" rx="18"/>
+                  <rect x="200" y="-20" width="52" height="80" rx="20"/>
+                  <rect x="280" y="-28" width="60" height="94" rx="24"/>
+                  <rect x="368" y="-36" width="66" height="108" rx="26"/>
+                  <rect x="462" y="-44" width="72" height="120" rx="28"/>
+                </g>
+              </g>
+              <g font-size="9" fill="#281A14" font-family="JetBrains Mono" text-anchor="middle">
+                <text x="77" y="180">XS</text>
+                <text x="140" y="180">S</text>
+                <text x="208" y="180">M</text>
+                <text x="286" y="180">L</text>
+                <text x="370" y="180">XL</text>
+                <text x="461" y="180">2XL</text>
+                <text x="558" y="180">3XL</text>
+              </g>
+              <g font-size="10" fill="#281A14" font-family="JetBrains Mono">
+                <text x="40" y="30" letter-spacing="2">NAIL · WIDTH · MEASUREMENT</text>
+                <text x="560" y="30" text-anchor="end" letter-spacing="2">24 / SET</text>
+              </g>
+            </svg>
 
+            <div class="mt-6 grid grid-cols-3 gap-4 text-[12px] text-[rgba(40,26,20,0.85)]">
+              <div class="border-t border-hair pt-3">
+                <span class="cap">Step 01</span>
+                <p class="mt-1">Place clear tape across the widest part of your nail.</p>
+              </div>
+              <div class="border-t border-hair pt-3">
+                <span class="cap">Step 02</span>
+                <p class="mt-1">Mark the tape at the sides of your nail bed.</p>
+              </div>
+              <div class="border-t border-hair pt-3">
+                <span class="cap">Step 03</span>
+                <p class="mt-1">Place tape on a ruler to read the width in mm.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-4 items-start">
+            <figure class="col-span-2 relative aspect-[4/3] overflow-hidden border border-hair">
+              <img src="listing_v1/accessories.jpg" alt="Nailismo starter kit — adhesive tabs, cuticle stick, file, branded box" class="img-cover" />
+              <figcaption class="absolute bottom-2 left-3 cap" style="color:#F2EDE0;">In the box · tabs · stick · file · branded case</figcaption>
+            </figure>
+            <div class="col-span-1 flex flex-col gap-3 text-[12px]">
+              <div class="border-t border-hair pt-3">
+                <span class="cap">Tabs</span>
+                <p class="mt-1 text-[var(--rikyu)]">For one-night wear or testing the fit.</p>
+              </div>
+              <div class="border-t border-hair pt-3">
+                <span class="cap">Liquid Adhesive</span>
+                <p class="mt-1 text-[var(--rikyu)]">Up to 7+ days, depending on application.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPLICATION (DARK FEATURE BLOCK) ============ -->
+  <section class="bg-[var(--tetsu)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="flex items-end justify-between mb-12 md:mb-16 flex-wrap gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap cap-dark">N°07</span><span class="cap cap-dark">Application</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)] text-[var(--paper)]">
+            No salon.<br/>No <span class="italic font-serif font-light">dry time</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <p class="max-w-[440px] text-[rgba(245,245,245,0.85)]">
+          Use temporary tabs for one-night wear. Use liquid adhesive for longer hold. Up to 7+ days, depending on application and wear.
+        </p>
       </div>
 
-      <!-- Bottom bar -->
-      <div class="flex flex-col items-center justify-between gap-4 border-t border-gofun/10 py-6 sm:flex-row">
-        <p class="text-xs text-gofun/50">&copy; 2026 Nailismo. Wear Your Edge.</p>
-        <!-- Payment methods -->
-        <div class="flex items-center gap-2" aria-label="Accepted payment methods">
-          <span class="flex h-7 w-11 items-center justify-center rounded-md bg-gofun/10 text-[9px] font-bold uppercase tracking-wide text-gofun/70">Visa</span>
-          <span class="flex h-7 w-11 items-center justify-center rounded-md bg-gofun/10 text-[9px] font-bold uppercase tracking-wide text-gofun/70">MC</span>
-          <span class="flex h-7 w-11 items-center justify-center rounded-md bg-gofun/10 text-[9px] font-bold uppercase tracking-wide text-gofun/70">Amex</span>
-          <span class="flex h-7 w-11 items-center justify-center rounded-md bg-gofun/10 text-[9px] font-bold uppercase tracking-wide text-gofun/70">PayPal</span>
-          <span class="flex h-7 w-11 items-center justify-center rounded-md bg-gofun/10 text-[9px] font-bold uppercase tracking-wide text-gofun/70">Apple</span>
+      <div class="grid grid-cols-12 gap-px bg-[rgba(242,237,224,0.18)] border border-hair-dark">
+        <div class="col-span-12 md:col-span-4 bg-[var(--tetsu)] p-8 md:p-10 relative min-h-[300px] flex flex-col">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-[clamp(80px,9vw,140px)] leading-[0.85] text-[rgba(245,245,245,0.95)]">01</span>
+            <span class="cap cap-dark">Prep</span>
+          </div>
+          <h3 class="font-display text-[26px] mt-6 text-[var(--paper)]">Clean. Buff. Match.</h3>
+          <p class="text-[14px] text-[rgba(245,245,245,0.85)] mt-3 max-w-[280px]">Wipe each nail with alcohol. Push back cuticles. Match a press-on to each nail bed.</p>
+          <div class="mt-auto pt-8 cap cap-dark">~90 seconds</div>
         </div>
+        <div class="col-span-12 md:col-span-4 bg-[var(--tetsu)] p-8 md:p-10 relative min-h-[300px] flex flex-col">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-[clamp(80px,9vw,140px)] leading-[0.85] text-[rgba(245,245,245,0.95)]">02</span>
+            <span class="cap cap-dark">Press</span>
+          </div>
+          <h3 class="font-display text-[26px] mt-6 text-[var(--paper)]">Tab or adhesive.</h3>
+          <p class="text-[14px] text-[rgba(245,245,245,0.85)] mt-3 max-w-[280px]">Apply temporary tabs for a single night. Apply liquid adhesive for long-wear. Press, hold, release.</p>
+          <div class="mt-auto pt-8 cap cap-dark">~2 minutes</div>
+        </div>
+        <div class="col-span-12 md:col-span-4 bg-[var(--tetsu)] p-8 md:p-10 relative min-h-[300px] flex flex-col">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-[clamp(80px,9vw,140px)] leading-[0.85] text-[rgba(245,245,245,0.95)]">03</span>
+            <span class="cap text-[var(--akane)]">Wear</span>
+          </div>
+          <h3 class="font-display text-[26px] mt-6 text-[var(--paper)]">Move. Live. Repeat.</h3>
+          <p class="text-[14px] text-[rgba(245,245,245,0.85)] mt-3 max-w-[280px]">A finished manicure in minutes, ready for office, daily movement, dates, or the door.</p>
+          <div class="mt-auto pt-8 cap cap-dark">Up to 7+ days</div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex items-center justify-between flex-wrap gap-4">
+        <span class="cap cap-dark">Total time · under five minutes</span>
+        <a href="#" class="ulink text-[12px] tracking-[0.18em] uppercase font-medium text-[var(--paper)]">Read the full application guide →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MOST WANTED SETS ============ -->
+  <section id="most-wanted" class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 mb-10 md:mb-14 items-end">
+        <div class="col-span-12 md:col-span-7">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°08</span><span class="cap">Most Wanted Sets</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Most wanted<br/><span class="italic font-serif font-light">sets</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <div class="col-span-12 md:col-span-5">
+          <p class="text-[var(--rikyu)] max-w-[420px]">Ranked by what men actually pick first. Quick add, full sizing range included, no scroll required.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-5">
+        <!-- 1: Midnight French -->
+        <article class="col-span-6 md:col-span-3 group border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-square overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/black and white press on nails.jpg" alt="Midnight French press-on starter set for men — architectural French manicure" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--tetsu)] px-2 py-1">N°01</span>
+            <span class="absolute top-3 right-3 cap text-[var(--paper)] bg-[var(--akane)] px-2 py-1">Bestseller</span>
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display text-[18px] leading-[1.1]">Midnight French Starter Set</h3>
+            <div class="mt-1 flex items-center justify-between text-[12px] text-[var(--rikyu)]">
+              <span>Gloss · Architectural</span>
+              <span class="font-display text-[16px] text-[var(--tetsu)]">$48</span>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[var(--rikyu)]">
+              <span class="px-1.5 py-0.5 border border-hair">Daily</span>
+              <span class="px-1.5 py-0.5 border border-hair">Night</span>
+              <span class="px-1.5 py-0.5 border border-hair">First Set</span>
+            </div>
+            <div class="mt-auto pt-4 flex items-center justify-between gap-2">
+              <a href="#" class="ulink text-[10px] tracking-[0.18em] uppercase font-medium">Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2: Matte Charcoal -->
+        <article class="col-span-6 md:col-span-3 group border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-square overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/cat eye black press on nails.jpg" alt="Matte Charcoal press-on set for men — low-signal daily wear" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--tetsu)] px-2 py-1">N°02</span>
+            <span class="absolute top-3 right-3 cap text-[var(--paper)] bg-[var(--konnezumi)] px-2 py-1">Low Signal</span>
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display text-[18px] leading-[1.1]">Matte Charcoal Set</h3>
+            <div class="mt-1 flex items-center justify-between text-[12px] text-[var(--rikyu)]">
+              <span>Matte · Stealth</span>
+              <span class="font-display text-[16px] text-[var(--tetsu)]">$42</span>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[var(--rikyu)]">
+              <span class="px-1.5 py-0.5 border border-hair">Office</span>
+              <span class="px-1.5 py-0.5 border border-hair">Short Wear</span>
+              <span class="px-1.5 py-0.5 border border-hair">Starter</span>
+            </div>
+            <div class="mt-auto pt-4 flex items-center justify-between gap-2">
+              <a href="#" class="ulink text-[10px] tracking-[0.18em] uppercase font-medium">Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3: Slate Nude -->
+        <article class="col-span-6 md:col-span-3 group border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-square overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/pale pinkish and silver press on nails.jpg" alt="Slate Nude press-on set with subtle metallic detail for men" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--tetsu)] px-2 py-1">N°03</span>
+            <span class="absolute top-3 right-3 cap text-[var(--tetsu)] bg-[var(--paper)] px-2 py-1">Stealth</span>
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display text-[18px] leading-[1.1]">Slate Nude Set</h3>
+            <div class="mt-1 flex items-center justify-between text-[12px] text-[var(--rikyu)]">
+              <span>Chrome Detail · Nude</span>
+              <span class="font-display text-[16px] text-[var(--tetsu)]">$42</span>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[var(--rikyu)]">
+              <span class="px-1.5 py-0.5 border border-hair">Daily</span>
+              <span class="px-1.5 py-0.5 border border-hair">Date</span>
+              <span class="px-1.5 py-0.5 border border-hair">First Set</span>
+            </div>
+            <div class="mt-auto pt-4 flex items-center justify-between gap-2">
+              <a href="#" class="ulink text-[10px] tracking-[0.18em] uppercase font-medium">Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4: Liquid Silver -->
+        <article class="col-span-6 md:col-span-3 group border border-hair bg-[var(--paper)] flex flex-col">
+          <div class="relative aspect-square overflow-hidden bg-[var(--shiracha)]">
+            <img src="listing_v1/silver press on nails.jpg" alt="Liquid Silver press-on set for men — high-signal nightlife and statement outfits" class="img-cover edit-image" />
+            <span class="absolute top-3 left-3 cap text-[var(--paper)] bg-[var(--tetsu)] px-2 py-1">N°04</span>
+            <span class="absolute top-3 right-3 cap text-[var(--paper)] bg-[var(--akane)] px-2 py-1">High Signal</span>
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display text-[18px] leading-[1.1]">Liquid Silver Set</h3>
+            <div class="mt-1 flex items-center justify-between text-[12px] text-[var(--rikyu)]">
+              <span>Chrome · Gloss</span>
+              <span class="font-display text-[16px] text-[var(--tetsu)]">$48</span>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[var(--rikyu)]">
+              <span class="px-1.5 py-0.5 border border-hair">Nightlife</span>
+              <span class="px-1.5 py-0.5 border border-hair">Event</span>
+              <span class="px-1.5 py-0.5 border border-hair">Statement</span>
+            </div>
+            <div class="mt-auto pt-4 flex items-center justify-between gap-2">
+              <a href="#" class="ulink text-[10px] tracking-[0.18em] uppercase font-medium">Details →</a>
+              <button class="bg-[var(--tetsu)] text-[var(--paper)] px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Quick Add</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-10 flex items-center justify-between flex-wrap gap-3">
+        <span class="cap">Ranked by sell-through · refreshed weekly</span>
+        <a href="#" class="btn-ghost">Shop All Sets <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOOKBOOK ============ -->
+  <section id="lookbook" class="bg-[var(--toriko)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 mb-12 md:mb-16">
+        <div class="col-span-12 md:col-span-7">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°09</span><span class="cap">Lookbook</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Built for the<br/><span class="italic font-serif font-light">fit check</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <div class="col-span-12 md:col-span-5 flex flex-col justify-end">
+          <p class="text-[var(--rikyu)] text-[17px] max-w-[420px]">The same outfit reads differently when the hands are finished.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-0">
+      <a href="#" class="look-card col-span-12 md:col-span-6 aspect-[4/5] block border-l border-t border-b border-r border-hair">
+        <img src="listing_v1/black and white press on nails.jpg" alt="The Blazer — oversized black blazer, silver signet rings, Midnight French manicure" />
+        <div class="look-overlay absolute inset-0 flex flex-col justify-between p-8" style="background: linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%);">
+          <div class="flex items-center justify-between">
+            <span class="tape">Look 01</span>
+            <span class="cap cap-dark">The Blazer</span>
+          </div>
+          <div>
+            <h3 class="font-display text-[clamp(34px,4vw,56px)] leading-[0.95] tracking-display text-[var(--paper)]">The Blazer</h3>
+            <p class="mt-2 text-[13px] text-[rgba(245,245,245,0.85)] max-w-[360px]">Oversized black blazer · silver signet · dark trouser · Midnight French.</p>
+            <span class="mt-5 inline-block text-[12px] uppercase tracking-[0.18em] font-medium ulink text-[var(--paper)]">Shop The Blazer Look →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="look-card col-span-12 md:col-span-6 aspect-[4/5] block border-t border-b border-r border-hair">
+        <img src="listing_v1/cat eye black press on nails.jpg" alt="The Desk — minimal knit, mechanical keyboard, espresso, Matte Charcoal nails" />
+        <div class="look-overlay absolute inset-0 flex flex-col justify-between p-8" style="background: linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%);">
+          <div class="flex items-center justify-between">
+            <span class="tape tape-navy">Look 02</span>
+            <span class="cap cap-dark">The Desk</span>
+          </div>
+          <div>
+            <h3 class="font-display text-[clamp(34px,4vw,56px)] leading-[0.95] tracking-display text-[var(--paper)]">The Desk</h3>
+            <p class="mt-2 text-[13px] text-[rgba(245,245,245,0.85)] max-w-[360px]">Black tee · mechanical keyboard · laptop · espresso · Matte Charcoal.</p>
+            <span class="mt-5 inline-block text-[12px] uppercase tracking-[0.18em] font-medium ulink text-[var(--paper)]">Shop The Desk Look →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="look-card col-span-12 md:col-span-6 aspect-[4/5] block border-b border-r border-l border-hair">
+        <img src="listing_v1/silver press on nails.jpg" alt="The Night Out — leather jacket, silver jewelry, cocktail, Liquid Silver press-on nails" />
+        <div class="look-overlay absolute inset-0 flex flex-col justify-between p-8" style="background: linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%);">
+          <div class="flex items-center justify-between">
+            <span class="tape">Look 03</span>
+            <span class="cap cap-dark">The Night Out</span>
+          </div>
+          <div>
+            <h3 class="font-display text-[clamp(34px,4vw,56px)] leading-[0.95] tracking-display text-[var(--paper)]">The Night Out</h3>
+            <p class="mt-2 text-[13px] text-[rgba(245,245,245,0.85)] max-w-[360px]">Black tee · leather jacket · silver jewelry · cocktail · Liquid Silver.</p>
+            <span class="mt-5 inline-block text-[12px] uppercase tracking-[0.18em] font-medium ulink text-[var(--paper)]">Shop The Night Out Look →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="look-card col-span-12 md:col-span-6 aspect-[4/5] block border-b border-r border-hair">
+        <img src="listing_v1/pale pinkish and silver press on nails.jpg" alt="The Weekend — heavyweight gray hoodie, vintage denim, sneakers, Slate Nude" />
+        <div class="look-overlay absolute inset-0 flex flex-col justify-between p-8" style="background: linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%);">
+          <div class="flex items-center justify-between">
+            <span class="tape tape-navy">Look 04</span>
+            <span class="cap cap-dark">The Weekend</span>
+          </div>
+          <div>
+            <h3 class="font-display text-[clamp(34px,4vw,56px)] leading-[0.95] tracking-display text-[var(--paper)]">The Weekend</h3>
+            <p class="mt-2 text-[13px] text-[rgba(245,245,245,0.85)] max-w-[360px]">Heavyweight gray hoodie · vintage denim · sneakers · Slate Nude.</p>
+            <span class="mt-5 inline-block text-[12px] uppercase tracking-[0.18em] font-medium ulink text-[var(--paper)]">Shop The Weekend Look →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="nail-container mt-12 flex items-center justify-between flex-wrap gap-4">
+      <span class="cap">Same outfit. Finished read.</span>
+      <a href="#" class="btn-ghost">Shop The Looks <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- ============ BUNDLE: FIRST FIT KIT ============ -->
+  <section id="bundle" class="bg-[var(--shiracha)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 md:gap-12 items-stretch border border-hair bg-[var(--paper)]">
+        <div class="col-span-12 lg:col-span-6 p-8 md:p-12 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="cap">N°10</span><span class="cap">Bundle</span>
+            </div>
+            <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(36px,4.6vw,72px)]">
+              Your first manicure,<br/><span class="italic font-serif font-light">fully covered</span><span class="text-[var(--akane)]">.</span>
+            </h2>
+            <p class="mt-6 text-[16px] text-[var(--rikyu)] max-w-[460px]">
+              <strong class="text-[var(--tetsu)] font-medium">The First Fit Kit.</strong> One starter set, full sizing range, both adhesive modes, prep + removal tools, and the application card. Everything you need on day one.
+            </p>
+
+            <ul class="mt-8 grid grid-cols-2 gap-px bg-[var(--hair)] border border-hair">
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">01</span><span>1 Starter Set</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">02</span><span>24 Sizes</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">03</span><span>Adhesive Tabs</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">04</span><span>Liquid Adhesive</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">05</span><span>Prep Tools</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3"><span class="cap text-[var(--akane)]">06</span><span>Removal Tool</span></li>
+              <li class="bg-[var(--paper)] py-3 px-4 text-[13px] flex items-center gap-3 col-span-2"><span class="cap text-[var(--akane)]">07</span><span>Application Card · Step-by-step</span></li>
+            </ul>
+
+            <div class="mt-8">
+              <span class="cap mb-3 block">Configure your kit</span>
+              <div class="grid grid-cols-4 gap-2">
+                <div class="border border-hair p-3 text-[11px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)] text-center">Edit</div>
+                <div class="border border-hair p-3 text-[11px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)] text-center">Finish</div>
+                <div class="border border-hair p-3 text-[11px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)] text-center">Adhesive</div>
+                <div class="border border-hair p-3 text-[11px] uppercase tracking-[0.18em] font-mono text-[var(--rikyu)] text-center">Removal</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10">
+            <div class="flex items-baseline justify-between border-t border-hair pt-6">
+              <div>
+                <span class="cap">Bundle price · save $14</span>
+                <div class="font-display text-[40px] leading-none mt-1 text-[var(--tetsu)]">$64<span class="text-[var(--akane)]">.</span><span class="text-[18px] align-top">00</span> <span class="text-[18px] align-top text-[var(--rikyu)] line-through">$78</span></div>
+              </div>
+              <span class="cap">Ships in 24h</span>
+            </div>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#" class="btn-primary">Build Your First Kit <span class="arrow">→</span></a>
+              <a href="#" class="btn-ghost">Shop First-Wear Kit <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-12 lg:col-span-6 relative min-h-[420px] lg:min-h-0 bg-[var(--tetsu)] overflow-hidden">
+          <img src="listing_v1/accessories.jpg" alt="Nailismo First Fit Kit contents — starter set, adhesive tabs, liquid adhesive, prep tools, branded case" class="img-cover" />
+          <div class="absolute top-6 left-6 right-6 flex items-center justify-between">
+            <span class="tape">First Fit Kit</span>
+            <span class="cap cap-dark">In the box</span>
+          </div>
+          <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between cap cap-dark">
+            <span>NLS-FFK-001</span>
+            <span>Beginner Friendly · One Kit · Full Coverage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TASTE EDUCATION ============ -->
+  <section class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 mb-12 md:mb-16">
+        <div class="col-span-12 md:col-span-7">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°11</span><span class="cap">Taste Education</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            How to read<br/>a <span class="italic font-serif font-light">manicure</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <div class="col-span-12 md:col-span-5 flex flex-col justify-end">
+          <p class="text-[var(--rikyu)] text-[17px] max-w-[420px]">A manicure is built from four variables: shape, finish, length, and signal. Configure your detail like a suit.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-px bg-[var(--hair)] border border-hair">
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 bg-[var(--toriko)] p-7">
+          <div class="flex items-center justify-between mb-6">
+            <span class="cap">01 · Shape</span>
+            <span class="font-mono text-[10px] text-[var(--rikyu)]">·SQUOVAL·</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 my-4">
+            <div class="text-center">
+              <svg viewBox="0 0 60 80" class="mx-auto" width="60" height="80"><rect x="6" y="8" width="48" height="64" rx="6" fill="#281A14"/></svg>
+              <span class="cap mt-2 inline-block">Square</span>
+            </div>
+            <div class="text-center">
+              <svg viewBox="0 0 60 80" class="mx-auto" width="60" height="80"><rect x="6" y="8" width="48" height="64" rx="18" fill="#281A14"/></svg>
+              <span class="cap mt-2 inline-block">Squoval</span>
+            </div>
+          </div>
+          <p class="text-[13px] text-[var(--rikyu)] mt-4">Square feels sharper and more graphic. Squoval feels natural and easier for daily wear.</p>
+        </div>
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 bg-[var(--toriko)] p-7">
+          <div class="flex items-center justify-between mb-6">
+            <span class="cap">02 · Finish</span>
+            <span class="font-mono text-[10px] text-[var(--rikyu)]">·MATTE·</span>
+          </div>
+          <div class="flex items-end justify-around my-4 h-[80px]">
+            <span class="w-10 h-16" style="background:#281A14;"></span>
+            <span class="w-10 h-16" style="background:linear-gradient(135deg,#281A14,#656765);"></span>
+            <span class="w-10 h-16" style="background:linear-gradient(135deg,#9EA1A3,#F5F5F5,#9EA1A3);"></span>
+          </div>
+          <div class="grid grid-cols-3 text-center"><span class="cap">Matte</span><span class="cap">Gloss</span><span class="cap">Chrome</span></div>
+          <p class="text-[13px] text-[var(--rikyu)] mt-4">Matte is quiet. Gloss is polished. Chrome is high-signal.</p>
+        </div>
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 bg-[var(--toriko)] p-7">
+          <div class="flex items-center justify-between mb-6">
+            <span class="cap">03 · Length</span>
+            <span class="font-mono text-[10px] text-[var(--rikyu)]">·SHORT·</span>
+          </div>
+          <div class="flex items-end justify-around my-4 h-[80px]">
+            <span class="w-7" style="height:36px; border-radius:8px 8px 12px 12px; background:#281A14;"></span>
+            <span class="w-7" style="height:54px; border-radius:8px 8px 12px 12px; background:#281A14;"></span>
+            <span class="w-7" style="height:74px; border-radius:8px 8px 12px 12px; background:#281A14;"></span>
+          </div>
+          <div class="grid grid-cols-3 text-center"><span class="cap">Short</span><span class="cap">Medium</span><span class="cap">Long</span></div>
+          <p class="text-[13px] text-[var(--rikyu)] mt-4">Short is daily. Medium is styled. Long is editorial.</p>
+        </div>
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 bg-[var(--toriko)] p-7">
+          <div class="flex items-center justify-between mb-6">
+            <span class="cap">04 · Color</span>
+            <span class="font-mono text-[10px] text-[var(--rikyu)]">·SIGNAL·</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2 my-4">
+            <span class="aspect-square" style="background:#D4AC68;" title="黄朽葉"></span>
+            <span class="aspect-square" style="background:#9EA1A3;" title="銀鼠"></span>
+            <span class="aspect-square" style="background:#281A14;" title="鉄黒"></span>
+            <span class="aspect-square" style="background:#44617B;" title="紺鼠"></span>
+            <span class="aspect-square" style="background:linear-gradient(135deg,#9EA1A3,#F5F5F5,#9EA1A3);" title="銀色"></span>
+            <span class="aspect-square" style="background:#E4DDCC;" title="白茶"></span>
+            <span class="aspect-square" style="background:#913225;" title="弁柄"></span>
+            <span class="aspect-square" style="background:#B7282E;" title="茜"></span>
+          </div>
+          <p class="text-[13px] text-[var(--rikyu)] mt-4">Nude and gray are low signal. Black and navy are structured. Silver and chrome are high signal.</p>
+        </div>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] uppercase tracking-[0.22em] font-mono text-[var(--rikyu)]">
+        <span>· Configure like a suit ·</span>
+        <span class="text-center md:text-left">Shape × Finish</span>
+        <span class="text-center md:text-left">Length × Signal</span>
+        <span class="text-right">— Nippon Palette · 26</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOCIAL PROOF ============ -->
+  <section class="bg-[var(--toriko)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 mb-12 md:mb-16">
+        <div class="col-span-12 md:col-span-8">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°12</span><span class="cap">Social Proof</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Men are already<br/>styling their <span class="italic font-serif font-light">hands</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+        </div>
+        <div class="col-span-12 md:col-span-4 flex flex-col justify-end">
+          <p class="text-[var(--rikyu)] max-w-[360px]">From office desks to nightclubs, the manicure is becoming part of the modern male uniform.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-4">
+        <figure class="col-span-12 md:col-span-4 row-span-2 border border-hair bg-[var(--paper)] p-8 flex flex-col justify-between min-h-[420px]">
+          <span class="font-serif italic text-[96px] leading-none text-[var(--akane)]">&ldquo;</span>
+          <blockquote class="font-serif italic text-[22px] md:text-[26px] leading-[1.25] tracking-normal">
+            I thought it would feel too loud. Matte Charcoal ended up looking like a watch or ring detail. Subtle, but people noticed.
+          </blockquote>
+          <figcaption class="mt-6 flex items-center justify-between cap">
+            <span>— M.K. / Brooklyn</span>
+            <span>Architectural Edit</span>
+          </figcaption>
+        </figure>
+
+        <a href="#" class="col-span-6 md:col-span-4 relative aspect-[4/5] overflow-hidden border border-hair look-card">
+          <img src="website_images/1218452907.jpg" alt="Hands stretched out showing natural nails before applying a Nailismo set" style="filter: grayscale(0.85) sepia(0.18) brightness(0.95) contrast(1.05);" />
+          <div class="look-overlay absolute inset-0 bg-gradient-to-t from-[rgba(40,26,20,0.65)] via-[rgba(40,26,20,0.22)] to-transparent flex flex-col justify-between p-5">
+            <span class="cap cap-dark">@ leon.k</span>
+            <span class="cap cap-dark">N°00 · Before The Set</span>
+          </div>
+        </a>
+
+        <a href="#" class="col-span-6 md:col-span-4 relative aspect-[4/5] overflow-hidden border border-hair look-card">
+          <img src="website_images/8cbcbb5c024edeb13b3042401816d36a.jpg" alt="Man in glasses holding hands to face showing matte black graphic press-on nails" />
+          <div class="look-overlay absolute inset-0 flex flex-col justify-between p-5" style="background: linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%);">
+            <span class="cap cap-dark">@ s.haru</span>
+            <span class="cap cap-dark">N°02 · Architectural</span>
+          </div>
+        </a>
+
+        <a href="#" class="col-span-6 md:col-span-4 relative aspect-[4/5] overflow-hidden border border-hair look-card">
+          <img src="website_images/157396244.jpg" alt="Close-up of male hands wearing minimalist matte black architectural press-on nails on brick wall" />
+          <div class="look-overlay absolute inset-0 flex flex-col justify-between p-5" style="background: linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%);">
+            <span class="cap cap-dark">@ d.alvarez</span>
+            <span class="cap cap-dark">N°03 · Slate Lines</span>
+          </div>
+        </a>
+
+        <a href="#" class="col-span-6 md:col-span-4 relative aspect-[4/5] overflow-hidden border border-hair look-card">
+          <img src="website_images/185268712.jpg" alt="Detail of male hand wearing minimalist matte black geometric press-on nails" />
+          <div class="look-overlay absolute inset-0 flex flex-col justify-between p-5" style="background: linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%);">
+            <span class="cap cap-dark">@ kj.studio</span>
+            <span class="cap cap-dark">N°02 · Graphic Black</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="mt-10 flex items-center justify-between flex-wrap gap-3">
+        <span class="cap">Tag #nailismo · #wearyouredge</span>
+        <a href="#" class="ulink text-[12px] tracking-[0.18em] uppercase font-medium">See the full feed →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container">
+      <div class="grid grid-cols-12 gap-6 md:gap-12">
+        <div class="col-span-12 lg:col-span-5">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°13</span><span class="cap">Fearless FAQ</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
+            Questions<br/>men actually<br/><span class="italic font-serif font-light">ask</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+          <p class="mt-8 text-[var(--rikyu)] max-w-[360px]">Confident. Direct. Practical. No apologies, no defensive language, no spa talk.</p>
+
+          <div class="mt-10 hidden lg:block">
+            <span class="cap">Need a person?</span>
+            <p class="mt-2 text-[14px]">Email <a href="mailto:hello@nailismo.com" class="ulink underline-offset-4">hello@nailismo.com</a> for fit, removal, or styling questions. We reply in under 24h.</p>
+          </div>
+        </div>
+
+        <div class="col-span-12 lg:col-span-7">
+          <div class="border-t border-hair">
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">01</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">Will these look fake?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                No. Nailismo focuses on shorter proportions, clean edges, and masculine finishes designed to sit naturally on men's hands.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">02</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">Is this too feminine?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Not when the design language is right. Matte finishes, dark tones, architectural lines, chrome, and restrained contrast keep the manicure masculine and wearable.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">03</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">Can I type, lift, or work with my hands?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Yes, for normal daily use. Use liquid adhesive for a stronger hold; use temporary tabs for short-term wear.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">04</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">Can I wear them for one night only?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Yes. Use temporary tabs for events, parties, shoots, or first-time testing.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">05</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">How do I know my size?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Start with a sizing range or starter set. Match each nail before applying. See the Fit System for a measurement guide.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">06</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">How long do they last?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Temporary tabs are best for short wear. Liquid adhesive can last up to 7+ days depending on application, nail prep, and daily activity.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">07</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">How do I remove them?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Soak and loosen gently. Do not rip them off. Most damage comes from forced removal, not from proper wear.
+              </div>
+            </details>
+
+            <details class="border-b border-hair py-6 group">
+              <summary class="flex items-start justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <span class="cap pt-1">08</span>
+                  <h3 class="font-display text-[22px] md:text-[26px] leading-[1.1] tracking-display">What style should I start with?</h3>
+                </div>
+                <span class="acc-icon w-8 h-8 border border-hair flex items-center justify-center flex-shrink-0 text-[18px] leading-none">+</span>
+              </summary>
+              <div class="acc-answer pl-12 pr-12 pt-4 text-[15px] text-[var(--rikyu)] max-w-[640px]">
+                Start with Midnight French, Matte Charcoal, or Slate Nude. Clean, masculine, and easy to wear in real life.
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="bg-[var(--paper)] sec relative overflow-hidden">
+    <div class="nail-container relative">
+      <div class="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-10 right-0 font-display font-thin text-[clamp(220px,34vw,620px)] leading-[0.78]" style="color: rgba(40,26,20,0.06);">14</div>
+        <div class="absolute bottom-6 left-2 cap">End · N°14 · Nailismo / Edition 01 · 26</div>
+      </div>
+
+      <div class="relative z-10 grid grid-cols-12 gap-6 md:gap-12 items-end">
+        <div class="col-span-12 md:col-span-8">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="cap">N°14</span><span class="cap">Final CTA</span>
+          </div>
+          <h2 class="font-display font-light tracking-display leading-[0.88] text-[clamp(56px,9vw,140px)]">
+            Start with<br/>your <span class="italic font-serif font-light">first set</span><span class="text-[var(--akane)]">.</span>
+          </h2>
+          <p class="mt-8 max-w-[520px] text-[17px] text-[var(--rikyu)]">
+            Your first manicure should be easy. Start with a clean, wearable design made to work with what you already wear.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="#" class="btn-primary">Shop Starter Sets <span class="arrow">→</span></a>
+            <a href="#" class="btn-ghost">Explore All Styles <span class="arrow">→</span></a>
+          </div>
+        </div>
+
+        <div class="col-span-12 md:col-span-4">
+          <div class="relative aspect-[3/4] overflow-hidden border border-hair">
+            <img src="website_images/5d3e61a43b59defc2690e54e10d408ec.jpg" alt="Group of masculine hands wearing different Nailismo edits in a dark setting" class="img-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[rgba(40,26,20,0.4)] to-transparent"></div>
+            <div class="absolute bottom-4 left-4 cap cap-dark">Edition 01 · 26</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="bg-[var(--shiracha)] py-16 md:py-24 relative">
+    <div class="nail-container grid grid-cols-12 gap-6 md:gap-12 items-center">
+      <div class="col-span-12 lg:col-span-7">
+        <span class="cap">Free guide · No spam</span>
+        <h3 class="font-display text-[clamp(32px,4vw,56px)] tracking-display leading-[0.95] mt-3">Get the First Fit Guide<span class="text-[var(--akane)]">.</span></h3>
+        <p class="mt-4 text-[var(--rikyu)] max-w-[520px]">A short guide to choosing your first Nailismo set — from low-signal daily wear to high-signal nights out. Plus 10% off your first starter set.</p>
+      </div>
+      <form class="col-span-12 lg:col-span-5 flex w-full border border-[var(--tetsu)] bg-[var(--paper)]">
+        <input type="email" placeholder="Email address" class="flex-1 bg-transparent px-5 py-4 text-[14px] outline-none placeholder-[rgba(40,26,20,0.4)]" aria-label="Email" />
+        <button type="submit" class="bg-[var(--tetsu)] text-[var(--paper)] px-6 py-4 text-[12px] tracking-[0.18em] uppercase font-medium hover:bg-[var(--akane)] transition-colors">Send Me The Guide</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-[var(--tetsu)] text-[var(--paper)] border-t border-hair-dark">
+    <div class="nail-container py-16 md:py-24">
+      <div class="grid grid-cols-12 gap-8">
+        <div class="col-span-12 md:col-span-5">
+          <img src="brand_assets/Logo/01.png" alt="Nailismo" class="h-10 logo-invert mb-6" />
+          <p class="text-[15px] text-[rgba(245,245,245,0.78)] max-w-[420px]">Press-on manicures designed for men's hands. Sharp, durable, and built to finish the look — from tailoring to streetwear.</p>
+          <div class="mt-8 flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-mono text-[rgba(245,245,245,0.6)]">
+            <span class="px-2 py-1 border border-hair-dark">Built for men's hands</span>
+            <span class="px-2 py-1 border border-hair-dark">24 sizes / set</span>
+            <span class="px-2 py-1 border border-hair-dark">Up to 7+ days</span>
+          </div>
+        </div>
+        <div class="col-span-6 md:col-span-2">
+          <span class="cap cap-dark">Shop</span>
+          <ul class="mt-4 space-y-2 text-[14px]">
+            <li><a href="#" class="ulink">Starter Sets</a></li>
+            <li><a href="#" class="ulink">Stealth Edit</a></li>
+            <li><a href="#" class="ulink">Architectural Edit</a></li>
+            <li><a href="#" class="ulink">High-Signal Edit</a></li>
+            <li><a href="#" class="ulink">Accessories</a></li>
+          </ul>
+        </div>
+        <div class="col-span-6 md:col-span-2">
+          <span class="cap cap-dark">Learn</span>
+          <ul class="mt-4 space-y-2 text-[14px]">
+            <li><a href="#fit" class="ulink">Fit System</a></li>
+            <li><a href="#" class="ulink">Application</a></li>
+            <li><a href="#" class="ulink">Removal</a></li>
+            <li><a href="#" class="ulink">Lookbook</a></li>
+            <li><a href="#faq" class="ulink">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="col-span-12 md:col-span-3">
+          <span class="cap cap-dark">Contact</span>
+          <ul class="mt-4 space-y-2 text-[14px]">
+            <li><a href="mailto:hello@nailismo.com" class="ulink">hello@nailismo.com</a></li>
+            <li><a href="#" class="ulink">Instagram · @nailismo</a></li>
+            <li><a href="#" class="ulink">TikTok · @nailismo</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-16 pt-6 border-t border-hair-dark flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.55)]">
+        <span>© Nailismo 2026 · Wear Your Edge</span>
+        <span>Press-On Manicures · Designed for Men's Hands</span>
+        <span>Nippon palette · 茜 · 鉄黒 · 鳥子 · 利休鼠</span>
       </div>
     </div>
   </footer>
-
-  <script>
-    // Sticky header: transparent over hero, solid off-white on scroll.
-    (function () {
-      var header = document.getElementById('site-header');
-      var solid = ['bg-neri/95', 'backdrop-blur', 'border-shiracha', 'shadow-[0_4px_24px_-12px_rgba(40,26,20,0.25)]'];
-      function onScroll() {
-        if (window.scrollY > 24) {
-          header.classList.add.apply(header.classList, solid);
-          header.classList.remove('border-transparent');
-          header.classList.remove('header-light');
-        } else {
-          header.classList.remove.apply(header.classList, solid);
-          header.classList.add('border-transparent');
-          header.classList.add('header-light');
-        }
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
-
-    // Mobile menu toggle.
-    (function () {
-      var btn = document.getElementById('menu-toggle');
-      var menu = document.getElementById('mobile-menu');
-      var header = document.getElementById('site-header');
-      btn.addEventListener('click', function () {
-        var open = menu.classList.toggle('hidden') === false;
-        btn.setAttribute('aria-expanded', String(open));
-        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        // When open, force the solid (dark-logo) header so the logo
-        // stays legible against the light menu panel — even over the hero.
-        if (open) {
-          header.classList.remove('header-light');
-          header.classList.remove('border-transparent');
-          header.classList.add('bg-neri/95', 'backdrop-blur', 'border-shiracha');
-        } else if (window.scrollY <= 24) {
-          header.classList.add('header-light');
-          header.classList.add('border-transparent');
-          header.classList.remove('bg-neri/95', 'backdrop-blur', 'border-shiracha');
-        }
-      });
-    })();
-  </script>
 
 </body>
 </html>

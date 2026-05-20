@@ -18,6 +18,37 @@ The project is orchestrated under the **WAT framework** (Workflows, Agents, Tool
 
 ---
 
+## Agent Behavior Rules 
+
+### 1. Think Before Coding
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+Explicitly state assumptions, present tradeoffs, and name any confusion before implementing. Do not make silent choices if multiple interpretations exist.
+
+### 2. Simplicity First
+**Minimum code that solves the problem. Nothing speculative.**
+Write the minimum code required to solve the problem. Avoid speculative features, unnecessary abstractions, or handling impossible scenarios.
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+**Touch only what you must. Clean up only your own mess.**
+Touch only what is strictly necessary. Do not refactor unrelated code, "improve" adjacent formatting, or delete pre-existing dead code unless requested. Clean up only the orphans your changes create.
+
+## 4. Goal-Driven Execution
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+---
+
 ## Tech Stack
 
 **Web (`apps/web`)**
