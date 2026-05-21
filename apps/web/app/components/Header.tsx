@@ -52,22 +52,27 @@ export async function Header() {
             </svg>
             <span className="hidden md:inline">Account</span>
           </a>
-          <a href="/cart" className="flex items-center gap-2 ulink" aria-label="Cart">
-            <svg
-              className="md:hidden w-[18px] h-[18px]"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M6.5 8h11l-1 11.5h-9L6.5 8z" />
-              <path d="M9.2 8V6.8a2.8 2.8 0 0 1 5.6 0V8" />
-            </svg>
+          <a href="/cart" className="flex items-center gap-2 ulink" aria-label={`Cart, ${count} items`}>
+            <span className="md:hidden relative inline-flex w-[20px] h-[20px] items-center justify-center">
+              <svg
+                className="w-[20px] h-[20px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M6.5 8h11l-1 11.5h-9L6.5 8z" />
+                <path d="M9.2 8V6.8a2.8 2.8 0 0 1 5.6 0V8" />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center pt-[3px] font-mono text-[8px] leading-none">
+                {count}
+              </span>
+            </span>
             <span className="hidden md:inline">Cart{" "}</span>
-            <span className="font-mono text-[10px] border border-[var(--hair-strong)] px-1.5 py-0.5">
+            <span className="hidden md:inline font-mono text-[10px] border border-[var(--hair-strong)] px-1.5 py-0.5">
               {count}
             </span>
           </a>
