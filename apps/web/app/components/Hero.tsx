@@ -52,7 +52,7 @@ export function Hero() {
           <div className="absolute inset-0">
             <figure className="absolute right-0 top-0 w-[78%] h-[78%] overflow-hidden shadow-editorial">
               <img
-                src="/images/website/hero-monochrome-minimal.png"
+                src="/images/website/hero-monochrome-minimal.avif"
                 alt="Man clasping hands with white press-on nails in minimalist black line-and-dot art"
                 className="img-cover"
                 loading="eager"
@@ -62,7 +62,7 @@ export function Hero() {
             </figure>
             <figure className="absolute left-0 bottom-0 w-[44%] h-[44%] border border-hair bg-toriko p-3 shadow-editorial">
               <img
-                src="/images/listing/black and white press on nails.jpg"
+                src="/images/listing/black and white press on nails.avif"
                 alt="Monochrome Edge black-and-white press-on nails arranged in a sizing grid"
                 className="img-cover"
                 loading="eager"

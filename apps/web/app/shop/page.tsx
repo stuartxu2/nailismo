@@ -211,7 +211,7 @@ export default async function ShopPage({
                   );
                   const img =
                     p.featuredImage?.url ??
-                    "/images/listing/black and white press on nails.jpg";
+                    "/images/listing/black and white press on nails.avif";
                   const alt = p.featuredImage?.altText ?? p.title;
                   const variant = p.variants?.nodes[0];
                   const canAdd = variant?.availableForSale ?? false;

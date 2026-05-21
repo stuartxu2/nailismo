@@ -9,7 +9,7 @@ type Tile = {
 
 const tiles: Tile[] = [
   {
-    src: "/images/website/1218452907.jpg",
+    src: "/images/website/1218452907.avif",
     alt: "Hands stretched out showing natural nails before applying a Nailismo set",
     handle: "@ leon.k",
     label: "N°00 · Before The Set",
@@ -17,7 +17,7 @@ const tiles: Tile[] = [
     overlayStyle: undefined,
   },
   {
-    src: "/images/website/8cbcbb5c024edeb13b3042401816d36a.jpg",
+    src: "/images/website/8cbcbb5c024edeb13b3042401816d36a.avif",
     alt: "Man in glasses holding hands to face showing matte black graphic press-on nails",
     handle: "@ s.haru",
     label: "N°02 · Architectural",
@@ -27,7 +27,7 @@ const tiles: Tile[] = [
     },
   },
   {
-    src: "/images/website/157396244.jpg",
+    src: "/images/website/157396244.avif",
     alt: "Close-up of male hands wearing minimalist matte black architectural press-on nails on brick wall",
     handle: "@ d.alvarez",
     label: "N°03 · Concrete Clarity",
@@ -37,7 +37,7 @@ const tiles: Tile[] = [
     },
   },
   {
-    src: "/images/website/185268712.jpg",
+    src: "/images/website/185268712.avif",
     alt: "Detail of male hand wearing minimalist matte black geometric press-on nails",
     handle: "@ kj.studio",
     label: "N°02 · Graphic Black",

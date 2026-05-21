@@ -61,7 +61,7 @@ export function MobileMenu() {
             aria-modal="true"
           >
         <div className="flex items-center justify-between h-[72px] px-5 border-b border-hair">
-          <img src="/images/logo/01.png" alt="Nailismo" className="h-9 logo-natural" />
+          <img src="/images/logo/01.avif" alt="Nailismo" className="h-9 logo-natural" />
           <button
             type="button"
             onClick={() => setOpen(false)}

@@ -29,7 +29,7 @@ function productsToItems(products: ShopifyProduct[]): Item[] {
     return {
       num: `N°${String(i + 1).padStart(2, "0")}`,
       badge: { label: badgeLabels[i] ?? "Featured", tone: badgeTones[i] ?? "akane" },
-      src: p.featuredImage?.url ?? "/images/listing/black and white press on nails.jpg",
+      src: p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif",
       alt: p.featuredImage?.altText ?? p.title,
       title: p.title,
       meta,

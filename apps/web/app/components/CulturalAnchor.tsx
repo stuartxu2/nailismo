@@ -69,7 +69,7 @@ export function CulturalAnchor() {
             </div>
             <div className="acc-tile is-product flex flex-col justify-between p-0 relative overflow-hidden">
               <img
-                src="/images/listing/black and white press on nails.jpg"
+                src="/images/listing/black and white press on nails.avif"
                 alt="Monochrome Edge masculine press-on manicure for men, the missing detail"
                 className="absolute inset-0 w-full h-full object-cover opacity-95"
               />

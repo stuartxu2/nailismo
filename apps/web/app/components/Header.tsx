@@ -9,7 +9,7 @@ export async function Header() {
     <header className="sticky top-0 z-50 bg-[rgba(245,245,245,0.85)] backdrop-blur-md border-b border-hair">
       <div className="nail-container flex items-center justify-between h-[72px]">
         <Link href="/" className="flex items-center gap-3" aria-label="Nailismo home">
-          <img src="/images/logo/01.png" alt="Nailismo" className="h-9 logo-natural" />
+          <img src="/images/logo/01.avif" alt="Nailismo" className="h-9 logo-natural" />
         </Link>
         <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-[0.18em] uppercase font-medium text-tetsu">
           <Link href="/shop" className="ulink">Shop</Link>

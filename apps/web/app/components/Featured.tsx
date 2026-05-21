@@ -6,7 +6,7 @@ export function Featured() {
         <div className="grid grid-cols-12 gap-6 md:gap-12 items-stretch border border-hair bg-tetsu">
           <div className="col-span-12 lg:col-span-7 relative aspect-[5/4] lg:aspect-auto bg-paper">
             <img
-              src="/images/listing/black and white press on nails.jpg"
+              src="/images/listing/black and white press on nails.avif"
               alt="Monochrome Edge — black-and-white architectural press-on nails for men"
               className="img-cover"
             />

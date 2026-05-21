@@ -236,7 +236,7 @@ export default async function CollectionPage({
                   );
                   const img =
                     p.featuredImage?.url ??
-                    "/images/listing/black and white press on nails.jpg";
+                    "/images/listing/black and white press on nails.avif";
                   const alt = p.featuredImage?.altText ?? p.title;
                   return (
                     <article

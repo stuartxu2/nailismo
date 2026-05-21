@@ -75,7 +75,7 @@ export function Bundle() {
 
           <div className="col-span-12 lg:col-span-6 relative min-h-[420px] lg:min-h-0 bg-tetsu overflow-hidden">
             <img
-              src="/images/listing/accessories.jpg"
+              src="/images/listing/accessories.avif"
               alt="Nailismo First Fit Kit contents — press-on set, sticky tabs, liquid glue, prep tools, glue remover, branded case"
               className="img-cover"
             />

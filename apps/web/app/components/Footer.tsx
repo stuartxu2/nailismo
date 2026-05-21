@@ -5,7 +5,7 @@ export function Footer() {
       <div className="nail-container py-16 md:py-24">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-5">
-            <img src="/images/logo/01.png" alt="Nailismo" className="h-10 logo-invert mb-6" />
+            <img src="/images/logo/01.avif" alt="Nailismo" className="h-10 logo-invert mb-6" />
             <p className="text-[15px] text-[rgba(245,245,245,0.78)] max-w-[420px]">
               Press-on manicures designed for men&apos;s hands. Sharp, durable, and built to finish the look — from tailoring to streetwear.
             </p>

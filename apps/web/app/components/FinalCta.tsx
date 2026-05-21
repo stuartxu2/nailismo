@@ -40,7 +40,7 @@ export function FinalCta() {
           <div className="col-span-12 md:col-span-4">
             <div className="relative aspect-[3/4] overflow-hidden border border-hair">
               <img
-                src="/images/website/5d3e61a43b59defc2690e54e10d408ec.jpg"
+                src="/images/website/5d3e61a43b59defc2690e54e10d408ec.avif"
                 alt="Group of masculine hands wearing different Nailismo edits in a dark setting"
                 className="img-cover"
               />

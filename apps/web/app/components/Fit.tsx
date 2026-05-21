@@ -117,7 +117,7 @@ export function Fit() {
             <div className="mt-6 grid grid-cols-3 gap-4 items-start">
               <figure className="col-span-2 relative aspect-[4/3] overflow-hidden border border-hair">
                 <img
-                  src="/images/listing/accessories.jpg"
+                  src="/images/listing/accessories.avif"
                   alt="Nailismo starter kit — adhesive tabs, cuticle stick, file, branded box"
                   className="img-cover"
                 />
