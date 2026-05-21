@@ -20,10 +20,53 @@ export async function Header() {
           <a href="/faq" className="ulink">FAQ</a>
         </nav>
         <div className="flex items-center gap-4 md:gap-5 text-[12px] tracking-[0.18em] uppercase font-medium">
-          <a href="/search" className="hidden sm:inline ulink" aria-label="Search">Search</a>
-          <a href="/account" className="hidden sm:inline ulink">Account</a>
-          <a href="/cart" className="flex items-center gap-2 ulink">
-            Cart{" "}
+          <a href="/search" className="flex items-center ulink" aria-label="Search">
+            <svg
+              className="md:hidden w-[18px] h-[18px]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            </svg>
+            <span className="hidden md:inline">Search</span>
+          </a>
+          <a href="/account" className="flex items-center ulink" aria-label="Account">
+            <svg
+              className="md:hidden w-[18px] h-[18px]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M5.5 20c0-3.6 2.9-5.5 6.5-5.5s6.5 1.9 6.5 5.5" />
+            </svg>
+            <span className="hidden md:inline">Account</span>
+          </a>
+          <a href="/cart" className="flex items-center gap-2 ulink" aria-label="Cart">
+            <svg
+              className="md:hidden w-[18px] h-[18px]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6.5 8h11l-1 11.5h-9L6.5 8z" />
+              <path d="M9.2 8V6.8a2.8 2.8 0 0 1 5.6 0V8" />
+            </svg>
+            <span className="hidden md:inline">Cart{" "}</span>
             <span className="font-mono text-[10px] border border-[var(--hair-strong)] px-1.5 py-0.5">
               {count}
             </span>
