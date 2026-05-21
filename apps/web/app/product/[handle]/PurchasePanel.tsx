@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import { useMemo, useState } from "react";
 import type { ShopifyProductOption, ShopifyVariant } from "@/lib/shopify/types";
@@ -107,9 +108,9 @@ export function PurchasePanel({
         ) : (
           <span className="btn-ghost opacity-60 pointer-events-none">Sold Out</span>
         )}
-        <a href="/#fit" className="btn-ghost">
+        <Link href="/#fit" className="btn-ghost">
           See The Fit System <span className="arrow">→</span>
-        </a>
+        </Link>
       </div>
     </>
   );

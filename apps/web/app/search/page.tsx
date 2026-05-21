@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { SEARCH_PRODUCTS_QUERY } from "@/lib/shopify/queries";
@@ -58,7 +59,7 @@ export default async function SearchPage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Search</span>
             </nav>
@@ -110,7 +111,7 @@ export default async function SearchPage({
                   ? `${results.length} result${results.length === 1 ? "" : "s"} for "${trimmed}"`
                   : "Type a query to start"}
               </span>
-              <a href="/shop" className="ulink cap">Browse full index →</a>
+              <Link href="/shop" className="ulink cap">Browse full index →</Link>
             </div>
 
             {!trimmed ? (
@@ -118,9 +119,9 @@ export default async function SearchPage({
                 <span className="cap block mb-4">Try</span>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {["silver", "matte", "christmas", "french", "chrome", "g-dragon"].map((t) => (
-                    <a key={t} href={`/search?q=${encodeURIComponent(t)}`} className="edit-pill">
+                    <Link key={t} href={`/search?q=${encodeURIComponent(t)}`} className="edit-pill">
                       {t}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -130,9 +131,9 @@ export default async function SearchPage({
                 <p className="font-display text-[24px] text-tetsu">
                   Nothing matched &ldquo;{trimmed}&rdquo;.
                 </p>
-                <a href="/shop" className="btn-ghost mt-8 inline-flex">
+                <Link href="/shop" className="btn-ghost mt-8 inline-flex">
                   Open Full Index <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="grid grid-cols-12 gap-5">
@@ -154,7 +155,7 @@ export default async function SearchPage({
                       key={p.id}
                       className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
                     >
-                      <a
+                      <Link
                         href={`/product/${p.handle}`}
                         className="relative aspect-square overflow-hidden bg-shiracha block"
                       >
@@ -162,12 +163,12 @@ export default async function SearchPage({
                         <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">
                           {num}
                         </span>
-                      </a>
+                      </Link>
                       <div className="p-4 flex flex-col flex-1">
                         <h2 className="font-display text-[18px] leading-[1.1]">
-                          <a href={`/product/${p.handle}`} className="ulink">
+                          <Link href={`/product/${p.handle}`} className="ulink">
                             {p.title}
-                          </a>
+                          </Link>
                         </h2>
                         <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
                           <span>{meta}</span>
@@ -176,12 +177,12 @@ export default async function SearchPage({
                           </span>
                         </div>
                         <div className="mt-auto pt-4">
-                          <a
+                          <Link
                             href={`/product/${p.handle}`}
                             className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
                           >
                             Open →
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </article>

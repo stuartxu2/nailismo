@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
@@ -30,7 +31,7 @@ export default function NotFound() {
             </div>
 
             <div className="border-t border-hair pt-12 grid grid-cols-12 gap-6">
-              <a
+              <Link
                 href="/shop"
                 className="col-span-12 md:col-span-4 border border-hair p-8 bg-paper relative group hover:bg-tetsu hover:text-paper transition-colors"
               >
@@ -43,8 +44,8 @@ export default function NotFound() {
                 <h2 className="font-display text-[28px] leading-[1.1]">
                   Browse every set
                 </h2>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/search"
                 className="col-span-12 md:col-span-4 border border-hair p-8 bg-paper relative group hover:bg-tetsu hover:text-paper transition-colors"
               >
@@ -57,8 +58,8 @@ export default function NotFound() {
                 <h2 className="font-display text-[28px] leading-[1.1]">
                   Look for something specific
                 </h2>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/"
                 className="col-span-12 md:col-span-4 border border-hair p-8 bg-paper relative group hover:bg-tetsu hover:text-paper transition-colors"
               >
@@ -71,7 +72,7 @@ export default function NotFound() {
                 <h2 className="font-display text-[28px] leading-[1.1]">
                   Back to the front
                 </h2>
-              </a>
+              </Link>
             </div>
           </div>
         </section>

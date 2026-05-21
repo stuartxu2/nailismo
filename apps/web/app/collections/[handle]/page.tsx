@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
@@ -136,9 +137,9 @@ export default async function CollectionPage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
-              <a href="/shop" className="ulink">Shop</a>
+              <Link href="/shop" className="ulink">Shop</Link>
               <span>/</span>
               <span className="text-tetsu">{collection.title}</span>
             </nav>
@@ -207,9 +208,9 @@ export default async function CollectionPage({
                   ))}
                 </div>
               </div>
-              <a href="/shop" className="ulink cap">
+              <Link href="/shop" className="ulink cap">
                 View Full Index →
-              </a>
+              </Link>
             </div>
 
             {products.length === 0 ? (
@@ -218,9 +219,9 @@ export default async function CollectionPage({
                 <p className="font-display text-[24px] text-tetsu">
                   No sets in this edit yet.
                 </p>
-                <a href="/shop" className="btn-ghost mt-8 inline-flex">
+                <Link href="/shop" className="btn-ghost mt-8 inline-flex">
                   Browse The Index <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="grid grid-cols-12 gap-5">
@@ -242,7 +243,7 @@ export default async function CollectionPage({
                       key={p.id}
                       className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
                     >
-                      <a
+                      <Link
                         href={`/product/${p.handle}`}
                         className="relative aspect-square overflow-hidden bg-shiracha block"
                       >
@@ -250,12 +251,12 @@ export default async function CollectionPage({
                         <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">
                           {num}
                         </span>
-                      </a>
+                      </Link>
                       <div className="p-4 flex flex-col flex-1">
                         <h2 className="font-display text-[18px] leading-[1.1]">
-                          <a href={`/product/${p.handle}`} className="ulink">
+                          <Link href={`/product/${p.handle}`} className="ulink">
                             {p.title}
-                          </a>
+                          </Link>
                         </h2>
                         <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
                           <span>{meta}</span>
@@ -273,18 +274,18 @@ export default async function CollectionPage({
                           </div>
                         )}
                         <div className="mt-auto pt-4 flex items-center justify-between gap-2">
-                          <a
+                          <Link
                             href={`/product/${p.handle}`}
                             className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
                           >
                             Details →
-                          </a>
-                          <a
+                          </Link>
+                          <Link
                             href={`/product/${p.handle}`}
                             className="bg-tetsu text-paper px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
                           >
                             Open
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </article>
@@ -295,9 +296,9 @@ export default async function CollectionPage({
 
             <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
               <span className="cap">Edit · {collection.handle}</span>
-              <a href="/shop" className="btn-ghost">
+              <Link href="/shop" className="btn-ghost">
                 Open Full Index <span className="arrow">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>

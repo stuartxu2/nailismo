@@ -1,3 +1,4 @@
+import Link from "next/link";
 export function Featured() {
   return (
     <section id="featured" className="bg-toriko sec relative overflow-hidden">
@@ -79,12 +80,12 @@ export function Featured() {
                 <span className="cap cap-dark">In stock · Ships in 24h</span>
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="/product/monochrome-edge" className="btn-on-dark">
+                <Link href="/product/monochrome-edge" className="btn-on-dark">
                   Add To Cart <span className="arrow">→</span>
-                </a>
-                <a href="/product/monochrome-edge" className="btn-ghost-on-dark">
+                </Link>
+                <Link href="/product/monochrome-edge" className="btn-ghost-on-dark">
                   View Details <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

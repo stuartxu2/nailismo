@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
@@ -53,9 +54,9 @@ export default async function LookPage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
-              <a href="/lookbook" className="ulink">Lookbook</a>
+              <Link href="/lookbook" className="ulink">Lookbook</Link>
               <span>/</span>
               <span className="text-tetsu">{look.title}</span>
             </nav>
@@ -127,12 +128,12 @@ export default async function LookPage({
                 </p>
               </div>
               <div className="col-span-12 md:col-span-5 flex md:justify-end">
-                <a
+                <Link
                   href={`/product/${look.pairing.productHandle}`}
                   className="btn-on-dark"
                 >
                   Shop The Set <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -146,11 +147,11 @@ export default async function LookPage({
                   Other looks
                   <span className="text-akane">.</span>
                 </h3>
-                <a href="/lookbook" className="ulink cap">View all →</a>
+                <Link href="/lookbook" className="ulink cap">View all →</Link>
               </div>
               <div className="grid grid-cols-12 gap-0">
                 {related.map((l) => (
-                  <a
+                  <Link
                     key={l.handle}
                     href={`/lookbook/${l.handle}`}
                     className={`look-card col-span-12 md:col-span-6 aspect-[4/5] block ${l.borderClasses}`}
@@ -176,7 +177,7 @@ export default async function LookPage({
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

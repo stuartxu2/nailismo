@@ -7,7 +7,7 @@ const navLinks = [
   { href: "#starter-gateway", label: "Shop" },
   { href: "#starter-gateway", label: "Starter Sets" },
   { href: "#edits", label: "Style", italic: "Edits" },
-  { href: "#fit", label: "Fit Guide" },
+  { href: "/fit", label: "Fit Guide" },
   { href: "#lookbook", label: "Lookbook" },
   { href: "#bundle", label: "First Fit Kit" },
   { href: "#faq", label: "FAQ" },

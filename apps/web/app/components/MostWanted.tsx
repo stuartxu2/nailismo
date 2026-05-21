@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 
 type Item = {
@@ -110,9 +111,9 @@ export function MostWanted({ products }: { products?: ShopifyProduct[] } = {}) {
 
         <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
           <span className="cap">Ranked by sell-through · refreshed weekly</span>
-          <a href="/shop" className="btn-ghost">
+          <Link href="/shop" className="btn-ghost">
             Shop All Sets <span className="arrow">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

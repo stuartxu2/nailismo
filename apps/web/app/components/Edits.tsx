@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 
 export type EditKey = "stealth" | "architectural" | "high-signal";
@@ -146,7 +147,7 @@ export function Edits({ groups = [] }: { groups?: EditGroup[] }) {
                     <span className="cap mb-3 block">In this edit</span>
                     <div className="grid grid-cols-4 gap-2">
                       {thumbs.map((p, i) => (
-                        <a
+                        <Link
                           key={p.id}
                           href={`/product/${p.handle}`}
                           className={`aspect-square overflow-hidden border block bg-shiracha ${
@@ -161,7 +162,7 @@ export function Edits({ groups = [] }: { groups?: EditGroup[] }) {
                               className="img-cover"
                             />
                           )}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 const includes = [
   "1 Press-On Set",
   "S–XL Fit",
@@ -62,12 +63,12 @@ export function Bundle() {
                 <span className="cap">Ships in 24h</span>
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="/shop" className="btn-primary">
+                <Link href="/shop" className="btn-primary">
                   Shop Press-On Sets <span className="arrow">→</span>
-                </a>
-                <a href="/product/nail-glue" className="btn-ghost">
+                </Link>
+                <Link href="/product/nail-glue" className="btn-ghost">
                   Add Glue + Remover <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

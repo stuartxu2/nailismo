@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
@@ -20,7 +21,7 @@ export default function LookbookIndexPage() {
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Lookbook</span>
             </nav>
@@ -53,7 +54,7 @@ export default function LookbookIndexPage() {
           <div className="nail-container">
             <div className="border-t border-hair pt-12 grid grid-cols-12 gap-0">
               {LOOKS.map((l) => (
-                <a
+                <Link
                   key={l.handle}
                   href={`/lookbook/${l.handle}`}
                   className={`look-card col-span-12 md:col-span-6 aspect-[4/5] block ${l.borderClasses}`}
@@ -82,7 +83,7 @@ export default function LookbookIndexPage() {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

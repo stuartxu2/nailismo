@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
@@ -44,7 +45,7 @@ export default function AboutPage() {
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">About</span>
             </nav>
@@ -138,9 +139,9 @@ export default function AboutPage() {
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
                 <span className="cap cap-dark">Built for men&apos;s hands · since 2024</span>
-                <a href="/shop" className="btn-on-dark">
+                <Link href="/shop" className="btn-on-dark">
                   Open The Index <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

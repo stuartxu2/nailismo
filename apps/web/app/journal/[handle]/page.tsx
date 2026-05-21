@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
@@ -124,9 +125,9 @@ export default async function ArticlePage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
-              <a href="/journal" className="ulink">Journal</a>
+              <Link href="/journal" className="ulink">Journal</Link>
               <span>/</span>
               <span className="text-tetsu">{article.title}</span>
             </nav>
@@ -196,7 +197,7 @@ export default async function ArticlePage({
                   More from the desk
                   <span className="text-akane">.</span>
                 </h2>
-                <a href="/journal" className="ulink cap">All entries →</a>
+                <Link href="/journal" className="ulink cap">All entries →</Link>
               </div>
               <div className="grid grid-cols-12 gap-6">
                 {related.map((a) => (
@@ -204,7 +205,7 @@ export default async function ArticlePage({
                     key={a.id}
                     className="col-span-12 md:col-span-4 border border-hair bg-paper flex flex-col edit-card"
                   >
-                    <a
+                    <Link
                       href={`/journal/${a.handle}`}
                       className="relative aspect-[4/3] overflow-hidden bg-shiracha block"
                     >
@@ -215,13 +216,13 @@ export default async function ArticlePage({
                           className="img-cover edit-image"
                         />
                       )}
-                    </a>
+                    </Link>
                     <div className="p-5 flex flex-col flex-1">
                       <span className="cap mb-2">{formatDate(a.publishedAt)}</span>
                       <h3 className="font-display text-[20px] leading-[1.15]">
-                        <a href={`/journal/${a.handle}`} className="ulink">
+                        <Link href={`/journal/${a.handle}`} className="ulink">
                           {a.title}
-                        </a>
+                        </Link>
                       </h3>
                     </div>
                   </article>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 
 type Editorial = {
@@ -107,15 +108,15 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
                     ))}
                   </div>
                   <div className="mt-5 pt-5 border-t border-hair flex items-center justify-between gap-3">
-                    <a href={`/product/${p.handle}`} className="ulink text-[11px] tracking-[0.18em] uppercase font-medium">
+                    <Link href={`/product/${p.handle}`} className="ulink text-[11px] tracking-[0.18em] uppercase font-medium">
                       View Details →
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href={`/product/${p.handle}`}
                       className="bg-tetsu text-paper px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
                     >
                       Quick Add
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </article>
@@ -125,9 +126,9 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
 
         <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
           <span className="cap">Free shipping over $60 · S–XL fit · No salon</span>
-          <a href="/shop" className="btn-ghost">
+          <Link href="/shop" className="btn-ghost">
             Shop All Sets <span className="arrow">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
@@ -56,7 +57,7 @@ export default function ContactPage() {
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Contact</span>
             </nav>
@@ -132,7 +133,7 @@ export default function ContactPage() {
 
             <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
               <span className="cap">HQ · Brooklyn, NY</span>
-              <a href="/about" className="ulink cap">House doctrine →</a>
+              <Link href="/about" className="ulink cap">House doctrine →</Link>
             </div>
           </div>
         </section>

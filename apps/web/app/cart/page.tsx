@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
@@ -42,12 +43,12 @@ function LineRow({ line, index }: { line: ShopifyCartLine; index: number }) {
         </div>
       </div>
       <div className="col-span-9 md:col-span-6 flex flex-col">
-        <a
+        <Link
           href={`/product/${m.product.handle}`}
           className="font-display text-[20px] md:text-[24px] leading-[1.1] ulink"
         >
           {m.product.title}
-        </a>
+        </Link>
         {variantLabel && (
           <span className="mt-1 text-[12px] text-rikyu">{variantLabel}</span>
         )}
@@ -110,7 +111,7 @@ export default async function CartPage() {
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Cart</span>
             </nav>
@@ -153,9 +154,9 @@ export default async function CartPage() {
                 <p className="text-rikyu mt-3 max-w-[360px] mx-auto text-[14px]">
                   Browse the index, pick a set, add it from the product page.
                 </p>
-                <a href="/shop" className="btn-primary mt-8 inline-flex">
+                <Link href="/shop" className="btn-primary mt-8 inline-flex">
                   Open The Index <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="grid grid-cols-12 gap-10">
@@ -199,9 +200,9 @@ export default async function CartPage() {
                         Checkout <span className="arrow">→</span>
                       </a>
                     )}
-                    <a href="/shop" className="btn-ghost w-full justify-center mt-3">
+                    <Link href="/shop" className="btn-ghost w-full justify-center mt-3">
                       Keep Shopping <span className="arrow">→</span>
-                    </a>
+                    </Link>
                   </div>
                   <p className="text-[11px] text-rikyu mt-4 leading-[1.6]">
                     Secure checkout on Shopify. Your bag persists for 14 days on

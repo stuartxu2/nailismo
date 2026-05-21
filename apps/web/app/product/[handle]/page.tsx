@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
@@ -97,9 +98,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       <main className="bg-paper sec relative overflow-hidden">
         <div className="nail-container">
           <nav className="mb-8 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-            <a href="/" className="ulink">Home</a>
+            <Link href="/" className="ulink">Home</Link>
             <span>/</span>
-            <a href="/#most-wanted" className="ulink">Shop</a>
+            <Link href="/#most-wanted" className="ulink">Shop</Link>
             <span>/</span>
             <span className="text-tetsu">{product.title}</span>
           </nav>

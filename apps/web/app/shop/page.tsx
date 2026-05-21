@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
@@ -110,7 +111,7 @@ export default async function ShopPage({
         <section className="sec pb-0 relative">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Shop</span>
             </nav>
@@ -194,9 +195,9 @@ export default async function ShopPage({
                 <p className="font-display text-[24px] text-tetsu">
                   No sets match this filter.
                 </p>
-                <a href="/shop" className="ulink mt-6 inline-block cap">
+                <Link href="/shop" className="ulink mt-6 inline-block cap">
                   Clear filters →
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="grid grid-cols-12 gap-5">
@@ -219,17 +220,17 @@ export default async function ShopPage({
                       key={p.id}
                       className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
                     >
-                      <a
+                      <Link
                         href={`/product/${p.handle}`}
                         className="relative aspect-square overflow-hidden bg-shiracha block"
                       >
                         <img src={img} alt={alt} className="img-cover edit-image" />
-                      </a>
+                      </Link>
                       <div className="p-4 flex flex-col flex-1">
                         <h2 className="font-display text-[18px] leading-[1.1]">
-                          <a href={`/product/${p.handle}`} className="ulink">
+                          <Link href={`/product/${p.handle}`} className="ulink">
                             {p.title}
-                          </a>
+                          </Link>
                         </h2>
                         <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
                           <span>{meta}</span>
@@ -247,12 +248,12 @@ export default async function ShopPage({
                           </div>
                         )}
                         <div className="mt-auto pt-4 flex items-center justify-between gap-2">
-                          <a
+                          <Link
                             href={`/product/${p.handle}`}
                             className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
                           >
                             Details →
-                          </a>
+                          </Link>
                           {canAdd && variant ? (
                             <form action={addToCart}>
                               <input type="hidden" name="variantId" value={variant.id} />
@@ -279,9 +280,9 @@ export default async function ShopPage({
 
             <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
               <span className="cap">Index refreshed every 5 min · Shopify Storefront</span>
-              <a href="/" className="btn-ghost">
+              <Link href="/" className="btn-ghost">
                 Back To Home <span className="arrow">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>

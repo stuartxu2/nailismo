@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
@@ -46,7 +47,7 @@ export default async function ThankYouPage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Confirmation</span>
             </nav>
@@ -123,18 +124,18 @@ export default async function ThankYouPage({
                 </p>
               </div>
               <div className="col-span-12 md:col-span-5 flex md:justify-end gap-3 flex-wrap">
-                <a href="/shop" className="btn-on-dark">
+                <Link href="/shop" className="btn-on-dark">
                   Open The Index <span className="arrow">→</span>
-                </a>
-                <a href="/lookbook" className="btn-ghost-on-dark">
+                </Link>
+                <Link href="/lookbook" className="btn-ghost-on-dark">
                   Lookbook <span className="arrow">→</span>
-                </a>
+                </Link>
               </div>
             </div>
 
             <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
               <span className="cap">Need help? hello@nailismo.com</span>
-              <a href="/account" className="ulink cap">Track in account →</a>
+              <Link href="/account" className="ulink cap">Track in account →</Link>
             </div>
           </div>
         </section>

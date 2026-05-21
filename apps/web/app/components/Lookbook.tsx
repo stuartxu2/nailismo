@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LOOKS } from "@/app/lookbook/data";
 
 export function Lookbook() {
@@ -27,7 +28,7 @@ export function Lookbook() {
 
       <div className="grid grid-cols-12 gap-0">
         {LOOKS.map((l) => (
-          <a
+          <Link
             key={l.handle}
             href={`/lookbook/${l.handle}`}
             className={`look-card col-span-12 md:col-span-6 aspect-[4/5] block ${l.borderClasses}`}
@@ -54,15 +55,15 @@ export function Lookbook() {
                 </span>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
 
       <div className="nail-container mt-12 flex items-center justify-between flex-wrap gap-4">
         <span className="cap">Same outfit. Finished read.</span>
-        <a href="/lookbook" className="btn-ghost">
+        <Link href="/lookbook" className="btn-ghost">
           Open The Lookbook <span className="arrow">→</span>
-        </a>
+        </Link>
       </div>
     </section>
   );

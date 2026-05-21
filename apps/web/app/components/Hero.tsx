@@ -52,8 +52,8 @@ export function Hero() {
           <div className="absolute inset-0">
             <figure className="absolute right-0 top-0 w-[78%] h-[78%] overflow-hidden shadow-editorial">
               <img
-                src="/images/website/08e092eaeea1f881e8319ac91bad76eb.jpg"
-                alt="Man with masculine matte press-on manicure styled with neutral tee"
+                src="/images/website/hero-monochrome-minimal.png"
+                alt="Man clasping hands with white press-on nails in minimalist black line-and-dot art"
                 className="img-cover"
                 loading="eager"
               />
@@ -62,13 +62,13 @@ export function Hero() {
             </figure>
             <figure className="absolute left-0 bottom-0 w-[44%] h-[44%] border border-hair bg-toriko p-3 shadow-editorial">
               <img
-                src="/images/listing/cat eye black press on nails.jpg"
-                alt="Galaxy Glitch cat-eye press-on nails arranged in a sizing grid"
+                src="/images/listing/black and white press on nails.jpg"
+                alt="Monochrome Edge black-and-white press-on nails arranged in a sizing grid"
                 className="img-cover"
                 loading="eager"
               />
               <figcaption className="absolute -bottom-7 left-0 cap">
-                N°01 — Galaxy Glitch · Squoval · Long-wear
+                N°01 — Monochrome Edge · Squoval · Long-wear
               </figcaption>
             </figure>
           </div>

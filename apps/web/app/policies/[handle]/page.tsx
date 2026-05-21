@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
@@ -191,9 +192,9 @@ export default async function PolicyPage({
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
-              <a href="/policies/shipping" className="ulink">Policies</a>
+              <Link href="/policies/shipping" className="ulink">Policies</Link>
               <span>/</span>
               <span className="text-tetsu">{policy.title}</span>
             </nav>
@@ -212,7 +213,7 @@ export default async function PolicyPage({
               <div className="col-span-12 md:col-span-4">
                 <p className="text-rikyu max-w-[420px]">
                   Plain-language policy text, kept in sync with our Shopify store.
-                  Questions? <a href="/contact" className="ulink text-tetsu">Get in touch</a>.
+                  Questions? <Link href="/contact" className="ulink text-tetsu">Get in touch</Link>.
                 </p>
               </div>
             </div>
@@ -229,12 +230,12 @@ export default async function PolicyPage({
                     const active = p.slug === handle || (handle === "privacy-policy" && p.slug === "privacy");
                     return (
                       <li key={p.slug}>
-                        <a
+                        <Link
                           href={`/policies/${p.slug}`}
                           className={`ulink ${active ? "text-akane" : "text-tetsu"}`}
                         >
                           {p.label}
-                        </a>
+                        </Link>
                       </li>
                     );
                   })}
@@ -247,7 +248,7 @@ export default async function PolicyPage({
                 />
                 <div className="mt-12 pt-6 border-t border-hair flex items-center justify-between flex-wrap gap-3">
                   <span className="cap">Source · Shopify store policies</span>
-                  <a href="/contact" className="ulink cap">Questions →</a>
+                  <Link href="/contact" className="ulink cap">Questions →</Link>
                 </div>
               </article>
             </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 export function Fit() {
   return (
     <section id="fit" className="bg-paper sec relative overflow-hidden">
@@ -43,9 +44,9 @@ export function Fit() {
             </div>
 
             <div className="mt-10">
-              <a href="#" className="btn-primary">
+              <Link href="/fit" className="btn-primary">
                 See How Sizing Works <span className="arrow">→</span>
-              </a>
+              </Link>
             </div>
           </div>
 

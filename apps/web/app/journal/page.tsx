@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { ARTICLES_QUERY } from "@/lib/shopify/queries";
@@ -50,7 +51,7 @@ export default async function JournalPage() {
         <section className="sec pb-0">
           <div className="nail-container">
             <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <a href="/" className="ulink">Home</a>
+              <Link href="/" className="ulink">Home</Link>
               <span>/</span>
               <span className="text-tetsu">Journal</span>
             </nav>
@@ -93,15 +94,15 @@ export default async function JournalPage() {
                   <p className="text-rikyu mt-3 max-w-[360px] mx-auto text-[14px]">
                     Subscribe below to get the inaugural essay in your inbox.
                   </p>
-                  <a href="/#newsletter" className="btn-primary mt-8 inline-flex">
+                  <Link href="/#newsletter" className="btn-primary mt-8 inline-flex">
                     Join The List <span className="arrow">→</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ) : (
               <>
                 {hero && (
-                  <a
+                  <Link
                     href={`/journal/${hero.handle}`}
                     className="block border-t border-hair pt-12 mb-16 group"
                   >
@@ -141,7 +142,7 @@ export default async function JournalPage() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 )}
 
                 {rest.length > 0 && (
@@ -151,7 +152,7 @@ export default async function JournalPage() {
                         key={a.id}
                         className="col-span-12 md:col-span-6 lg:col-span-4 border border-hair bg-paper flex flex-col edit-card"
                       >
-                        <a
+                        <Link
                           href={`/journal/${a.handle}`}
                           className="relative aspect-[4/3] overflow-hidden bg-shiracha block"
                         >
@@ -162,13 +163,13 @@ export default async function JournalPage() {
                               className="img-cover edit-image"
                             />
                           )}
-                        </a>
+                        </Link>
                         <div className="p-6 flex flex-col flex-1">
                           <span className="cap mb-2">{formatDate(a.publishedAt)}</span>
                           <h3 className="font-display text-[22px] leading-[1.15]">
-                            <a href={`/journal/${a.handle}`} className="ulink">
+                            <Link href={`/journal/${a.handle}`} className="ulink">
                               {a.title}
-                            </a>
+                            </Link>
                           </h3>
                           {a.excerpt && (
                             <p className="mt-3 text-rikyu text-[14px] leading-[1.6] line-clamp-3">
@@ -176,12 +177,12 @@ export default async function JournalPage() {
                             </p>
                           )}
                           <div className="mt-auto pt-4">
-                            <a
+                            <Link
                               href={`/journal/${a.handle}`}
                               className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
                             >
                               Read →
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </article>

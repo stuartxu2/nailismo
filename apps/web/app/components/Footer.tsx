@@ -1,3 +1,4 @@
+import Link from "next/link";
 export function Footer() {
   return (
     <footer className="bg-tetsu text-paper border-t border-hair-dark">
@@ -17,22 +18,22 @@ export function Footer() {
           <div className="col-span-6 md:col-span-2">
             <span className="cap cap-dark">Shop</span>
             <ul className="mt-4 space-y-2 text-[14px]">
-              <li><a href="/collections/the-essentials" className="ulink">Starter Sets</a></li>
-              <li><a href="/collections/minimalist-matte" className="ulink">Stealth Edit</a></li>
-              <li><a href="/collections/geometric-grit" className="ulink">Architectural Edit</a></li>
-              <li><a href="/collections/night-out-bold" className="ulink">High-Signal Edit</a></li>
-              <li><a href="/shop" className="ulink">Accessories</a></li>
+              <li><Link href="/collections/the-essentials" className="ulink">Starter Sets</Link></li>
+              <li><Link href="/collections/minimalist-matte" className="ulink">Stealth Edit</Link></li>
+              <li><Link href="/collections/geometric-grit" className="ulink">Architectural Edit</Link></li>
+              <li><Link href="/collections/night-out-bold" className="ulink">High-Signal Edit</Link></li>
+              <li><Link href="/shop" className="ulink">Accessories</Link></li>
             </ul>
           </div>
           <div className="col-span-6 md:col-span-2">
             <span className="cap cap-dark">Learn</span>
             <ul className="mt-4 space-y-2 text-[14px]">
-              <li><a href="/#fit" className="ulink">Fit System</a></li>
-              <li><a href="/#application" className="ulink">Application</a></li>
-              <li><a href="/about" className="ulink">About</a></li>
-              <li><a href="/lookbook" className="ulink">Lookbook</a></li>
-              <li><a href="/journal" className="ulink">Journal</a></li>
-              <li><a href="/faq" className="ulink">FAQ</a></li>
+              <li><Link href="/#fit" className="ulink">Fit System</Link></li>
+              <li><Link href="/#application" className="ulink">Application</Link></li>
+              <li><Link href="/about" className="ulink">About</Link></li>
+              <li><Link href="/lookbook" className="ulink">Lookbook</Link></li>
+              <li><Link href="/journal" className="ulink">Journal</Link></li>
+              <li><Link href="/faq" className="ulink">FAQ</Link></li>
             </ul>
           </div>
           <div className="col-span-12 md:col-span-3">
@@ -46,11 +47,11 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-hair-dark flex flex-wrap items-center gap-x-6 gap-y-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.6)]">
-          <a href="/policies/shipping" className="ulink">Shipping</a>
-          <a href="/policies/returns" className="ulink">Returns</a>
-          <a href="/policies/privacy" className="ulink">Privacy</a>
-          <a href="/policies/terms" className="ulink">Terms</a>
-          <a href="/contact" className="ulink">Contact</a>
+          <Link href="/policies/shipping" className="ulink">Shipping</Link>
+          <Link href="/policies/returns" className="ulink">Returns</Link>
+          <Link href="/policies/privacy" className="ulink">Privacy</Link>
+          <Link href="/policies/terms" className="ulink">Terms</Link>
+          <Link href="/contact" className="ulink">Contact</Link>
         </div>
 
         <div className="mt-6 pt-6 border-t border-hair-dark flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.55)]">
