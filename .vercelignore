@@ -1,0 +1,13 @@
+node_modules
+**/node_modules
+.next
+**/.next
+listing_v1
+website_images
+temporary screenshots
+**/temporary screenshots
+.tmp
+docs
+workflow
+*.log
+.DS_Store
