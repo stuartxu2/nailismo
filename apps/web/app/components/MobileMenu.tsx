@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const navLinks = [
   { href: "#starter-gateway", label: "Shop" },
@@ -14,6 +15,11 @@ const navLinks = [
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -45,13 +51,15 @@ export function MobileMenu() {
         <span className="block w-4 h-px bg-tetsu" />
       </button>
 
-      <div
-        id="mobile-menu"
-        className="md:hidden fixed inset-0 z-[60] bg-paper flex-col"
-        style={{ display: open ? "flex" : "none" }}
-        role="dialog"
-        aria-modal="true"
-      >
+      {mounted &&
+        createPortal(
+          <div
+            id="mobile-menu"
+            className="fixed inset-0 z-[60] bg-paper flex-col"
+            style={{ display: open ? "flex" : "none" }}
+            role="dialog"
+            aria-modal="true"
+          >
         <div className="flex items-center justify-between h-[72px] px-5 border-b border-hair">
           <img src="/images/logo/01.png" alt="Nailismo" className="h-9 logo-natural" />
           <button
@@ -115,7 +123,9 @@ export function MobileMenu() {
             <p className="mt-4 text-[12px] text-rikyu">S–XL fit · tabs + liquid · no salon required</p>
           </div>
         </nav>
-      </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
