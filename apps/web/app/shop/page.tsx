@@ -5,6 +5,7 @@ import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
+import { addToCart } from "@/lib/shopify/cart";
 
 export const metadata: Metadata = {
   title: "Shop · Nailismo",
@@ -199,8 +200,7 @@ export default async function ShopPage({
               </div>
             ) : (
               <div className="grid grid-cols-12 gap-5">
-                {items.map((p, i) => {
-                  const num = `N°${String(i + 1).padStart(2, "0")}`;
+                {items.map((p) => {
                   const meta =
                     [p.productType, p.tags[0]].filter(Boolean).join(" · ") ||
                     "Press-On Set";
@@ -212,6 +212,8 @@ export default async function ShopPage({
                     p.featuredImage?.url ??
                     "/images/listing/black and white press on nails.jpg";
                   const alt = p.featuredImage?.altText ?? p.title;
+                  const variant = p.variants?.nodes[0];
+                  const canAdd = variant?.availableForSale ?? false;
                   return (
                     <article
                       key={p.id}
@@ -222,9 +224,6 @@ export default async function ShopPage({
                         className="relative aspect-square overflow-hidden bg-shiracha block"
                       >
                         <img src={img} alt={alt} className="img-cover edit-image" />
-                        <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">
-                          {num}
-                        </span>
                       </a>
                       <div className="p-4 flex flex-col flex-1">
                         <h2 className="font-display text-[18px] leading-[1.1]">
@@ -254,12 +253,22 @@ export default async function ShopPage({
                           >
                             Details →
                           </a>
-                          <a
-                            href={`/product/${p.handle}`}
-                            className="bg-tetsu text-paper px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
-                          >
-                            Open
-                          </a>
+                          {canAdd && variant ? (
+                            <form action={addToCart}>
+                              <input type="hidden" name="variantId" value={variant.id} />
+                              <input type="hidden" name="quantity" value="1" />
+                              <button
+                                type="submit"
+                                className="bg-tetsu text-paper px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
+                              >
+                                Add To Cart
+                              </button>
+                            </form>
+                          ) : (
+                            <span className="px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium text-rikyu opacity-60">
+                              Sold Out
+                            </span>
+                          )}
                         </div>
                       </div>
                     </article>

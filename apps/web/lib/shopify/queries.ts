@@ -298,6 +298,12 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
             currencyCode
           }
         }
+        variants(first: 1) {
+          nodes {
+            id
+            availableForSale
+          }
+        }
       }
     }
   }

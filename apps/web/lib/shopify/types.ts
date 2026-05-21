@@ -20,6 +20,9 @@ export type ShopifyProduct = {
   priceRange: {
     minVariantPrice: ShopifyMoney;
   };
+  variants?: {
+    nodes: { id: string; availableForSale: boolean }[];
+  };
 };
 
 export type ProductsQueryResult = {
