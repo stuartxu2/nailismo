@@ -20,7 +20,6 @@ export function Application() {
         <div className="flex items-end justify-between mb-12 md:mb-16 flex-wrap gap-6">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap cap-dark">N°07</span>
               <span className="cap cap-dark">Application</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)] text-paper">

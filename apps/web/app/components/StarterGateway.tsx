@@ -28,12 +28,12 @@ const editorial: Record<string, Editorial> = {
 export const STARTER_HANDLES = ["monochrome-edge", "galaxy-glitch", "crimson-authority"] as const;
 
 function topLeftClass(tone: Editorial["topLeft"]["tone"]) {
-  if (tone === "tape") return "absolute top-3 left-3 tape";
+  if (tone === "tape") return "absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1";
   if (tone === "office") return "absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1";
   return "absolute top-3 left-3 cap text-paper bg-konnezumi px-2 py-1";
 }
 
-function topRightClass(_tone: Editorial["topRight"]["tone"]) {
+function topRightClass() {
   return "absolute top-3 right-3 cap text-tetsu bg-[rgba(245,245,245,0.85)] px-2 py-1";
 }
 
@@ -52,8 +52,7 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
         <div className="grid grid-cols-12 gap-6 md:gap-12 mb-10 md:mb-14 items-end">
           <div className="col-span-12 md:col-span-7">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°02</span>
-              <span className="cap">Product Gateway</span>
+              <span className="cap">Best for first sets</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(36px,5vw,72px)]">
               Built to start.
@@ -92,7 +91,7 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
                     <img src={p.featuredImage.url} alt={p.featuredImage.altText ?? p.title} className="img-cover edit-image" />
                   )}
                   <span className={topLeftClass(ed.topLeft.tone)}>{ed.topLeft.label}</span>
-                  <span className={topRightClass(ed.topRight.tone)}>{ed.topRight.label}</span>
+                  <span className={topRightClass()}>{ed.topRight.label}</span>
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-4">

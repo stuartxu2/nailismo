@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 
 type Item = {
-  num: string;
   badge: { label: string; tone: "akane" | "konnezumi" | "paper-tetsu" };
   src: string;
   alt: string;
@@ -27,7 +26,6 @@ function productsToItems(products: ShopifyProduct[]): Item[] {
   return products.slice(0, 4).map((p, i) => {
     const meta = [p.productType, p.tags[0]].filter(Boolean).join(" · ") || "Press-On Set";
     return {
-      num: `N°${String(i + 1).padStart(2, "0")}`,
       badge: { label: badgeLabels[i] ?? "Featured", tone: badgeTones[i] ?? "akane" },
       src: p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif",
       alt: p.featuredImage?.altText ?? p.title,
@@ -50,13 +48,12 @@ export function MostWanted({ products }: { products?: ShopifyProduct[] } = {}) {
   if (!products || products.length === 0) return null;
   const items = productsToItems(products);
   return (
-    <section id="most-wanted" className="bg-paper sec relative overflow-hidden">
+    <section id="new-arrivals" className="bg-paper sec relative overflow-hidden">
       <div className="nail-container">
         <div className="grid grid-cols-12 gap-6 mb-10 md:mb-14 items-end">
           <div className="col-span-12 md:col-span-7">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°08</span>
-              <span className="cap">Most Wanted Sets</span>
+              <span className="cap">New arrivals</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
               Most wanted
@@ -74,10 +71,9 @@ export function MostWanted({ products }: { products?: ShopifyProduct[] } = {}) {
 
         <div className="grid grid-cols-12 gap-5">
           {items.map((it) => (
-            <article key={`${it.num}-${it.title}`} className="col-span-6 md:col-span-3 group border border-hair bg-paper flex flex-col">
+            <article key={it.title} className="col-span-6 md:col-span-3 group border border-hair bg-paper flex flex-col">
               <div className="relative aspect-square overflow-hidden bg-shiracha">
                 <img src={it.src} alt={it.alt} className="img-cover edit-image" />
-                <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">{it.num}</span>
                 <span className={badgeClass(it.badge.tone)}>{it.badge.label}</span>
               </div>
               <div className="p-4 flex flex-col flex-1">
@@ -110,7 +106,7 @@ export function MostWanted({ products }: { products?: ShopifyProduct[] } = {}) {
         </div>
 
         <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
-          <span className="cap">Ranked by sell-through · refreshed weekly</span>
+          <span className="cap">Fresh sets, restocked weekly</span>
           <Link href="/shop" className="btn-ghost">
             Shop All Sets <span className="arrow">→</span>
           </Link>

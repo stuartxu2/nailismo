@@ -40,8 +40,7 @@ export function Faq() {
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 lg:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°13</span>
-              <span className="cap">Fearless FAQ</span>
+              <span className="cap">Common questions</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
               Questions

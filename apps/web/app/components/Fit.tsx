@@ -6,8 +6,7 @@ export function Fit() {
         <div className="grid grid-cols-12 gap-6 md:gap-12 items-start">
           <div className="col-span-12 lg:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°06</span>
-              <span className="cap">Fit System</span>
+              <span className="cap">Fit &amp; sizing</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
               Built to fit
@@ -52,11 +51,6 @@ export function Fit() {
 
           <div className="col-span-12 lg:col-span-7 relative">
             <div className="relative border border-hair p-6 md:p-10 bg-toriko">
-              <span className="crosshair" style={{ left: "-8px", top: "-8px" }} />
-              <span className="crosshair" style={{ right: "-8px", top: "-8px" }} />
-              <span className="crosshair" style={{ left: "-8px", bottom: "-8px" }} />
-              <span className="crosshair" style={{ right: "-8px", bottom: "-8px" }} />
-
               <div className="flex items-center justify-between mb-4">
                 <span className="cap">Fig. 01 — Size Chart · mm</span>
                 <span className="cap">S · M · L · XL</span>
