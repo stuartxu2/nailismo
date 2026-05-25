@@ -10,17 +10,17 @@ type Editorial = {
 const editorial: Record<string, Editorial> = {
   "monochrome-edge": {
     desc: "Black-and-white architectural set. Clean enough for the office, sharp enough for the bar.",
-    topLeft: { label: "Editor's Pick", tone: "tape" },
+    topLeft: { label: "Editor pick", tone: "tape" },
     topRight: { label: "Architectural", tone: "arch" },
   },
   "galaxy-glitch": {
     desc: "Cat-eye black with subtle depth. Reads like a watch detail — present but quiet.",
-    topLeft: { label: "New Arrival", tone: "office" },
+    topLeft: { label: "New", tone: "office" },
     topRight: { label: "Stealth", tone: "stealth-light" },
   },
   "crimson-authority": {
     desc: "Black base with a controlled red edge. Sharp without crossing into noise.",
-    topLeft: { label: "Low Signal", tone: "low" },
+    topLeft: { label: "Low stock", tone: "low" },
     topRight: { label: "Stealth", tone: "stealth-light" },
   },
 };
@@ -84,7 +84,7 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
             return (
               <article
                 key={p.id}
-                className="col-span-12 md:col-span-4 group relative border border-hair bg-paper flex flex-col"
+                className="col-span-12 md:col-span-4 group edit-card relative border border-hair bg-toriko flex flex-col"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-shiracha">
                   {p.featuredImage && (
@@ -112,9 +112,9 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
                     </Link>
                     <Link
                       href={`/product/${p.handle}`}
-                      className="bg-tetsu text-paper px-4 py-2 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
+                      className="ulink text-[11px] tracking-[0.18em] uppercase font-medium text-rikyu"
                     >
-                      Quick Add
+                      Quick Add →
                     </Link>
                   </div>
                 </div>
