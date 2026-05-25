@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const navLinks = [
-  { href: "#starter-gateway", label: "Shop" },
-  { href: "#starter-gateway", label: "Starter Sets" },
-  { href: "#edits", label: "Style", italic: "Edits" },
-  { href: "/fit", label: "Fit Guide" },
-  { href: "#lookbook", label: "Lookbook" },
-  { href: "#bundle", label: "First Fit Kit" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/shop", label: "New" },
+  { href: "/shop", label: "Sets" },
+  { href: "/shop", label: "Best Sellers" },
+  { href: "/fit", label: "Fit" },
+  { href: "/lookbook", label: "Lookbook" },
+  { href: "/about", label: "About" },
 ];
 
 export function MobileMenu() {
@@ -85,12 +84,6 @@ export function MobileMenu() {
                   className="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display"
                 >
                   {link.label}
-                  {link.italic && (
-                    <>
-                      {" "}
-                      <span className="italic font-serif font-light">{link.italic}</span>
-                    </>
-                  )}
                 </a>
               </li>
             ))}
