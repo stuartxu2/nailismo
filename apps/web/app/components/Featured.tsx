@@ -10,8 +10,8 @@ export function Featured() {
               alt="Monochrome Edge — black-and-white architectural press-on nails for men"
               className="img-cover"
             />
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between">
-              <span className="cap">Best for first sets</span>
+            <div className="absolute top-6 left-6 right-6 flex items-center">
+              <span className="cap">Editor pick</span>
             </div>
             <div className="absolute bottom-6 left-6 cap">Handle · monochrome-edge</div>
             <div className="absolute bottom-6 right-6 cap">Squoval · Short · Gloss</div>

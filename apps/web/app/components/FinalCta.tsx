@@ -2,9 +2,6 @@ export function FinalCta() {
   return (
     <section className="bg-paper sec relative overflow-hidden">
       <div className="nail-container relative">
-        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
-        </div>
-
         <div className="relative z-10 grid grid-cols-12 gap-6 md:gap-12 items-end">
           <div className="col-span-12 md:col-span-8">
             <h2 className="font-display font-light tracking-display leading-[0.88] text-[clamp(56px,9vw,140px)]">
