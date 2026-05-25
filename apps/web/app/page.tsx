@@ -2,15 +2,11 @@ import { AnnouncementTicker } from "./components/AnnouncementTicker";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { StarterGateway, STARTER_HANDLES } from "./components/StarterGateway";
-import { CulturalAnchor } from "./components/CulturalAnchor";
-import { Edits, type EditGroup, type EditKey } from "./components/Edits";
 import { Featured } from "./components/Featured";
 import { Fit } from "./components/Fit";
 import { Application } from "./components/Application";
 import { MostWanted } from "./components/MostWanted";
 import { Lookbook } from "./components/Lookbook";
-import { Bundle } from "./components/Bundle";
-import { TasteEducation } from "./components/TasteEducation";
 import { SocialProof } from "./components/SocialProof";
 import { Faq } from "./components/Faq";
 import { FinalCta } from "./components/FinalCta";
@@ -23,22 +19,6 @@ import type {
   ProductsQueryResult,
   ShopifyProduct,
 } from "@/lib/shopify/types";
-
-const EDIT_HANDLES: Record<EditKey, string[]> = {
-  stealth: ["concrete-clarity", "bold-horizon", "ocean-drive", "safari-stripes"],
-  architectural: [
-    "monochrome-edge",
-    "midnight-circuit",
-    "crimson-impact-red-silver-graphic-press-on-nails-for-men",
-    "crimson-authority",
-  ],
-  "high-signal": [
-    "liquid-metal",
-    "rebel-king",
-    "liquid-ice",
-    "galaxy-glitch",
-  ],
-};
 
 async function probeShopify(): Promise<string | null> {
   try {
@@ -79,30 +59,27 @@ export default async function Home() {
 
   const mostWanted = allProducts.slice(0, 4);
   const starterProducts = pickByHandles(allProducts, STARTER_HANDLES);
-  const editKeys = Object.keys(EDIT_HANDLES) as EditKey[];
-  const editGroups: EditGroup[] = editKeys.map((key) => ({
-    key,
-    products: pickByHandles(allProducts, EDIT_HANDLES[key]),
-  }));
 
   return (
     <>
       <AnnouncementTicker />
       <Header />
       <Hero />
+      {/* 02 — New arrivals */}
+      <MostWanted products={mostWanted} />
+      {/* 03 — Best for first-time users */}
       <StarterGateway products={starterProducts} />
-      <CulturalAnchor />
-      <Edits groups={editGroups} />
       <Featured />
+      {/* 04 — Fit & sizing */}
       <Fit />
       <Application />
-      <MostWanted products={mostWanted} />
+      {/* 05 — Lookbook */}
       <Lookbook />
-      <Bundle />
-      <TasteEducation />
+      {/* 06 + 07 — Creator clips & reviews */}
       <SocialProof />
-      <Faq />
+      {/* 08 — Checkout & shipping reassurance */}
       <FinalCta />
+      <Faq />
       <Newsletter />
       <Footer />
     </>
