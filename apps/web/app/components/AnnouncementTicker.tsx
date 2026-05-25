@@ -1,12 +1,11 @@
 type TickerItem = { label: string; href: string };
 
 const items: TickerItem[] = [
-  { label: "Free shipping on starter sets over $60", href: "/policies/shipping" },
+  { label: "Free shipping over $60", href: "/policies/shipping" },
   { label: "S–XL fit per set", href: "/#fit" },
-  { label: "Temporary or long-wear adhesive", href: "/#application" },
-  { label: "No salon required", href: "/about" },
-  { label: "New: The Architectural Edit", href: "/collections/geometric-grit" },
-  { label: "Built for men's hands", href: "/shop" },
+  { label: "Applies in minutes", href: "/#fit" },
+  { label: "Clean removal", href: "/#fit" },
+  { label: "Made for men's hands", href: "/about" },
 ];
 
 export function AnnouncementTicker() {
@@ -23,7 +22,7 @@ export function AnnouncementTicker() {
               >
                 {item.label}
               </a>
-              <span className="dot" />
+              <span className="mx-8 text-shironezumi">·</span>
             </span>
           ))}
         </div>
