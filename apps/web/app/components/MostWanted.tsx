@@ -9,7 +9,6 @@ type Item = {
   meta: string;
   price: string;
   href: string;
-  tags: string[];
 };
 
 const badgeTones: Item["badge"]["tone"][] = ["akane", "konnezumi", "paper-tetsu", "akane"];
@@ -33,7 +32,6 @@ function productsToItems(products: ShopifyProduct[]): Item[] {
       meta,
       price: formatPrice(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode),
       href: `/product/${p.handle}`,
-      tags: p.tags.slice(0, 3),
     };
   });
 }

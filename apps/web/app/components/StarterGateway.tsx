@@ -107,14 +107,9 @@ export function StarterGateway({ products = [] }: { products?: ShopifyProduct[] 
                     ))}
                   </div>
                   <div className="mt-5 pt-5 border-t border-hair flex items-center justify-between gap-3">
+                    <span className="font-display text-[16px]">{price}</span>
                     <Link href={`/product/${p.handle}`} className="ulink text-[11px] tracking-[0.18em] uppercase font-medium">
                       View Details →
-                    </Link>
-                    <Link
-                      href={`/product/${p.handle}`}
-                      className="ulink text-[11px] tracking-[0.18em] uppercase font-medium text-rikyu"
-                    >
-                      Quick Add →
                     </Link>
                   </div>
                 </div>
