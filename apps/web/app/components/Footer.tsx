@@ -55,7 +55,7 @@ export function Footer() {
         </div>
 
         <div className="mt-6 pt-6 border-t border-hair-dark flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.55)]">
-          <span>© Nailismo 2026 · Wear Your Edge</span>
+          <span>© Nailismo 2026</span>
           <span>Press-On Manicures · Designed for Men&apos;s Hands</span>
           <span>Nippon palette · 茜 · 鉄黒 · 鳥子 · 利休鼠</span>
         </div>

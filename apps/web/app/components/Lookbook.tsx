@@ -8,7 +8,6 @@ export function Lookbook() {
         <div className="grid grid-cols-12 gap-6 mb-12 md:mb-16">
           <div className="col-span-12 md:col-span-7">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°09</span>
               <span className="cap">Lookbook</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
@@ -41,8 +40,7 @@ export function Lookbook() {
                   "linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%)",
               }}
             >
-              <div className="flex items-center justify-between">
-                <span className={l.tapeClass}>{l.num}</span>
+              <div className="flex items-center justify-end">
                 <span className="cap cap-dark">{l.title}</span>
               </div>
               <div>
@@ -60,7 +58,7 @@ export function Lookbook() {
       </div>
 
       <div className="nail-container mt-12 flex items-center justify-between flex-wrap gap-4">
-        <span className="cap">Same outfit. Finished read.</span>
+        <span className="cap">Styled with the everyday</span>
         <Link href="/lookbook" className="btn-ghost">
           Open The Lookbook <span className="arrow">→</span>
         </Link>

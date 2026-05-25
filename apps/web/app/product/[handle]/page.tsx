@@ -100,7 +100,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <nav className="mb-8 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
             <Link href="/" className="ulink">Home</Link>
             <span>/</span>
-            <Link href="/#most-wanted" className="ulink">Shop</Link>
+            <Link href="/#new-arrivals" className="ulink">Shop</Link>
             <span>/</span>
             <span className="text-tetsu">{product.title}</span>
           </nav>

@@ -10,9 +10,8 @@ export function Featured() {
               alt="Monochrome Edge — black-and-white architectural press-on nails for men"
               className="img-cover"
             />
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between">
-              <span className="tape">Featured · N°01</span>
-              <span className="cap">Best for first sets</span>
+            <div className="absolute top-6 left-6 right-6 flex items-center">
+              <span className="cap">Editor pick</span>
             </div>
             <div className="absolute bottom-6 left-6 cap">Handle · monochrome-edge</div>
             <div className="absolute bottom-6 right-6 cap">Squoval · Short · Gloss</div>
@@ -20,8 +19,7 @@ export function Featured() {
           <div className="col-span-12 lg:col-span-5 p-8 md:p-12 flex flex-col justify-between text-paper">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <span className="cap cap-dark">N°05</span>
-                <span className="cap cap-dark">Featured Product</span>
+                <span className="cap cap-dark">Best for first sets</span>
               </div>
               <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(36px,4.4vw,68px)]">
                 Start with the set

@@ -2,24 +2,36 @@
 
 :root {
   --font-sans:  var(--font-geograph), system-ui, sans-serif;
-  --font-serif: var(--font-noto-serif), ui-serif, serif;
+  --font-serif: var(--font-ekster), var(--font-geograph), sans-serif; /* repointed: no serif on homepage */
   --font-mono:  var(--font-akkurat-mono), ui-monospace, monospace;
+  --font-ekster: var(--font-ekster-local);
 
-  --paper:      #F5F5F5;
-  --toriko:     #F2EDE0;
-  --shiracha:   #E4DDCC;
-  --tetsu:      #281A14;
-  --sumi:       #1C1816;
-  --rikyu:      #656765;
-  --gin:        #9EA1A3;
-  --hair:       rgba(40,26,20,0.16);
-  --hair-strong:rgba(40,26,20,0.30);
-  --hair-dark:  rgba(242,237,224,0.18);
-  --akane:      #B7282E;
-  --bengara:    #913225;
-  --konnezumi:  #44617B;
-  --kodou:      #543F32;
-  --kikuchiba:  #D4AC68;
+  /* Nippon palette (values remapped; names kept for zero-churn) */
+  --paper:      #FCFAF2; /* SHIRONERI — page bg */
+  --toriko:     #FFFFFB; /* GOFUN — clean surface */
+  --shiracha:   #BDC0BA; /* SHIRONEZUMI — borders/dividers */
+  --tetsu:      #0B1013; /* KUROTSURUBAMI — text/dark UI */
+  --sumi:       #0B1013;
+  --rikyu:      #566C73; /* AINEZUMI — nav/labels/captions */
+  --gin:        #8C9296; /* muted neutral */
+  --hair:       rgba(11,16,19,0.14);
+  --hair-strong:rgba(11,16,19,0.28);
+  --hair-dark:  rgba(252,250,242,0.18);
+  --akane:      #6E75A4; /* FUJINEZUMI — accent (was red) */
+  --bengara:    #566C73;
+  --konnezumi:  #6E75A4;
+  --kodou:      #566C73;
+  --kikuchiba:  #D7C4BB; /* HAIZAKURA — warm accent */
+
+  /* Nippon-named aliases for new homepage code */
+  --shironeri:      #FCFAF2;
+  --gofun:          #FFFFFB;
+  --shironezumi:    #BDC0BA;
+  --kurotsurubami:  #0B1013;
+  --ainezumi:       #566C73;
+  --fujinezumi:     #6E75A4;
+  --haizakura:      #D7C4BB;
+  --kamenozoki:     #A5DEE4;
 }
 
 @theme inline {
@@ -35,6 +47,14 @@
   --color-konnezumi: var(--konnezumi);
   --color-kodou: var(--kodou);
   --color-kikuchiba: var(--kikuchiba);
+  --color-shironeri: var(--shironeri);
+  --color-gofun: var(--gofun);
+  --color-shironezumi: var(--shironezumi);
+  --color-kurotsurubami: var(--kurotsurubami);
+  --color-ainezumi: var(--ainezumi);
+  --color-fujinezumi: var(--fujinezumi);
+  --color-haizakura: var(--haizakura);
+  --color-kamenozoki: var(--kamenozoki);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
@@ -49,8 +69,8 @@ html {
 }
 body { font-family: var(--font-sans); font-weight: 400; }
 
-.font-display { font-family: var(--font-sans); }
-.font-serif { font-family: var(--font-serif); }
+.font-display { font-family: var(--font-ekster); }
+.font-serif { font-family: var(--font-ekster); }
 .font-mono { font-family: var(--font-mono); }
 
 .tracking-tightest { letter-spacing: -0.045em; }
@@ -62,7 +82,7 @@ body { font-family: var(--font-sans); font-weight: 400; }
 
 .grain::after {
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  opacity: 0.10; mix-blend-mode: multiply;
+  opacity: 0.06; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
 }
 
@@ -151,8 +171,8 @@ details[open] .acc-answer { opacity: 1; max-height: 480px; }
 
 .shadow-editorial {
   box-shadow:
-    0 40px 80px -30px rgba(40,26,20,0.22),
-    0 12px 24px -12px rgba(40,26,20,0.14);
+    0 40px 80px -30px rgba(11,16,19,0.18),
+    0 12px 24px -12px rgba(11,16,19,0.12);
 }
 .shadow-editorial-dark {
   box-shadow:
@@ -170,7 +190,7 @@ details[open] .acc-answer { opacity: 1; max-height: 480px; }
 .tape-dark { background: var(--tetsu); }
 
 .crosshair { position: absolute; width: 16px; height: 16px; pointer-events: none; }
-.crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(40,26,20,0.45); }
+.crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(11,16,19,0.28); }
 .crosshair::before { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-50%); }
 .crosshair::after { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-50%); }
 .crosshair-light::before, .crosshair-light::after { background: rgba(242,237,224,0.55); }
@@ -180,7 +200,7 @@ details[open] .acc-answer { opacity: 1; max-height: 480px; }
 
 .corner-mark {
   position: absolute; font-family: var(--font-mono); font-size: 10px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(40,26,20,0.45);
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ainezumi);
 }
 .corner-mark-dark { color: rgba(242,237,224,0.55); }
 

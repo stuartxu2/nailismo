@@ -12,7 +12,7 @@ const tiles: Tile[] = [
     src: "/images/website/1218452907.avif",
     alt: "Hands stretched out showing natural nails before applying a Nailismo set",
     handle: "@ leon.k",
-    label: "N°00 · Before The Set",
+    label: "Before The Set",
     imgStyle: { filter: "grayscale(0.85) sepia(0.18) brightness(0.95) contrast(1.05)" },
     overlayStyle: undefined,
   },
@@ -20,7 +20,7 @@ const tiles: Tile[] = [
     src: "/images/website/8cbcbb5c024edeb13b3042401816d36a.avif",
     alt: "Man in glasses holding hands to face showing matte black graphic press-on nails",
     handle: "@ s.haru",
-    label: "N°02 · Architectural",
+    label: "Architectural",
     overlayStyle: {
       background:
         "linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%)",
@@ -30,7 +30,7 @@ const tiles: Tile[] = [
     src: "/images/website/157396244.avif",
     alt: "Close-up of male hands wearing minimalist matte black architectural press-on nails on brick wall",
     handle: "@ d.alvarez",
-    label: "N°03 · Concrete Clarity",
+    label: "Concrete Clarity",
     overlayStyle: {
       background:
         "linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%)",
@@ -40,7 +40,7 @@ const tiles: Tile[] = [
     src: "/images/website/185268712.avif",
     alt: "Detail of male hand wearing minimalist matte black geometric press-on nails",
     handle: "@ kj.studio",
-    label: "N°02 · Graphic Black",
+    label: "Graphic Black",
     overlayStyle: {
       background:
         "linear-gradient(to top, rgba(40,26,20,0.78) 0%, rgba(40,26,20,0.40) 40%, rgba(40,26,20,0.18) 100%)",
@@ -55,8 +55,7 @@ export function SocialProof() {
         <div className="grid grid-cols-12 gap-6 mb-12 md:mb-16">
           <div className="col-span-12 md:col-span-8">
             <div className="flex items-center gap-3 mb-6">
-              <span className="cap">N°12</span>
-              <span className="cap">Social Proof</span>
+              <span className="cap">Worn by</span>
             </div>
             <h2 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,5.5vw,84px)]">
               Men are already
@@ -105,7 +104,7 @@ export function SocialProof() {
         </div>
 
         <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
-          <span className="cap">Tag #nailismo · #wearyouredge</span>
+          <span className="cap">Tag #nailismo</span>
           <a href="#" className="ulink text-[12px] tracking-[0.18em] uppercase font-medium">
             See the full feed →
           </a>

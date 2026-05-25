@@ -12,13 +12,12 @@ export async function Header() {
           <img src="/images/logo/01.avif" alt="Nailismo" className="h-9 logo-natural" />
         </Link>
         <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-[0.18em] uppercase font-medium text-tetsu">
-          <Link href="/shop" className="ulink">Shop</Link>
-          <Link href="/#starter-gateway" className="ulink">Starter Sets</Link>
-          <Link href="/#edits" className="ulink">Style Edits</Link>
-          <Link href="/fit" className="ulink">Fit Guide</Link>
+          <Link href="/shop" className="ulink">New</Link>
+          <Link href="/shop" className="ulink">Sets</Link>
+          <Link href="/shop" className="ulink">Best Sellers</Link>
+          <Link href="/fit" className="ulink">Fit</Link>
           <Link href="/lookbook" className="ulink">Lookbook</Link>
-          <Link href="/journal" className="ulink">Journal</Link>
-          <Link href="/faq" className="ulink">FAQ</Link>
+          <Link href="/about" className="ulink">About</Link>
         </nav>
         <div className="flex items-center gap-4 md:gap-5 text-[12px] tracking-[0.18em] uppercase font-medium">
           <Link href="/search" className="flex items-center ulink" aria-label="Search">
