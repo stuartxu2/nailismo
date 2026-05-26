@@ -258,6 +258,121 @@
 .candy-rack::-webkit-scrollbar { display: none; }
 .candy-rack-item { flex: 0 0 auto; width: 250px; scroll-snap-align: start; }
 
+/* ============================================================
+   Route-level primitives (used by inner pages)
+   ============================================================ */
+
+/* page header band */
+.candy-pagehead {
+  background: var(--cream); border: 2.5px solid var(--ink);
+  border-radius: 28px; box-shadow: var(--shadow-candy);
+  padding: clamp(24px, 4vw, 44px);
+}
+.candy-pagehead h1 { font-size: clamp(34px, 6vw, 60px); }
+.candy-pagehead p { font-size: 16px; font-weight: 600; color: var(--ink-soft); margin-top: 10px; }
+
+/* breadcrumb pills */
+.candy-crumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--body); font-weight: 800; font-size: 13px;
+  padding: 6px 13px; border-radius: 999px; color: var(--ink);
+  background: var(--cotton); border: 2px solid var(--ink);
+  transition: background-color .2s ease, transform .12s ease;
+}
+.candy-crumb:hover { background: var(--lemon); transform: translateY(-1px); }
+
+/* form fields */
+.candy-label { display: block; font-family: var(--body); font-weight: 800; font-size: 14px; margin-bottom: 7px; }
+.candy-field {
+  font-family: var(--body); font-weight: 600; font-size: 16px;
+  padding: 14px 18px; border-radius: 18px; border: 2.5px solid var(--ink);
+  background: var(--cream); color: var(--ink); width: 100%;
+}
+.candy-field::placeholder { color: var(--ink-soft); }
+.candy-field:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--soda); }
+textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical; }
+.candy-field.has-error { box-shadow: 0 0 0 3px #E8794A; }
+
+/* accordion */
+.candy-accordion {
+  border: 2.5px solid var(--ink); border-radius: 22px; background: var(--cream);
+  box-shadow: var(--shadow-candy); overflow: hidden;
+}
+.candy-accordion + .candy-accordion { margin-top: 14px; }
+.candy-accordion > summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 20px 22px; font-family: var(--body); font-weight: 800; font-size: 18px;
+}
+.candy-accordion > summary::-webkit-details-marker { display: none; }
+.candy-accordion .acc-plus {
+  flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--bubblegum); color: var(--ink); border: 2.5px solid var(--ink); font-size: 20px;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.candy-accordion[open] .acc-plus { transform: rotate(135deg); }
+.candy-accordion .acc-body { padding: 0 22px 22px; font-weight: 600; color: var(--ink-soft); line-height: 1.6; }
+
+/* cart line item */
+.candy-line {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--cream); border: 2.5px solid var(--ink); border-radius: 22px;
+  padding: 14px; box-shadow: var(--shadow-candy);
+}
+.candy-line + .candy-line { margin-top: 14px; }
+.candy-line-img { position: relative; flex: none; width: 84px; aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; border: 2px solid var(--ink); }
+.candy-line-img img { object-fit: cover; }
+.candy-step-btn {
+  width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center;
+  background: var(--cotton); color: var(--ink); border: 2.5px solid var(--ink); font-size: 18px; line-height: 1;
+  transition: background-color .2s ease, transform .12s ease;
+}
+.candy-step-btn:hover { background: var(--lemon); }
+.candy-step-btn:active { transform: scale(.9); }
+
+/* filter / sort chips */
+.candy-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--body); font-weight: 800; font-size: 13px;
+  padding: 9px 16px; border-radius: 999px; color: var(--ink);
+  background: var(--cream); border: 2.5px solid var(--ink); cursor: pointer;
+  transition: background-color .2s ease, transform .12s ease;
+}
+.candy-chip:hover { transform: translateY(-1px); background: var(--lemon); }
+.candy-chip.is-active { background: var(--bubblegum); }
+
+/* prose (articles, policies) */
+.candy-prose { font-family: var(--body); font-weight: 500; font-size: 17px; line-height: 1.75; color: var(--ink); max-width: 720px; }
+.candy-prose h1, .candy-prose h2, .candy-prose h3 { font-family: var(--display); font-weight: 400; color: var(--ink); line-height: 1.1; }
+.candy-prose h1 { font-size: 38px; margin: 0 0 16px; }
+.candy-prose h2 { font-size: 28px; margin: 36px 0 12px; }
+.candy-prose h3 { font-size: 22px; margin: 28px 0 10px; }
+.candy-prose p { margin: 0 0 18px; }
+.candy-prose a { color: var(--soda); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.candy-prose ul, .candy-prose ol { margin: 0 0 18px; padding-left: 24px; }
+.candy-prose li { margin-bottom: 8px; }
+.candy-prose blockquote {
+  border-left: 4px solid var(--bubblegum); margin: 24px 0; padding: 6px 0 6px 20px;
+  font-family: var(--display); font-style: italic; font-size: 22px; color: var(--ink);
+}
+.candy-prose img { border-radius: 18px; border: 2.5px solid var(--ink); margin: 24px 0; }
+
+/* empty state */
+.candy-empty { text-align: center; padding: clamp(48px, 9vw, 96px) 20px; }
+.candy-empty .emoji { font-size: 64px; line-height: 1; }
+.candy-empty h2 { font-size: clamp(28px, 5vw, 44px); margin-top: 18px; }
+.candy-empty p { font-size: 16px; font-weight: 600; color: var(--ink-soft); margin-top: 10px; }
+
+/* pagination */
+.candy-pager { display: inline-flex; gap: 10px; align-items: center; }
+.candy-pager a, .candy-pager span {
+  display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 14px;
+  border-radius: 999px; border: 2.5px solid var(--ink); background: var(--cream);
+  font-family: var(--body); font-weight: 800; color: var(--ink);
+  transition: background-color .2s ease, transform .12s ease;
+}
+.candy-pager a:hover { background: var(--lemon); transform: translateY(-1px); }
+.candy-pager .is-current { background: var(--bubblegum); }
+
 /* ---- reduced motion: calm everything ---- */
 @media (prefers-reduced-motion: reduce) {
   .candy *,
