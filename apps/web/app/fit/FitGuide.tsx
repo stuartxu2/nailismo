@@ -118,11 +118,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
   return (
     <section className="sec">
       <div className="nail-container">
-        <div className="relative border border-hair bg-paper">
-          <span className="crosshair" style={{ left: -8, top: -8 }} />
-          <span className="crosshair" style={{ right: -8, top: -8 }} />
-          <span className="crosshair" style={{ left: -8, bottom: -8 }} />
-          <span className="crosshair" style={{ right: -8, bottom: -8 }} />
+        <div className="relative" style={{ border: "2.5px solid var(--ink)", background: "var(--cream)", borderRadius: 28, boxShadow: "var(--shadow-candy)", overflow: "hidden" }}>
 
           {/* phase stepper */}
           {step !== "start" && (
@@ -188,7 +184,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                       </li>
                     ))}
                   </ol>
-                  <button type="button" onClick={begin} className="btn-primary mt-9">
+                  <button type="button" onClick={begin} className="candy-btn mt-9">
                     {fingerMm && Object.keys(fingerMm).length > 0
                       ? "Resume Fitting"
                       : "Begin Fitting"}{" "}
@@ -225,14 +221,14 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                     <button
                       type="button"
                       onClick={() => setStep("measure")}
-                      className="btn-primary"
+                      className="candy-btn"
                     >
                       This Matches <span className="arrow">→</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep("start")}
-                      className="btn-ghost"
+                      className="candy-btn is-ghost"
                     >
                       Back
                     </button>
@@ -277,10 +273,10 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                     fingerLabel={currentFinger}
                   />
                   <div className="mt-9 flex items-center gap-3">
-                    <button type="button" onClick={back} className="btn-ghost">
+                    <button type="button" onClick={back} className="candy-btn is-ghost">
                       Back
                     </button>
-                    <button type="button" onClick={next} className="btn-primary">
+                    <button type="button" onClick={next} className="candy-btn">
                       {index >= FINGERS.length - 1 ? "See My Size Map" : "Next Nail"}{" "}
                       <span className="arrow">→</span>
                     </button>
