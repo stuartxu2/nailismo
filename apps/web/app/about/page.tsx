@@ -7,26 +7,14 @@ import { Footer } from "@/app/components/Footer";
 export const metadata: Metadata = {
   title: "About · Nailismo",
   description:
-    "Nailismo makes press-on manicures engineered for men's hands. Sharp, durable, built to finish the look — from tailoring to streetwear.",
+    "Nailismo makes press-on nails that are pure fun — bright, collectible sets that press on in minutes and remove clean. For anyone.",
   alternates: { canonical: "/about" },
 };
 
 const PILLARS = [
-  {
-    num: "01",
-    title: "Fit, first.",
-    body: "S–XL fit shaped to men's nail beds. Wider arch, deeper curve, longer free edge.",
-  },
-  {
-    num: "02",
-    title: "Finish, always.",
-    body: "Salon-grade gel layered with cat-eye, chrome, and matte tops. No chalky polymer feel.",
-  },
-  {
-    num: "03",
-    title: "Wear, on your terms.",
-    body: "Tabs for an evening. Liquid adhesive for a week. Remove without wrecking your beds.",
-  },
+  { num: "01", emoji: "💅", title: "Fit, first.", body: "S–XL sizing in every set — wider arch, deeper curve, real coverage so they sit right." },
+  { num: "02", emoji: "✨", title: "Finish, always.", body: "Salon-grade gel in gloss, chrome, sheer, and matte. No chalky press-on feel." },
+  { num: "03", emoji: "🍬", title: "Wear, your way.", body: "Tabs for a night, glue for a week. Pops off clean when you're done — no damage." },
 ];
 
 const SPECS = [
@@ -41,108 +29,56 @@ export default function AboutPage() {
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <span className="text-tetsu">About</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>About</span>
+        </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">N°00</span>
-                  <span className="cap">House Doctrine</span>
+        <div className="candy-pagehead">
+          <span className="candy-eyebrow">Our story</span>
+          <h1 style={{ marginTop: 10 }}>Press-ons, made fun</h1>
+          <p>Bright, collectible nail sets that press on in minutes and remove clean. No salon, no commitment — just joy you can wear. For anyone.</p>
+        </div>
+
+        <section style={{ marginTop: 48, display: "grid", gap: 28, gridTemplateColumns: "1fr" }} className="md:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <span className="candy-eyebrow">Origin</span>
+            <h2 style={{ fontSize: "clamp(30px,4vw,46px)", marginTop: 10 }}>Started because nails should be fun</h2>
+          </div>
+          <div className="candy-prose">
+            <p>Most press-ons take themselves a little too seriously — beige boxes, fussy rules, salon-coded everything. We wanted the opposite: a rack of bright flavors you grab on a whim.</p>
+            <p>So Nailismo is built around one feeling — instant, low-stakes fun. Pick a set, press it on in minutes, show it off all week, pop it off clean.</p>
+            <p>Every set ships with an S–XL size range, two adhesive options (tabs and liquid glue), and a finish that earns a second look across the room.</p>
+          </div>
+        </section>
+
+        <section style={{ marginTop: 56 }}>
+          <span className="candy-eyebrow" style={{ display: "block", marginBottom: 24 }}>Three pillars</span>
+          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+            {PILLARS.map((p) => (
+              <article key={p.num} className="candy-step">
+                <div style={{ fontSize: 38 }} aria-hidden>{p.emoji}</div>
+                <h3 style={{ fontSize: 26, marginTop: 14 }}>{p.title}</h3>
+                <p style={{ fontSize: 15, fontWeight: 600, color: "var(--ink-soft)", marginTop: 8 }}>{p.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section style={{ marginTop: 56 }}>
+          <div style={{ background: "var(--ink)", color: "var(--cotton)", borderRadius: 28, padding: "clamp(32px,5vw,56px)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 28 }} className="md:grid-cols-4">
+              {SPECS.map((s) => (
+                <div key={s.label}>
+                  <strong style={{ fontFamily: "var(--display)", fontSize: 44, lineHeight: 1, color: "var(--lemon)", display: "block" }}>{s.value}</strong>
+                  <span style={{ fontWeight: 700, fontSize: 13, color: "rgba(230,213,235,0.7)", marginTop: 6, display: "block" }}>{s.label}</span>
                 </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(48px,7vw,108px)]">
-                  Press-ons,
-                  <br />
-                  <span className="italic font-serif font-light">re-engineered</span>
-                  <span className="text-akane">.</span>
-                </h1>
-              </div>
-              <div className="col-span-12 md:col-span-4">
-                <p className="text-rikyu max-w-[420px]">
-                  Built so a man can finish his look in five minutes — without a
-                  salon, without explanation, without compromise.
-                </p>
-              </div>
+              ))}
             </div>
-          </div>
-        </section>
-
-        <section className="sec pt-16 md:pt-24">
-          <div className="nail-container grid grid-cols-12 gap-10">
-            <div className="col-span-12 md:col-span-5">
-              <span className="cap mb-4 block">Origin</span>
-              <h2 className="font-display text-[32px] md:text-[40px] leading-[1.05]">
-                Started because <span className="italic font-serif">nothing fit</span>.
-              </h2>
-            </div>
-            <div className="col-span-12 md:col-span-7 text-[16px] text-rikyu leading-[1.7] space-y-4 max-w-[640px]">
-              <p>
-                Off-the-shelf press-ons are sized for women. Narrower beds,
-                shorter free edges, finishes that read soft. When men wanted
-                the look, the options were salon gel (expensive, fragile) or
-                nothing.
-              </p>
-              <p>
-                Nailismo started with a single goal: build a press-on system
-                that fits a man&apos;s hand, holds up to a week of real wear,
-                and finishes a fit the way a good watch or a tailored cuff does.
-              </p>
-              <p>
-                Every set ships with an S–XL size range, two adhesive options
-                (sticky tabs and liquid glue), and a finish that earns a second
-                look across a room.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="sec pt-0">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-12">
-              <span className="cap mb-8 block">Three Pillars</span>
-              <div className="grid grid-cols-12 gap-6">
-                {PILLARS.map((p) => (
-                  <article
-                    key={p.num}
-                    className="col-span-12 md:col-span-4 border border-hair p-8 bg-paper relative"
-                  >
-                    <span className="corner-mark top-4 right-4">{p.num}</span>
-                    <h3 className="font-display text-[26px] leading-[1.1] mt-6">
-                      {p.title}
-                    </h3>
-                    <p className="mt-4 text-rikyu text-[15px] leading-[1.65]">
-                      {p.body}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="sec pt-0">
-          <div className="nail-container">
-            <div className="bg-tetsu text-paper p-12 md:p-16 relative overflow-hidden">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {SPECS.map((s) => (
-                  <div key={s.label} className="spec spec-dark">
-                    <strong>{s.value}</strong>
-                    <span className="cap cap-dark mt-2 block">{s.label}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-                <span className="cap cap-dark">Built for men&apos;s hands · since 2024</span>
-                <Link href="/shop" className="btn-on-dark">
-                  Open The Index <span className="arrow">→</span>
-                </Link>
-              </div>
+            <div style={{ marginTop: 36, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+              <span style={{ fontWeight: 700, color: "rgba(230,213,235,0.7)" }}>Fun nails for everyone · since 2024</span>
+              <Link href="/shop" className="candy-btn">Shop the rack <span className="pop" aria-hidden>🍬</span></Link>
             </div>
           </div>
         </section>
