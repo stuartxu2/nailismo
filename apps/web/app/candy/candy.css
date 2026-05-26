@@ -240,7 +240,16 @@
 
 /* nav: hidden on small, inline-flex from md */
 .candy-nav { display: none; }
-@media (min-width: 880px) { .candy-nav { display: flex; } }
+@media (min-width: 768px) { .candy-nav { display: flex; } }
+
+/* round icon button (header search/account) */
+.candy-iconbtn {
+  width: 42px; height: 42px; border-radius: 50%; display: inline-grid; place-items: center;
+  background: var(--cream); color: var(--ink); border: 2.5px solid var(--ink);
+  transition: background-color .2s ease, transform .12s ease;
+}
+.candy-iconbtn:hover { background: var(--lemon); transform: translateY(-1px); }
+.candy-iconbtn:active { transform: scale(.92); }
 
 /* hero: single column on mobile, two columns from md */
 @media (min-width: 880px) {

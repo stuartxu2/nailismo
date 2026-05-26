@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -12,7 +13,7 @@ const navLinks = [
   { href: "/about", label: "About" },
 ];
 
-export function MobileMenu() {
+export function MobileMenu({ count = 0 }: { count?: number }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -41,82 +42,76 @@ export function MobileMenu() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] border border-hair"
+        className="candy-iconbtn md:hidden"
+        style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4 }}
         aria-label="Open menu"
         aria-expanded={open}
         aria-controls="mobile-menu"
       >
-        <span className="block w-4 h-px bg-tetsu" />
-        <span className="block w-4 h-px bg-tetsu" />
-        <span className="block w-4 h-px bg-tetsu" />
+        <span style={{ width: 16, height: 2.5, borderRadius: 2, background: "var(--ink)" }} />
+        <span style={{ width: 16, height: 2.5, borderRadius: 2, background: "var(--ink)" }} />
+        <span style={{ width: 16, height: 2.5, borderRadius: 2, background: "var(--ink)" }} />
       </button>
 
       {mounted &&
         createPortal(
           <div
             id="mobile-menu"
-            className="fixed inset-0 z-[60] bg-paper flex-col"
-            style={{ display: open ? "flex" : "none" }}
+            className="candy"
+            style={{ position: "fixed", inset: 0, zIndex: 60, display: open ? "flex" : "none", flexDirection: "column" }}
             role="dialog"
             aria-modal="true"
           >
-        <div className="flex items-center justify-between h-[72px] px-5 border-b border-hair">
-          <img src="/images/logo/01.avif" alt="Nailismo" className="h-9 logo-natural" />
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="w-9 h-9 flex items-center justify-center border border-hair"
-            aria-label="Close menu"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#281A14" strokeWidth="1.4">
-              <line x1="1" y1="1" x2="13" y2="13" />
-              <line x1="13" y1="1" x2="1" y2="13" />
-            </svg>
-          </button>
-        </div>
-        <nav className="flex-1 overflow-y-auto px-5 py-8">
-          <span className="cap">Browse</span>
-          <ul className="mt-5 space-y-1 font-display">
-            {navLinks.map((link, i) => (
-              <li key={i}>
-                <a
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 border-b border-hair text-[28px] leading-[1.1] tracking-display"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <div className="candy-wrap flex items-center justify-between h-[70px]" style={{ borderBottom: "2px solid var(--marshmallow)" }}>
+              <Link href="/" className="candy-logo" onClick={() => setOpen(false)}>
+                nail<b>ismo</b>
+              </Link>
+              <button type="button" onClick={() => setOpen(false)} className="candy-iconbtn" aria-label="Close menu">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="1" y1="1" x2="13" y2="13" />
+                  <line x1="13" y1="1" x2="1" y2="13" />
+                </svg>
+              </button>
+            </div>
 
-          <div className="mt-10">
-            <span className="cap">Account</span>
-            <ul className="mt-4 space-y-3 text-[14px] tracking-[0.18em] uppercase font-medium">
-              <li>
-                <a href="#" onClick={() => setOpen(false)} className="ulink">
-                  Sign In
-                </a>
-              </li>
-              <li>
-                <a href="#" onClick={() => setOpen(false)} className="ulink">
-                  Cart · <span className="font-mono">0</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+            <nav className="candy-wrap" style={{ flex: 1, overflowY: "auto", paddingTop: 28, paddingBottom: 28 }}>
+              <span className="candy-eyebrow">Browse</span>
+              <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0" }}>
+                {navLinks.map((link, i) => (
+                  <li key={i}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      style={{
+                        display: "block",
+                        fontFamily: "var(--display)",
+                        fontSize: 34,
+                        lineHeight: 1.15,
+                        padding: "12px 0",
+                        borderBottom: "2px solid var(--marshmallow)",
+                      }}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
 
-          <div className="mt-10 pt-6 border-t border-hair">
-            <a
-              href="#starter-gateway"
-              onClick={() => setOpen(false)}
-              className="btn-primary w-full justify-center"
-            >
-              Shop Starter Sets <span className="arrow">→</span>
-            </a>
-            <p className="mt-4 text-[12px] text-rikyu">S–XL fit · tabs + liquid · no salon required</p>
-          </div>
-        </nav>
+              <div style={{ marginTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <Link href="/account" onClick={() => setOpen(false)} className="candy-chip">Account</Link>
+                <Link href="/search" onClick={() => setOpen(false)} className="candy-chip">Search</Link>
+                <Link href="/cart" onClick={() => setOpen(false)} className="candy-chip">Cart · {count}</Link>
+              </div>
+
+              <div style={{ marginTop: 32 }}>
+                <Link href="/shop" onClick={() => setOpen(false)} className="candy-btn" style={{ width: "100%" }}>
+                  Shop Sets <span className="pop" aria-hidden>🍬</span>
+                </Link>
+                <p style={{ marginTop: 14, fontSize: 13, fontWeight: 600, color: "var(--ink-soft)" }}>
+                  S–XL fit · ready in minutes · clean removal
+                </p>
+              </div>
+            </nav>
           </div>,
           document.body,
         )}
