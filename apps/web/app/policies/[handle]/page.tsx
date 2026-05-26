@@ -188,72 +188,39 @@ export default async function PolicyPage({
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <Link href="/policies/shipping" className="ulink">Policies</Link>
-              <span>/</span>
-              <span className="text-tetsu">{policy.title}</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <Link href="/policies/shipping" className="candy-crumb">Policies</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>{policy.title}</span>
+        </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">Policy</span>
-                  <span className="cap">{policy.handle}</span>
-                </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(40px,6vw,88px)]">
-                  {policy.title}
-                  <span className="text-akane">.</span>
-                </h1>
-              </div>
-              <div className="col-span-12 md:col-span-4">
-                <p className="text-rikyu max-w-[420px]">
-                  Plain-language policy text, kept in sync with our Shopify store.
-                  Questions? <Link href="/contact" className="ulink text-tetsu">Get in touch</Link>.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="candy-pagehead">
+          <span className="candy-eyebrow">Policy</span>
+          <h1 style={{ marginTop: 10 }}>{policy.title}</h1>
+          <p>Plain-language policy, kept in sync with our store. Questions? <Link href="/contact" style={{ color: "var(--soda)", textDecoration: "underline", textUnderlineOffset: 3 }}>Get in touch</Link>.</p>
+        </div>
 
-        <section className="sec pt-12 md:pt-16">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-12 grid grid-cols-12 gap-10">
-              <aside className="col-span-12 md:col-span-3">
-                <span className="cap mb-4 block">Index</span>
-                <ul className="space-y-2 text-[14px]">
-                  {POLICY_INDEX.map((p) => {
-                    const active = p.slug === handle || (handle === "privacy-policy" && p.slug === "privacy");
-                    return (
-                      <li key={p.slug}>
-                        <Link
-                          href={`/policies/${p.slug}`}
-                          className={`ulink ${active ? "text-akane" : "text-tetsu"}`}
-                        >
-                          {p.label}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </aside>
-              <article className="col-span-12 md:col-span-9">
-                <div
-                  className="text-[16px] text-tetsu leading-[1.75] max-w-[720px] [&_h1]:font-display [&_h1]:text-[28px] [&_h1]:mt-10 [&_h1]:mb-4 [&_h2]:font-display [&_h2]:text-[22px] [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-[18px] [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_a]:underline [&_a:hover]:text-akane [&_strong]:font-semibold"
-                  dangerouslySetInnerHTML={{ __html: policy.body }}
-                />
-                <div className="mt-12 pt-6 border-t border-hair flex items-center justify-between flex-wrap gap-3">
-                  <span className="cap">Source · Shopify store policies</span>
-                  <Link href="/contact" className="ulink cap">Questions →</Link>
-                </div>
-              </article>
+        <div className="grid grid-cols-12 gap-8 md:gap-10" style={{ marginTop: 40 }}>
+          <aside className="col-span-12 md:col-span-3">
+            <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Index</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {POLICY_INDEX.map((p) => {
+                const active = p.slug === handle || (handle === "privacy-policy" && p.slug === "privacy");
+                return (
+                  <Link key={p.slug} href={`/policies/${p.slug}`} className={`candy-chip ${active ? "is-active" : ""}`}>{p.label}</Link>
+                );
+              })}
             </div>
-          </div>
-        </section>
+          </aside>
+          <article className="col-span-12 md:col-span-9">
+            <div className="candy-prose" dangerouslySetInnerHTML={{ __html: policy.body }} />
+            <div style={{ marginTop: 40, paddingTop: 24, borderTop: "2px solid var(--marshmallow)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+              <span className="candy-eyebrow">Synced from store policies</span>
+              <Link href="/contact" className="candy-btn is-ghost" style={{ padding: "10px 18px", fontSize: 14 }}>Questions</Link>
+            </div>
+          </article>
+        </div>
       </main>
       <Footer />
     </>
