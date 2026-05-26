@@ -17,77 +17,44 @@ export default function LookbookIndexPage() {
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <span className="text-tetsu">Lookbook</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>Lookbook</span>
+        </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-7">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">N°00</span>
-                  <span className="cap">Fit Check Archive</span>
+        <div className="candy-pagehead">
+          <span className="candy-eyebrow">Style it up</span>
+          <h1 style={{ marginTop: 10 }}>The lookbook</h1>
+          <p>Real hands, real fits. Each look maps to one set — find your vibe. <strong>{LOOKS.length}</strong> looks.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ marginTop: 40 }}>
+          {LOOKS.map((l) => (
+            <Link
+              key={l.handle}
+              href={`/lookbook/${l.handle}`}
+              className="look-card block"
+              style={{ position: "relative", aspectRatio: "4/5", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={l.src} alt={l.alt} />
+              <div
+                className="look-overlay absolute inset-0 flex flex-col justify-between p-7"
+                style={{ background: "linear-gradient(to top, rgba(39,16,40,0.92) 0%, rgba(39,16,40,0.5) 45%, rgba(39,16,40,0.2) 100%)" }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="candy-sticker is-gum">{l.num}</span>
                 </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(48px,7vw,108px)]">
-                  The
-                  <br />
-                  <span className="italic font-serif font-light">lookbook</span>
-                  <span className="text-akane">.</span>
-                </h1>
+                <div>
+                  <h2 style={{ fontFamily: "var(--display)", fontSize: "clamp(32px,4vw,52px)", lineHeight: 0.98, color: "var(--cotton)" }}>{l.title}</h2>
+                  <p style={{ marginTop: 8, fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.9)", maxWidth: 360 }}>{l.desc}</p>
+                  <span className="candy-chip" style={{ marginTop: 16 }}>Read look →</span>
+                </div>
               </div>
-              <div className="col-span-12 md:col-span-5">
-                <p className="text-rikyu max-w-[420px]">
-                  Four anchors. Same hands, different rooms. Each look maps to
-                  one set — pick the one your week needs.
-                </p>
-                <div className="mt-6 cap">{LOOKS.length} looks</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="sec pt-12 md:pt-16">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-12 grid grid-cols-12 gap-0">
-              {LOOKS.map((l) => (
-                <Link
-                  key={l.handle}
-                  href={`/lookbook/${l.handle}`}
-                  className={`look-card col-span-12 md:col-span-6 aspect-[4/5] block ${l.borderClasses}`}
-                >
-                  <img src={l.src} alt={l.alt} />
-                  <div
-                    className="look-overlay absolute inset-0 flex flex-col justify-between p-8"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(40,26,20,0.92) 0%, rgba(40,26,20,0.55) 45%, rgba(40,26,20,0.25) 100%)",
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className={l.tapeClass}>{l.num}</span>
-                      <span className="cap cap-dark">{l.title}</span>
-                    </div>
-                    <div>
-                      <h2 className="font-display text-[clamp(34px,4vw,56px)] leading-[0.95] tracking-display text-paper">
-                        {l.title}
-                      </h2>
-                      <p className="mt-2 text-[13px] text-[rgba(245,245,245,0.85)] max-w-[360px]">
-                        {l.desc}
-                      </p>
-                      <span className="mt-5 inline-block text-[12px] uppercase tracking-[0.18em] font-medium ulink text-paper">
-                        Read look →
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+            </Link>
+          ))}
+        </div>
       </main>
       <Footer />
     </>
