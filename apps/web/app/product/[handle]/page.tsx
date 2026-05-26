@@ -91,8 +91,47 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         ? [{ url: product.featuredImage.url, altText: product.featuredImage.altText, width: null, height: null }]
         : [];
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
+  const productUrl = `${siteUrl}/product/${product.handle}`;
+  const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      description: product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 5000),
+      image: images.map((i) => i.url),
+      brand: { "@type": "Brand", name: product.vendor || "Nailismo" },
+      offers: {
+        "@type": "Offer",
+        price: Number(price.amount).toFixed(2),
+        priceCurrency: price.currencyCode,
+        availability: product.availableForSale
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        url: productUrl,
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Shop", item: `${siteUrl}/shop` },
+        { "@type": "ListItem", position: 3, name: product.title, item: productUrl },
+      ],
+    },
+  ];
+
   return (
     <>
+      {jsonLd.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <AnnouncementTicker />
       <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 28 }}>
@@ -149,6 +188,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </main>
       <Footer />
+      {/* clearance so the mobile sticky Add-to-Bag bar never covers the footer */}
+      <div aria-hidden className="md:hidden" style={{ height: 84 }} />
     </>
   );
 }
