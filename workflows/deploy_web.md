@@ -33,7 +33,11 @@ NEXT_PUBLIC_SITE_URL          # canonical origin, used for JSON-LD + sitemap
    - [ ] LCP ≤ 2.0s (4G), CLS ≤ 0.05
    - [ ] Route-level JS ≤ 90 KB gzipped on marketing routes
 4. Confirm structured data on a PDP via Google Rich Results Test (Product + BreadcrumbList).
-5. (When available) run the Playwright E2E critical path against the preview URL: browse → PDP → add → checkout redirect.
+5. Run the Playwright E2E critical path against the preview URL (browse → PDP → add → checkout redirect):
+   ```
+   cd apps/web && npm run e2e:install   # first time only (chromium)
+   PLAYWRIGHT_BASE_URL=<preview-url> npm run e2e
+   ```
 
 ## Step 2 — Merge to `main`
 - Only after Step 1 checks pass and the PR is approved.
