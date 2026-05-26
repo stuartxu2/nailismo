@@ -1,0 +1,270 @@
+/* ============================================================
+   NAILISMO — Candy theme (warm caramel cast, Ekster display)
+   Scoped under .candy so it never leaks into the rest of the site.
+   Variable NAMES kept stable on purpose; only hex values changed.
+   ============================================================ */
+
+.candy {
+  /* uploaded scheme — plum / lilac / lime / slate */
+  --cotton:      #E6D5EB; /* page bg — soft lilac */
+  --cream:       #FFFFFF; /* card surface */
+  --bubblegum:   #9FED40; /* PRIMARY pop — lime */
+  --bubblegum-d: #6FBF1F; /* pressed / accent lime */
+  --soda:        #60779F; /* slate blue accent */
+  --lemon:       #9FED40; /* bright pop — lime */
+  --spearmint:   #9FED40; /* fresh pop — lime */
+  --grape:       #60779F; /* secondary accent — slate */
+  --ink:         #271028; /* dark plum — text */
+  --ink-soft:    #6E5E72; /* muted plum-gray */
+  --marshmallow: #C9B6D2; /* lilac borders */
+
+  --display: var(--font-ekster), Georgia, serif;
+  --body:    var(--font-nunito), system-ui, sans-serif;
+
+  /* warm candy-tinted layered shadows */
+  --shadow-candy:
+    0 2px 0 rgba(39,16,40,0.06),
+    0 18px 30px -16px rgba(96,119,159,0.40),
+    0 8px 16px -10px rgba(39,16,40,0.18);
+  --shadow-pop:
+    0 2px 0 rgba(39,16,40,0.07),
+    0 28px 50px -22px rgba(96,119,159,0.50),
+    0 10px 20px -12px rgba(39,16,40,0.22);
+
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--cotton);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.candy ::selection { background: var(--lemon); color: var(--ink); }
+
+.candy h1, .candy h2, .candy h3, .candy h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  margin: 0;
+}
+.candy p { line-height: 1.6; margin: 0; }
+.candy a { color: inherit; text-decoration: none; }
+
+.candy-wrap { max-width: 1280px; margin: 0 auto; padding-inline: clamp(18px, 4vw, 56px); }
+.candy-sec  { padding-block: clamp(64px, 9vw, 128px); }
+
+/* ---- atmosphere: soft candy blobs ---- */
+.candy-blob {
+  position: absolute; border-radius: 50%; filter: blur(36px);
+  opacity: 0.55; pointer-events: none; z-index: 0;
+  animation: blob-float 14s ease-in-out infinite;
+}
+@keyframes blob-float {
+  0%,100% { transform: translate3d(0,0,0) scale(1); }
+  50%     { transform: translate3d(0,-26px,0) scale(1.06); }
+}
+
+/* ---- eyebrow ---- */
+.candy-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--body); font-weight: 800;
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bubblegum-d);
+}
+.candy-eyebrow::before { content: "✦"; color: var(--grape); }
+
+/* ---- sticker badge ---- */
+.candy-sticker {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--body); font-weight: 800;
+  font-size: 12px; letter-spacing: 0.02em;
+  padding: 6px 13px; border-radius: 999px;
+  color: var(--ink); background: var(--lemon);
+  border: 2px solid var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  transform: rotate(-4deg);
+}
+.candy-sticker.is-mint  { background: var(--spearmint); }
+.candy-sticker.is-soda  { background: var(--soda); }
+.candy-sticker.is-gum   { background: var(--bubblegum); color: var(--ink); }
+
+/* ---- buttons ---- */
+.candy-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--body); font-weight: 800;
+  font-size: 16px; letter-spacing: 0.01em;
+  padding: 16px 28px; border-radius: 999px;
+  border: 2.5px solid var(--ink);
+  background: var(--bubblegum); color: var(--ink);
+  box-shadow: 0 5px 0 var(--ink);
+  cursor: pointer;
+  transition: transform .12s cubic-bezier(.34,1.56,.64,1), box-shadow .12s ease, background-color .2s ease;
+}
+.candy-btn:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); background: var(--bubblegum-d); }
+.candy-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+.candy-btn .pop { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.candy-btn:hover .pop { transform: rotate(20deg) scale(1.15); }
+
+.candy-btn.is-ghost { background: var(--cream); color: var(--ink); }
+.candy-btn.is-ghost:hover { background: var(--lemon); }
+.candy-btn.is-soda  { background: var(--soda); color: var(--ink); }
+.candy-btn.is-soda:hover  { background: #4ED2F5; }
+
+/* ---- header ---- */
+.candy-head {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,240,246,0.82);
+  backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 2px solid var(--marshmallow);
+}
+.candy-logo {
+  font-family: var(--body); font-weight: 800; font-size: 25px;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.candy-logo b { color: var(--bubblegum-d); }
+.candy-nav a {
+  font-family: var(--body); font-weight: 800; font-size: 15px;
+  padding: 8px 14px; border-radius: 999px; color: var(--ink);
+  transition: background-color .2s ease, color .2s ease, transform .12s ease;
+}
+.candy-nav a:hover { background: var(--lemon); transform: translateY(-1px); }
+
+/* ---- marquee ---- */
+.candy-marquee { overflow: hidden; }
+.candy-marquee-track {
+  display: inline-flex; white-space: nowrap; will-change: transform;
+  animation: marquee 26s linear infinite;
+}
+.candy-marquee-track span { font-family: var(--body); font-weight: 800; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---- floating hero nails ---- */
+.candy-float { animation: hero-float 6s ease-in-out infinite; }
+.candy-float.d1 { animation-delay: -1.5s; }
+.candy-float.d2 { animation-delay: -3s; }
+.candy-float.d3 { animation-delay: -4.5s; }
+@keyframes hero-float {
+  0%,100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%     { transform: translateY(-16px) rotate(var(--rot, 0deg)); }
+}
+
+/* ---- product card (candy tile) ---- */
+.candy-card {
+  position: relative; display: flex; flex-direction: column;
+  border-radius: 28px; padding: 14px; background: var(--cream);
+  border: 2.5px solid var(--ink);
+  box-shadow: var(--shadow-candy);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
+}
+.candy-card:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: var(--shadow-pop); }
+.candy-card-img {
+  position: relative; aspect-ratio: 4/5; border-radius: 18px; overflow: hidden;
+  border: 2px solid var(--ink);
+}
+.candy-card-img img { object-fit: cover; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.candy-card:hover .candy-card-img img { transform: scale(1.06); }
+.candy-swatch { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--ink); display: inline-block; }
+.candy-quickadd {
+  width: 44px; height: 44px; flex: none; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--bubblegum); color: var(--ink); border: 2.5px solid var(--ink);
+  box-shadow: 0 3px 0 var(--ink); font-size: 22px; line-height: 1;
+  transition: transform .12s cubic-bezier(.34,1.56,.64,1), background-color .2s ease;
+}
+.candy-quickadd:hover  { background: var(--grape); transform: rotate(90deg); }
+.candy-quickadd:active { transform: scale(.9); box-shadow: 0 1px 0 var(--ink); }
+
+/* ---- color blob picker ---- */
+.candy-colorblob {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.candy-colorblob .dot {
+  width: clamp(72px, 12vw, 116px); aspect-ratio: 1; border-radius: 50%;
+  border: 3px solid var(--ink); box-shadow: 0 6px 0 var(--ink);
+  transition: transform .16s cubic-bezier(.34,1.56,.64,1), box-shadow .16s ease;
+}
+.candy-colorblob:hover .dot { transform: translateY(-4px) scale(1.04); box-shadow: 0 9px 0 var(--ink); }
+.candy-colorblob:active .dot { transform: translateY(4px); box-shadow: 0 2px 0 var(--ink); }
+.candy-colorblob .lbl { font-family: var(--body); font-weight: 800; font-size: 15px; }
+
+/* ---- step card ---- */
+.candy-step {
+  position: relative; background: var(--cream); border: 2.5px solid var(--ink);
+  border-radius: 26px; padding: 30px 26px; box-shadow: var(--shadow-candy);
+}
+.candy-step .num {
+  font-family: var(--body); font-weight: 800; font-size: 22px;
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--ink); border: 2.5px solid var(--ink); box-shadow: 0 4px 0 var(--ink);
+}
+
+/* ---- review bubble ---- */
+.candy-review {
+  background: var(--cream); border: 2.5px solid var(--ink); border-radius: 24px;
+  padding: 24px; box-shadow: var(--shadow-candy); position: relative;
+}
+.candy-stars { color: var(--lemon); -webkit-text-stroke: 1.4px var(--ink); font-size: 18px; letter-spacing: 2px; }
+
+/* ---- newsletter input ---- */
+.candy-input {
+  font-family: var(--body); font-weight: 600; font-size: 16px;
+  padding: 15px 20px; border-radius: 999px; border: 2.5px solid var(--ink);
+  background: var(--cream); color: var(--ink); width: 100%;
+}
+.candy-input::placeholder { color: var(--ink-soft); }
+.candy-input:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--soda); }
+
+/* ---- focus ring everywhere ---- */
+.candy a:focus-visible,
+.candy button:focus-visible,
+.candy input:focus-visible {
+  outline: 3px solid var(--grape); outline-offset: 3px; border-radius: 6px;
+}
+
+/* ---- entrance ---- */
+.candy-rise { animation: candy-rise .8s cubic-bezier(.22,1,.36,1) both; }
+@keyframes candy-rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+.candy-d1 { animation-delay: .06s; }
+.candy-d2 { animation-delay: .14s; }
+.candy-d3 { animation-delay: .22s; }
+.candy-d4 { animation-delay: .30s; }
+
+/* ---- layout grids ---- */
+.candy-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 720px)  { .candy-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .candy-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* nav: hidden on small, inline-flex from md */
+.candy-nav { display: none; }
+@media (min-width: 880px) { .candy-nav { display: flex; } }
+
+/* hero: single column on mobile, two columns from md */
+@media (min-width: 880px) {
+  .candy-hero-grid { grid-template-columns: 1.05fr 0.95fr !important; }
+}
+.candy-hero-art { min-height: 320px; }
+@media (max-width: 879px) { .candy-hero-art { min-height: 420px; margin-top: 8px; } }
+
+/* best-seller rack: horizontal scroll-snap */
+.candy-rack {
+  display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 6px clamp(18px, 4vw, 56px) 14px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.candy-rack::-webkit-scrollbar { display: none; }
+.candy-rack-item { flex: 0 0 auto; width: 250px; scroll-snap-align: start; }
+
+/* ---- reduced motion: calm everything ---- */
+@media (prefers-reduced-motion: reduce) {
+  .candy *,
+  .candy *::before,
+  .candy *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,401 @@
+import Image from "next/image";
+import Link from "next/link";
+import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
+import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
+import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
+
+/* ---------- types & data ---------- */
+
+type Flavor = {
+  name: string;
+  shape: string;
+  finish: string;
+  price: string;
+  image: string;
+  href: string;
+  swatches: string[];
+  sticker?: { label: string; tone: "" | "is-mint" | "is-soda" | "is-gum" };
+};
+
+const FALLBACK: Flavor[] = [
+  { name: "Bubblegum Pop", shape: "Almond", finish: "Gloss", price: "$18", image: "/images/listing/pink and silver press on nails.avif", href: "/shop", swatches: ["#9FED40", "#60779F"], sticker: { label: "New flavor", tone: "is-gum" } },
+  { name: "Cotton Candy", shape: "Oval", finish: "Sheer", price: "$16", image: "/images/listing/pale pinkish and silver press on nails.avif", href: "/shop", swatches: ["#E6D5EB", "#9B7BB0"] },
+  { name: "Cherry Cola", shape: "Almond", finish: "Gloss", price: "$20", image: "/images/listing/cat eye gel red press on nails.avif", href: "/shop", swatches: ["#60779F", "#271028"], sticker: { label: "Fan fave", tone: "" } },
+  { name: "Soda Pop", shape: "Short Square", finish: "Chrome", price: "$22", image: "/images/listing/silver press on nails.avif", href: "/shop", swatches: ["#60779F", "#C9B6D2"], sticker: { label: "New flavor", tone: "is-soda" } },
+  { name: "Lemon Drop", shape: "Oval", finish: "Gloss", price: "$18", image: "/images/listing/amber and gold press on nails.avif", href: "/shop", swatches: ["#9FED40", "#6FBF1F"], sticker: { label: "Almost gone", tone: "is-mint" } },
+  { name: "Midnight Licorice", shape: "Short Square", finish: "Matte", price: "$19", image: "/images/listing/cat eye black press on nails.avif", href: "/shop", swatches: ["#271028", "#60779F"] },
+  { name: "Autumn Caramel", shape: "Almond", finish: "Gloss", price: "$18", image: "/images/listing/autumn retro press on nails.avif", href: "/shop", swatches: ["#6FBF1F", "#9FED40"] },
+  { name: "Tuxedo Mint", shape: "Square", finish: "Gloss", price: "$17", image: "/images/listing/black and white press on nails.avif", href: "/shop", swatches: ["#271028", "#9FED40"] },
+];
+
+const SWATCH_CYCLE = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
+
+function money(p: ShopifyProduct): string {
+  const m = p.priceRange.minVariantPrice;
+  const n = Number(m.amount);
+  return Number.isFinite(n) ? `$${n.toFixed(n % 1 === 0 ? 0 : 2)}` : m.amount;
+}
+
+function toFlavor(p: ShopifyProduct, i: number): Flavor {
+  return {
+    name: p.title,
+    shape: p.productType || "Almond",
+    finish: p.tags[0] ?? "Gloss",
+    price: money(p),
+    image: p.featuredImage?.url ?? FALLBACK[i % FALLBACK.length].image,
+    href: `/product/${p.handle}`,
+    swatches: [SWATCH_CYCLE[i % SWATCH_CYCLE.length], SWATCH_CYCLE[(i + 2) % SWATCH_CYCLE.length]],
+    sticker: i === 0 ? { label: "New flavor", tone: "is-gum" } : undefined,
+  };
+}
+
+async function getFlavors(): Promise<Flavor[]> {
+  try {
+    const data = await storefrontFetch<ProductsQueryResult>(PRODUCTS_QUERY, { first: 8 });
+    const nodes = data.products.nodes;
+    if (nodes.length) return nodes.map(toFlavor);
+  } catch (err) {
+    if (!(err instanceof ShopifyConfigError)) {
+      console.error("[candy] products fetch failed:", err);
+    }
+  }
+  return FALLBACK;
+}
+
+/* ---------- small pieces ---------- */
+
+function src(path: string): string {
+  return path.startsWith("http") ? path : encodeURI(path);
+}
+
+function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
+  return (
+    <Link href={f.href} className="candy-card" aria-label={`${f.name} — ${f.price}`}>
+      {f.sticker && (
+        <span className={`candy-sticker ${f.sticker.tone}`} style={{ position: "absolute", top: -10, left: 16, zIndex: 2 }}>
+          {f.sticker.label}
+        </span>
+      )}
+      <div className="candy-card-img">
+        <Image
+          src={src(f.image)}
+          alt={`${f.name} press-on nail set`}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+          priority={eager}
+        />
+      </div>
+      <div style={{ padding: "16px 6px 6px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+          <div>
+            <h3 style={{ fontSize: 20 }}>{f.name}</h3>
+            <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>
+              {f.shape} · {f.finish}
+            </p>
+          </div>
+          <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{f.price}</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
+          <span style={{ display: "inline-flex", gap: 6 }}>
+            {f.swatches.map((c, i) => (
+              <span key={i} className="candy-swatch" style={{ background: c }} />
+            ))}
+          </span>
+          <span className="candy-quickadd" aria-hidden>+</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+const NAV = ["New", "Shop All", "Shop by Color", "Best Sellers", "Fit Guide", "About"];
+
+const COLORS = [
+  { name: "Lime", c: "#9FED40" },
+  { name: "Slate", c: "#60779F" },
+  { name: "Lilac", c: "#E6D5EB" },
+  { name: "Orchid", c: "#9B7BB0" },
+  { name: "Steel", c: "#45597A" },
+  { name: "Plum", c: "#271028" },
+];
+
+const STEPS = [
+  { n: "1", t: "Match", d: "Use Find My Size for a perfect fit in 30 seconds. No salon, no guesswork.", emoji: "📏" },
+  { n: "2", t: "Press", d: "Peel, press, hold for ten seconds. A full set on in minutes, anywhere.", emoji: "💅" },
+  { n: "3", t: "Show off", d: "Wear them all week. When you're done, they pop off clean — no damage.", emoji: "✨" },
+];
+
+const REVIEWS = [
+  { q: "First time ever wearing press-ons and they stayed on a whole week. So fun!", n: "Riley P.", s: "Bubblegum Pop" },
+  { q: "Looks way more expensive than it is. Got compliments all day.", n: "Devon M.", s: "Soda Pop" },
+  { q: "The removal is actually easy?? Obsessed. Already reordering.", n: "Sam K.", s: "Cherry Cola" },
+];
+
+const PAYMENTS = ["Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Klarna"];
+
+/* ---------- page ---------- */
+
+export default async function CandyHome() {
+  const flavors = await getFlavors();
+  const newFlavors = flavors.slice(0, 8);
+  const bestSellers = [...flavors].slice(0, 6);
+
+  return (
+    <>
+      {/* ---- header ---- */}
+      <header className="candy-head">
+        <div className="candy-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
+          <Link href="/" className="candy-logo">nail<b>ismo</b></Link>
+          <nav className="candy-nav" style={{ gap: 4 }}>
+            {NAV.map((n) => (
+              <Link key={n} href="/shop">{n}</Link>
+            ))}
+          </nav>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <Link href="/shop" className="candy-btn is-soda" style={{ padding: "10px 18px", fontSize: 14 }}>
+              Cart <span className="pop" aria-hidden>🛍️</span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* ---- announcement marquee ---- */}
+      <div className="candy-marquee" style={{ background: "var(--ink)", color: "var(--lemon)", padding: "9px 0" }}>
+        <div className="candy-marquee-track">
+          {[0, 1].map((k) => (
+            <span key={k} style={{ paddingRight: 40, fontSize: 14, letterSpacing: "0.04em" }}>
+              FREE SHIPPING OVER $35 &nbsp;✦&nbsp; NEW FLAVORS EVERY WEEK &nbsp;✦&nbsp; READY IN MINUTES &nbsp;✦&nbsp; EASY CLEAN REMOVAL &nbsp;✦&nbsp; PRESS ON. SHOW OFF. &nbsp;✦&nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ---- hero ---- */}
+      <section style={{ position: "relative", overflow: "hidden" }}>
+        <div className="candy-blob" style={{ width: 360, height: 360, background: "var(--bubblegum)", top: -80, left: -60 }} />
+        <div className="candy-blob" style={{ width: 300, height: 300, background: "var(--soda)", top: 120, right: -40, animationDelay: "-4s" }} />
+        <div className="candy-blob" style={{ width: 240, height: 240, background: "var(--lemon)", bottom: -60, left: "38%", animationDelay: "-7s" }} />
+
+        <div className="candy-wrap" style={{ position: "relative", zIndex: 2, paddingBlock: "clamp(48px, 7vw, 96px)" }}>
+          <div style={{ display: "grid", gap: 40, gridTemplateColumns: "1fr", alignItems: "center" }} className="candy-hero-grid">
+            <div className="candy-rise">
+              <span className="candy-eyebrow">Press-on nails · pure fun</span>
+              <h1 style={{ fontSize: "clamp(52px, 9vw, 104px)", marginTop: 18 }}>
+                Press on.<br />
+                <span style={{ color: "var(--bubblegum-d)" }}>Show</span>{" "}
+                <span style={{ color: "var(--grape)" }}>off.</span>
+              </h1>
+              <p style={{ fontSize: "clamp(17px, 2.2vw, 21px)", fontWeight: 700, color: "var(--ink-soft)", maxWidth: 460, marginTop: 18 }}>
+                Bright, collectible nail sets ready in minutes. Easy to wear, easy to remove, impossible to resist.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 30 }}>
+                <Link href="/shop" className="candy-btn">Shop the Candy Rack <span className="pop" aria-hidden>🍬</span></Link>
+                <Link href="/fit" className="candy-btn is-ghost">Find My Size</Link>
+              </div>
+            </div>
+
+            <div style={{ position: "relative", minHeight: 360 }} className="candy-hero-art">
+              <div className="candy-float" style={{ ["--rot" as string]: "-6deg", position: "absolute", top: 0, left: "4%", width: "46%", maxWidth: 260 }}>
+                <HeroTile img="/images/listing/pink and silver press on nails.avif" alt="Bubblegum Pop set" border="var(--bubblegum)" />
+              </div>
+              <div className="candy-float d2" style={{ ["--rot" as string]: "5deg", position: "absolute", top: 70, right: "2%", width: "46%", maxWidth: 260 }}>
+                <HeroTile img="/images/listing/silver press on nails.avif" alt="Soda Pop set" border="var(--soda)" />
+              </div>
+              <div className="candy-float d3" style={{ ["--rot" as string]: "-3deg", position: "absolute", bottom: -10, left: "26%", width: "44%", maxWidth: 240 }}>
+                <HeroTile img="/images/listing/amber and gold press on nails.avif" alt="Lemon Drop set" border="var(--lemon)" />
+              </div>
+              <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 18, right: "30%", zIndex: 5, fontSize: 14 }}>
+                Ready in minutes!
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- flavor ticker ---- */}
+      <div className="candy-marquee" style={{ background: "var(--grape)", borderBlock: "2.5px solid var(--ink)", padding: "12px 0" }}>
+        <div className="candy-marquee-track" style={{ animationDuration: "32s" }}>
+          {[0, 1].map((k) => (
+            <span key={k} style={{ paddingRight: 0, fontSize: 22, color: "#fff" }}>
+              Bubblegum Pop&nbsp;·&nbsp;Mint Chip&nbsp;·&nbsp;Cotton Candy&nbsp;·&nbsp;Soda Pop&nbsp;·&nbsp;Lemon Drop&nbsp;·&nbsp;Grape Soda&nbsp;·&nbsp;Cherry Cola&nbsp;·&nbsp;Sugar Gloss&nbsp;·&nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ---- new flavors ---- */}
+      <section className="candy-sec">
+        <div className="candy-wrap">
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 36 }}>
+            <div>
+              <span className="candy-eyebrow">Fresh batch</span>
+              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>New flavors</h2>
+            </div>
+            <Link href="/shop" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>See all</Link>
+          </div>
+          <div className="candy-grid">
+            {newFlavors.map((f, i) => (
+              <FlavorCard key={f.name + i} f={f} eager={i < 4} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- shop by color ---- */}
+      <section className="candy-sec" style={{ background: "var(--cream)", borderBlock: "2.5px solid var(--ink)" }}>
+        <div className="candy-wrap" style={{ textAlign: "center" }}>
+          <span className="candy-eyebrow" style={{ justifyContent: "center" }}>Pick your flavor</span>
+          <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10, marginBottom: 44 }}>Shop by color</h2>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(20px, 4vw, 48px)", justifyContent: "center" }}>
+            {COLORS.map((col) => (
+              <Link key={col.name} href="/shop" className="candy-colorblob">
+                <span className="dot" style={{ background: col.c }} />
+                <span className="lbl">{col.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 3 steps ---- */}
+      <section className="candy-sec">
+        <div className="candy-wrap">
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <span className="candy-eyebrow" style={{ justifyContent: "center" }}>So easy it&apos;s silly</span>
+            <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Press on in 3 steps</h2>
+          </div>
+          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+            {STEPS.map((s) => (
+              <div key={s.n} className="candy-step">
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span className="num">{s.n}</span>
+                  <span style={{ fontSize: 38 }} aria-hidden>{s.emoji}</span>
+                </div>
+                <h3 style={{ fontSize: 26, marginTop: 20 }}>{s.t}</h3>
+                <p style={{ fontSize: 15, fontWeight: 600, color: "var(--ink-soft)", marginTop: 8 }}>{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- best sellers (scroll-snap rack) ---- */}
+      <section className="candy-sec" style={{ background: "var(--soda)", borderTop: "2.5px solid var(--ink)" }}>
+        <div className="candy-wrap">
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 30 }}>
+            <div>
+              <span className="candy-eyebrow">Crowd pleasers</span>
+              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Fan favorites</h2>
+            </div>
+          </div>
+        </div>
+        <div className="candy-rack">
+          {bestSellers.map((f, i) => (
+            <div key={f.name + i} className="candy-rack-item">
+              <FlavorCard f={f} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- social proof ---- */}
+      <section className="candy-sec">
+        <div className="candy-wrap">
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <span className="candy-eyebrow" style={{ justifyContent: "center" }}>Everyone&apos;s wearing them</span>
+            <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Loved out loud</h2>
+          </div>
+          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+            {REVIEWS.map((r) => (
+              <figure key={r.n} className="candy-review">
+                <span className="candy-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                <blockquote style={{ fontSize: 18, fontWeight: 700, margin: "14px 0 16px", lineHeight: 1.45 }}>
+                  “{r.q}”
+                </blockquote>
+                <figcaption style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)" }}>
+                  {r.n} · <span style={{ color: "var(--bubblegum-d)" }}>{r.s}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- find my size band ---- */}
+      <section className="candy-sec" style={{ background: "var(--lemon)", borderBlock: "2.5px solid var(--ink)" }}>
+        <div className="candy-wrap" style={{ textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(34px, 6vw, 64px)" }}>Not sure of your size?</h2>
+          <p style={{ fontSize: 19, fontWeight: 700, color: "var(--ink)", maxWidth: 520, margin: "16px auto 0" }}>
+            Our 30-second fit finder gets you the right set the first time. No measuring tape required.
+          </p>
+          <Link href="/fit" className="candy-btn" style={{ marginTop: 28 }}>Find My Size <span className="pop" aria-hidden>📏</span></Link>
+        </div>
+      </section>
+
+      {/* ---- newsletter ---- */}
+      <section className="candy-sec">
+        <div className="candy-wrap" style={{ maxWidth: 640, textAlign: "center" }}>
+          <span className="candy-sticker is-mint" style={{ fontSize: 14 }}>Join the candy club</span>
+          <h2 style={{ fontSize: "clamp(30px, 5vw, 48px)", marginTop: 18 }}>Get first dibs on new flavors</h2>
+          <p style={{ fontSize: 16, fontWeight: 600, color: "var(--ink-soft)", marginTop: 12 }}>
+            Early access, restock alerts, and the occasional very good discount. No spam, ever.
+          </p>
+          <form action="/shop" style={{ display: "flex", gap: 10, marginTop: 24, flexWrap: "wrap", justifyContent: "center" }}>
+            <input className="candy-input" type="email" name="email" placeholder="you@email.com" aria-label="Email address" required style={{ maxWidth: 320 }} />
+            <button type="submit" className="candy-btn">Join <span className="pop" aria-hidden>🍭</span></button>
+          </form>
+        </div>
+      </section>
+
+      {/* ---- footer ---- */}
+      <footer style={{ background: "var(--ink)", color: "var(--cotton)", borderTop: "2.5px solid var(--ink)" }}>
+        <div className="candy-wrap" style={{ paddingBlock: 56 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div style={{ maxWidth: 300 }}>
+              <span className="candy-logo" style={{ color: "var(--cotton)", fontSize: 28 }}>nail<b style={{ color: "var(--bubblegum)" }}>ismo</b></span>
+              <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.7)", marginTop: 12 }}>
+                Press-on nails that are pure fun. Press on. Show off.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+              <FooterCol title="Shop" links={["New", "Best Sellers", "Shop by Color", "Fit Guide"]} />
+              <FooterCol title="Help" links={["Shipping", "Returns", "How it works", "Contact"]} />
+              <FooterCol title="Brand" links={["About", "Journal", "Reviews"]} />
+            </div>
+          </div>
+          <div style={{ borderTop: "1.5px solid rgba(230,213,235,0.18)", marginTop: 40, paddingTop: 22, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.6)" }}>© {new Date().getFullYear()} Nailismo</span>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {PAYMENTS.map((p) => (
+                <span key={p} style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "rgba(255,253,247,0.12)" }}>{p}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+function HeroTile({ img, alt, border }: { img: string; alt: string; border: string }) {
+  return (
+    <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: `3px solid var(--ink)`, boxShadow: "var(--shadow-pop)", background: border }}>
+      <Image src={src(img)} alt={alt} fill sizes="260px" style={{ objectFit: "cover" }} priority />
+    </div>
+  );
+}
+
+function FooterCol({ title, links }: { title: string; links: string[] }) {
+  return (
+    <div>
+      <h4 style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, color: "var(--lemon)", marginBottom: 12 }}>{title}</h4>
+      <ul style={{ display: "flex", flexDirection: "column", gap: 9, listStyle: "none", padding: 0, margin: 0 }}>
+        {links.map((l) => (
+          <li key={l}>
+            <Link href="/shop" style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.78)" }}>{l}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
