@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Nunito } from "next/font/google";
 import "./globals.css";
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  display: "swap",
+});
 
 const geograph = localFont({
   variable: "--font-geograph",
@@ -57,7 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geograph.variable} ${akkuratMono.variable} ${ekster.variable}`}
+      className={`${geograph.variable} ${akkuratMono.variable} ${ekster.variable} ${nunito.variable}`}
     >
       <body className="bg-paper text-tetsu">{children}</body>
     </html>

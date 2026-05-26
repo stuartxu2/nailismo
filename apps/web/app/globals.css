@@ -1,37 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans:  var(--font-geograph), system-ui, sans-serif;
+  --font-sans:  var(--font-nunito), var(--font-geograph), system-ui, sans-serif;
   --font-serif: var(--font-ekster), var(--font-geograph), sans-serif; /* repointed: no serif on homepage */
   --font-mono:  var(--font-akkurat-mono), ui-monospace, monospace;
   --font-ekster: var(--font-ekster-local);
 
   /* Nippon palette (values remapped; names kept for zero-churn) */
-  --paper:      #FCFAF2; /* SHIRONERI — page bg */
-  --toriko:     #FFFFFB; /* GOFUN — clean surface */
-  --shiracha:   #BDC0BA; /* SHIRONEZUMI — borders/dividers */
-  --tetsu:      #0B1013; /* KUROTSURUBAMI — text/dark UI */
-  --sumi:       #0B1013;
-  --rikyu:      #566C73; /* AINEZUMI — nav/labels/captions */
-  --gin:        #8C9296; /* muted neutral */
-  --hair:       rgba(11,16,19,0.14);
-  --hair-strong:rgba(11,16,19,0.28);
-  --hair-dark:  rgba(252,250,242,0.18);
-  --akane:      #6E75A4; /* FUJINEZUMI — accent (was red) */
-  --bengara:    #566C73;
-  --konnezumi:  #6E75A4;
-  --kodou:      #566C73;
-  --kikuchiba:  #D7C4BB; /* HAIZAKURA — warm accent */
+  /* Candy scheme (plum / lilac / lime / slate) — names kept for zero-churn */
+  --paper:      #E6D5EB; /* lilac — page bg */
+  --toriko:     #FFFFFF; /* white — clean surface */
+  --shiracha:   #C9B6D2; /* lilac — borders/dividers */
+  --tetsu:      #271028; /* plum — text/dark UI */
+  --sumi:       #271028;
+  --rikyu:      #60779F; /* slate — nav/labels/captions */
+  --gin:        #6E5E72; /* muted plum-gray */
+  --hair:       rgba(39,16,40,0.14);
+  --hair-strong:rgba(39,16,40,0.28);
+  --hair-dark:  rgba(230,213,235,0.18);
+  --akane:      #4F6796; /* deep slate — links/active accent */
+  --bengara:    #60779F;
+  --konnezumi:  #4F6796;
+  --kodou:      #60779F;
+  --kikuchiba:  #9FED40; /* lime — CTA + badge pop */
 
   /* Nippon-named aliases for new homepage code */
-  --shironeri:      #FCFAF2;
-  --gofun:          #FFFFFB;
-  --shironezumi:    #BDC0BA;
-  --kurotsurubami:  #0B1013;
-  --ainezumi:       #566C73;
-  --fujinezumi:     #6E75A4;
-  --haizakura:      #D7C4BB;
-  --kamenozoki:     #A5DEE4;
+  --shironeri:      #E6D5EB;
+  --gofun:          #FFFFFF;
+  --shironezumi:    #C9B6D2;
+  --kurotsurubami:  #271028;
+  --ainezumi:       #60779F;
+  --fujinezumi:     #4F6796;
+  --haizakura:      #9FED40;
+  --kamenozoki:     #9FED40;
 }
 
 @theme inline {
@@ -108,7 +109,7 @@ body { font-family: var(--font-sans); font-weight: 400; }
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 12px;
-  padding: 16px 22px; background: var(--tetsu); color: var(--paper);
+  padding: 16px 22px; background: var(--kikuchiba); color: var(--tetsu);
   font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
   border: 1px solid var(--tetsu);
   transition: background-color .25s ease, color .25s ease;
@@ -182,12 +183,12 @@ details[open] .acc-answer { opacity: 1; max-height: 480px; }
 }
 
 .tape {
-  display: inline-block; padding: 4px 10px; background: var(--akane); color: var(--paper);
+  display: inline-block; padding: 4px 10px; background: var(--kikuchiba); color: var(--tetsu);
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
   text-transform: uppercase; font-weight: 500;
 }
-.tape-navy { background: var(--konnezumi); }
-.tape-dark { background: var(--tetsu); }
+.tape-navy { background: var(--konnezumi); color: var(--paper); }
+.tape-dark { background: var(--tetsu); color: var(--paper); }
 
 .crosshair { position: absolute; width: 16px; height: 16px; pointer-events: none; }
 .crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(11,16,19,0.28); }
