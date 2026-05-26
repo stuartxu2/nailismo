@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import CandyHome from "./candy/CandyHome";
 
-export const revalidate = 300;
-
 export const metadata: Metadata = {
   title: "Nailismo | Press On. Show Off.",
   description:

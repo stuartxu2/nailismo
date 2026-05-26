@@ -3,6 +3,10 @@ import Link from "next/link";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
 import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
+import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
+import { Header } from "@/app/components/Header";
+import { Footer } from "@/app/components/Footer";
+import { NewsletterForm } from "@/app/components/NewsletterForm";
 
 /* ---------- types & data ---------- */
 
@@ -108,8 +112,6 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
   );
 }
 
-const NAV = ["New", "Shop All", "Shop by Color", "Best Sellers", "Fit Guide", "About"];
-
 const COLORS = [
   { name: "Lime", c: "#9FED40" },
   { name: "Slate", c: "#60779F" },
@@ -131,8 +133,6 @@ const REVIEWS = [
   { q: "The removal is actually easy?? Obsessed. Already reordering.", n: "Sam K.", s: "Cherry Cola" },
 ];
 
-const PAYMENTS = ["Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Klarna"];
-
 /* ---------- page ---------- */
 
 export default async function CandyHome() {
@@ -142,33 +142,8 @@ export default async function CandyHome() {
 
   return (
     <>
-      {/* ---- header ---- */}
-      <header className="candy-head">
-        <div className="candy-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
-          <Link href="/" className="candy-logo">nail<b>ismo</b></Link>
-          <nav className="candy-nav" style={{ gap: 4 }}>
-            {NAV.map((n) => (
-              <Link key={n} href="/shop">{n}</Link>
-            ))}
-          </nav>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <Link href="/shop" className="candy-btn is-soda" style={{ padding: "10px 18px", fontSize: 14 }}>
-              Cart <span className="pop" aria-hidden>🛍️</span>
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* ---- announcement marquee ---- */}
-      <div className="candy-marquee" style={{ background: "var(--ink)", color: "var(--lemon)", padding: "9px 0" }}>
-        <div className="candy-marquee-track">
-          {[0, 1].map((k) => (
-            <span key={k} style={{ paddingRight: 40, fontSize: 14, letterSpacing: "0.04em" }}>
-              FREE SHIPPING OVER $35 &nbsp;✦&nbsp; NEW FLAVORS EVERY WEEK &nbsp;✦&nbsp; READY IN MINUTES &nbsp;✦&nbsp; EASY CLEAN REMOVAL &nbsp;✦&nbsp; PRESS ON. SHOW OFF. &nbsp;✦&nbsp;
-            </span>
-          ))}
-        </div>
-      </div>
+      <AnnouncementTicker />
+      <Header />
 
       {/* ---- hero ---- */}
       <section style={{ position: "relative", overflow: "hidden" }}>
@@ -333,46 +308,18 @@ export default async function CandyHome() {
       </section>
 
       {/* ---- newsletter ---- */}
-      <section className="candy-sec">
+      <section id="newsletter" className="candy-sec">
         <div className="candy-wrap" style={{ maxWidth: 640, textAlign: "center" }}>
           <span className="candy-sticker is-mint" style={{ fontSize: 14 }}>Join the candy club</span>
           <h2 style={{ fontSize: "clamp(30px, 5vw, 48px)", marginTop: 18 }}>Get first dibs on new flavors</h2>
           <p style={{ fontSize: 16, fontWeight: 600, color: "var(--ink-soft)", marginTop: 12 }}>
             Early access, restock alerts, and the occasional very good discount. No spam, ever.
           </p>
-          <form action="/shop" style={{ display: "flex", gap: 10, marginTop: 24, flexWrap: "wrap", justifyContent: "center" }}>
-            <input className="candy-input" type="email" name="email" placeholder="you@email.com" aria-label="Email address" required style={{ maxWidth: 320 }} />
-            <button type="submit" className="candy-btn">Join <span className="pop" aria-hidden>🍭</span></button>
-          </form>
+          <NewsletterForm />
         </div>
       </section>
 
-      {/* ---- footer ---- */}
-      <footer style={{ background: "var(--ink)", color: "var(--cotton)", borderTop: "2.5px solid var(--ink)" }}>
-        <div className="candy-wrap" style={{ paddingBlock: 56 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div style={{ maxWidth: 300 }}>
-              <span className="candy-logo" style={{ color: "var(--cotton)", fontSize: 28 }}>nail<b style={{ color: "var(--bubblegum)" }}>ismo</b></span>
-              <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.7)", marginTop: 12 }}>
-                Press-on nails that are pure fun. Press on. Show off.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-              <FooterCol title="Shop" links={["New", "Best Sellers", "Shop by Color", "Fit Guide"]} />
-              <FooterCol title="Help" links={["Shipping", "Returns", "How it works", "Contact"]} />
-              <FooterCol title="Brand" links={["About", "Journal", "Reviews"]} />
-            </div>
-          </div>
-          <div style={{ borderTop: "1.5px solid rgba(230,213,235,0.18)", marginTop: 40, paddingTop: 22, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.6)" }}>© {new Date().getFullYear()} Nailismo</span>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {PAYMENTS.map((p) => (
-                <span key={p} style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "rgba(255,253,247,0.12)" }}>{p}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
@@ -381,21 +328,6 @@ function HeroTile({ img, alt, border }: { img: string; alt: string; border: stri
   return (
     <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: `3px solid var(--ink)`, boxShadow: "var(--shadow-pop)", background: border }}>
       <Image src={src(img)} alt={alt} fill sizes="260px" style={{ objectFit: "cover" }} priority />
-    </div>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: string[] }) {
-  return (
-    <div>
-      <h4 style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, color: "var(--lemon)", marginBottom: 12 }}>{title}</h4>
-      <ul style={{ display: "flex", flexDirection: "column", gap: 9, listStyle: "none", padding: 0, margin: 0 }}>
-        {links.map((l) => (
-          <li key={l}>
-            <Link href="/shop" style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.78)" }}>{l}</Link>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

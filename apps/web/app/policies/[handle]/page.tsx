@@ -48,7 +48,7 @@ const FALLBACK_POLICIES: Record<string, ShopifyPolicy> = {
       <p>Every order ships from our Brooklyn warehouse within one business day. You'll get tracking the moment your label prints.</p>
       <h2>Domestic (US)</h2>
       <ul>
-        <li><strong>Standard</strong> · 3–5 business days · Free on orders over $60</li>
+        <li><strong>Standard</strong> · 3–5 business days · Free on orders over $35</li>
         <li><strong>Express</strong> · 1–2 business days · $14 flat</li>
       </ul>
       <h2>International</h2>
