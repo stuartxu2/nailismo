@@ -7,12 +7,8 @@ import { subscribeNewsletter } from "@/lib/shopify/newsletter";
 function SubmitButton({ submitted }: { submitted: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="bg-tetsu text-paper px-6 py-4 text-[12px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors disabled:opacity-60"
-    >
-      {pending ? "Sending…" : submitted ? "Sent" : "Send Me The Guide"}
+    <button type="submit" disabled={pending} className="candy-btn" style={{ opacity: pending ? 0.6 : 1 }}>
+      {pending ? "Sending…" : submitted ? "Joined!" : "Join"} <span className="pop" aria-hidden>🍭</span>
     </button>
   );
 }
@@ -28,41 +24,22 @@ export function Newsletter() {
   const submitted = state?.ok === true;
 
   return (
-    <section id="newsletter" className="bg-shiracha py-16 md:py-24 relative">
-      <div className="nail-container grid grid-cols-12 gap-6 md:gap-12 items-center">
-        <div className="col-span-12 lg:col-span-7">
-          <span className="cap">Free guide · No spam</span>
-          <h3 className="font-display text-[clamp(32px,4vw,56px)] tracking-display leading-[0.95] mt-3">
-            Get the First Fit Guide<span className="text-akane">.</span>
-          </h3>
-          <p className="mt-4 text-rikyu max-w-[520px]">
-            A short guide to choosing your first Nailismo set — from low-signal daily wear to high-signal nights out. Plus 10% off your first starter set.
+    <section id="newsletter" className="candy-sec">
+      <div className="candy-wrap" style={{ maxWidth: 640, textAlign: "center" }}>
+        <span className="candy-sticker is-mint" style={{ fontSize: 14 }}>Join the candy club</span>
+        <h2 style={{ fontSize: "clamp(30px, 5vw, 48px)", marginTop: 18 }}>Get first dibs on new flavors</h2>
+        <p style={{ fontSize: 16, fontWeight: 600, color: "var(--ink-soft)", marginTop: 12 }}>
+          Early access, restock alerts, and the occasional very good discount. No spam, ever.
+        </p>
+        <form action={action} style={{ display: "flex", gap: 10, marginTop: 24, flexWrap: "wrap", justifyContent: "center" }}>
+          <input className="candy-input" type="email" name="email" placeholder="you@email.com" aria-label="Email address" required style={{ maxWidth: 320 }} />
+          <SubmitButton submitted={submitted} />
+        </form>
+        {state && (
+          <p role={state.ok ? "status" : "alert"} style={{ marginTop: 12, fontSize: 13, fontWeight: 700, color: state.ok ? "var(--bubblegum-d)" : "#E8794A" }}>
+            {state.message}
           </p>
-        </div>
-        <div className="col-span-12 lg:col-span-5 flex flex-col gap-3 w-full">
-          <form action={action} className="flex w-full border border-tetsu bg-paper">
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Email address"
-              defaultValue=""
-              className="flex-1 bg-transparent px-5 py-4 text-[14px] outline-none placeholder-[rgba(40,26,20,0.4)]"
-              aria-label="Email"
-            />
-            <SubmitButton submitted={submitted} />
-          </form>
-          {state && (
-            <p
-              role={state.ok ? "status" : "alert"}
-              className={`text-[12px] font-mono tracking-[0.16em] uppercase ${
-                state.ok ? "text-tetsu" : "text-akane"
-              }`}
-            >
-              {state.message}
-            </p>
-          )}
-        </div>
+        )}
       </div>
     </section>
   );
