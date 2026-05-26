@@ -14,6 +14,7 @@ import type {
   ShopifyArticleDetail,
   ShopifyArticleSummary,
 } from "@/lib/shopify/types";
+import Image from "next/image";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
@@ -121,113 +122,62 @@ export default async function ArticlePage({
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <Link href="/journal" className="ulink">Journal</Link>
-              <span>/</span>
-              <span className="text-tetsu">{article.title}</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <Link href="/journal" className="candy-crumb">Journal</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>{article.title}</span>
+        </nav>
 
-            <div className="max-w-[820px] mx-auto text-center">
-              <div className="flex items-center justify-center gap-3 mb-8">
-                <span className="cap">{formatDate(article.publishedAt)}</span>
-                {article.authorV2?.name && (
-                  <>
-                    <span aria-hidden className="text-rikyu">·</span>
-                    <span className="cap">{article.authorV2.name}</span>
-                  </>
-                )}
-              </div>
-              <h1 className="font-display font-light tracking-display leading-[0.95] text-[clamp(40px,6vw,84px)]">
-                {article.title}
-                <span className="text-akane">.</span>
-              </h1>
-              {article.excerpt && (
-                <p className="mt-8 font-serif italic text-rikyu text-[20px] md:text-[22px] leading-[1.55] max-w-[640px] mx-auto">
-                  {article.excerpt}
-                </p>
-              )}
-            </div>
-          </div>
-        </section>
+        <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
+          <span className="candy-eyebrow">{formatDate(article.publishedAt)}{article.authorV2?.name ? ` · ${article.authorV2.name}` : ""}</span>
+          <h1 style={{ fontSize: "clamp(36px,6vw,72px)", marginTop: 12 }}>{article.title}</h1>
+          {article.excerpt && (
+            <p style={{ marginTop: 18, fontFamily: "var(--display)", fontStyle: "italic", fontSize: 22, color: "var(--ink-soft)", lineHeight: 1.5, maxWidth: 640, marginInline: "auto" }}>
+              {article.excerpt}
+            </p>
+          )}
+        </div>
 
         {article.image && (
-          <section className="mt-12 md:mt-16">
-            <div className="nail-container">
-              <div className="relative aspect-[16/9] overflow-hidden bg-shiracha border border-hair">
-                <img
-                  src={article.image.url}
-                  alt={article.image.altText ?? article.title}
-                  className="img-cover"
-                />
-              </div>
-            </div>
-          </section>
+          <div style={{ position: "relative", aspectRatio: "16/9", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)", marginTop: 36 }}>
+            <Image src={article.image.url} alt={article.image.altText ?? article.title} fill sizes="100vw" style={{ objectFit: "cover" }} />
+          </div>
         )}
 
-        <section className="sec">
-          <div className="nail-container">
-            <article
-              className="max-w-[720px] mx-auto text-[17px] text-tetsu leading-[1.75] [&_h1]:font-display [&_h1]:text-[36px] [&_h1]:mt-12 [&_h1]:mb-4 [&_h1]:tracking-display [&_h2]:font-display [&_h2]:text-[28px] [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:tracking-display [&_h3]:font-display [&_h3]:text-[22px] [&_h3]:mt-8 [&_h3]:mb-2 [&_p]:mb-5 [&_blockquote]:font-serif [&_blockquote]:italic [&_blockquote]:text-[22px] [&_blockquote]:border-l-2 [&_blockquote]:border-akane [&_blockquote]:pl-6 [&_blockquote]:my-8 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_a]:underline [&_a:hover]:text-akane [&_img]:my-8 [&_strong]:font-semibold"
-              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
-            />
+        <article className="candy-prose" style={{ margin: "44px auto 0" }} dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
 
-            {article.tags.length > 0 && (
-              <div className="max-w-[720px] mx-auto mt-12 pt-8 border-t border-hair">
-                <span className="cap mb-4 block">Tags</span>
-                <div className="flex flex-wrap gap-2">
-                  {article.tags.map((t) => (
-                    <span key={t} className="edit-pill">{t}</span>
-                  ))}
-                </div>
-              </div>
-            )}
+        {article.tags.length > 0 && (
+          <div style={{ maxWidth: 720, margin: "40px auto 0", paddingTop: 24, borderTop: "2px solid var(--marshmallow)" }}>
+            <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Tags</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {article.tags.map((t) => (
+                <span key={t} className="candy-chip" style={{ cursor: "default" }}>{t}</span>
+              ))}
+            </div>
           </div>
-        </section>
+        )}
 
         {related.length > 0 && (
-          <section className="sec pt-0">
-            <div className="nail-container">
-              <div className="border-t border-hair pt-12 mb-8 flex items-end justify-between flex-wrap gap-4">
-                <h2 className="font-display text-[28px] md:text-[36px] leading-[1.05]">
-                  More from the desk
-                  <span className="text-akane">.</span>
-                </h2>
-                <Link href="/journal" className="ulink cap">All entries →</Link>
-              </div>
-              <div className="grid grid-cols-12 gap-6">
-                {related.map((a) => (
-                  <article
-                    key={a.id}
-                    className="col-span-12 md:col-span-4 border border-hair bg-paper flex flex-col edit-card"
-                  >
-                    <Link
-                      href={`/journal/${a.handle}`}
-                      className="relative aspect-[4/3] overflow-hidden bg-shiracha block"
-                    >
-                      {a.image && (
-                        <img
-                          src={a.image.url}
-                          alt={a.image.altText ?? a.title}
-                          className="img-cover edit-image"
-                        />
-                      )}
-                    </Link>
-                    <div className="p-5 flex flex-col flex-1">
-                      <span className="cap mb-2">{formatDate(a.publishedAt)}</span>
-                      <h3 className="font-display text-[20px] leading-[1.15]">
-                        <Link href={`/journal/${a.handle}`} className="ulink">
-                          {a.title}
-                        </Link>
-                      </h3>
-                    </div>
-                  </article>
-                ))}
-              </div>
+          <section style={{ marginTop: 64 }}>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
+              <h2 style={{ fontSize: "clamp(26px,4vw,40px)" }}>More from the desk</h2>
+              <Link href="/journal" className="candy-btn is-ghost" style={{ padding: "10px 18px", fontSize: 14 }}>All entries</Link>
+            </div>
+            <div className="candy-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
+              {related.map((a) => (
+                <Link key={a.id} href={`/journal/${a.handle}`} className="candy-card">
+                  <div className="candy-card-img" style={{ aspectRatio: "4/3" }}>
+                    {a.image && (
+                      <Image src={a.image.url} alt={a.image.altText ?? a.title} fill sizes="(max-width:640px) 100vw, 33vw" />
+                    )}
+                  </div>
+                  <div style={{ padding: "16px 6px 6px" }}>
+                    <span className="candy-eyebrow" style={{ fontSize: 11 }}>{formatDate(a.publishedAt)}</span>
+                    <h3 style={{ fontSize: 20, marginTop: 8 }}>{a.title}</h3>
+                  </div>
+                </Link>
+              ))}
             </div>
           </section>
         )}
