@@ -4,7 +4,7 @@
   --font-sans:  var(--font-nunito), var(--font-geograph), system-ui, sans-serif;
   --font-serif: var(--font-ekster), var(--font-geograph), sans-serif; /* repointed: no serif on homepage */
   --font-mono:  var(--font-akkurat-mono), ui-monospace, monospace;
-  --font-ekster: var(--font-ekster-local);
+  --font-ekster: var(--font-fredoka); /* display = Fredoka (chunky rounded, candy-pop) */
 
   /* Nippon palette (values remapped; names kept for zero-churn) */
   /* Candy scheme (plum / lilac / lime / slate) — names kept for zero-churn */

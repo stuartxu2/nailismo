@@ -1,5 +1,5 @@
 /* ============================================================
-   NAILISMO — Candy theme (warm caramel cast, Ekster display)
+   NAILISMO — Candy theme (plum/lilac/lime/slate, Fredoka display)
    Scoped under .candy so it never leaks into the rest of the site.
    Variable NAMES kept stable on purpose; only hex values changed.
    ============================================================ */
@@ -18,7 +18,7 @@
   --ink-soft:    #6E5E72; /* muted plum-gray */
   --marshmallow: #C9B6D2; /* lilac borders */
 
-  --display: var(--font-ekster), Georgia, serif;
+  --display: var(--font-ekster), "Trebuchet MS", system-ui, sans-serif;
   --body:    var(--font-nunito), system-ui, sans-serif;
 
   /* warm candy-tinted layered shadows */
@@ -43,9 +43,9 @@
 
 .candy h1, .candy h2, .candy h3, .candy h4 {
   font-family: var(--display);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
   margin: 0;
 }
 .candy p { line-height: 1.6; margin: 0; }
@@ -351,7 +351,7 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
 
 /* prose (articles, policies) */
 .candy-prose { font-family: var(--body); font-weight: 500; font-size: 17px; line-height: 1.75; color: var(--ink); max-width: 720px; }
-.candy-prose h1, .candy-prose h2, .candy-prose h3 { font-family: var(--display); font-weight: 400; color: var(--ink); line-height: 1.1; }
+.candy-prose h1, .candy-prose h2, .candy-prose h3 { font-family: var(--display); font-weight: 600; color: var(--ink); line-height: 1.15; }
 .candy-prose h1 { font-size: 38px; margin: 0 0 16px; }
 .candy-prose h2 { font-size: 28px; margin: 36px 0 12px; }
 .candy-prose h3 { font-size: 22px; margin: 28px 0 10px; }
