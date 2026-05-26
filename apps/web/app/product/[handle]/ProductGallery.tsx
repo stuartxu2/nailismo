@@ -14,8 +14,11 @@ export function ProductGallery({
 
   if (images.length === 0) {
     return (
-      <div className="aspect-square bg-shiracha border border-hair flex items-center justify-center">
-        <span className="cap">No imagery</span>
+      <div
+        className="flex items-center justify-center"
+        style={{ aspectRatio: "1/1", borderRadius: 28, border: "2.5px solid var(--ink)", background: "var(--cream)" }}
+      >
+        <span className="candy-eyebrow">No imagery</span>
       </div>
     );
   }
@@ -24,7 +27,11 @@ export function ProductGallery({
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative aspect-square overflow-hidden bg-shiracha border border-hair">
+      <div
+        className="relative overflow-hidden"
+        style={{ aspectRatio: "1/1", borderRadius: 28, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           key={hero.url}
           src={hero.url}
@@ -43,17 +50,18 @@ export function ProductGallery({
                 onClick={() => setActive(i)}
                 aria-label={`View ${i + 1} of ${images.length}`}
                 aria-current={isActive}
-                className={`relative aspect-square overflow-hidden bg-shiracha border transition-[border-color,opacity] duration-200 outline-none focus-visible:ring-2 focus-visible:ring-akane focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:opacity-80 ${
-                  isActive
-                    ? "border-tetsu"
-                    : "border-hair opacity-70 hover:opacity-100 hover:border-rikyu"
-                }`}
+                className="relative overflow-hidden"
+                style={{
+                  aspectRatio: "1/1",
+                  borderRadius: 16,
+                  border: "2.5px solid var(--ink)",
+                  opacity: isActive ? 1 : 0.7,
+                  boxShadow: isActive ? "0 4px 0 var(--ink)" : "none",
+                  transition: "opacity .2s ease, box-shadow .2s ease",
+                }}
               >
-                <img
-                  src={img.url}
-                  alt={img.altText ?? `${title} — view ${i + 1}`}
-                  className="img-cover"
-                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img.url} alt={img.altText ?? `${title} — view ${i + 1}`} className="img-cover" />
               </button>
             );
           })}
