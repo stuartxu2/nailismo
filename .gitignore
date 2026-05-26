@@ -1,5 +1,6 @@
 temporary screenshots/
 .tmp/
+.next/
 
 # apps/web (Next.js)
 apps/web/.next/
