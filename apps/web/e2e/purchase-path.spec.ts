@@ -19,12 +19,12 @@ test.describe("purchase path", () => {
     const addToBag = page.getByRole("button", { name: /add to bag/i }).first();
     await expect(addToBag).toBeVisible();
 
-    // 3. Add to cart (server action commits the cart cookie + revalidates)
+    // 3. Add to cart — the server action commits the cart cookie and
+    //    redirect("/cart"), so the click navigates us straight to the cart.
     await addToBag.click();
-    await page.waitForLoadState("networkidle");
+    await page.waitForURL(/\/cart/);
 
     // 4. Cart shows the line item
-    await page.goto("/cart");
     await expect(page.locator(".candy-line").first()).toBeVisible();
 
     // 5. Checkout points to Shopify-hosted checkout — assert, don't follow
