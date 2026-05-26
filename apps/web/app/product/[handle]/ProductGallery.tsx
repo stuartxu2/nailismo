@@ -31,7 +31,7 @@ export function ProductGallery({
         className="relative overflow-hidden"
         style={{ aspectRatio: "1/1", borderRadius: 28, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img
           key={hero.url}
           src={hero.url}
@@ -60,7 +60,7 @@ export function ProductGallery({
                   transition: "opacity .2s ease, box-shadow .2s ease",
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img src={img.url} alt={img.altText ?? `${title} — view ${i + 1}`} className="img-cover" />
               </button>
             );

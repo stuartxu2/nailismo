@@ -64,7 +64,7 @@ export default async function LookPage({
         </div>
 
         <div style={{ position: "relative", aspectRatio: "16/8", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img src={look.src} alt={look.alt} className="img-cover" />
         </div>
 
@@ -113,7 +113,7 @@ export default async function LookPage({
                   className="look-card block"
                   style={{ position: "relative", aspectRatio: "4/5", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img src={l.src} alt={l.alt} />
                   <div
                     className="look-overlay absolute inset-0 flex flex-col justify-between p-7"

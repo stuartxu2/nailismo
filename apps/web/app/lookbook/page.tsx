@@ -37,7 +37,7 @@ export default function LookbookIndexPage() {
               className="look-card block"
               style={{ position: "relative", aspectRatio: "4/5", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img src={l.src} alt={l.alt} />
               <div
                 className="look-overlay absolute inset-0 flex flex-col justify-between p-7"
