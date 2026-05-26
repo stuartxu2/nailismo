@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import { CandyShell } from "./candy/CandyShell";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -67,7 +68,9 @@ export default function RootLayout({
       lang="en"
       className={`${geograph.variable} ${akkuratMono.variable} ${ekster.variable} ${nunito.variable}`}
     >
-      <body className="bg-paper text-tetsu">{children}</body>
+      <body className="bg-paper text-tetsu">
+        <CandyShell>{children}</CandyShell>
+      </body>
     </html>
   );
 }

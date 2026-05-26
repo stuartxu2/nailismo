@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CandyShell } from "./candy/CandyShell";
 import CandyHome from "./candy/CandyHome";
 
 export const revalidate = 300;
@@ -18,9 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return (
-    <CandyShell>
-      <CandyHome />
-    </CandyShell>
-  );
+  return <CandyHome />;
 }
