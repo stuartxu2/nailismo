@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
@@ -11,7 +12,7 @@ import { addToCart } from "@/lib/shopify/cart";
 export const metadata: Metadata = {
   title: "Shop · Nailismo",
   description:
-    "Every Nailismo press-on set, ranked and filterable. Daily, nightlife, statement — built for men, sized to fit.",
+    "Every Nailismo press-on set, filterable and sortable. Bright, collectible flavors — ready in minutes, easy to remove.",
   alternates: { canonical: "/shop" },
 };
 
@@ -23,6 +24,8 @@ const SORT_OPTIONS = [
   { key: "price-desc", label: "Price ↓" },
   { key: "title", label: "A–Z" },
 ] as const;
+
+const SWATCHES = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
 
 async function fetchProducts(): Promise<ShopifyProduct[]> {
   try {
@@ -107,184 +110,117 @@ export default async function ShopPage({
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0 relative">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <span className="text-tetsu">Shop</span>
-            </nav>
+      <main>
+        <section className="candy-wrap" style={{ paddingTop: 36 }}>
+          <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+            <Link href="/" className="candy-crumb">Home</Link>
+            <Link href="/shop" className="candy-crumb" aria-current="page">Shop</Link>
+          </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">N°00</span>
-                  <span className="cap">Index · Press-On Sets</span>
-                </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(48px,7vw,108px)]">
-                  The full
-                  <br />
-                  <span className="italic font-serif font-light">index</span>
-                  <span className="text-akane">.</span>
-                </h1>
-              </div>
-              <div className="col-span-12 md:col-span-4">
-                <p className="text-rikyu max-w-[420px]">
-                  Every set on the shelf. Filter by occasion, sort by price.
-                  Sizing range and adhesive ship with each box.
-                </p>
-                <div className="mt-6 flex items-center gap-4 cap">
-                  <span>
-                    {items.length} {items.length === 1 ? "set" : "sets"}
-                  </span>
-                  {activeTag && (
-                    <>
-                      <span aria-hidden>·</span>
-                      <span>tag: {activeTag}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
+          <div className="candy-pagehead">
+            <span className="candy-eyebrow">The candy rack</span>
+            <h1 style={{ marginTop: 10 }}>Shop every flavor</h1>
+            <p>
+              Every set on the shelf — filter by vibe, sort by price. Sizing range and
+              adhesive ship in every box. <strong>{items.length}</strong>{" "}
+              {items.length === 1 ? "set" : "sets"}
+              {activeTag ? ` · ${activeTag}` : ""}.
+            </p>
           </div>
         </section>
 
-        <section className="sec pt-12 md:pt-16">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-8 mb-10 grid grid-cols-12 gap-6 items-start">
-              <div className="col-span-12 lg:col-span-8">
-                <span className="cap mb-4 block">Filter</span>
-                <div className="flex flex-wrap gap-2">
-                  <a
-                    href={buildHref(params, { tag: undefined })}
-                    className={`edit-pill ${!activeTag ? "edit-pill-active" : ""}`}
+        <section className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 24, marginBottom: 32 }}>
+            <div>
+              <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Filter</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                <Link href={buildHref(params, { tag: undefined })} className={`candy-chip ${!activeTag ? "is-active" : ""}`}>All</Link>
+                {tagOptions.map((t) => (
+                  <Link
+                    key={t}
+                    href={buildHref(params, { tag: activeTag === t ? undefined : t })}
+                    className={`candy-chip ${activeTag === t ? "is-active" : ""}`}
                   >
-                    All
-                  </a>
-                  {tagOptions.map((t) => (
-                    <a
-                      key={t}
-                      href={buildHref(params, { tag: activeTag === t ? undefined : t })}
-                      className={`edit-pill ${activeTag === t ? "edit-pill-active" : ""}`}
-                    >
-                      {t}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              <div className="col-span-12 lg:col-span-4">
-                <span className="cap mb-4 block">Sort</span>
-                <div className="flex flex-wrap gap-2">
-                  {SORT_OPTIONS.map((s) => (
-                    <a
-                      key={s.key}
-                      href={buildHref(params, { sort: s.key })}
-                      className={`edit-pill ${activeSort === s.key ? "edit-pill-active" : ""}`}
-                    >
-                      {s.label}
-                    </a>
-                  ))}
-                </div>
+                    {t}
+                  </Link>
+                ))}
               </div>
             </div>
-
-            {items.length === 0 ? (
-              <div className="border border-hair py-24 text-center">
-                <span className="cap block mb-4">Empty Shelf</span>
-                <p className="font-display text-[24px] text-tetsu">
-                  No sets match this filter.
-                </p>
-                <Link href="/shop" className="ulink mt-6 inline-block cap">
-                  Clear filters →
-                </Link>
+            <div>
+              <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Sort</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {SORT_OPTIONS.map((s) => (
+                  <Link key={s.key} href={buildHref(params, { sort: s.key })} className={`candy-chip ${activeSort === s.key ? "is-active" : ""}`}>
+                    {s.label}
+                  </Link>
+                ))}
               </div>
-            ) : (
-              <div className="grid grid-cols-12 gap-5">
-                {items.map((p) => {
-                  const meta =
-                    [p.productType, p.tags[0]].filter(Boolean).join(" · ") ||
-                    "Press-On Set";
-                  const price = formatPrice(
-                    p.priceRange.minVariantPrice.amount,
-                    p.priceRange.minVariantPrice.currencyCode,
-                  );
-                  const img =
-                    p.featuredImage?.url ??
-                    "/images/listing/black and white press on nails.avif";
-                  const alt = p.featuredImage?.altText ?? p.title;
-                  const variant = p.variants?.nodes[0];
-                  const canAdd = variant?.availableForSale ?? false;
-                  return (
-                    <article
-                      key={p.id}
-                      className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
-                    >
-                      <Link
-                        href={`/product/${p.handle}`}
-                        className="relative aspect-square overflow-hidden bg-shiracha block"
-                      >
-                        <img src={img} alt={alt} className="img-cover edit-image" />
-                      </Link>
-                      <div className="p-4 flex flex-col flex-1">
-                        <h2 className="font-display text-[18px] leading-[1.1]">
-                          <Link href={`/product/${p.handle}`} className="ulink">
-                            {p.title}
-                          </Link>
-                        </h2>
-                        <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
-                          <span>{meta}</span>
-                          <span className="font-display text-[16px] text-tetsu">
-                            {price}
-                          </span>
-                        </div>
-                        {p.tags.length > 0 && (
-                          <div className="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-rikyu">
-                            {p.tags.slice(0, 3).map((t) => (
-                              <span key={t} className="px-1.5 py-0.5 border border-hair">
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        <div className="mt-auto pt-4 flex items-center justify-between gap-2">
-                          <Link
-                            href={`/product/${p.handle}`}
-                            className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
-                          >
-                            Details →
-                          </Link>
-                          {canAdd && variant ? (
-                            <form action={addToCart}>
-                              <input type="hidden" name="variantId" value={variant.id} />
-                              <input type="hidden" name="quantity" value="1" />
-                              <button
-                                type="submit"
-                                className="bg-tetsu text-paper px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
-                              >
-                                Add To Cart
-                              </button>
-                            </form>
-                          ) : (
-                            <span className="px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium text-rikyu opacity-60">
-                              Sold Out
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
-
-            <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
-              <span className="cap">Index refreshed every 5 min · Shopify Storefront</span>
-              <Link href="/" className="btn-ghost">
-                Back To Home <span className="arrow">→</span>
-              </Link>
             </div>
           </div>
+
+          {items.length === 0 ? (
+            <div className="candy-empty">
+              <div className="emoji" aria-hidden>🫥</div>
+              <h2>No flavors match that filter</h2>
+              <p>Try clearing it — the whole rack is waiting.</p>
+              <Link href="/shop" className="candy-btn" style={{ marginTop: 22 }}>Clear filters</Link>
+            </div>
+          ) : (
+            <div className="candy-grid">
+              {items.map((p, i) => {
+                const meta =
+                  [p.productType, p.tags[0]].filter(Boolean).join(" · ") || "Press-On Set";
+                const price = formatPrice(
+                  p.priceRange.minVariantPrice.amount,
+                  p.priceRange.minVariantPrice.currencyCode,
+                );
+                const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
+                const alt = p.featuredImage?.altText ?? p.title;
+                const variant = p.variants?.nodes[0];
+                const canAdd = variant?.availableForSale ?? false;
+                const sw = [SWATCHES[i % SWATCHES.length], SWATCHES[(i + 2) % SWATCHES.length]];
+                return (
+                  <article key={p.id} className="candy-card">
+                    {i === 0 && (
+                      <span className="candy-sticker is-gum" style={{ position: "absolute", top: -10, left: 16, zIndex: 2 }}>
+                        Editor pick
+                      </span>
+                    )}
+                    <Link href={`/product/${p.handle}`} className="candy-card-img" aria-label={p.title}>
+                      <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
+                    </Link>
+                    <div style={{ padding: "16px 6px 6px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                        <div>
+                          <h2 style={{ fontSize: 20 }}>
+                            <Link href={`/product/${p.handle}`}>{p.title}</Link>
+                          </h2>
+                          <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>{meta}</p>
+                        </div>
+                        <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
+                        <span style={{ display: "inline-flex", gap: 6 }}>
+                          {sw.map((c, j) => (
+                            <span key={j} className="candy-swatch" style={{ background: c }} />
+                          ))}
+                        </span>
+                        {canAdd && variant ? (
+                          <form action={addToCart}>
+                            <input type="hidden" name="variantId" value={variant.id} />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" className="candy-quickadd" aria-label={`Add ${p.title} to bag`}>+</button>
+                          </form>
+                        ) : (
+                          <span className="candy-chip" style={{ opacity: 0.6, cursor: "default" }}>Sold out</span>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </section>
       </main>
       <Footer />

@@ -91,85 +91,105 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         ? [{ url: product.featuredImage.url, altText: product.featuredImage.altText, width: null, height: null }]
         : [];
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
+  const productUrl = `${siteUrl}/product/${product.handle}`;
+  const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      description: product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 5000),
+      image: images.map((i) => i.url),
+      brand: { "@type": "Brand", name: product.vendor || "Nailismo" },
+      offers: {
+        "@type": "Offer",
+        price: Number(price.amount).toFixed(2),
+        priceCurrency: price.currencyCode,
+        availability: product.availableForSale
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        url: productUrl,
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Shop", item: `${siteUrl}/shop` },
+        { "@type": "ListItem", position: 3, name: product.title, item: productUrl },
+      ],
+    },
+  ];
+
   return (
     <>
+      {jsonLd.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper sec relative overflow-hidden">
-        <div className="nail-container">
-          <nav className="mb-8 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-            <Link href="/" className="ulink">Home</Link>
-            <span>/</span>
-            <Link href="/#most-wanted" className="ulink">Shop</Link>
-            <span>/</span>
-            <span className="text-tetsu">{product.title}</span>
-          </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 28 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <Link href="/shop" className="candy-crumb">Shop</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>{product.title}</span>
+        </nav>
 
-          <div className="grid grid-cols-12 gap-6 md:gap-12 items-start">
-            <div className="col-span-12 lg:col-span-7">
-              <ProductGallery images={images} title={product.title} />
-            </div>
+        <div className="grid grid-cols-12 gap-6 md:gap-12 items-start">
+          <div className="col-span-12 lg:col-span-7">
+            <ProductGallery images={images} title={product.title} />
+          </div>
 
-            <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-24">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="cap">N°{product.handle.slice(0, 2).toUpperCase()}</span>
-                <span className="cap">{product.productType || "Press-On Set"}</span>
+          <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-24">
+            <span className="candy-eyebrow">{product.productType || "Press-On Set"}</span>
+            <h1 style={{ marginTop: 10, fontSize: "clamp(36px,5vw,68px)" }}>{product.title}</h1>
+
+            <PurchasePanel
+              options={product.options}
+              variants={variants}
+              defaultVariantId={defaultVariant?.id ?? null}
+            />
+
+            {product.tags.length > 0 && (
+              <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {product.tags.slice(0, 8).map((t) => (
+                  <span key={t} className="candy-chip" style={{ cursor: "default" }}>{t}</span>
+                ))}
               </div>
+            )}
 
-              <h1 className="font-display font-light tracking-display leading-[0.95] text-[clamp(36px,5vw,72px)]">
-                {product.title}
-                <span className="text-akane">.</span>
-              </h1>
-
-              <PurchasePanel
-                options={product.options}
-                variants={variants}
-                defaultVariantId={defaultVariant?.id ?? null}
-              />
-
-              {product.tags.length > 0 && (
-                <div className="mt-8 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.18em] font-mono text-rikyu">
-                  {product.tags.slice(0, 8).map((t) => (
-                    <span key={t} className="px-2 py-1 border border-hair">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {product.descriptionHtml && (
-                <div className="mt-10 pt-8 border-t border-hair">
-                  <span className="cap mb-4 block">Details</span>
-                  <div
-                    className="text-[15px] text-rikyu leading-relaxed [&_p]:mb-3 [&_strong]:text-tetsu [&_ul]:list-disc [&_ul]:pl-5 [&_a]:underline"
-                    dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-                  />
-                </div>
-              )}
-
-              <div className="mt-10 pt-6 border-t border-hair grid grid-cols-2 gap-px bg-[var(--hair)] border border-hair">
-                <div className="bg-paper p-4 text-[12px]">
-                  <span className="cap mb-1 block">Wear</span>
-                  Tabs + liquid adhesive
-                </div>
-                <div className="bg-paper p-4 text-[12px]">
-                  <span className="cap mb-1 block">Sizes</span>
-                  24 per set
-                </div>
-                <div className="bg-paper p-4 text-[12px]">
-                  <span className="cap mb-1 block">Vendor</span>
-                  {product.vendor || "Nailismo"}
-                </div>
-                <div className="bg-paper p-4 text-[12px]">
-                  <span className="cap mb-1 block">SKU</span>
-                  NLS-{product.handle.slice(0, 6).toUpperCase()}
-                </div>
+            {product.descriptionHtml && (
+              <div style={{ marginTop: 32 }}>
+                <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Details</span>
+                <div className="candy-prose" dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
               </div>
+            )}
+
+            <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              {[
+                { k: "Wears", v: "Up to 7 days" },
+                { k: "On in", v: "Minutes" },
+                { k: "In the box", v: "24 nails + glue" },
+                { k: "Removal", v: "Clean & easy" },
+              ].map((c) => (
+                <div key={c.k} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
+                  <span className="candy-eyebrow" style={{ fontSize: 11 }}>{c.k}</span>
+                  <p style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, marginTop: 4 }}>{c.v}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </main>
       <Footer />
+      {/* clearance so the mobile sticky Add-to-Bag bar never covers the footer */}
+      <div aria-hidden className="md:hidden" style={{ height: 84 }} />
     </>
   );
 }

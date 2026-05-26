@@ -17,14 +17,16 @@ export default function FaqPage() {
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="pt-12 md:pt-16 pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <span className="text-tetsu">FAQ</span>
-            </nav>
+      <main>
+        <section className="candy-wrap" style={{ paddingTop: 36 }}>
+          <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+            <Link href="/" className="candy-crumb">Home</Link>
+            <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>FAQ</span>
+          </nav>
+          <div className="candy-pagehead">
+            <span className="candy-eyebrow">Help</span>
+            <h1 style={{ marginTop: 10 }}>Frequently asked</h1>
+            <p>Sizing, wear, removal, styling — the quick answers, no fuss.</p>
           </div>
         </section>
         <Faq />

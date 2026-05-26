@@ -1,63 +1,67 @@
 import Link from "next/link";
+
+const PAYMENTS = ["Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Klarna"];
+
+function Col({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+  return (
+    <div>
+      <h4 style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, color: "var(--lemon)", marginBottom: 12 }}>{title}</h4>
+      <ul style={{ display: "flex", flexDirection: "column", gap: 9, listStyle: "none", padding: 0, margin: 0 }}>
+        {links.map((l) => (
+          <li key={l.label}>
+            <Link href={l.href} style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.78)" }}>{l.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function Footer() {
   return (
-    <footer className="bg-tetsu text-paper border-t border-hair-dark">
-      <div className="nail-container py-16 md:py-24">
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-12 md:col-span-5">
-            <img src="/images/logo/01.avif" alt="Nailismo" className="h-10 logo-invert mb-6" />
-            <p className="text-[15px] text-[rgba(245,245,245,0.78)] max-w-[420px]">
-              Press-on manicures designed for men&apos;s hands. Sharp, durable, and built to finish the look — from tailoring to streetwear.
+    <footer style={{ background: "var(--ink)", color: "var(--cotton)", borderTop: "2.5px solid var(--ink)" }}>
+      <div className="candy-wrap" style={{ paddingBlock: 56 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ maxWidth: 320 }}>
+            <span className="candy-logo" style={{ color: "var(--cotton)", fontSize: 28 }}>nail<b style={{ color: "var(--bubblegum)" }}>ismo</b></span>
+            <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.7)", marginTop: 12 }}>
+              Press-on nails that are pure fun. Ready in minutes, clean to remove. Press on. Show off.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-mono text-[rgba(245,245,245,0.6)]">
-              <span className="px-2 py-1 border border-hair-dark">Built for men&apos;s hands</span>
-              <span className="px-2 py-1 border border-hair-dark">S–XL fit per set</span>
-              <span className="px-2 py-1 border border-hair-dark">Up to 7+ days</span>
+            <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["Ready in minutes", "S–XL fit", "Clean removal"].map((t) => (
+                <span key={t} style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "rgba(230,213,235,0.12)" }}>{t}</span>
+              ))}
             </div>
           </div>
-          <div className="col-span-6 md:col-span-2">
-            <span className="cap cap-dark">Shop</span>
-            <ul className="mt-4 space-y-2 text-[14px]">
-              <li><Link href="/collections/the-essentials" className="ulink">Starter Sets</Link></li>
-              <li><Link href="/collections/minimalist-matte" className="ulink">Stealth Edit</Link></li>
-              <li><Link href="/collections/geometric-grit" className="ulink">Architectural Edit</Link></li>
-              <li><Link href="/collections/night-out-bold" className="ulink">High-Signal Edit</Link></li>
-              <li><Link href="/shop" className="ulink">Accessories</Link></li>
-            </ul>
-          </div>
-          <div className="col-span-6 md:col-span-2">
-            <span className="cap cap-dark">Learn</span>
-            <ul className="mt-4 space-y-2 text-[14px]">
-              <li><Link href="/#fit" className="ulink">Fit System</Link></li>
-              <li><Link href="/#application" className="ulink">Application</Link></li>
-              <li><Link href="/about" className="ulink">About</Link></li>
-              <li><Link href="/lookbook" className="ulink">Lookbook</Link></li>
-              <li><Link href="/journal" className="ulink">Journal</Link></li>
-              <li><Link href="/faq" className="ulink">FAQ</Link></li>
-            </ul>
-          </div>
-          <div className="col-span-12 md:col-span-3">
-            <span className="cap cap-dark">Contact</span>
-            <ul className="mt-4 space-y-2 text-[14px]">
-              <li><a href="mailto:hello@nailismo.com" className="ulink">hello@nailismo.com</a></li>
-              <li><a href="#" className="ulink">Instagram · @nailismo</a></li>
-              <li><a href="#" className="ulink">TikTok · @nailismo</a></li>
-            </ul>
+          <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+            <Col title="Shop" links={[
+              { label: "New", href: "/shop" },
+              { label: "Best Sellers", href: "/shop" },
+              { label: "Collections", href: "/collections/the-essentials" },
+              { label: "Accessories", href: "/shop" },
+            ]} />
+            <Col title="Learn" links={[
+              { label: "Fit Guide", href: "/fit" },
+              { label: "About", href: "/about" },
+              { label: "Lookbook", href: "/lookbook" },
+              { label: "Journal", href: "/journal" },
+              { label: "FAQ", href: "/faq" },
+            ]} />
+            <Col title="Help" links={[
+              { label: "Shipping", href: "/policies/shipping" },
+              { label: "Returns", href: "/policies/returns" },
+              { label: "Contact", href: "/contact" },
+              { label: "hello@nailismo.com", href: "mailto:hello@nailismo.com" },
+            ]} />
           </div>
         </div>
-
-        <div className="mt-12 pt-6 border-t border-hair-dark flex flex-wrap items-center gap-x-6 gap-y-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.6)]">
-          <Link href="/policies/shipping" className="ulink">Shipping</Link>
-          <Link href="/policies/returns" className="ulink">Returns</Link>
-          <Link href="/policies/privacy" className="ulink">Privacy</Link>
-          <Link href="/policies/terms" className="ulink">Terms</Link>
-          <Link href="/contact" className="ulink">Contact</Link>
-        </div>
-
-        <div className="mt-6 pt-6 border-t border-hair-dark flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-[0.22em] uppercase font-mono text-[rgba(245,245,245,0.55)]">
-          <span>© Nailismo 2026 · Wear Your Edge</span>
-          <span>Press-On Manicures · Designed for Men&apos;s Hands</span>
-          <span>Nippon palette · 茜 · 鉄黒 · 鳥子 · 利休鼠</span>
+        <div style={{ borderTop: "1.5px solid rgba(230,213,235,0.18)", marginTop: 40, paddingTop: 22, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.6)" }}>© {new Date().getFullYear()} Nailismo</span>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {PAYMENTS.map((p) => (
+              <span key={p} style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "rgba(230,213,235,0.12)" }}>{p}</span>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

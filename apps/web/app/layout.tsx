@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Noto_Serif } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
+import { CandyShell } from "./candy/CandyShell";
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  display: "swap",
+});
 
 const geograph = localFont({
   variable: "--font-geograph",
@@ -24,12 +32,14 @@ const akkuratMono = localFont({
   ],
 });
 
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
+const ekster = localFont({
+  variable: "--font-ekster-local",
   display: "swap",
+  src: [
+    { path: "../public/fonts/Ekster/Ekster_Thin.woff2", weight: "200", style: "normal" },
+    { path: "../public/fonts/Ekster/Ekster_Light.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/Ekster/Ekster_Regular.woff2", weight: "400", style: "normal" },
+  ],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
@@ -56,9 +66,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geograph.variable} ${akkuratMono.variable} ${notoSerif.variable}`}
+      className={`${geograph.variable} ${akkuratMono.variable} ${ekster.variable} ${nunito.variable}`}
     >
-      <body className="bg-paper text-tetsu">{children}</body>
+      <body className="bg-paper text-tetsu">
+        <CandyShell>{children}</CandyShell>
+      </body>
     </html>
   );
 }

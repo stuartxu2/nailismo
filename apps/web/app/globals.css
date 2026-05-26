@@ -1,25 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans:  var(--font-geograph), system-ui, sans-serif;
-  --font-serif: var(--font-noto-serif), ui-serif, serif;
+  --font-sans:  var(--font-nunito), var(--font-geograph), system-ui, sans-serif;
+  --font-serif: var(--font-ekster), var(--font-geograph), sans-serif; /* repointed: no serif on homepage */
   --font-mono:  var(--font-akkurat-mono), ui-monospace, monospace;
+  --font-ekster: var(--font-ekster-local);
 
-  --paper:      #F5F5F5;
-  --toriko:     #F2EDE0;
-  --shiracha:   #E4DDCC;
-  --tetsu:      #281A14;
-  --sumi:       #1C1816;
-  --rikyu:      #656765;
-  --gin:        #9EA1A3;
-  --hair:       rgba(40,26,20,0.16);
-  --hair-strong:rgba(40,26,20,0.30);
-  --hair-dark:  rgba(242,237,224,0.18);
-  --akane:      #B7282E;
-  --bengara:    #913225;
-  --konnezumi:  #44617B;
-  --kodou:      #543F32;
-  --kikuchiba:  #D4AC68;
+  /* Nippon palette (values remapped; names kept for zero-churn) */
+  /* Candy scheme (plum / lilac / lime / slate) — names kept for zero-churn */
+  --paper:      #E6D5EB; /* lilac — page bg */
+  --toriko:     #FFFFFF; /* white — clean surface */
+  --shiracha:   #C9B6D2; /* lilac — borders/dividers */
+  --tetsu:      #271028; /* plum — text/dark UI */
+  --sumi:       #271028;
+  --rikyu:      #60779F; /* slate — nav/labels/captions */
+  --gin:        #6E5E72; /* muted plum-gray */
+  --hair:       rgba(39,16,40,0.14);
+  --hair-strong:rgba(39,16,40,0.28);
+  --hair-dark:  rgba(230,213,235,0.18);
+  --akane:      #4F6796; /* deep slate — links/active accent */
+  --bengara:    #60779F;
+  --konnezumi:  #4F6796;
+  --kodou:      #60779F;
+  --kikuchiba:  #9FED40; /* lime — CTA + badge pop */
+
+  /* Nippon-named aliases for new homepage code */
+  --shironeri:      #E6D5EB;
+  --gofun:          #FFFFFF;
+  --shironezumi:    #C9B6D2;
+  --kurotsurubami:  #271028;
+  --ainezumi:       #60779F;
+  --fujinezumi:     #4F6796;
+  --haizakura:      #9FED40;
+  --kamenozoki:     #9FED40;
 }
 
 @theme inline {
@@ -35,6 +48,14 @@
   --color-konnezumi: var(--konnezumi);
   --color-kodou: var(--kodou);
   --color-kikuchiba: var(--kikuchiba);
+  --color-shironeri: var(--shironeri);
+  --color-gofun: var(--gofun);
+  --color-shironezumi: var(--shironezumi);
+  --color-kurotsurubami: var(--kurotsurubami);
+  --color-ainezumi: var(--ainezumi);
+  --color-fujinezumi: var(--fujinezumi);
+  --color-haizakura: var(--haizakura);
+  --color-kamenozoki: var(--kamenozoki);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
@@ -49,8 +70,8 @@ html {
 }
 body { font-family: var(--font-sans); font-weight: 400; }
 
-.font-display { font-family: var(--font-sans); }
-.font-serif { font-family: var(--font-serif); }
+.font-display { font-family: var(--font-ekster); }
+.font-serif { font-family: var(--font-ekster); }
 .font-mono { font-family: var(--font-mono); }
 
 .tracking-tightest { letter-spacing: -0.045em; }
@@ -60,12 +81,6 @@ body { font-family: var(--font-sans); font-weight: 400; }
 .border-hair { border-color: var(--hair); }
 .border-hair-dark { border-color: var(--hair-dark); }
 
-.grain::after {
-  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  opacity: 0.10; mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
-}
-
 .eyebrow, .cap {
   font-family: var(--font-mono);
   font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -73,9 +88,6 @@ body { font-family: var(--font-sans); font-weight: 400; }
   color: var(--rikyu);
 }
 .cap-dark { color: rgba(242,237,224,0.55); }
-
-@keyframes scroll-x { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
-.ticker-track { animation: scroll-x 60s linear infinite; }
 
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
@@ -88,7 +100,7 @@ body { font-family: var(--font-sans); font-weight: 400; }
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 12px;
-  padding: 16px 22px; background: var(--tetsu); color: var(--paper);
+  padding: 16px 22px; background: var(--kikuchiba); color: var(--tetsu);
   font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
   border: 1px solid var(--tetsu);
   transition: background-color .25s ease, color .25s ease;
@@ -144,15 +156,11 @@ body { font-family: var(--font-sans); font-weight: 400; }
 
 details > summary { list-style: none; cursor: pointer; }
 details > summary::-webkit-details-marker { display: none; }
-details[open] .acc-icon { transform: rotate(45deg); }
-.acc-icon { transition: transform .4s cubic-bezier(.22,1,.36,1); }
-details[open] .acc-answer { opacity: 1; max-height: 480px; }
-.acc-answer { opacity: 0; max-height: 0; overflow: hidden; transition: opacity .5s ease, max-height .5s ease; }
 
 .shadow-editorial {
   box-shadow:
-    0 40px 80px -30px rgba(40,26,20,0.22),
-    0 12px 24px -12px rgba(40,26,20,0.14);
+    0 40px 80px -30px rgba(11,16,19,0.18),
+    0 12px 24px -12px rgba(11,16,19,0.12);
 }
 .shadow-editorial-dark {
   box-shadow:
@@ -162,25 +170,24 @@ details[open] .acc-answer { opacity: 1; max-height: 480px; }
 }
 
 .tape {
-  display: inline-block; padding: 4px 10px; background: var(--akane); color: var(--paper);
+  display: inline-block; padding: 4px 10px; background: var(--kikuchiba); color: var(--tetsu);
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
   text-transform: uppercase; font-weight: 500;
 }
-.tape-navy { background: var(--konnezumi); }
-.tape-dark { background: var(--tetsu); }
+.tape-navy { background: var(--konnezumi); color: var(--paper); }
+.tape-dark { background: var(--tetsu); color: var(--paper); }
 
 .crosshair { position: absolute; width: 16px; height: 16px; pointer-events: none; }
-.crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(40,26,20,0.45); }
+.crosshair::before, .crosshair::after { content:''; position:absolute; background: rgba(11,16,19,0.28); }
 .crosshair::before { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-50%); }
 .crosshair::after { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-50%); }
 .crosshair-light::before, .crosshair-light::after { background: rgba(242,237,224,0.55); }
 
 .nail-container { max-width: 1440px; margin: 0 auto; padding-left: clamp(20px,4vw,56px); padding-right: clamp(20px,4vw,56px); }
-.fade-x { mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%); }
 
 .corner-mark {
   position: absolute; font-family: var(--font-mono); font-size: 10px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(40,26,20,0.45);
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ainezumi);
 }
 .corner-mark-dark { color: rgba(242,237,224,0.55); }
 
@@ -209,7 +216,5 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 .dot { display: inline-block; width: 6px; height: 6px; background: var(--akane); border-radius: 50%; vertical-align: middle; margin: 0 32px; }
 
-.logo-natural { filter: none; }
-.logo-invert { filter: invert(1); }
 
 @media (max-width: 768px) { .spec strong { font-size: 28px; } }

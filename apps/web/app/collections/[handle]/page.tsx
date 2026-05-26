@@ -12,12 +12,15 @@ import type {
   ShopifyCollectionDetail,
   ShopifyProduct,
 } from "@/lib/shopify/types";
+import Image from "next/image";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 
 type Params = { handle: string };
 type SearchParams = { sort?: string };
+
+const SWATCHES = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
 
 const SORT_OPTIONS = [
   { key: "featured", label: "Featured" },
@@ -133,175 +136,82 @@ export default async function CollectionPage({
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <Link href="/shop" className="ulink">Shop</Link>
-              <span>/</span>
-              <span className="text-tetsu">{collection.title}</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <Link href="/shop" className="candy-crumb">Shop</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>{collection.title}</span>
+        </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-7">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">Edit</span>
-                  <span className="cap">{collection.handle}</span>
-                </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(48px,7vw,108px)]">
-                  {collection.title}
-                  <span className="text-akane">.</span>
-                </h1>
-              </div>
-              <div className="col-span-12 md:col-span-5">
-                {collection.descriptionHtml ? (
-                  <div
-                    className="text-rikyu max-w-[460px] [&_p]:mb-3"
-                    dangerouslySetInnerHTML={{ __html: collection.descriptionHtml }}
-                  />
-                ) : (
-                  <p className="text-rikyu max-w-[460px]">
-                    A focused edit. Ranked by what men actually pick first in this lane.
-                  </p>
-                )}
-                <div className="mt-6 cap">
-                  {products.length} {products.length === 1 ? "set" : "sets"}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="candy-pagehead">
+          <span className="candy-eyebrow">The edit</span>
+          <h1 style={{ marginTop: 10 }}>{collection.title}</h1>
+          {collection.descriptionHtml ? (
+            <div className="candy-prose" style={{ marginTop: 12, fontSize: 16 }} dangerouslySetInnerHTML={{ __html: collection.descriptionHtml }} />
+          ) : (
+            <p>A curated flavor edit — handpicked sets in one place.</p>
+          )}
+          <p style={{ marginTop: 8 }}><strong>{products.length}</strong> {products.length === 1 ? "set" : "sets"}</p>
+        </div>
 
         {collection.image && (
-          <section className="mt-12 md:mt-16">
-            <div className="nail-container">
-              <div className="relative aspect-[16/6] overflow-hidden bg-shiracha border border-hair">
-                <img
-                  src={collection.image.url}
-                  alt={collection.image.altText ?? collection.title}
-                  className="img-cover"
-                />
-                <span className="corner-mark top-4 left-4">
-                  {collection.handle} · cover
-                </span>
-              </div>
-            </div>
-          </section>
+          <div style={{ position: "relative", aspectRatio: "16/6", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)", marginTop: 24 }}>
+            <Image src={collection.image.url} alt={collection.image.altText ?? collection.title} fill sizes="100vw" style={{ objectFit: "cover" }} />
+          </div>
         )}
 
-        <section className="sec pt-12 md:pt-16">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-8 mb-10 flex flex-wrap items-end justify-between gap-6">
-              <div>
-                <span className="cap mb-3 block">Sort</span>
-                <div className="flex flex-wrap gap-2">
-                  {SORT_OPTIONS.map((s) => (
-                    <a
-                      key={s.key}
-                      href={buildHref(collection.handle, s.key)}
-                      className={`edit-pill ${activeSort === s.key ? "edit-pill-active" : ""}`}
-                    >
-                      {s.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              <Link href="/shop" className="ulink cap">
-                View Full Index →
-              </Link>
-            </div>
-
-            {products.length === 0 ? (
-              <div className="border border-hair py-24 text-center">
-                <span className="cap block mb-4">Empty Edit</span>
-                <p className="font-display text-[24px] text-tetsu">
-                  No sets in this edit yet.
-                </p>
-                <Link href="/shop" className="btn-ghost mt-8 inline-flex">
-                  Browse The Index <span className="arrow">→</span>
-                </Link>
-              </div>
-            ) : (
-              <div className="grid grid-cols-12 gap-5">
-                {products.map((p, i) => {
-                  const num = `N°${String(i + 1).padStart(2, "0")}`;
-                  const meta =
-                    [p.productType, p.tags[0]].filter(Boolean).join(" · ") ||
-                    "Press-On Set";
-                  const price = formatPrice(
-                    p.priceRange.minVariantPrice.amount,
-                    p.priceRange.minVariantPrice.currencyCode,
-                  );
-                  const img =
-                    p.featuredImage?.url ??
-                    "/images/listing/black and white press on nails.avif";
-                  const alt = p.featuredImage?.altText ?? p.title;
-                  return (
-                    <article
-                      key={p.id}
-                      className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
-                    >
-                      <Link
-                        href={`/product/${p.handle}`}
-                        className="relative aspect-square overflow-hidden bg-shiracha block"
-                      >
-                        <img src={img} alt={alt} className="img-cover edit-image" />
-                        <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">
-                          {num}
-                        </span>
-                      </Link>
-                      <div className="p-4 flex flex-col flex-1">
-                        <h2 className="font-display text-[18px] leading-[1.1]">
-                          <Link href={`/product/${p.handle}`} className="ulink">
-                            {p.title}
-                          </Link>
-                        </h2>
-                        <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
-                          <span>{meta}</span>
-                          <span className="font-display text-[16px] text-tetsu">
-                            {price}
-                          </span>
-                        </div>
-                        {p.tags.length > 0 && (
-                          <div className="mt-3 flex flex-wrap gap-1 text-[10px] uppercase tracking-[0.16em] font-mono text-rikyu">
-                            {p.tags.slice(0, 3).map((t) => (
-                              <span key={t} className="px-1.5 py-0.5 border border-hair">
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        <div className="mt-auto pt-4 flex items-center justify-between gap-2">
-                          <Link
-                            href={`/product/${p.handle}`}
-                            className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
-                          >
-                            Details →
-                          </Link>
-                          <Link
-                            href={`/product/${p.handle}`}
-                            className="bg-tetsu text-paper px-3 py-1.5 text-[10px] tracking-[0.18em] uppercase font-medium hover:bg-akane transition-colors"
-                          >
-                            Open
-                          </Link>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
-
-            <div className="mt-12 flex items-center justify-between flex-wrap gap-3 border-t border-hair pt-8">
-              <span className="cap">Edit · {collection.handle}</span>
-              <Link href="/shop" className="btn-ghost">
-                Open Full Index <span className="arrow">→</span>
-              </Link>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginTop: 36, marginBottom: 28 }}>
+          <div>
+            <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Sort</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {SORT_OPTIONS.map((s) => (
+                <Link key={s.key} href={buildHref(collection.handle, s.key)} className={`candy-chip ${activeSort === s.key ? "is-active" : ""}`}>{s.label}</Link>
+              ))}
             </div>
           </div>
-        </section>
+          <Link href="/shop" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>View all</Link>
+        </div>
+
+        {products.length === 0 ? (
+          <div className="candy-empty">
+            <div className="emoji" aria-hidden>🍬</div>
+            <h2>No sets in this edit yet</h2>
+            <p>Check back soon — or browse the full rack.</p>
+            <Link href="/shop" className="candy-btn" style={{ marginTop: 22 }}>Browse all</Link>
+          </div>
+        ) : (
+          <div className="candy-grid">
+            {products.map((p, i) => {
+              const meta = [p.productType, p.tags[0]].filter(Boolean).join(" · ") || "Press-On Set";
+              const price = formatPrice(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode);
+              const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
+              const alt = p.featuredImage?.altText ?? p.title;
+              const sw = [SWATCHES[i % SWATCHES.length], SWATCHES[(i + 2) % SWATCHES.length]];
+              return (
+                <Link key={p.id} href={`/product/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
+                  <div className="candy-card-img">
+                    <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
+                  </div>
+                  <div style={{ padding: "16px 6px 6px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                      <div>
+                        <h2 style={{ fontSize: 20 }}>{p.title}</h2>
+                        <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>{meta}</p>
+                      </div>
+                      <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
+                      <span style={{ display: "inline-flex", gap: 6 }}>
+                        {sw.map((c, j) => <span key={j} className="candy-swatch" style={{ background: c }} />)}
+                      </span>
+                      <span className="candy-quickadd" aria-hidden>→</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </main>
       <Footer />
     </>
