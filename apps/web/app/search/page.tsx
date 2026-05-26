@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { SEARCH_PRODUCTS_QUERY } from "@/lib/shopify/queries";
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 type SearchParams = { q?: string };
+
+const SWATCHES = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
 
 async function fetchSearch(query: string): Promise<ShopifyProduct[]> {
   if (!query.trim()) return [];
@@ -55,143 +58,91 @@ export default async function SearchPage({
     <>
       <AnnouncementTicker />
       <Header />
-      <main className="bg-paper relative overflow-hidden">
-        <section className="sec pb-0">
-          <div className="nail-container">
-            <nav className="mb-10 flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-mono text-rikyu">
-              <Link href="/" className="ulink">Home</Link>
-              <span>/</span>
-              <span className="text-tetsu">Search</span>
-            </nav>
+      <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
+        <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <Link href="/" className="candy-crumb">Home</Link>
+          <span className="candy-crumb" aria-current="page" style={{ background: "var(--lemon)" }}>Search</span>
+        </nav>
 
-            <div className="grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-7">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="cap">N°00</span>
-                  <span className="cap">Index Search</span>
-                </div>
-                <h1 className="font-display font-light tracking-display leading-[0.9] text-[clamp(48px,7vw,108px)]">
-                  Find
-                  <br />
-                  <span className="italic font-serif font-light">your set</span>
-                  <span className="text-akane">.</span>
-                </h1>
-              </div>
-              <div className="col-span-12 md:col-span-5">
-                <form action="/search" method="GET" className="flex items-stretch border border-hair bg-paper">
-                  <input
-                    type="text"
-                    name="q"
-                    defaultValue={trimmed}
-                    placeholder="silver, matte, halloween…"
-                    autoFocus
-                    className="flex-1 px-4 py-3 bg-transparent text-[15px] outline-none placeholder:text-gin"
-                    aria-label="Search products"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-tetsu text-paper px-5 text-[11px] tracking-[0.22em] uppercase font-medium hover:bg-akane transition-colors"
-                  >
-                    Search
-                  </button>
-                </form>
-                <p className="mt-4 text-[12px] text-rikyu">
-                  Searches across title, tags, and product type.
-                </p>
-              </div>
+        <div className="candy-pagehead">
+          <span className="candy-eyebrow">Find your flavor</span>
+          <h1 style={{ marginTop: 10 }}>Search the rack</h1>
+          <form action="/search" method="GET" style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+            <input
+              type="text"
+              name="q"
+              defaultValue={trimmed}
+              placeholder="silver, matte, chrome…"
+              autoFocus
+              aria-label="Search products"
+              className="candy-field"
+              style={{ flex: 1, minWidth: 220 }}
+            />
+            <button type="submit" className="candy-btn">Search <span className="pop" aria-hidden>🔍</span></button>
+          </form>
+          <p style={{ marginTop: 10, fontSize: 13, fontWeight: 600, color: "var(--ink-soft)" }}>
+            Searches across title, tags, and product type.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginTop: 36, marginBottom: 28 }}>
+          <span className="candy-eyebrow">
+            {trimmed ? `${results.length} result${results.length === 1 ? "" : "s"} for “${trimmed}”` : "Type a query to start"}
+          </span>
+          <Link href="/shop" className="candy-btn is-ghost" style={{ padding: "10px 18px", fontSize: 14 }}>Browse all</Link>
+        </div>
+
+        {!trimmed ? (
+          <div className="candy-empty">
+            <div className="emoji" aria-hidden>🍭</div>
+            <h2>What are you craving?</h2>
+            <p>Try one of these:</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 18 }}>
+              {["silver", "matte", "christmas", "french", "chrome", "g-dragon"].map((t) => (
+                <Link key={t} href={`/search?q=${encodeURIComponent(t)}`} className="candy-chip">{t}</Link>
+              ))}
             </div>
           </div>
-        </section>
-
-        <section className="sec pt-12 md:pt-16">
-          <div className="nail-container">
-            <div className="border-t border-hair pt-8 mb-10 flex items-center justify-between flex-wrap gap-3">
-              <span className="cap">
-                {trimmed
-                  ? `${results.length} result${results.length === 1 ? "" : "s"} for "${trimmed}"`
-                  : "Type a query to start"}
-              </span>
-              <Link href="/shop" className="ulink cap">Browse full index →</Link>
-            </div>
-
-            {!trimmed ? (
-              <div className="border border-hair py-24 text-center">
-                <span className="cap block mb-4">Try</span>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {["silver", "matte", "christmas", "french", "chrome", "g-dragon"].map((t) => (
-                    <Link key={t} href={`/search?q=${encodeURIComponent(t)}`} className="edit-pill">
-                      {t}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : results.length === 0 ? (
-              <div className="border border-hair py-24 text-center">
-                <span className="cap block mb-4">No matches</span>
-                <p className="font-display text-[24px] text-tetsu">
-                  Nothing matched &ldquo;{trimmed}&rdquo;.
-                </p>
-                <Link href="/shop" className="btn-ghost mt-8 inline-flex">
-                  Open Full Index <span className="arrow">→</span>
-                </Link>
-              </div>
-            ) : (
-              <div className="grid grid-cols-12 gap-5">
-                {results.map((p, i) => {
-                  const num = `N°${String(i + 1).padStart(2, "0")}`;
-                  const meta =
-                    [p.productType, p.tags[0]].filter(Boolean).join(" · ") ||
-                    "Press-On Set";
-                  const price = formatPrice(
-                    p.priceRange.minVariantPrice.amount,
-                    p.priceRange.minVariantPrice.currencyCode,
-                  );
-                  const img =
-                    p.featuredImage?.url ??
-                    "/images/listing/black and white press on nails.avif";
-                  const alt = p.featuredImage?.altText ?? p.title;
-                  return (
-                    <article
-                      key={p.id}
-                      className="col-span-6 md:col-span-4 lg:col-span-3 group border border-hair bg-paper flex flex-col edit-card"
-                    >
-                      <Link
-                        href={`/product/${p.handle}`}
-                        className="relative aspect-square overflow-hidden bg-shiracha block"
-                      >
-                        <img src={img} alt={alt} className="img-cover edit-image" />
-                        <span className="absolute top-3 left-3 cap text-paper bg-tetsu px-2 py-1">
-                          {num}
-                        </span>
-                      </Link>
-                      <div className="p-4 flex flex-col flex-1">
-                        <h2 className="font-display text-[18px] leading-[1.1]">
-                          <Link href={`/product/${p.handle}`} className="ulink">
-                            {p.title}
-                          </Link>
-                        </h2>
-                        <div className="mt-1 flex items-center justify-between text-[12px] text-rikyu">
-                          <span>{meta}</span>
-                          <span className="font-display text-[16px] text-tetsu">
-                            {price}
-                          </span>
-                        </div>
-                        <div className="mt-auto pt-4">
-                          <Link
-                            href={`/product/${p.handle}`}
-                            className="ulink text-[10px] tracking-[0.18em] uppercase font-medium"
-                          >
-                            Open →
-                          </Link>
-                        </div>
+        ) : results.length === 0 ? (
+          <div className="candy-empty">
+            <div className="emoji" aria-hidden>🫥</div>
+            <h2>Nothing matched “{trimmed}”</h2>
+            <p>Try a different word — or browse the whole rack.</p>
+            <Link href="/shop" className="candy-btn" style={{ marginTop: 22 }}>Browse all</Link>
+          </div>
+        ) : (
+          <div className="candy-grid">
+            {results.map((p, i) => {
+              const meta = [p.productType, p.tags[0]].filter(Boolean).join(" · ") || "Press-On Set";
+              const price = formatPrice(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode);
+              const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
+              const alt = p.featuredImage?.altText ?? p.title;
+              const sw = [SWATCHES[i % SWATCHES.length], SWATCHES[(i + 2) % SWATCHES.length]];
+              return (
+                <Link key={p.id} href={`/product/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
+                  <div className="candy-card-img">
+                    <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
+                  </div>
+                  <div style={{ padding: "16px 6px 6px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+                      <div>
+                        <h2 style={{ fontSize: 20 }}>{p.title}</h2>
+                        <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>{meta}</p>
                       </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
+                      <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
+                      <span style={{ display: "inline-flex", gap: 6 }}>
+                        {sw.map((c, j) => <span key={j} className="candy-swatch" style={{ background: c }} />)}
+                      </span>
+                      <span className="candy-quickadd" aria-hidden>→</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
-        </section>
+        )}
       </main>
       <Footer />
     </>
