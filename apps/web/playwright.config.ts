@@ -11,6 +11,15 @@ import { defineConfig, devices } from "@playwright/test";
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 const useExternal = Boolean(process.env.PLAYWRIGHT_BASE_URL);
 
+// When targeting a Vercel preview with Deployment Protection enabled, set
+// VERCEL_AUTOMATION_BYPASS_SECRET (Vercel → Settings → Deployment Protection →
+// Protection Bypass for Automation). Sent as a header on every request so the
+// preview serves real pages instead of the 401 auth wall. Never commit the value.
+const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+const extraHTTPHeaders = bypass
+  ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "true" }
+  : undefined;
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -20,6 +29,7 @@ export default defineConfig({
   use: {
     baseURL,
     trace: "on-first-retry",
+    extraHTTPHeaders,
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
