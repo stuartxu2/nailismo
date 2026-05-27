@@ -76,6 +76,27 @@ export function MobileMenu({ count = 0 }: { count?: number }) {
 
             <nav className="candy-wrap" style={{ flex: 1, overflowY: "auto", paddingTop: 28, paddingBottom: 28 }}>
               <span className="candy-eyebrow">Browse</span>
+              <Link
+                href="/product/nailismo-gift-card"
+                onClick={() => setOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginTop: 18,
+                  fontFamily: "var(--body)",
+                  fontWeight: 800,
+                  fontSize: 20,
+                  padding: "14px 20px",
+                  borderRadius: 999,
+                  background: "var(--bubblegum)",
+                  color: "var(--ink)",
+                  border: "2.5px solid var(--ink)",
+                  boxShadow: "0 4px 0 var(--ink)",
+                }}
+              >
+                <span aria-hidden style={{ fontSize: 24 }}>🎁</span> Gift Card
+              </Link>
               <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0" }}>
                 {navLinks.map((link, i) => (
                   <li key={i}>

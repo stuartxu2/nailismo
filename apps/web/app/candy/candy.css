@@ -129,6 +129,18 @@
   transition: background-color .2s ease, color .2s ease, transform .12s ease;
 }
 .candy-nav a:hover { background: var(--lemon); transform: translateY(-1px); }
+/* gift card — highlighted sticker pill so it reads as an obvious standout */
+.candy-nav a.candy-gift-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--bubblegum); border: 2px solid var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform .12s cubic-bezier(.34,1.56,.64,1), box-shadow .12s ease, background-color .2s ease;
+}
+.candy-nav a.candy-gift-link:hover  { background: var(--bubblegum-d); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+.candy-nav a.candy-gift-link:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.candy-nav a.candy-gift-link:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
+.candy-gift-link .pop { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.candy-nav a.candy-gift-link:hover .pop { transform: rotate(18deg) scale(1.15); }
 
 /* ---- marquee ---- */
 .candy-marquee { overflow: hidden; }
@@ -152,6 +164,7 @@
 /* ---- product card (candy tile) ---- */
 .candy-card {
   position: relative; display: flex; flex-direction: column;
+  min-width: 0; /* let 1fr grid tracks shrink below content min-size (prevents mobile overflow) */
   border-radius: 28px; padding: 14px; background: var(--cream);
   border: 2.5px solid var(--ink);
   box-shadow: var(--shadow-candy);
@@ -250,6 +263,11 @@
 }
 .candy-iconbtn:hover { background: var(--lemon); transform: translateY(-1px); }
 .candy-iconbtn:active { transform: scale(.92); }
+
+/* header search/account icons: hidden on mobile (reachable via menu), shown from md
+   — two-class selector outranks `.candy-iconbtn { display: inline-grid }` */
+.candy-iconbtn.candy-md-only { display: none; }
+@media (min-width: 768px) { .candy-iconbtn.candy-md-only { display: inline-grid; } }
 
 /* hero: single column on mobile, two columns from md */
 @media (min-width: 880px) {

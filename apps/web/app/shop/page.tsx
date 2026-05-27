@@ -191,7 +191,7 @@ export default async function ShopPage({
                     </Link>
                     <div style={{ padding: "16px 6px 6px" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-                        <div>
+                        <div style={{ minWidth: 0 }}>
                           <h2 style={{ fontSize: 20 }}>
                             <Link href={`/product/${p.handle}`}>{p.title}</Link>
                           </h2>

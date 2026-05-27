@@ -91,7 +91,7 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
       </div>
       <div style={{ padding: "16px 6px 6px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <div>
+          <div style={{ minWidth: 0 }}>
             <h3 style={{ fontSize: 20 }}>{f.name}</h3>
             <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>
               {f.shape} · {f.finish}
@@ -154,7 +154,7 @@ export default async function CandyHome() {
         <div className="candy-wrap" style={{ position: "relative", zIndex: 2, paddingBlock: "clamp(48px, 7vw, 96px)" }}>
           <div style={{ display: "grid", gap: 40, gridTemplateColumns: "1fr", alignItems: "center" }} className="candy-hero-grid">
             <div className="candy-rise">
-              <span className="candy-eyebrow">Press-on nails · pure fun</span>
+              <span className="candy-eyebrow">Press-on nails · for every hand</span>
               <h1 style={{ fontSize: "clamp(52px, 9vw, 104px)", marginTop: 18 }}>
                 Press on.<br />
                 <span style={{ color: "var(--bubblegum-d)" }}>Show</span>{" "}
@@ -169,17 +169,20 @@ export default async function CandyHome() {
               </div>
             </div>
 
-            <div style={{ position: "relative", minHeight: 360 }} className="candy-hero-art">
-              <div className="candy-float" style={{ ["--rot" as string]: "-6deg", position: "absolute", top: 0, left: "4%", width: "46%", maxWidth: 260 }}>
+            <div style={{ position: "relative", minHeight: 420 }} className="candy-hero-art">
+              {/* supporting product flat-lay */}
+              <div className="candy-float d1" style={{ ["--rot" as string]: "-9deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 150, zIndex: 1 }}>
                 <HeroTile img="/images/listing/pink and silver press on nails.avif" alt="Bubblegum Pop set" border="var(--bubblegum)" />
               </div>
-              <div className="candy-float d2" style={{ ["--rot" as string]: "5deg", position: "absolute", top: 70, right: "2%", width: "46%", maxWidth: 260 }}>
-                <HeroTile img="/images/listing/silver press on nails.avif" alt="Soda Pop set" border="var(--soda)" />
+              {/* second face */}
+              <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "-1%", width: "46%", maxWidth: 218, zIndex: 2 }}>
+                <HeroTile img="/images/website/hero-festive-nails-model.avif" alt="Model showing off Nailismo press-on nails with festive art" border="var(--lemon)" />
               </div>
-              <div className="candy-float d3" style={{ ["--rot" as string]: "-3deg", position: "absolute", bottom: -10, left: "26%", width: "44%", maxWidth: 240 }}>
-                <HeroTile img="/images/listing/amber and gold press on nails.avif" alt="Lemon Drop set" border="var(--lemon)" />
+              {/* anchor face: real hand wearing the nails */}
+              <div className="candy-float d2" style={{ ["--rot" as string]: "-4deg", position: "absolute", top: 44, left: "1%", width: "52%", maxWidth: 256, zIndex: 3 }}>
+                <HeroTile img="/images/website/hero-cloud-nails-model.avif" alt="Model wearing Nailismo press-on nails with sky-blue cloud art" border="var(--soda)" />
               </div>
-              <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 18, right: "30%", zIndex: 5, fontSize: 14 }}>
+              <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 6, left: "26%", zIndex: 5, fontSize: 14 }}>
                 Ready in minutes!
               </span>
             </div>
