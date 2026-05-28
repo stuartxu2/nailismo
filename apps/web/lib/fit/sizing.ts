@@ -3,23 +3,23 @@
  *
  * The interactive page never measures the screen directly. The user calibrates
  * once against a bank/ID card (a physical constant), which yields a px→mm scale
- * for their device. Every nail width is then derived from that scale and snapped
- * to Nailismo's 0–9 size scale.
+ * for their device. Every nail width is then derived from that scale and matched
+ * against Nailismo's printed S/M/L/XL set-size chart.
+ *
+ * Sets are sold as a single size (S/M/L/XL) — one tray that fits the whole hand
+ * — so the guide measures all five nails and aggregates them into ONE set size
+ * that maps straight onto a Shopify "Size" variant.
  *
  * No React, no DOM (except thin localStorage guards) — unit-testable in isolation.
  */
 
-/** Fingers, ordered widest → narrowest (thumb to pinky). */
+/** Fingers, ordered widest → narrowest (thumb to little). */
 export const FINGERS = ["thumb", "index", "middle", "ring", "pinky"] as const;
 export type FingerKey = (typeof FINGERS)[number];
 
-export type HandKey = "left" | "right";
-
-/** Nailismo size scale: 0 = widest (thumb), 9 = narrowest (pinky). */
-export type NailSize = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
-/** A finished map: a size for every finger on both hands. */
-export type SizeMap = Record<HandKey, Record<FingerKey, NailSize>>;
+/** The four set sizes Nailismo sells, narrowest → widest. */
+export const SET_SIZES = ["S", "M", "L", "XL"] as const;
+export type SetSize = (typeof SET_SIZES)[number];
 
 /**
  * ISO/IEC 7810 ID-1 card width in mm — the calibration reference. Every bank
@@ -28,28 +28,21 @@ export type SizeMap = Record<HandKey, Record<FingerKey, NailSize>>;
 export const CARD_WIDTH_MM = 85.6;
 
 /**
- * Nominal nail-bed width (mm) per size. Domain constant.
- *
- * FLAG: these breakpoints must be confirmed against Nailismo's actual printed
- * size chart before launch. They currently span the 7–18mm range shown in the
- * homepage Fit section. Tune here only — every consumer reads from this table.
+ * Nailismo's official printed size chart: nail-bed width (mm) per finger, per
+ * set size. Source of truth for the whole guide — every size decision reads
+ * from this table. The chart steps a clean +1mm per size on every finger.
  */
-export const SIZE_TABLE: { size: NailSize; mm: number }[] = [
-  { size: 0, mm: 18.0 },
-  { size: 1, mm: 16.5 },
-  { size: 2, mm: 15.5 },
-  { size: 3, mm: 14.5 },
-  { size: 4, mm: 13.5 },
-  { size: 5, mm: 12.5 },
-  { size: 6, mm: 11.5 },
-  { size: 7, mm: 10.5 },
-  { size: 8, mm: 9.5 },
-  { size: 9, mm: 8.0 },
-];
+export const SIZE_CHART: Record<FingerKey, Record<SetSize, number>> = {
+  thumb: { S: 14, M: 15, L: 16, XL: 17 },
+  index: { S: 10, M: 11, L: 12, XL: 13 },
+  middle: { S: 11, M: 12, L: 13, XL: 14 },
+  ring: { S: 10, M: 11, L: 12, XL: 13 },
+  pinky: { S: 7, M: 8, L: 9, XL: 10 },
+};
 
-/** Smallest / largest mm the caliper should allow, with a little slack. */
-export const MIN_MM = 6;
-export const MAX_MM = 22;
+/** Smallest / largest mm the caliper should allow, with slack around the chart. */
+export const MIN_MM = 5;
+export const MAX_MM = 20;
 
 /** Pixels-per-mm for this device, from the calibrated card width in CSS px. */
 export function pxPerMm(cardPixelWidth: number): number {
@@ -62,41 +55,46 @@ export function pxToMm(px: number, factor: number): number {
   return px / factor;
 }
 
-/** Snap a nail-bed width (mm) to the nearest size on the 0–9 scale. */
-export function mmToSize(mm: number): NailSize {
-  let best = SIZE_TABLE[0];
-  let bestDiff = Infinity;
-  for (const row of SIZE_TABLE) {
-    const diff = Math.abs(row.mm - mm);
-    // Strict `<` keeps the wider size (smaller number) on exact ties.
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      best = row;
-    }
-  }
-  return best.size;
-}
-
 /** Clamp a mm value into the caliper's allowed range. */
 export function clampMm(mm: number): number {
   return Math.min(MAX_MM, Math.max(MIN_MM, mm));
 }
 
 /**
- * Build a full both-hands size map from a single measured hand. We assume left
- * and right are symmetric (true for the overwhelming majority of users) and let
- * the UI override individual fingers afterward. Fingers with no measurement yet
- * fall back to the table's mid value so partial maps still render.
+ * Continuous set-size position (0 = S … 3 = XL) for a single finger at a given
+ * width. The chart steps +1mm per size, so the offset from the S baseline IS
+ * the size index. Clamped to the chart's range so one oversized nail can't drag
+ * the aggregate off the scale.
  */
-export function buildSymmetricMap(
+function sizeIndexForFinger(finger: FingerKey, mm: number): number {
+  const offset = mm - SIZE_CHART[finger].S;
+  return Math.min(SET_SIZES.length - 1, Math.max(0, offset));
+}
+
+/** Nearest set size for a single finger's measured width. Ties round up. */
+export function sizeFromMm(finger: FingerKey, mm: number): SetSize {
+  const idx = Math.round(sizeIndexForFinger(finger, mm));
+  return SET_SIZES[idx];
+}
+
+/**
+ * Aggregate measured nails into one recommended set size. Each finger votes a
+ * continuous size index; we average the votes and round to the nearest size.
+ * Ties round UP — a slightly large nail can be filed down, a small one can't be
+ * stretched. Returns null until at least one nail is measured.
+ */
+export function sizeFromMeasurements(
   fingerMm: Partial<Record<FingerKey, number>>,
-): SizeMap {
-  const oneHand = {} as Record<FingerKey, NailSize>;
+): SetSize | null {
+  const indices: number[] = [];
   for (const finger of FINGERS) {
     const mm = fingerMm[finger];
-    oneHand[finger] = mm == null ? 5 : mmToSize(mm);
+    if (typeof mm === "number") indices.push(sizeIndexForFinger(finger, mm));
   }
-  return { left: { ...oneHand }, right: { ...oneHand } };
+  if (indices.length === 0) return null;
+  const avg = indices.reduce((a, b) => a + b, 0) / indices.length;
+  const idx = Math.min(SET_SIZES.length - 1, Math.max(0, Math.round(avg)));
+  return SET_SIZES[idx];
 }
 
 /** True once every finger on the measured hand has a width. */
@@ -105,9 +103,9 @@ export function isComplete(fingerMm: Partial<Record<FingerKey, number>>): boolea
 }
 
 /**
- * Pick the starter set to recommend. Every Nailismo starter set ships the full
- * size range, so the choice is editorial, not size-matched: the first set with
- * an available variant, falling back to the first set, or null if none exist.
+ * Pick the starter set to recommend. Every Nailismo starter set ships all four
+ * sizes, so the choice of product is editorial, not size-matched: the first set
+ * with an available variant, falling back to the first set, or null if none.
  */
 export function recommendSet<
   T extends { variants?: { nodes: { id: string; availableForSale: boolean }[] } },
@@ -119,7 +117,30 @@ export function recommendSet<
   return inStock ?? products[0];
 }
 
-/** First purchasable variant id for a product, or null. */
+type VariantNode = {
+  id: string;
+  availableForSale: boolean;
+  selectedOptions?: { name: string; value: string }[];
+};
+
+/**
+ * Variant id for a product's "Size" option matching the given set size. Prefers
+ * a purchasable variant, falls back to the matching variant even if sold out,
+ * then null. Used to wire Add-to-Cart straight to the user's computed size.
+ */
+export function variantForSize(
+  product: { variants?: { nodes: VariantNode[] } },
+  size: SetSize,
+): string | null {
+  const nodes = product.variants?.nodes ?? [];
+  const matches = nodes.filter((v) =>
+    v.selectedOptions?.some((o) => o.name === "Size" && o.value === size),
+  );
+  const pick = matches.find((v) => v.availableForSale) ?? matches[0];
+  return pick?.id ?? null;
+}
+
+/** First purchasable variant id for a product, or null. The size-agnostic fallback. */
 export function firstVariantId(product: {
   variants?: { nodes: { id: string; availableForSale: boolean }[] };
 }): string | null {

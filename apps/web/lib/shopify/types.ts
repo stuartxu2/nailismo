@@ -21,7 +21,11 @@ export type ShopifyProduct = {
     minVariantPrice: ShopifyMoney;
   };
   variants?: {
-    nodes: { id: string; availableForSale: boolean }[];
+    nodes: {
+      id: string;
+      availableForSale: boolean;
+      selectedOptions?: { name: string; value: string }[];
+    }[];
   };
 };
 

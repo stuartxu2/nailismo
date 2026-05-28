@@ -2,12 +2,15 @@ import { describe, it, expect } from "vitest";
 import {
   pxPerMm,
   pxToMm,
-  mmToSize,
   clampMm,
-  buildSymmetricMap,
+  sizeFromMm,
+  sizeFromMeasurements,
   isComplete,
   recommendSet,
+  variantForSize,
   firstVariantId,
+  SIZE_CHART,
+  SET_SIZES,
   CARD_WIDTH_MM,
   FINGERS,
   MIN_MM,
@@ -32,27 +35,14 @@ describe("calibration math", () => {
   });
 });
 
-describe("mmToSize", () => {
-  it("maps exact nominal widths to their size", () => {
-    expect(mmToSize(18.0)).toBe(0);
-    expect(mmToSize(13.5)).toBe(4);
-    expect(mmToSize(12.5)).toBe(5);
-    expect(mmToSize(8.0)).toBe(9);
-  });
-
-  it("snaps to the nearest size", () => {
-    expect(mmToSize(15.4)).toBe(2); // closer to 15.5 than 14.5
-    expect(mmToSize(14.6)).toBe(3); // closer to 14.5 than 15.5
-  });
-
-  it("clamps out-of-range widths to the extreme sizes", () => {
-    expect(mmToSize(25)).toBe(0); // wider than thumb
-    expect(mmToSize(4)).toBe(9); // narrower than pinky
-  });
-
-  it("keeps the wider size (smaller number) on an exact tie", () => {
-    // 15.0 is equidistant from 15.5 (size 2) and 14.5 (size 3).
-    expect(mmToSize(15.0)).toBe(2);
+describe("SIZE_CHART", () => {
+  it("steps a clean +1mm per size on every finger", () => {
+    for (const finger of FINGERS) {
+      const row = SIZE_CHART[finger];
+      expect(row.M - row.S).toBe(1);
+      expect(row.L - row.M).toBe(1);
+      expect(row.XL - row.L).toBe(1);
+    }
   });
 });
 
@@ -64,34 +54,70 @@ describe("clampMm", () => {
   });
 });
 
-describe("buildSymmetricMap", () => {
-  it("mirrors a measured hand to both sides", () => {
-    const map = buildSymmetricMap({
-      thumb: 18,
-      index: 13.5,
-      middle: 14.5,
-      ring: 12.5,
-      pinky: 8,
-    });
-    expect(map.left).toEqual(map.right);
-    expect(map.left.thumb).toBe(0);
-    expect(map.left.pinky).toBe(9);
+describe("sizeFromMm", () => {
+  it("maps each chart width to its exact size", () => {
+    expect(sizeFromMm("thumb", 14)).toBe("S");
+    expect(sizeFromMm("thumb", 15)).toBe("M");
+    expect(sizeFromMm("thumb", 16)).toBe("L");
+    expect(sizeFromMm("thumb", 17)).toBe("XL");
+    expect(sizeFromMm("pinky", 7)).toBe("S");
+    expect(sizeFromMm("pinky", 10)).toBe("XL");
   });
 
-  it("falls back to a mid size for unmeasured fingers", () => {
-    const map = buildSymmetricMap({ thumb: 18 });
-    expect(map.left.thumb).toBe(0);
-    expect(map.left.index).toBe(5); // unmeasured -> mid
-    expect(FINGERS.every((f) => typeof map.left[f] === "number")).toBe(true);
+  it("snaps to the nearest size", () => {
+    expect(sizeFromMm("thumb", 15.4)).toBe("M"); // closer to 15 than 16
+    expect(sizeFromMm("thumb", 15.6)).toBe("L"); // closer to 16 than 15
+  });
+
+  it("rounds up on an exact tie (better slightly large)", () => {
+    // thumb 15.5 is equidistant from M(15) and L(16) -> size up to L.
+    expect(sizeFromMm("thumb", 15.5)).toBe("L");
+  });
+
+  it("clamps widths beyond the chart to the extreme sizes", () => {
+    expect(sizeFromMm("thumb", 25)).toBe("XL");
+    expect(sizeFromMm("pinky", 2)).toBe("S");
+  });
+});
+
+describe("sizeFromMeasurements", () => {
+  it("returns the matching size when every nail sits on one chart row", () => {
+    const sRow = Object.fromEntries(
+      FINGERS.map((f) => [f, SIZE_CHART[f].S]),
+    );
+    const lRow = Object.fromEntries(
+      FINGERS.map((f) => [f, SIZE_CHART[f].L]),
+    );
+    expect(sizeFromMeasurements(sRow)).toBe("S");
+    expect(sizeFromMeasurements(lRow)).toBe("L");
+  });
+
+  it("averages mixed nails and rounds to the nearest size", () => {
+    // thumb at M(15), rest at S -> avg index 0.2 -> S.
+    expect(
+      sizeFromMeasurements({ thumb: 15, index: 10, middle: 11, ring: 10, pinky: 7 }),
+    ).toBe("S");
+    // three nails at L, two at M -> avg index 1.6 -> L.
+    expect(
+      sizeFromMeasurements({ thumb: 16, index: 12, middle: 13, ring: 11, pinky: 8 }),
+    ).toBe("L");
+  });
+
+  it("works from a partial measurement", () => {
+    expect(sizeFromMeasurements({ thumb: 17 })).toBe("XL");
+  });
+
+  it("returns null before any nail is measured", () => {
+    expect(sizeFromMeasurements({})).toBeNull();
   });
 });
 
 describe("isComplete", () => {
   it("is true only when every finger is measured", () => {
     expect(isComplete({})).toBe(false);
-    expect(isComplete({ thumb: 18, index: 14, middle: 15, ring: 13 })).toBe(false);
+    expect(isComplete({ thumb: 15, index: 11, middle: 12, ring: 11 })).toBe(false);
     expect(
-      isComplete({ thumb: 18, index: 14, middle: 15, ring: 13, pinky: 9 }),
+      isComplete({ thumb: 15, index: 11, middle: 12, ring: 11, pinky: 8 }),
     ).toBe(true);
   });
 });
@@ -110,6 +136,45 @@ describe("recommendSet", () => {
 
   it("falls back to the first set when none are in stock", () => {
     expect(recommendSet([soldOut])?.id).toBe("b");
+  });
+});
+
+describe("variantForSize", () => {
+  const product = {
+    variants: {
+      nodes: [
+        { id: "s", availableForSale: true, selectedOptions: [{ name: "Size", value: "S" }] },
+        { id: "m-out", availableForSale: false, selectedOptions: [{ name: "Size", value: "M" }] },
+        { id: "l", availableForSale: true, selectedOptions: [{ name: "Size", value: "L" }] },
+      ],
+    },
+  };
+
+  it("matches the Size option to a set size", () => {
+    expect(variantForSize(product, "S")).toBe("s");
+    expect(variantForSize(product, "L")).toBe("l");
+  });
+
+  it("returns the matching variant even when it is sold out", () => {
+    expect(variantForSize(product, "M")).toBe("m-out");
+  });
+
+  it("returns null when no variant carries that size", () => {
+    expect(variantForSize(product, "XL")).toBeNull();
+    expect(variantForSize({ variants: { nodes: [] } }, "S")).toBeNull();
+    expect(variantForSize({}, "S")).toBeNull();
+  });
+
+  it("prefers the available variant when a size repeats", () => {
+    const dup = {
+      variants: {
+        nodes: [
+          { id: "m1", availableForSale: false, selectedOptions: [{ name: "Size", value: "M" }] },
+          { id: "m2", availableForSale: true, selectedOptions: [{ name: "Size", value: "M" }] },
+        ],
+      },
+    };
+    expect(variantForSize(dup, "M")).toBe("m2");
   });
 });
 
@@ -132,5 +197,11 @@ describe("firstVariantId", () => {
     ).toBe("v1");
     expect(firstVariantId({ variants: { nodes: [] } })).toBeNull();
     expect(firstVariantId({})).toBeNull();
+  });
+});
+
+describe("SET_SIZES", () => {
+  it("is ordered narrowest to widest", () => {
+    expect(SET_SIZES).toEqual(["S", "M", "L", "XL"]);
   });
 });
