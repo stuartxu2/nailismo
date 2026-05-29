@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const PAYMENTS = ["Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Klarna"];
 
@@ -23,7 +24,13 @@ export function Footer() {
       <div className="candy-wrap" style={{ paddingBlock: 56 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "space-between", alignItems: "flex-start" }}>
           <div style={{ maxWidth: 320 }}>
-            <span className="candy-logo" style={{ color: "var(--cotton)", fontSize: 28 }}>nail<b style={{ color: "var(--bubblegum)" }}>ismo</b></span>
+            <Image
+              src="/images/logo/nailismo-wordmark-light.avif"
+              alt="Nailismo — press on, show off"
+              width={185}
+              height={46}
+              style={{ height: 46, width: "auto" }}
+            />
             <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(230,213,235,0.7)", marginTop: 12 }}>
               Press-on nails that are pure fun. Ready in minutes, clean to remove. Press on. Show off.
             </p>
