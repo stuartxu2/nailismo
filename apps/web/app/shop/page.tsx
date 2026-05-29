@@ -25,7 +25,22 @@ const SORT_OPTIONS = [
   { key: "title", label: "A–Z" },
 ] as const;
 
+// Decorative fallback when a product has no color tag.
 const SWATCHES = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
+
+// Color tags applied to products by tools/shopify_color_tags.py → swatch hex.
+const COLOR_HEX: Record<string, string> = {
+  Black: "#271028",
+  White: "#FFFFFF",
+  Silver: "#C5CAD3",
+  Gold: "#D4AF37",
+  Red: "#E2342B",
+  Blue: "#3B6FB5",
+  Green: "#4FAE35",
+  Grey: "#9AA0A8",
+  Brown: "#8B5A2B",
+  Nude: "#E6C2A6",
+};
 
 async function fetchProducts(): Promise<ShopifyProduct[]> {
   try {
@@ -178,7 +193,16 @@ export default async function ShopPage({
                 const alt = p.featuredImage?.altText ?? p.title;
                 const variant = p.variants?.nodes[0];
                 const canAdd = variant?.availableForSale ?? false;
-                const sw = [SWATCHES[i % SWATCHES.length], SWATCHES[(i + 2) % SWATCHES.length]];
+                const colorDots = p.tags
+                  .filter((t) => t in COLOR_HEX)
+                  .slice(0, 2)
+                  .map((name) => ({ name, hex: COLOR_HEX[name] }));
+                const dots = colorDots.length
+                  ? colorDots
+                  : [
+                      { name: "", hex: SWATCHES[i % SWATCHES.length] },
+                      { name: "", hex: SWATCHES[(i + 2) % SWATCHES.length] },
+                    ];
                 return (
                   <article key={p.id} className="candy-card">
                     {i === 0 && (
@@ -200,9 +224,22 @@ export default async function ShopPage({
                         <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
-                        <span style={{ display: "inline-flex", gap: 6 }}>
-                          {sw.map((c, j) => (
-                            <span key={j} className="candy-swatch" style={{ background: c }} />
+                        <span
+                          style={{ display: "inline-flex", gap: 6 }}
+                          aria-label={
+                            colorDots.length
+                              ? `Colors: ${colorDots.map((d) => d.name).join(", ")}`
+                              : undefined
+                          }
+                        >
+                          {dots.map((c, j) => (
+                            <span
+                              key={j}
+                              className="candy-swatch"
+                              style={{ background: c.hex }}
+                              title={c.name || undefined}
+                              aria-hidden={c.name ? undefined : true}
+                            />
                           ))}
                         </span>
                         {canAdd && variant ? (
