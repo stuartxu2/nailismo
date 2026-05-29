@@ -1,10 +1,18 @@
 "use client";
 
 import { useCallback } from "react";
-import { pxToMm, mmToSize, clampMm, MIN_MM, MAX_MM } from "@/lib/fit/sizing";
+import { pxToMm, sizeFromMm, clampMm, MIN_MM, MAX_MM, type FingerKey } from "@/lib/fit/sizing";
 
 /** Left inset (px) where the fixed jaw sits inside the measuring bed. */
 const PAD = 28;
+
+const FINGER_LABEL: Record<FingerKey, string> = {
+  thumb: "Thumb",
+  index: "Index",
+  middle: "Middle",
+  ring: "Ring",
+  pinky: "Pinky",
+};
 
 /**
  * A physical caliper rendered at true scale. The gap between the fixed left jaw
@@ -16,15 +24,16 @@ export function NailCaliper({
   factor,
   mm,
   onChange,
-  fingerLabel,
+  finger,
 }: {
   factor: number;
   mm: number;
   onChange: (mm: number) => void;
-  fingerLabel: string;
+  finger: FingerKey;
 }) {
   const gapPx = mm * factor;
-  const size = mmToSize(mm);
+  const size = sizeFromMm(finger, mm);
+  const label = FINGER_LABEL[finger];
 
   const startDrag = useCallback(
     (e: React.PointerEvent) => {
@@ -61,68 +70,108 @@ export function NailCaliper({
 
   return (
     <div className="w-full">
-      <div className="flex items-end justify-between mb-4">
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
         <div>
-          <span className="cap block">Measuring</span>
-          <span className="font-display text-[22px] capitalize">{fingerLabel}</span>
+          <span className="candy-eyebrow">Measuring</span>
+          <div style={{ fontFamily: "var(--display)", fontWeight: 600, fontSize: 26, marginTop: 2 }}>{label}</div>
         </div>
-        <div className="text-right">
-          <span className="font-display text-[40px] leading-none tabular-nums text-tetsu">
+        <div style={{ textAlign: "right" }}>
+          <span style={{ fontFamily: "var(--display)", fontWeight: 600, fontSize: 40, lineHeight: 1, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
             {mm.toFixed(1)}
-            <span className="text-[16px] text-rikyu ml-1">mm</span>
+            <span style={{ fontSize: 16, fontWeight: 700, color: "var(--ink-soft)", marginLeft: 4 }}>mm</span>
           </span>
-          <span className="mt-2 flex items-center justify-end gap-2 cap">
-            Size
-            <span className="grid place-items-center h-6 w-6 bg-akane text-paper font-mono text-[12px]">
-              {size}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8, marginTop: 8 }}>
+            <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-soft)" }}>
+              Reads as
             </span>
-          </span>
+            <span className="candy-sticker is-gum" style={{ transform: "rotate(-3deg)" }}>{size}</span>
+          </div>
         </div>
       </div>
 
       {/* measuring bed — true scale */}
-      <div className="relative h-[136px] bg-toriko border border-hair overflow-hidden">
-        <span className="corner-mark" style={{ left: 8, top: 6 }}>
+      <div
+        style={{
+          position: "relative",
+          height: 144,
+          background: "var(--cotton)",
+          border: "2.5px solid var(--ink)",
+          borderRadius: 20,
+          overflow: "hidden",
+        }}
+      >
+        <span style={{ position: "absolute", left: 14, top: 12, fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ink-soft)" }}>
           Lay nail flat
         </span>
 
         {/* nail highlight spanning the gap */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 bg-akane/12 border-x border-akane/40"
-          style={{ left: PAD, width: Math.max(0, gapPx), height: 84, borderRadius: 12 }}
+          style={{
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%)",
+            left: PAD,
+            width: Math.max(0, gapPx),
+            height: 88,
+            background: "rgba(159,237,64,0.30)",
+            borderLeft: "2px solid var(--bubblegum-d)",
+            borderRight: "2px solid var(--bubblegum-d)",
+            borderRadius: 12,
+          }}
         >
-          <div className="absolute inset-x-0 top-0 h-3 bg-akane/25 rounded-t-[12px]" />
+          <div style={{ position: "absolute", insetInline: 0, top: 0, height: 12, background: "rgba(159,237,64,0.55)", borderRadius: "12px 12px 0 0" }} />
         </div>
 
         {/* fixed left jaw */}
-        <div
-          className="absolute top-3 bottom-3 w-px bg-tetsu"
-          style={{ left: PAD }}
-          aria-hidden
-        />
+        <div style={{ position: "absolute", top: 12, bottom: 12, width: 2, background: "var(--ink)", left: PAD }} aria-hidden />
 
         {/* draggable right jaw */}
         <button
           type="button"
           role="slider"
-          aria-label={`Adjust ${fingerLabel} nail width`}
+          aria-label={`Adjust ${label} nail width`}
           aria-valuemin={MIN_MM}
           aria-valuemax={MAX_MM}
           aria-valuenow={Number(mm.toFixed(1))}
-          aria-valuetext={`${mm.toFixed(1)} millimetres, size ${size}`}
+          aria-valuetext={`${mm.toFixed(1)} millimetres, reads as size ${size}`}
           onPointerDown={startDrag}
           onKeyDown={onKey}
-          className="group absolute top-0 bottom-0 w-10 -ml-5 cursor-ew-resize touch-none grid place-items-center focus-visible:outline focus-visible:outline-1 focus-visible:outline-akane focus-visible:-outline-offset-2"
-          style={{ left: PAD + gapPx }}
+          className="group"
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            width: 44,
+            marginLeft: -22,
+            cursor: "ew-resize",
+            touchAction: "none",
+            display: "grid",
+            placeItems: "center",
+            left: PAD + gapPx,
+            background: "transparent",
+            border: "none",
+          }}
         >
-          <span className="absolute top-3 bottom-3 w-px bg-tetsu" />
-          <span className="h-12 w-1.5 rounded-full bg-akane transition-transform duration-200 group-hover:scale-y-110 group-active:scale-y-95" />
+          <span style={{ position: "absolute", top: 12, bottom: 12, width: 2, background: "var(--ink)" }} aria-hidden />
+          <span
+            aria-hidden
+            style={{
+              width: 22,
+              height: 56,
+              borderRadius: 999,
+              background: "var(--bubblegum)",
+              border: "2.5px solid var(--ink)",
+              boxShadow: "0 3px 0 var(--ink)",
+            }}
+          />
         </button>
       </div>
 
       {/* precise / accessible fallback */}
-      <label className="mt-6 flex items-center gap-3">
-        <span className="cap whitespace-nowrap">Fine tune</span>
+      <label style={{ marginTop: 24, display: "flex", alignItems: "center", gap: 14 }}>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-soft)", whiteSpace: "nowrap" }}>
+          Fine tune
+        </span>
         <input
           type="range"
           min={MIN_MM}
@@ -130,8 +179,8 @@ export function NailCaliper({
           step={0.5}
           value={mm}
           onChange={(e) => onChange(clampMm(Number(e.target.value)))}
-          className="w-full accent-akane"
-          aria-label={`${fingerLabel} nail width in millimetres`}
+          style={{ width: "100%", accentColor: "var(--grape)" }}
+          aria-label={`${label} nail width in millimetres`}
         />
       </label>
     </div>

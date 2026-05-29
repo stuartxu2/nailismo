@@ -12,7 +12,7 @@ import { FitGuide } from "./FitGuide";
 export const metadata: Metadata = {
   title: "Find Your Fit · Nailismo",
   description:
-    "An interactive fit guide for first-time wearers. Calibrate with any bank card, measure each nail on screen, and get your exact 0–9 size map — no ruler, no guesswork.",
+    "An interactive fit guide for first-time wearers. Calibrate with any bank card, measure each nail on screen, and get your exact S–XL set size — no ruler, no guesswork.",
   alternates: { canonical: "/fit" },
 };
 
@@ -62,11 +62,11 @@ export default async function FitPage() {
             <h1 style={{ marginTop: 10 }}>Find your exact fit</h1>
             <p>
               No ruler, no guesswork. Calibrate with any bank card, measure each nail
-              on screen, and get your 0–9 size map in about a minute.
+              on screen, and get your S–XL set size in about a minute.
             </p>
             <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 8 }}>
               <span className="candy-chip" style={{ cursor: "default" }}>~90 seconds</span>
-              <span className="candy-chip" style={{ cursor: "default" }}>0–9 scale</span>
+              <span className="candy-chip" style={{ cursor: "default" }}>S–XL sizing</span>
               <span className="candy-chip" style={{ cursor: "default" }}>Saved on device</span>
             </div>
           </div>

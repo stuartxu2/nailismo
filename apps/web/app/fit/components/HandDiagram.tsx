@@ -1,6 +1,6 @@
 "use client";
 
-import type { FingerKey, NailSize } from "@/lib/fit/sizing";
+import type { FingerKey } from "@/lib/fit/sizing";
 
 type FingerGeom = {
   key: FingerKey;
@@ -9,7 +9,7 @@ type FingerGeom = {
   w: number; // finger width
 };
 
-/** Stylised right hand, palm-down — a technical schematic, not anatomy. */
+/** Stylised right hand, palm-down — a friendly schematic, not anatomy. */
 const GEOM: FingerGeom[] = [
   { key: "thumb", x: 58, top: 150, w: 40 },
   { key: "index", x: 124, top: 44, w: 38 },
@@ -22,16 +22,16 @@ const PALM_TOP = 206;
 const NAIL_H = 28;
 
 export function HandDiagram({
-  sizes,
+  measuredMm,
   activeFinger,
   onSelect,
 }: {
-  sizes: Partial<Record<FingerKey, NailSize>>;
+  measuredMm: Partial<Record<FingerKey, number>>;
   activeFinger?: FingerKey | null;
   onSelect?: (finger: FingerKey) => void;
 }) {
   return (
-    <svg viewBox="0 0 320 290" className="w-full h-auto" role="img" aria-label="Your hand size map">
+    <svg viewBox="0 0 320 290" className="w-full h-auto" role="img" aria-label="Your hand measuring progress">
       {/* palm */}
       <rect
         x="40"
@@ -39,29 +39,21 @@ export function HandDiagram({
         width="232"
         height="86"
         rx="40"
-        fill="var(--toriko)"
-        stroke="var(--hair)"
+        fill="var(--cream)"
+        stroke="var(--ink)"
+        strokeWidth="2"
       />
 
       {GEOM.map((f) => {
-        const size = sizes[f.key];
-        const done = typeof size === "number";
+        const done = typeof measuredMm[f.key] === "number";
         const active = activeFinger === f.key;
         const nailW = f.w * 0.78;
         const nailX = f.x - nailW / 2;
         const interactive = Boolean(onSelect);
 
-        const fingerFill = active ? "var(--toriko)" : "var(--paper)";
-        const stroke = active
-          ? "var(--akane)"
-          : done
-            ? "var(--tetsu)"
-            : "var(--hair)";
-        const nailFill = done
-          ? "var(--tetsu)"
-          : active
-            ? "rgba(183,40,46,0.14)"
-            : "var(--paper)";
+        const fingerFill = active ? "var(--lemon)" : "var(--cream)";
+        const nailFill = done ? "var(--bubblegum)" : active ? "rgba(159,237,64,0.35)" : "var(--cotton)";
+        const nailStroke = active ? "var(--grape)" : "var(--ink)";
 
         return (
           <g
@@ -69,7 +61,7 @@ export function HandDiagram({
             onClick={interactive ? () => onSelect?.(f.key) : undefined}
             tabIndex={interactive ? 0 : undefined}
             role={interactive ? "button" : undefined}
-            aria-label={interactive ? `Edit ${f.key}` : undefined}
+            aria-label={interactive ? `Measure ${f.key}` : undefined}
             onKeyDown={
               interactive
                 ? (e) => {
@@ -80,10 +72,7 @@ export function HandDiagram({
                   }
                 : undefined
             }
-            style={{
-              cursor: interactive ? "pointer" : "default",
-              transition: "opacity .3s ease",
-            }}
+            style={{ cursor: interactive ? "pointer" : "default" }}
           >
             {/* finger column */}
             <rect
@@ -93,8 +82,8 @@ export function HandDiagram({
               height={PALM_TOP - f.top + 24}
               rx={f.w / 2}
               fill={fingerFill}
-              stroke={stroke}
-              strokeWidth={active ? 1.5 : 1}
+              stroke="var(--ink)"
+              strokeWidth="2"
             />
             {/* nail cap */}
             <rect
@@ -104,28 +93,24 @@ export function HandDiagram({
               height={NAIL_H}
               rx={nailW / 2.6}
               fill={nailFill}
-              stroke={active ? "var(--akane)" : "var(--hair)"}
-              strokeWidth={active ? 1.5 : 0.75}
+              stroke={nailStroke}
+              strokeWidth={active ? 2.5 : 2}
             />
             {done && (
               <text
                 x={f.x}
-                y={f.top + 6 + NAIL_H / 2 + 4}
+                y={f.top + 6 + NAIL_H / 2 + 5}
                 textAnchor="middle"
-                fontFamily="var(--font-mono)"
-                fontSize="13"
-                fill="var(--paper)"
+                fontFamily="var(--body)"
+                fontWeight="800"
+                fontSize="15"
+                fill="var(--ink)"
               >
-                {size}
+                ✓
               </text>
             )}
             {active && !done && (
-              <circle
-                cx={f.x}
-                cy={f.top + 6 + NAIL_H / 2}
-                r="3"
-                fill="var(--akane)"
-              />
+              <circle cx={f.x} cy={f.top + 6 + NAIL_H / 2} r="3.5" fill="var(--grape)" />
             )}
           </g>
         );

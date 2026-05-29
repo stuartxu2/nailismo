@@ -55,29 +55,37 @@ export function CalibrationCard({
   );
 
   return (
-    <div className="flex flex-col items-center">
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div
-        className="relative bg-tetsu text-paper select-none shadow-editorial"
-        style={{ width: pxWidth, height, borderRadius: Math.round(height * 0.06) }}
+        style={{
+          position: "relative",
+          width: pxWidth,
+          height,
+          background: "var(--grape)",
+          color: "var(--cream)",
+          border: "2.5px solid var(--ink)",
+          borderRadius: Math.round(height * 0.09),
+          boxShadow: "0 6px 0 var(--ink)",
+          userSelect: "none",
+        }}
       >
-        {/* corner registration marks, echoing the site's technical motif */}
-        <span className="crosshair crosshair-light" style={{ left: -8, top: -8 }} />
-        <span className="crosshair crosshair-light" style={{ right: -8, top: -8 }} />
-        <span className="crosshair crosshair-light" style={{ left: -8, bottom: -8 }} />
-        <span
-          className="crosshair crosshair-light"
-          style={{ right: -8, bottom: -8 }}
-        />
-
         {/* chip */}
         <div
-          className="absolute rounded-[4px] bg-kikuchiba/90"
-          style={{ left: "10%", top: "32%", width: "14%", height: "26%" }}
+          style={{
+            position: "absolute",
+            left: "10%",
+            top: "30%",
+            width: "15%",
+            height: "28%",
+            borderRadius: 6,
+            background: "var(--bubblegum)",
+            border: "2px solid var(--ink)",
+          }}
         />
-        <div className="absolute left-[10%] bottom-[16%] font-mono text-[10px] tracking-[0.28em] uppercase text-paper/70">
+        <div style={{ position: "absolute", left: "10%", bottom: "15%", fontFamily: "var(--body)", fontWeight: 800, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}>
           Calibration · ID-1
         </div>
-        <div className="absolute right-[8%] top-[16%] font-mono text-[10px] tracking-[0.22em] uppercase text-paper/55">
+        <div style={{ position: "absolute", right: "8%", top: "16%", fontFamily: "var(--body)", fontWeight: 800, fontSize: 11, letterSpacing: "0.1em", color: "rgba(255,255,255,0.7)" }}>
           85.6 mm
         </div>
 
@@ -91,22 +99,47 @@ export function CalibrationCard({
           aria-valuenow={Math.round(pxWidth)}
           onPointerDown={startDrag}
           onKeyDown={onKey}
-          className="group absolute top-1/2 -right-3 -translate-y-1/2 h-16 w-6 grid place-items-center cursor-ew-resize touch-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-akane focus-visible:outline-offset-2"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: -16,
+            transform: "translateY(-50%)",
+            height: 72,
+            width: 28,
+            display: "grid",
+            placeItems: "center",
+            cursor: "ew-resize",
+            touchAction: "none",
+            background: "transparent",
+            border: "none",
+          }}
         >
-          <span className="h-12 w-1.5 rounded-full bg-akane transition-transform duration-200 group-hover:scale-y-110 group-active:scale-y-95" />
+          <span
+            aria-hidden
+            style={{
+              width: 22,
+              height: 56,
+              borderRadius: 999,
+              background: "var(--bubblegum)",
+              border: "2.5px solid var(--ink)",
+              boxShadow: "0 3px 0 var(--ink)",
+            }}
+          />
         </button>
       </div>
 
       {/* accessible / precise fine-tune */}
-      <label className="mt-7 w-full max-w-[420px] flex flex-col items-center gap-2">
-        <span className="cap">Fine tune</span>
+      <label style={{ marginTop: 28, width: "100%", maxWidth: 420, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-soft)" }}>
+          Fine tune
+        </span>
         <input
           type="range"
           min={MIN_W}
           max={MAX_W}
           value={Math.round(pxWidth)}
           onChange={(e) => onChange(clampWidth(Number(e.target.value)))}
-          className="w-full accent-akane"
+          style={{ width: "100%", accentColor: "var(--grape)" }}
           aria-label="Fine tune card width"
         />
       </label>
