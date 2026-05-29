@@ -7,6 +7,7 @@ import type { SearchProductsQueryResult, ShopifyProduct } from "@/lib/shopify/ty
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
+import { cardDots } from "@/lib/product-colors";
 
 export const metadata: Metadata = {
   title: "Search · Nailismo",
@@ -18,8 +19,6 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 type SearchParams = { q?: string };
-
-const SWATCHES = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
 
 async function fetchSearch(query: string): Promise<ShopifyProduct[]> {
   if (!query.trim()) return [];
@@ -117,7 +116,7 @@ export default async function SearchPage({
               const price = formatPrice(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode);
               const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
               const alt = p.featuredImage?.altText ?? p.title;
-              const sw = [SWATCHES[i % SWATCHES.length], SWATCHES[(i + 2) % SWATCHES.length]];
+              const { dots, labeled } = cardDots(p.tags, i);
               return (
                 <Link key={p.id} href={`/product/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
                   <div className="candy-card-img">
@@ -132,8 +131,19 @@ export default async function SearchPage({
                       <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
-                      <span style={{ display: "inline-flex", gap: 6 }}>
-                        {sw.map((c, j) => <span key={j} className="candy-swatch" style={{ background: c }} />)}
+                      <span
+                        style={{ display: "inline-flex", gap: 6 }}
+                        aria-label={labeled ? `Colors: ${dots.map((d) => d.name).join(", ")}` : undefined}
+                      >
+                        {dots.map((c, j) => (
+                          <span
+                            key={j}
+                            className="candy-swatch"
+                            style={{ background: c.hex }}
+                            title={c.name || undefined}
+                            aria-hidden={c.name ? undefined : true}
+                          />
+                        ))}
                       </span>
                       <span className="candy-quickadd" aria-hidden>→</span>
                     </div>
