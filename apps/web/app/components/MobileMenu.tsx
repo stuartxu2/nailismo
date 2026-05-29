@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -63,8 +64,14 @@ export function MobileMenu({ count = 0 }: { count?: number }) {
             aria-modal="true"
           >
             <div className="candy-wrap flex items-center justify-between h-[70px]" style={{ borderBottom: "2px solid var(--marshmallow)" }}>
-              <Link href="/" className="candy-logo" onClick={() => setOpen(false)}>
-                nail<b>ismo</b>
+              <Link href="/" aria-label="Nailismo home" onClick={() => setOpen(false)} style={{ display: "inline-flex", alignItems: "center" }}>
+                <Image
+                  src="/images/logo/nailismo-wordmark.avif"
+                  alt="Nailismo — press on, show off"
+                  width={153}
+                  height={38}
+                  style={{ height: 38, width: "auto" }}
+                />
               </Link>
               <button type="button" onClick={() => setOpen(false)} className="candy-iconbtn" aria-label="Close menu">
                 <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

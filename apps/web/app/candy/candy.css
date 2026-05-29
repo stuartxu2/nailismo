@@ -118,11 +118,6 @@
   backdrop-filter: saturate(1.2) blur(10px);
   border-bottom: 2px solid var(--marshmallow);
 }
-.candy-logo {
-  font-family: var(--body); font-weight: 800; font-size: 25px;
-  letter-spacing: -0.02em; color: var(--ink);
-}
-.candy-logo b { color: var(--bubblegum-d); }
 .candy-nav a {
   font-family: var(--body); font-weight: 800; font-size: 15px;
   padding: 8px 14px; border-radius: 999px; color: var(--ink);

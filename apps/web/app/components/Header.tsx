@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { getCart } from "@/lib/shopify/cart";
 
@@ -17,8 +18,15 @@ export async function Header() {
   return (
     <header className="candy-head">
       <div className="candy-wrap flex items-center justify-between h-[70px]">
-        <Link href="/" className="candy-logo" aria-label="Nailismo home">
-          nail<b>ismo</b>
+        <Link href="/" aria-label="Nailismo home" style={{ display: "inline-flex", alignItems: "center" }}>
+          <Image
+            src="/images/logo/nailismo-wordmark.avif"
+            alt="Nailismo — press on, show off"
+            width={161}
+            height={40}
+            priority
+            style={{ height: 40, width: "auto" }}
+          />
         </Link>
 
         <nav className="candy-nav" style={{ gap: 4 }}>
