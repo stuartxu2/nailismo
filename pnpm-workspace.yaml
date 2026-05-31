@@ -1,0 +1,4 @@
+# Monorepo workspace: both apps + shared packages.
+packages:
+  - "apps/*"
+  - "packages/*"
