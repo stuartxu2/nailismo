@@ -12,6 +12,9 @@
     "e2e:install": "playwright install chromium"
   },
   "dependencies": {
+    "@nailismo/fit-sizing": "workspace:*",
+    "@nailismo/shopify": "workspace:*",
+    "@nailismo/theme": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"

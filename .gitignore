@@ -10,3 +10,14 @@ apps/web/.env*.local
 apps/web/.vercel
 .vercel
 .superpowers/
+node_modules
+
+# tooling / caches
+.codegraph/
+__pycache__/
+*.pyc
+
+# apps/app (Expo)
+apps/app/.expo/
+apps/app/.env
+apps/app/dist/
