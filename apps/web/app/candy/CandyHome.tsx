@@ -7,6 +7,7 @@ import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
+import { HeroVideoTile } from "./HeroVideoTile";
 
 /* ---------- types & data ---------- */
 
@@ -178,9 +179,14 @@ export default async function CandyHome() {
               <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "-1%", width: "46%", maxWidth: 218, zIndex: 2 }}>
                 <HeroTile img="/images/website/hero-festive-nails-model.avif" alt="Model showing off Nailismo press-on nails with festive art" border="var(--lemon)" />
               </div>
-              {/* anchor face: real hand wearing the nails */}
+              {/* anchor face: looping video of a real hand wearing the nails */}
               <div className="candy-float d2" style={{ ["--rot" as string]: "-4deg", position: "absolute", top: 44, left: "1%", width: "52%", maxWidth: 256, zIndex: 3 }}>
-                <HeroTile img="/images/website/hero-cloud-nails-model.avif" alt="Model wearing Nailismo press-on nails with sky-blue cloud art" border="var(--soda)" />
+                <HeroVideoTile
+                  src="/videos/hero-cloud-nails.mp4"
+                  poster="/videos/hero-cloud-nails-poster.avif"
+                  alt="Model wearing Nailismo press-on nails with sky-blue cloud art"
+                  border="var(--soda)"
+                />
               </div>
               <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 6, left: "26%", zIndex: 5, fontSize: 14 }}>
                 Ready in minutes!
