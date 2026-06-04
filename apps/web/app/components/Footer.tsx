@@ -42,10 +42,12 @@ export function Footer() {
           </div>
           <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
             <Col title="Shop" links={[
-              { label: "New", href: "/shop" },
-              { label: "Best Sellers", href: "/shop" },
-              { label: "Collections", href: "/collections/the-essentials" },
-              { label: "Accessories", href: "/shop" },
+              { label: "New Drops", href: "/collections/new-drops" },
+              { label: "Best Sellers", href: "/collections/best-sellers" },
+              { label: "Chrome Club", href: "/collections/chrome-club" },
+              { label: "Loud & Graphic", href: "/collections/loud-and-graphic" },
+              { label: "Latte & Neutrals", href: "/collections/latte-and-neutrals" },
+              { label: "Shop All", href: "/shop" },
             ]} />
             <Col title="Learn" links={[
               { label: "Fit Guide", href: "/fit" },
