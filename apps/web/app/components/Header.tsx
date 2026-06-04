@@ -4,9 +4,9 @@ import { MobileMenu } from "./MobileMenu";
 import { getCart } from "@/lib/shopify/cart";
 
 const NAV = [
-  { href: "/shop", label: "New" },
+  { href: "/collections/new-drops", label: "New" },
   { href: "/shop", label: "Sets" },
-  { href: "/shop", label: "Best Sellers" },
+  { href: "/collections/best-sellers", label: "Best Sellers" },
   { href: "/fit", label: "Fit" },
   { href: "/lookbook", label: "Lookbook" },
   { href: "/about", label: "About" },

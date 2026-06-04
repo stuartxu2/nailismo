@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const navLinks = [
-  { href: "/shop", label: "New" },
+  { href: "/collections/new-drops", label: "New" },
   { href: "/shop", label: "Sets" },
-  { href: "/shop", label: "Best Sellers" },
+  { href: "/collections/best-sellers", label: "Best Sellers" },
   { href: "/fit", label: "Fit" },
   { href: "/lookbook", label: "Lookbook" },
   { href: "/about", label: "About" },
