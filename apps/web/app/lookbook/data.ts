@@ -7,6 +7,9 @@ export type Look = {
   cta: string;
   src: string;
   alt: string;
+  /** Optional hero video; when set, the detail-page main media plays this clip with `src` (or `poster`) as the still fallback. */
+  videoSrc?: string;
+  poster?: string;
   borderClasses: string;
   tapeClass: string;
   story: string;
@@ -83,6 +86,8 @@ export const LOOKS: Look[] = [
     cta: "Shop The Night Out Look →",
     src: "/images/lookbook/the-night-out.avif",
     alt: "The Night Out look — multicolor press-on nails, leather jacket, stacked silver rings",
+    videoSrc: "/videos/the-night-out.mp4",
+    poster: "/videos/the-night-out-poster.avif",
     borderClasses: "border-b border-r border-l border-hair",
     tapeClass: "tape",
     story:
@@ -91,13 +96,13 @@ export const LOOKS: Look[] = [
       { label: "Outer", value: "Cropped leather moto" },
       { label: "Under", value: "Fitted ribbed tee, black" },
       { label: "Lower", value: "Slim black wool trouser" },
-      { label: "Hands", value: "Liquid Metal · chrome gloss" },
+      { label: "Hands", value: "Monochrome Edge · gloss top" },
       { label: "Metal", value: "Layered silver chains, rings" },
     ],
     pairing: {
-      set: "Liquid Metal",
-      productHandle: "liquid-metal",
-      note: "Chrome finish engineered to catch bar light without going costume.",
+      set: "Monochrome Edge",
+      productHandle: "monochrome-edge",
+      note: "Black-and-white architectural line, glossed to catch bar light without going costume.",
     },
     related: ["the-blazer", "the-weekend"],
     feed: [11, 15, 50, 65, 280, 300, 12, 5, 180],
