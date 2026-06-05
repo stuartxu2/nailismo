@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // The nav label is "Sets" but the catalog lives at /shop. Catch any stale
+  // bookmark, ad, or SEO link to /sets (308) so it never dead-ends on a 404.
+  async redirects() {
+    return [
+      { source: "/sets", destination: "/shop", permanent: true },
+      { source: "/sets/:path*", destination: "/shop", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

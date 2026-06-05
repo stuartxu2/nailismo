@@ -32,6 +32,24 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
           height
         }
       }
+      media(first: 12) {
+        nodes {
+          mediaContentType
+          alt
+          ... on MediaImage {
+            image { url altText width height }
+          }
+          ... on Video {
+            sources { url mimeType height }
+            previewImage { url altText }
+          }
+          ... on ExternalVideo {
+            host
+            embedUrl
+            previewImage { url altText }
+          }
+        }
+      }
       options {
         id
         name

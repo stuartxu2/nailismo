@@ -43,14 +43,14 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Nailismo | Press-On Manicures for Men",
+  title: "Nailismo | Press-On Nails — Press On, Show Off",
   description:
-    "Press-on manicures designed for men's hands. Shop masculine, minimalist, and statement nail sets built for daily wear, nightlife, and modern style.",
+    "Press-on nail sets for every hand. Minimalist, statement, and expressive looks built for daily wear, nightlife, and modern style. 10 premium nails + toolkit, on in minutes, lasts up to 7 days.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Nailismo | Press-On Manicures for Men",
+    title: "Nailismo | Press-On Nails — Press On, Show Off",
     description:
-      "Press-on manicures designed for men's hands. Shop masculine, minimalist, and statement nail sets built for daily wear, nightlife, and modern style.",
+      "Press-on nail sets for every hand. Minimalist, statement, and expressive looks built for daily wear, nightlife, and modern style. 10 premium nails + toolkit, on in minutes, lasts up to 7 days.",
     url: siteUrl,
     siteName: "Nailismo",
     type: "website",

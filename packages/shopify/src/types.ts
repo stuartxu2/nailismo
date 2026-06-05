@@ -59,6 +59,20 @@ export type ShopifyImage = {
   height: number | null;
 };
 
+export type ShopifyVideoSource = { url: string; mimeType: string; height?: number | null };
+
+// Flattened product media node — fields present depend on mediaContentType
+// (IMAGE → image, VIDEO → sources/previewImage, EXTERNAL_VIDEO → embedUrl).
+export type ShopifyMediaNode = {
+  mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+  alt: string | null;
+  image?: ShopifyImage | null;
+  sources?: ShopifyVideoSource[];
+  previewImage?: { url: string; altText: string | null } | null;
+  host?: string;
+  embedUrl?: string;
+};
+
 export type ShopifyVariant = {
   id: string;
   title: string;
@@ -84,6 +98,7 @@ export type ShopifyProductDetail = {
   availableForSale: boolean;
   featuredImage: { url: string; altText: string | null } | null;
   images: { nodes: ShopifyImage[] };
+  media?: { nodes: ShopifyMediaNode[] };
   options: ShopifyProductOption[];
   priceRange: {
     minVariantPrice: ShopifyMoney;

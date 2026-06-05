@@ -4,6 +4,36 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { ShopifyProductOption, ShopifyVariant } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
+
+const TRUST_POINTS = [
+  "10 premium nails + toolkit included",
+  "Lasts up to 7 days",
+  `Free shipping over $${FREE_SHIPPING_THRESHOLD}`,
+  "30-day unopened returns + fit exchange",
+];
+
+function CheckMark() {
+  return (
+    <span
+      aria-hidden
+      style={{
+        display: "inline-grid",
+        placeItems: "center",
+        width: 22,
+        height: 22,
+        flexShrink: 0,
+        borderRadius: 999,
+        background: "var(--bubblegum)",
+        border: "2px solid var(--ink)",
+      }}
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    </span>
+  );
+}
 
 function formatPrice(amount: string, currency: string) {
   const value = Number(amount);
@@ -44,6 +74,8 @@ export function PurchasePanel({
   const variant = matchVariant(variants, selected);
   const available = Boolean(variant?.availableForSale);
   const priceLabel = variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : "—";
+  const priceNum = variant ? Number(variant.price.amount) : NaN;
+  const underFreeShip = Number.isFinite(priceNum) && priceNum < FREE_SHIPPING_THRESHOLD;
 
   function isValueAvailable(optName: string, value: string) {
     const probe = { ...selected, [optName]: value };
@@ -59,6 +91,29 @@ export function PurchasePanel({
           {available ? "In stock · ships in 24h" : "Sold out"}
         </span>
       </div>
+
+      {/* trust signals — surfaced above the size picker and the Add to Bag CTA */}
+      <ul
+        className="mt-6"
+        style={{
+          listStyle: "none",
+          margin: 0,
+          padding: "16px 18px",
+          display: "grid",
+          gap: 11,
+          background: "var(--cream)",
+          border: "2.5px solid var(--ink)",
+          borderRadius: 18,
+          boxShadow: "var(--shadow-candy)",
+        }}
+      >
+        {TRUST_POINTS.map((t) => (
+          <li key={t} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <CheckMark />
+            <span style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 14.5, color: "var(--ink)" }}>{t}</span>
+          </li>
+        ))}
+      </ul>
 
       {options.length > 0 && (
         <div className="mt-8" style={{ display: "flex", flexDirection: "column", gap: 22 }}>
@@ -83,8 +138,40 @@ export function PurchasePanel({
                   );
                 })}
               </div>
+              {/* unsure? steer first-timers to the Fit tool + reassure on exchange */}
+              {/size/i.test(opt.name) && (
+                <p style={{ marginTop: 10, fontFamily: "var(--body)", fontWeight: 600, fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.55 }}>
+                  Not sure?{" "}
+                  <Link href="/fit" style={{ fontWeight: 800, color: "var(--ink)", textDecoration: "underline", textUnderlineOffset: 3 }}>
+                    Find My Size
+                  </Link>{" "}
+                  takes most first-timers 90 seconds. Fit exchange available if it&apos;s off.
+                </p>
+              )}
             </div>
           ))}
+        </div>
+      )}
+
+      {/* AOV nudge — most single sets sit under the free-ship line */}
+      {available && underFreeShip && (
+        <div
+          className="mt-6"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 16px",
+            background: "var(--soda)",
+            border: "2.5px solid var(--ink)",
+            borderRadius: 16,
+            boxShadow: "var(--shadow-candy)",
+          }}
+        >
+          <span aria-hidden style={{ fontSize: 18, lineHeight: 1 }}>🚚</span>
+          <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, color: "var(--ink)" }}>
+            Add one more set to unlock free shipping.
+          </span>
         </div>
       )}
 
