@@ -1,6 +1,7 @@
 export type Look = {
   handle: string;
   num: string;
+  tag: string;
   title: string;
   desc: string;
   cta: string;
@@ -12,17 +13,20 @@ export type Look = {
   outfit: { label: string; value: string }[];
   pairing: { set: string; productHandle: string; note: string };
   related: string[];
+  /** Source numbers (from the 小红书 / RedNote feed) for the mass collage. */
+  feed: number[];
 };
 
 export const LOOKS: Look[] = [
   {
     handle: "the-blazer",
-    num: "Look 01",
+    num: "01",
+    tag: "Black & white",
     title: "The Blazer",
-    desc: "Oversized black blazer · silver signet · dark trouser · Monochrome Edge.",
+    desc: "Sharp tailoring, zero effort — monochrome tips that read intentional from across the room. 🖤",
     cta: "Shop The Blazer Look →",
-    src: "/images/listing/black and white press on nails.avif",
-    alt: "The Blazer — oversized black blazer, silver signet rings, Monochrome Edge manicure",
+    src: "/images/lookbook/the-blazer.avif",
+    alt: "The Blazer look — moody monochrome press-on nails, beanie, espresso mug",
     borderClasses: "border-l border-t border-b border-r border-hair",
     tapeClass: "tape",
     story:
@@ -40,15 +44,17 @@ export const LOOKS: Look[] = [
       note: "Black-and-white architectural line, glossed for evening light.",
     },
     related: ["the-night-out", "the-desk"],
+    feed: [1, 4, 30, 230, 280, 16, 3, 5, 180],
   },
   {
     handle: "the-desk",
-    num: "Look 02",
+    num: "02",
+    tag: "Work mode",
     title: "The Desk",
-    desc: "Black tee · mechanical keyboard · laptop · espresso · Galaxy Glitch.",
+    desc: "Clocked-in but make it a look. Quiet doodle-energy your group chat clocks first. ✍️",
     cta: "Shop The Desk Look →",
-    src: "/images/listing/cat eye black press on nails.avif",
-    alt: "The Desk — minimal knit, mechanical keyboard, espresso, Galaxy Glitch nails",
+    src: "/images/lookbook/the-desk.avif",
+    alt: "The Desk look — doodle-art press-on nails, casual tee, daylight smile",
     borderClasses: "border-t border-b border-r border-hair",
     tapeClass: "tape tape-navy",
     story:
@@ -66,15 +72,17 @@ export const LOOKS: Look[] = [
       note: "Low-signal cat-eye black that disappears on camera, holds up to a keyboard.",
     },
     related: ["the-blazer", "the-weekend"],
+    feed: [7, 19, 260, 30, 1, 360, 40, 120],
   },
   {
     handle: "the-night-out",
-    num: "Look 03",
+    num: "03",
+    tag: "After dark",
     title: "The Night Out",
-    desc: "Black tee · leather jacket · silver jewelry · cocktail · Liquid Metal.",
+    desc: "Leather, chrome, a little chaos. The fit that photographs itself under bar light. 🌃",
     cta: "Shop The Night Out Look →",
-    src: "/images/listing/silver press on nails.avif",
-    alt: "The Night Out — leather jacket, silver jewelry, cocktail, Liquid Metal press-on nails",
+    src: "/images/lookbook/the-night-out.avif",
+    alt: "The Night Out look — multicolor press-on nails, leather jacket, stacked silver rings",
     borderClasses: "border-b border-r border-l border-hair",
     tapeClass: "tape",
     story:
@@ -92,15 +100,17 @@ export const LOOKS: Look[] = [
       note: "Chrome finish engineered to catch bar light without going costume.",
     },
     related: ["the-blazer", "the-weekend"],
+    feed: [11, 15, 50, 65, 280, 300, 12, 5, 180],
   },
   {
     handle: "the-weekend",
-    num: "Look 04",
+    num: "04",
+    tag: "Off duty",
     title: "The Weekend",
-    desc: "Heavyweight gray hoodie · vintage denim · sneakers · Molten Steel.",
+    desc: "Golden hour, zero plans, nails still ate. Soft-launch the whole vibe. ☀️",
     cta: "Shop The Weekend Look →",
-    src: "/images/listing/pale pinkish and silver press on nails.avif",
-    alt: "The Weekend — heavyweight gray hoodie, vintage denim, sneakers, Molten Steel",
+    src: "/images/lookbook/the-weekend.avif",
+    alt: "The Weekend look — blue marble press-on nails, casual fit, sunset light",
     borderClasses: "border-b border-r border-hair",
     tapeClass: "tape tape-navy",
     story:
@@ -118,6 +128,7 @@ export const LOOKS: Look[] = [
       note: "Pale pinkish silver base with a metallic accent — restraint, not flash.",
     },
     related: ["the-desk", "the-night-out"],
+    feed: [140, 205, 240, 360, 40, 120, 11, 230],
   },
 ];
 

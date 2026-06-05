@@ -8,7 +8,7 @@
 
   /* Nippon palette (values remapped; names kept for zero-churn) */
   /* Candy scheme (plum / lilac / lime / slate) — names kept for zero-churn */
-  --paper:      #E6D5EB; /* lilac — page bg */
+  --paper:      #FEDFE1; /* soft pink — page bg */
   --toriko:     #FFFFFF; /* white — clean surface */
   --shiracha:   #C9B6D2; /* lilac — borders/dividers */
   --tetsu:      #271028; /* plum — text/dark UI */
@@ -25,7 +25,7 @@
   --kikuchiba:  #9FED40; /* lime — CTA + badge pop */
 
   /* Nippon-named aliases for new homepage code */
-  --shironeri:      #E6D5EB;
+  --shironeri:      #FEDFE1;
   --gofun:          #FFFFFF;
   --shironezumi:    #C9B6D2;
   --kurotsurubami:  #271028;
