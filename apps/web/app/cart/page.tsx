@@ -6,6 +6,7 @@ import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { getCart, removeLine, updateLineQuantity } from "@/lib/shopify/cart";
 import type { ShopifyCartLine } from "@/lib/shopify/types";
+import { FREE_SHIPPING_THRESHOLD, freeShippingRemaining } from "@/lib/shipping";
 
 export const metadata: Metadata = {
   title: "Cart · Nailismo",
@@ -65,6 +66,13 @@ export default async function CartPage() {
   const empty = lines.length === 0;
   const count = cart?.totalQuantity ?? 0;
 
+  // Free-shipping progress nudge — dollar threshold only makes sense in USD.
+  const subtotalNum = cart ? Number(cart.cost.subtotalAmount.amount) : 0;
+  const isUsd = (cart?.cost.subtotalAmount.currencyCode ?? "USD") === "USD";
+  const freeShipRemaining = isUsd ? freeShippingRemaining(subtotalNum) : 0;
+  const freeShipUnlocked = isUsd && subtotalNum >= FREE_SHIPPING_THRESHOLD;
+  const freeShipProgress = isUsd ? Math.min(1, subtotalNum / FREE_SHIPPING_THRESHOLD) : 0;
+
   return (
     <>
       <AnnouncementTicker />
@@ -116,8 +124,29 @@ export default async function CartPage() {
                       {cart && formatPrice(cart.cost.totalAmount.amount, cart.cost.totalAmount.currencyCode)}
                     </span>
                   </div>
+                  {isUsd && (
+                    <div
+                      style={{
+                        marginTop: 16,
+                        padding: "12px 14px",
+                        background: freeShipUnlocked ? "var(--spearmint)" : "var(--soda)",
+                        border: "2.5px solid var(--ink)",
+                        borderRadius: 16,
+                      }}
+                    >
+                      <p style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "var(--body)", fontWeight: 800, fontSize: 13.5, color: "var(--ink)", lineHeight: 1.4 }}>
+                        <span aria-hidden style={{ fontSize: 16, lineHeight: 1 }}>{freeShipUnlocked ? "🎉" : "🚚"}</span>
+                        {freeShipUnlocked
+                          ? "Free shipping unlocked!"
+                          : `You're ${formatPrice(String(freeShipRemaining), "USD")} from free shipping — add one more set.`}
+                      </p>
+                      <div aria-hidden style={{ marginTop: 10, height: 8, borderRadius: 999, background: "var(--cream)", border: "2px solid var(--ink)", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${Math.round(freeShipProgress * 100)}%`, background: "var(--bubblegum)", transition: "width .3s ease" }} />
+                      </div>
+                    </div>
+                  )}
                   {cart?.checkoutUrl && (
-                    <a href={cart.checkoutUrl} className="candy-btn" style={{ width: "100%", marginTop: 6 }}>Checkout <span className="pop" aria-hidden>✨</span></a>
+                    <a href={cart.checkoutUrl} className="candy-btn" style={{ width: "100%", marginTop: 16 }}>Checkout <span className="pop" aria-hidden>✨</span></a>
                   )}
                   <Link href="/shop" className="candy-btn is-ghost" style={{ width: "100%", marginTop: 10 }}>Keep shopping</Link>
                 </div>

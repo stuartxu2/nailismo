@@ -6,14 +6,17 @@ import { PRODUCT_BY_HANDLE_QUERY, PRODUCT_HANDLES_QUERY } from "@/lib/shopify/qu
 import type {
   ProductByHandleQueryResult,
   ProductHandlesQueryResult,
+  ShopifyImage,
+  ShopifyMediaNode,
   ShopifyProductDetail,
   ShopifyVariant,
 } from "@/lib/shopify/types";
 import { Header } from "@/app/components/Header";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Footer } from "@/app/components/Footer";
-import { ProductGallery } from "./ProductGallery";
+import { ProductGallery, type GalleryItem } from "./ProductGallery";
 import { PurchasePanel } from "./PurchasePanel";
+import { UgcStrip } from "@/app/components/UgcStrip";
 
 type Params = { handle: string };
 
@@ -75,6 +78,35 @@ function pickDefaultVariant(variants: ShopifyVariant[]): ShopifyVariant | undefi
   return variants.find((v) => v.availableForSale) ?? variants[0];
 }
 
+// Normalize Shopify product media (images + native/external video) into the
+// gallery's item list, preserving editorial order. Falls back to the plain
+// images list for products that have no `media` (older catalog entries).
+function buildGalleryItems(
+  media: ShopifyMediaNode[] | undefined,
+  images: ShopifyImage[],
+): GalleryItem[] {
+  const items: GalleryItem[] = [];
+  for (const m of media ?? []) {
+    if (m.mediaContentType === "IMAGE" && m.image?.url) {
+      items.push({ kind: "image", url: m.image.url, altText: m.image.altText ?? m.alt });
+    } else if (m.mediaContentType === "VIDEO" && m.sources?.length) {
+      const mp4 = m.sources.filter((s) => s.mimeType === "video/mp4");
+      // Order mp4 renditions so the one closest to 720p plays first.
+      const ordered = (mp4.length ? mp4 : m.sources)
+        .slice()
+        .sort((a, b) => Math.abs((a.height ?? 720) - 720) - Math.abs((b.height ?? 720) - 720))
+        .map((s) => ({ url: s.url, type: s.mimeType }));
+      if (ordered.length) {
+        items.push({ kind: "video", sources: ordered, poster: m.previewImage?.url ?? null, altText: m.previewImage?.altText ?? m.alt });
+      }
+    } else if (m.mediaContentType === "EXTERNAL_VIDEO" && m.embedUrl) {
+      items.push({ kind: "embed", embedUrl: m.embedUrl, poster: m.previewImage?.url ?? null, altText: m.previewImage?.altText ?? m.alt });
+    }
+  }
+  if (items.length) return items;
+  return images.map((img) => ({ kind: "image", url: img.url, altText: img.altText }));
+}
+
 export default async function ProductPage({ params }: { params: Promise<Params> }) {
   const { handle } = await params;
   const product = await fetchProduct(handle);
@@ -90,6 +122,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       : product.featuredImage
         ? [{ url: product.featuredImage.url, altText: product.featuredImage.altText, width: null, height: null }]
         : [];
+
+  const galleryItems = buildGalleryItems(product.media?.nodes, images);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
   const productUrl = `${siteUrl}/product/${product.handle}`;
@@ -143,7 +177,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
 
         <div className="grid grid-cols-12 gap-6 md:gap-12 items-start">
           <div className="col-span-12 lg:col-span-7">
-            <ProductGallery images={images} title={product.title} />
+            <ProductGallery items={galleryItems} title={product.title} />
           </div>
 
           <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-24">
@@ -175,7 +209,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               {[
                 { k: "Wears", v: "Up to 7 days" },
                 { k: "On in", v: "Minutes" },
-                { k: "In the box", v: "24 nails + glue" },
+                { k: "In the box", v: "10 nails + toolkit" },
                 { k: "Removal", v: "Clean & easy" },
               ].map((c) => (
                 <div key={c.k} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
@@ -185,6 +219,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               ))}
             </div>
           </div>
+        </div>
+
+        <div style={{ marginTop: 56 }}>
+          <UgcStrip />
         </div>
       </main>
       <Footer />

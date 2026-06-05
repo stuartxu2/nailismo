@@ -16,6 +16,7 @@ import Image from "next/image";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
+import { UgcStrip } from "@/app/components/UgcStrip";
 import { cardDots } from "@/lib/product-colors";
 
 type Params = { handle: string };
@@ -222,6 +223,10 @@ export default async function CollectionPage({
             })}
           </div>
         )}
+
+        <div style={{ marginTop: 64 }}>
+          <UgcStrip />
+        </div>
       </main>
       <Footer />
     </>
