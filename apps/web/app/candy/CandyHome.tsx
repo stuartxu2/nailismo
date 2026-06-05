@@ -113,17 +113,6 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
   );
 }
 
-// Each mood maps to a real vibe-based collection so the dot color reads the
-// product energy, not a literal paint chip.
-const MOODS = [
-  { name: "Stealth", c: "#271028", href: "/collections/the-stealth-edit" },
-  { name: "Chrome", c: "#C5CAD3", href: "/collections/chrome-club" },
-  { name: "Loud", c: "#9FED40", href: "/collections/loud-and-graphic" },
-  { name: "Cozy", c: "#C9A27A", href: "/collections/latte-and-neutrals" },
-  { name: "Sharp", c: "#60779F", href: "/collections/the-architectural-edit" },
-  { name: "After Dark", c: "#9B7BB0", href: "/collections/night-out-bold" },
-];
-
 const STEPS = [
   { n: "1", t: "Match", d: "Use Find My Size for a perfect fit in 30 seconds. No salon, no guesswork.", emoji: "📏" },
   { n: "2", t: "Press", d: "Peel, press, hold for ten seconds. A full set on in minutes, anywhere.", emoji: "💅" },
@@ -227,24 +216,8 @@ export default async function CandyHome() {
         </div>
       </section>
 
-      {/* ---- shop by color ---- */}
-      <section className="candy-sec" style={{ background: "var(--cream)", borderBlock: "2.5px solid var(--ink)" }}>
-        <div className="candy-wrap" style={{ textAlign: "center" }}>
-          <span className="candy-eyebrow" style={{ justifyContent: "center" }}>What&apos;s your vibe</span>
-          <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10, marginBottom: 44 }}>Shop by mood</h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(20px, 4vw, 48px)", justifyContent: "center" }}>
-            {MOODS.map((mood) => (
-              <Link key={mood.name} href={mood.href} className="candy-colorblob">
-                <span className="dot" style={{ background: mood.c }} />
-                <span className="lbl">{mood.name}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ---- 3 steps ---- */}
-      <section className="candy-sec">
+      <section className="candy-sec" style={{ background: "var(--marshmallow)", borderTop: "2.5px solid var(--ink)" }}>
         <div className="candy-wrap">
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <span className="candy-eyebrow" style={{ justifyContent: "center" }}>So easy it&apos;s silly</span>
