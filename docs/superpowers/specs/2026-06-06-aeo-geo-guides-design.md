@@ -100,6 +100,22 @@ New script `tools/shopify_publish_guides.py`, following existing patterns
   surfaces (related products via the `shopify--discovery--product_recommendation` metafields
   already on the store). Tracked separately.
 
+## Discovered constraints (self-improvement log)
+
+- **`sips` cannot write webp on this macOS host** (`Can't write format org.webmproject.webp`).
+  The publisher converts AVIF→**JPEG** instead (Shopify accepts it). Fixed in tool.
+- **`stagedUploadsCreate` returns `ACCESS_DENIED` for the client-credentials Admin token**
+  even with `write_files` scope granted. App-only (client-credentials) tokens appear unable
+  to use staged uploads. Consequence: the publisher's image step fails gracefully and
+  articles publish **imageless**. To attach images, either (a) run the staged upload under a
+  different auth (e.g. the Shopify MCP merchant session) then `articleUpdate` the image, or
+  (b) add images manually in Shopify admin, or (c) `fileCreate` from a public image URL.
+- **`/journal/[handle]` SSG + stale build:** `next start` against a build made when the blog
+  had 0 articles 500s on newly published handles. A fresh build (every Vercel deploy) renders
+  them 200. Not a code bug — verified via `next dev` (200 + full schema).
+- **JSON-LD must be one object per `<script>`**, not a single array — array-form blocks throw
+  in consumers reading `parsed["@context"]` per script. Fixed in `SiteSchema.tsx`.
+
 ## Verification
 
 1. `tools/shopify_publish_guides.py` run → 4 articles live; re-run is a no-op/update (idempotent).
