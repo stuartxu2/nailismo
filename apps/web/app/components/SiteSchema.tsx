@@ -31,10 +31,18 @@ const schema = [
 ];
 
 export function SiteSchema() {
+  // Emit one <script> per object (not a single array) so every JSON-LD block
+  // is an object with its own "@context" — array-form blocks break naive
+  // consumers that read parsed["@context"] per script.
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      {schema.map((node, i) => (
+        <script
+          key={`site-ld-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(node) }}
+        />
+      ))}
+    </>
   );
 }
