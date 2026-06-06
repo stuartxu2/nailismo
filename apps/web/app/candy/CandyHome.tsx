@@ -103,14 +103,11 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
         />
       </div>
       <div style={{ padding: "16px 6px 6px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-          <div style={{ minWidth: 0 }}>
-            <h3 style={{ fontSize: 20 }}>{f.name}</h3>
-            <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>
-              {f.shape} · {f.finish}
-            </p>
+        <div className="candy-cardhead">
+          <div className="candy-cardhead-text">
+            <h3 className="candy-cardtitle">{f.name}</h3>
           </div>
-          <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{f.price}</span>
+          <span className="candy-cardprice">{f.price}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
           <span style={{ display: "inline-flex", gap: 6 }}>

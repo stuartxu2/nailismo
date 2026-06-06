@@ -183,6 +183,29 @@
 .candy-quickadd:hover  { background: var(--grape); transform: rotate(90deg); }
 .candy-quickadd:active { transform: scale(.9); box-shadow: 0 1px 0 var(--ink); }
 
+/* card head: title/meta on the left, price pinned right.
+   Narrow mobile columns (2-up ≈ 46vw) used to overflow + overlap the price;
+   the text block shrinks to zero, long titles break + clamp to 2 lines, and
+   the price never shrinks or wraps. */
+.candy-cardhead {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+}
+.candy-cardhead-text { min-width: 0; flex: 1 1 auto; }
+.candy-cardtitle {
+  font-size: clamp(15px, 4.2vw, 20px);
+  line-height: 1.12;
+  overflow-wrap: anywhere; word-break: break-word;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.candy-cardprice {
+  flex: none; white-space: nowrap;
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(15px, 4.2vw, 20px);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---- color blob picker ---- */
 .candy-colorblob {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px;

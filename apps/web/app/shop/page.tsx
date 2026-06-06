@@ -271,8 +271,6 @@ export default async function ShopPage({
           ) : (
             <div className="candy-grid">
               {items.map((p, i) => {
-                const meta =
-                  [p.productType, p.tags[0]].filter(Boolean).join(" · ") || "Press-On Set";
                 const price = formatPrice(
                   p.priceRange.minVariantPrice.amount,
                   p.priceRange.minVariantPrice.currencyCode,
@@ -293,14 +291,13 @@ export default async function ShopPage({
                       <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                     </Link>
                     <div style={{ padding: "16px 6px 6px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
-                        <div style={{ minWidth: 0 }}>
-                          <h2 style={{ fontSize: 20 }}>
+                      <div className="candy-cardhead">
+                        <div className="candy-cardhead-text">
+                          <h2 className="candy-cardtitle">
                             <Link href={`/product/${p.handle}`}>{p.title}</Link>
                           </h2>
-                          <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 700, marginTop: 2 }}>{meta}</p>
                         </div>
-                        <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 19 }}>{price}</span>
+                        <span className="candy-cardprice">{price}</span>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
                         <span
