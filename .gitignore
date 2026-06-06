@@ -21,3 +21,6 @@ __pycache__/
 apps/app/.expo/
 apps/app/.env
 apps/app/dist/
+
+# graphify knowledge-graph output (disposable, per CLAUDE.md)
+graphify-out/
