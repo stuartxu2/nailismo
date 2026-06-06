@@ -16,6 +16,7 @@ import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Footer } from "@/app/components/Footer";
 import { ProductGallery, type GalleryItem } from "./ProductGallery";
 import { PurchasePanel } from "./PurchasePanel";
+import { ProductFaq } from "./ProductFaq";
 import { UgcStrip } from "@/app/components/UgcStrip";
 
 type Params = { handle: string };
@@ -220,6 +221,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             </div>
           </div>
         </div>
+
+        <ProductFaq title={product.title} productType={product.productType} />
 
         <div style={{ marginTop: 56 }}>
           <UgcStrip />
