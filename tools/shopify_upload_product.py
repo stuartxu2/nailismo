@@ -43,7 +43,7 @@ PRODUCT: dict = {
     "handle": "deep-end",
     "title": "deep end 🌊",
     "price": "17.99",
-    "tags": ["Blue", "Green", "New Arrivals"],
+    "tags": ["Blue", "Green", "New Arrival"],
     "desc": (
         "Matte petrol teal, edge to edge. A deep blue-green soft-square set with a "
         "velvet, no-shine finish that reads expensive and lands genderless. One clean "
