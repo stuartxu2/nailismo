@@ -425,7 +425,8 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
   transform: rotate(2deg); transition: transform .4s cubic-bezier(.34,1.56,.64,1);
 }
 .lb-hero-art:hover { transform: rotate(0deg); }
-.lb-hero-art img { object-fit: cover; width: 100%; height: 100%; }
+.lb-hero-art img,
+.lb-hero-art video { object-fit: cover; width: 100%; height: 100%; }
 
 /* word marquee pill */
 .lb-bar {

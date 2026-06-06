@@ -64,7 +64,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "power-up",
         "title": "power up 🔋",
         "price": PREMIUM,
-        "tags": ["Black", "Red", "New Arrivals"],
+        "tags": ["Black", "Red", "New Arrival"],
         "desc": "Loud, loaded, unapologetic. A mixed-mani set stacked with studs, a crystal cluster, polka dots and a peace-sign moment — every nail its own flex. Glossy gel finish, salon-grade hold, zero commitment.",
         "images": [
             ("G-DRAGON Power press on nails.jpg", "power up press-on nails — mixed black, yellow, red and white nails with studs, polka dots and a crystal cluster"),
@@ -75,7 +75,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "main-stage",
         "title": "main stage 🌼",
         "price": PREMIUM,
-        "tags": ["Black", "Green", "New Arrivals"],
+        "tags": ["Black", "Green", "New Arrival"],
         "desc": "Built for the front row. Hand-finished daisies, crowns and lightning bolts across a high-shine black base with a crystal accent nail. A statement set that hits different under the lights.",
         "images": [
             ("G-DRAGON concert press on nails.jpg", "main stage press-on nails — black and neon set with hand-painted daisy, crown and lightning art plus a crystal nail"),
@@ -86,7 +86,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "amber-glow",
         "title": "amber glow 🍯",
         "price": CORE,
-        "tags": ["Brown", "Gold", "New Arrivals"],
+        "tags": ["Brown", "Gold", "New Arrival"],
         "desc": "Warm caramel and cream swirls streaked with real gold-leaf brushwork. Glossy, glassy and quietly expensive — the everyday set that goes with everything.",
         "images": [
             ("amber and gold press on nails.jpg", "amber glow press-on nails — caramel and cream marble with gold-leaf accents"),
@@ -97,7 +97,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "pet-pals",
         "title": "pet pals 🐾",
         "price": CORE,
-        "tags": ["Black", "White", "New Arrivals"],
+        "tags": ["Black", "White", "New Arrival"],
         "desc": "Doodle-core, fully unhinged. Hand-drawn cats, dogs, bows and hearts in black-and-white with 3D star and heart charms. Cute with a little chaos.",
         "images": [
             ("cat and dog press on nails.jpg", "pet pals press-on nails — black-and-white set with hand-drawn cats, dogs, bows and 3D charms"),
@@ -108,7 +108,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "cherry-chrome",
         "title": "cherry chrome 🍒",
         "price": CORE,
-        "tags": ["Red", "New Arrivals"],
+        "tags": ["Red", "New Arrival"],
         "desc": "Deep cherry-red cat-eye that catches the light and moves with you. One clean color, all gloss, maximum impact. The red-nail theory, handled.",
         "images": [
             ("cat eye gel red press on nails.jpg", "cherry chrome press-on nails — glossy deep-red cat-eye set"),
@@ -119,7 +119,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "doodle-pop",
         "title": "doodle pop 👾",
         "price": CORE,
-        "tags": ["Blue", "Red", "New Arrivals"],
+        "tags": ["Blue", "Red", "New Arrival"],
         "desc": "Primary-color chaos in the best way — ghosts, stars, hearts and scribbles across blue, red and yellow. Playground energy, gallery finish.",
         "images": [
             ("cold play press on nails.jpg", "doodle pop press-on nails — primary blue, red and yellow nails with hand-drawn ghosts, stars and hearts"),
@@ -130,7 +130,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "comic-relief",
         "title": "comic relief 💥",
         "price": CORE,
-        "tags": ["Grey", "Blue", "New Arrivals"],
+        "tags": ["Grey", "Blue", "New Arrival"],
         "desc": "Smudgy grey-blue gradients tagged with hand-drawn comic faces — X-eyes, smirks, little hearts. Meme-coded, low-key, all gloss.",
         "images": [
             ("comics press on nails.jpg", "comic relief press-on nails — grey and blue gradient nails with hand-drawn comic faces"),
@@ -141,7 +141,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "midas-touch",
         "title": "midas touch 🪙",
         "price": PREMIUM,
-        "tags": ["Gold", "Brown", "New Arrivals"],
+        "tags": ["Gold", "Brown", "New Arrival"],
         "desc": "Molten golds, olive shimmer and chunky glitter over earthy marble. A heavy, glassy, light-catching set that reads pure luxe. Everything you touch.",
         "images": [
             ("dazzling gold press on nails.jpg", "midas touch press-on nails — gold, olive and cream marble with chunky glitter and foil"),
@@ -152,7 +152,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "latte-mode",
         "title": "latte mode ☕",
         "price": CORE,
-        "tags": ["Brown", "Silver", "New Arrivals"],
+        "tags": ["Brown", "Silver", "New Arrival"],
         "desc": "The latte-nail trend, done right. Warm browns and cream cow-print with silver glitter cat-eye accents. Cozy, neutral, quietly iconic.",
         "images": [
             ("latte cat eye press on nails.jpg", "latte mode press-on nails — brown and cream cow-print with silver glitter cat-eye"),
@@ -163,7 +163,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "moss-fade",
         "title": "moss fade 🌿",
         "price": CORE,
-        "tags": ["Green", "Grey", "New Arrivals"],
+        "tags": ["Green", "Grey", "New Arrival"],
         "desc": "Muted taupe melting into deep teal-green tips, with tiny minimalist dots. Understated, moody, easy to wear with literally anything.",
         "images": [
             ("ombre green press on nails.jpg", "moss fade press-on nails — taupe-to-teal-green ombre with minimalist dots"),
@@ -174,7 +174,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "champagne",
         "title": "champagne 🥂",
         "price": CORE,
-        "tags": ["Nude", "Gold", "New Arrivals"],
+        "tags": ["Nude", "Gold", "New Arrival"],
         "desc": "Soft ivory with gold-fleck glitter and a single silver line. Clean, glassy and celebration-ready — the soft-launch set.",
         "images": [
             ("paris story press on nails.jpg", "champagne press-on nails — ivory nails with gold-fleck glitter and a silver line accent"),
@@ -185,7 +185,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "mercury",
         "title": "mercury 🪞",
         "price": CORE,
-        "tags": ["Silver", "Nude", "New Arrivals"],
+        "tags": ["Silver", "Nude", "New Arrival"],
         "desc": "Liquid silver chrome swirled over a nude base — mirror-finish marble that looks wet. Futuristic, sleek, genderless.",
         "images": [
             ("pink and silver press on nails.jpg", "mercury press-on nails — nude base with liquid silver chrome marble swirls"),
@@ -196,7 +196,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "static",
         "title": "static 🌫️",
         "price": CORE,
-        "tags": ["Grey", "Black", "New Arrivals"],
+        "tags": ["Grey", "Black", "New Arrival"],
         "desc": "Smoky greys, black and amber marble streaked with silver foil. A true unisex set — neutral, moody and impossible to clock as basic.",
         "images": [
             ("unisex press on nails.jpg", "static press-on nails — grey, black and amber smoky marble with silver foil"),
@@ -207,7 +207,7 @@ NEW_PRODUCTS: list[dict] = [
         "handle": "slashed",
         "title": "slashed 🔪",
         "price": CORE,
-        "tags": ["Nude", "Black", "New Arrivals"],
+        "tags": ["Nude", "Black", "New Arrival"],
         "desc": "Bare nude base ripped through with black, silver and red brush-slash graphics and tiny hand-drawn marks. Quiet base, loud detail.",
         "images": [
             ("press on nails.jpg", "slashed press-on nails — nude base with black, silver and red brush-slash graphics"),
@@ -221,7 +221,7 @@ HALLOWEEN = {
     "handle": "cursed",
     "title": "cursed 💀",
     "price": PREMIUM,
-    "tags": ["Black", "Green", "New Arrivals", "Halloween"],
+    "tags": ["Black", "Green", "New Arrival", "Halloween"],
     "desc": "Gothic chrome cat-eye loaded with 3D crosses, skulls and evil-eye charms. Seven cursed colorways — pick your poison. Handmade, high-shine, a little possessed.",
     "hero": ("halloween press on nails 1.jpg",
              "cursed press-on nails — gothic green chrome cat-eye set with skull, cross and evil-eye charms"),
@@ -246,7 +246,7 @@ COLLECTIONS: list[dict] = [
         "handle": "new-drops",
         "title": "New Drops",
         "desc": "Fresh off the rack. The latest press-on sets to land at Nailismo — restocked and rotated often.",
-        "smart_tag": "New Arrivals",
+        "smart_tag": "New Arrival",
         "sort": "CREATED_DESC",
     },
     {

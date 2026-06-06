@@ -132,8 +132,33 @@ export default async function CollectionPage({
   const activeSort = sp.sort ?? "featured";
   const products = sortProducts(collection.products.nodes, activeSort);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: collection.title,
+    description:
+      collection.descriptionHtml?.replace(/<[^>]+>/g, "").slice(0, 300) ||
+      `A curated edit of ${products.length} Nailismo press-on sets.`,
+    url: `${siteUrl}/collections/${collection.handle}`,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: products.length,
+      itemListElement: products.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${siteUrl}/product/${p.handle}`,
+        name: p.title,
+      })),
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <AnnouncementTicker />
       <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>

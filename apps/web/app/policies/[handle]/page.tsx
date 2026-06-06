@@ -160,10 +160,17 @@ export async function generateMetadata({
   const shop = await fetchPolicies();
   const policy = resolvePolicy(shop, handle);
   if (!policy) return { title: "Policy Not Found · Nailismo" };
+  const description = policy.body.replace(/<[^>]+>/g, "").slice(0, 160);
   return {
     title: `${policy.title} · Nailismo`,
-    description: policy.body.replace(/<[^>]+>/g, "").slice(0, 160),
+    description,
     alternates: { canonical: `/policies/${handle}` },
+    openGraph: {
+      title: `${policy.title} · Nailismo`,
+      description,
+      type: "article",
+      url: `/policies/${handle}`,
+    },
   };
 }
 

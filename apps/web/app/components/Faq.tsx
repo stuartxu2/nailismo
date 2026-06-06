@@ -9,9 +9,23 @@ const items = [
   { q: "Which flavor should I start with?", a: "Bubblegum Pop, Soda Pop, or any fan favorite. Bright, easy to wear, and impossible to resist." },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((it) => ({
+    "@type": "Question",
+    name: it.q,
+    acceptedAnswer: { "@type": "Answer", text: it.a },
+  })),
+};
+
 export function Faq() {
   return (
     <section id="faq" className="candy-wrap candy-sec" style={{ paddingTop: 20 }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="grid grid-cols-12 gap-6 md:gap-12">
         <div className="col-span-12 lg:col-span-5">
           <span className="candy-eyebrow">Common questions</span>

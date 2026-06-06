@@ -71,7 +71,19 @@ export default async function LookPage({
         <section className="lb-detail-hero candy-rise" style={{ position: "relative", zIndex: 1 }}>
           <div className="lb-hero-art">
             { }
-            <img src={look.src} alt={look.alt} />
+            {look.videoSrc ? (
+              <video
+                src={look.videoSrc}
+                poster={look.poster ?? look.src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label={look.alt}
+              />
+            ) : (
+              <img src={look.src} alt={look.alt} />
+            )}
             <span className="lb-num" style={{ position: "absolute", top: 16, left: 16 }}>{look.num}</span>
             <span className="candy-sticker is-soda" style={{ position: "absolute", bottom: 18, right: 16, color: "var(--cream)" }}>{look.tag}</span>
           </div>
