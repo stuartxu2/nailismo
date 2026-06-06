@@ -14,8 +14,8 @@ and cross-linked into a topical cluster around the catalog.
 
 ## Content home & routing
 
-- Publish into the existing Shopify blog **`news`** (`gid://shopify/Blog/81033429041`),
-  currently empty.
+- Publish into the existing Shopify blog **`journal`** (renamed from "News",
+  `gid://shopify/Blog/81033429041`), currently empty.
 - Rendered by the existing route `apps/web/app/journal/[handle]/page.tsx` → live at
   `/journal/{handle}`; the index `/journal` lists them. BlogPosting JSON-LD already emitted
   (Phase 1). No new routes.
