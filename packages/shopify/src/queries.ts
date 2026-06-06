@@ -107,6 +107,11 @@ export const COLLECTIONS_QUERY = /* GraphQL */ `
         title
         description
         image { url altText }
+        products(first: 1) {
+          nodes {
+            featuredImage { url altText }
+          }
+        }
       }
     }
   }

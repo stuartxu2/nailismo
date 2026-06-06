@@ -2,8 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
-import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
-import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
+import { PRODUCTS_QUERY, COLLECTIONS_QUERY } from "@/lib/shopify/queries";
+import type {
+  ProductsQueryResult,
+  ShopifyProduct,
+  CollectionsQueryResult,
+  ShopifyCollectionCard,
+} from "@/lib/shopify/types";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
@@ -41,6 +46,42 @@ async function fetchProducts(): Promise<ShopifyProduct[]> {
     }
     return [];
   }
+}
+
+// Single-color smart collections live behind the on-card swatch filters, so they
+// are deliberately hidden from the editorial collection shelf. `featured-products`
+// is an internal tag aggregate and `seasonal-surge` is currently empty.
+const EXCLUDED_COLLECTION_HANDLES = new Set([
+  "black", "white", "silver", "gold", "red", "blue", "green", "grey", "brown",
+  "featured-products", "seasonal-surge",
+]);
+
+async function fetchCollections(): Promise<ShopifyCollectionCard[]> {
+  try {
+    const data = await storefrontFetch<CollectionsQueryResult>(
+      COLLECTIONS_QUERY,
+      { first: 50 },
+      { revalidate: 300 },
+    );
+    return data.collections.nodes.filter(
+      (c) =>
+        !EXCLUDED_COLLECTION_HANDLES.has(c.handle) &&
+        (c.image || c.products.nodes[0]?.featuredImage),
+    );
+  } catch (err) {
+    if (!(err instanceof ShopifyConfigError)) {
+      console.error("[shopify] shop collections fetch failed:", err);
+    }
+    return [];
+  }
+}
+
+function collectionImage(c: ShopifyCollectionCard): { url: string; alt: string } {
+  const img = c.image ?? c.products.nodes[0]?.featuredImage;
+  return {
+    url: img?.url ?? "/images/listing/black and white press on nails.avif",
+    alt: img?.altText ?? `${c.title} collection`,
+  };
 }
 
 function formatPrice(amount: string, currency: string) {
@@ -99,7 +140,10 @@ export default async function ShopPage({
   const activeTag = params.tag ?? "";
   const activeSort = params.sort ?? "featured";
 
-  const all = await fetchProducts();
+  const [all, collections] = await Promise.all([
+    fetchProducts(),
+    fetchCollections(),
+  ]);
   const tagOptions = collectTags(all);
   const filtered = activeTag
     ? all.filter((p) => p.tags.includes(activeTag))
@@ -152,6 +196,41 @@ export default async function ShopPage({
             </p>
           </div>
         </section>
+
+        {collections.length > 0 && (
+          <section style={{ paddingTop: 40 }}>
+            <div className="candy-wrap" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 22 }}>
+              <div>
+                <span className="candy-eyebrow">Shop by collection</span>
+                <h2 style={{ fontSize: "clamp(26px, 4vw, 40px)", marginTop: 8 }}>Pick your edit</h2>
+              </div>
+            </div>
+            <div className="candy-rack" role="list" aria-label="Collections">
+              {collections.map((c) => {
+                const { url, alt } = collectionImage(c);
+                return (
+                  <Link
+                    key={c.id}
+                    href={`/collections/${c.handle}`}
+                    className="candy-collcard"
+                    role="listitem"
+                  >
+                    <div className="candy-collcard-img">
+                      <Image
+                        src={url.startsWith("http") ? url : encodeURI(url)}
+                        alt={alt}
+                        fill
+                        sizes="240px"
+                      />
+                      <span className="candy-collcard-veil" aria-hidden />
+                      <span className="candy-collcard-title">{c.title}</span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         <section className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 24, marginBottom: 32 }}>

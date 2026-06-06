@@ -162,8 +162,14 @@ export type CollectionHandlesQueryResult = {
   collections: { nodes: { handle: string }[] };
 };
 
+export type ShopifyCollectionCard = ShopifyCollectionSummary & {
+  products: {
+    nodes: { featuredImage: { url: string; altText: string | null } | null }[];
+  };
+};
+
 export type CollectionsQueryResult = {
-  collections: { nodes: ShopifyCollectionSummary[] };
+  collections: { nodes: ShopifyCollectionCard[] };
 };
 
 export type ShopifyCollectionDetail = ShopifyCollectionSummary & {

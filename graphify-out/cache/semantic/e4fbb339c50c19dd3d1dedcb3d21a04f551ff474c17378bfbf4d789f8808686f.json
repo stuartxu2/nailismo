@@ -1,0 +1,1 @@
+{"nodes": [{"id": "web_pnpm_workspace_ignored_deps", "label": "pnpm Ignored Built Dependencies (sharp, unrs-resolver)", "file_type": "concept", "source_file": "apps/web/pnpm-workspace.yaml", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}

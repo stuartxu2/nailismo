@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
-import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
-import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
+import { COLLECTION_BY_HANDLE_QUERY } from "@/lib/shopify/queries";
+import type { CollectionByHandleQueryResult, ShopifyProduct } from "@/lib/shopify/types";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
-import { HeroVideoTile } from "./HeroVideoTile";
+import { HeroSlider } from "./HeroSlider";
 
 /* ---------- types & data ---------- */
 
@@ -50,21 +50,33 @@ function toFlavor(p: ShopifyProduct, i: number): Flavor {
     image: p.featuredImage?.url ?? FALLBACK[i % FALLBACK.length].image,
     href: `/product/${p.handle}`,
     swatches: [SWATCH_CYCLE[i % SWATCH_CYCLE.length], SWATCH_CYCLE[(i + 2) % SWATCH_CYCLE.length]],
-    sticker: i === 0 ? { label: "New flavor", tone: "is-gum" } : undefined,
   };
 }
 
-async function getFlavors(): Promise<Flavor[]> {
+// Pull a curated collection's products (best-sellers / new-drops) so the
+// homepage shelves track Shopify merchandising. Falls back to the static
+// flavor list when the collection is empty or unreachable.
+async function getCollectionFlavors(
+  handle: string,
+  limit: number,
+  sticker?: Flavor["sticker"],
+): Promise<Flavor[]> {
+  let flavors: Flavor[] = [];
   try {
-    const data = await storefrontFetch<ProductsQueryResult>(PRODUCTS_QUERY, { first: 8 });
-    const nodes = data.products.nodes;
-    if (nodes.length) return nodes.map(toFlavor);
+    const data = await storefrontFetch<CollectionByHandleQueryResult>(
+      COLLECTION_BY_HANDLE_QUERY,
+      { handle, first: limit },
+    );
+    flavors = (data.collection?.products.nodes ?? []).map(toFlavor);
   } catch (err) {
     if (!(err instanceof ShopifyConfigError)) {
-      console.error("[candy] products fetch failed:", err);
+      console.error(`[candy] collection ${handle} fetch failed:`, err);
     }
   }
-  return FALLBACK;
+  if (!flavors.length) flavors = FALLBACK.slice(0, limit).map((f) => ({ ...f, sticker: undefined }));
+  return flavors
+    .slice(0, limit)
+    .map((f, i) => (i === 0 && sticker ? { ...f, sticker } : { ...f, sticker: undefined }));
 }
 
 /* ---------- small pieces ---------- */
@@ -128,64 +140,18 @@ const REVIEWS = [
 /* ---------- page ---------- */
 
 export default async function CandyHome() {
-  const flavors = await getFlavors();
-  const newFlavors = flavors.slice(0, 8);
-  const bestSellers = [...flavors].slice(0, 6);
+  const [fanFavorites, newFlavors] = await Promise.all([
+    getCollectionFlavors("best-sellers", 8, { label: "Fan fave", tone: "" }),
+    getCollectionFlavors("new-drops", 10, { label: "New flavor", tone: "is-gum" }),
+  ]);
 
   return (
     <>
       <AnnouncementTicker />
       <Header />
 
-      {/* ---- hero ---- */}
-      <section style={{ position: "relative", overflow: "hidden" }}>
-        <div className="candy-blob" style={{ width: 360, height: 360, background: "var(--bubblegum)", top: -80, left: -60 }} />
-        <div className="candy-blob" style={{ width: 300, height: 300, background: "var(--soda)", top: 120, right: -40, animationDelay: "-4s" }} />
-        <div className="candy-blob" style={{ width: 240, height: 240, background: "var(--lemon)", bottom: -60, left: "38%", animationDelay: "-7s" }} />
-
-        <div className="candy-wrap" style={{ position: "relative", zIndex: 2, paddingBlock: "clamp(48px, 7vw, 96px)" }}>
-          <div style={{ display: "grid", gap: 40, gridTemplateColumns: "1fr", alignItems: "center" }} className="candy-hero-grid">
-            <div className="candy-rise">
-              <span className="candy-eyebrow">Press-on nails · for every hand</span>
-              <h1 style={{ fontSize: "clamp(52px, 9vw, 104px)", marginTop: 18 }}>
-                Press on.<br />
-                <span style={{ color: "var(--bubblegum-d)" }}>Show</span>{" "}
-                <span style={{ color: "var(--grape)" }}>off.</span>
-              </h1>
-              <p style={{ fontSize: "clamp(17px, 2.2vw, 21px)", fontWeight: 700, color: "var(--ink-soft)", maxWidth: 460, marginTop: 18 }}>
-                Bright, collectible nail sets ready in minutes. Easy to wear, easy to remove, impossible to resist.
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 30 }}>
-                <Link href="/shop" className="candy-btn">Shop the Candy Rack <span className="pop" aria-hidden>🍬</span></Link>
-                <Link href="/fit" className="candy-btn is-ghost">Find My Size</Link>
-              </div>
-            </div>
-
-            <div style={{ position: "relative", minHeight: 420 }} className="candy-hero-art">
-              {/* supporting product flat-lay */}
-              <div className="candy-float d1" style={{ ["--rot" as string]: "-9deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 150, zIndex: 1 }}>
-                <HeroTile img="/images/listing/pink and silver press on nails.avif" alt="Bubblegum Pop set" border="var(--bubblegum)" />
-              </div>
-              {/* second face */}
-              <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "-1%", width: "46%", maxWidth: 218, zIndex: 2 }}>
-                <HeroTile img="/images/website/hero-festive-nails-model.avif" alt="Model showing off Nailismo press-on nails with festive art" border="var(--lemon)" />
-              </div>
-              {/* anchor face: looping video of a real hand wearing the nails */}
-              <div className="candy-float d2" style={{ ["--rot" as string]: "-4deg", position: "absolute", top: 44, left: "1%", width: "52%", maxWidth: 256, zIndex: 3 }}>
-                <HeroVideoTile
-                  src="/videos/hero-cloud-nails.mp4"
-                  poster="/videos/hero-cloud-nails-poster.avif"
-                  alt="Model wearing Nailismo press-on nails with sky-blue cloud art"
-                  border="var(--soda)"
-                />
-              </div>
-              <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 6, left: "26%", zIndex: 5, fontSize: 14 }}>
-                Ready in minutes!
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ---- hero carousel (candy intro + Wairo 和色 series) ---- */}
+      <HeroSlider />
 
       {/* ---- flavor ticker ---- */}
       <div className="candy-marquee" style={{ background: "var(--grape)", borderBlock: "2.5px solid var(--ink)", padding: "12px 0" }}>
@@ -198,18 +164,18 @@ export default async function CandyHome() {
         </div>
       </div>
 
-      {/* ---- new flavors ---- */}
+      {/* ---- fan favorites (grid) — wired to the Best Sellers collection ---- */}
       <section className="candy-sec">
         <div className="candy-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 36 }}>
             <div>
-              <span className="candy-eyebrow">Fresh batch</span>
-              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>New flavors</h2>
+              <span className="candy-eyebrow">Crowd pleasers</span>
+              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Fan favorites</h2>
             </div>
-            <Link href="/shop" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>See all</Link>
+            <Link href="/collections/best-sellers" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>See all</Link>
           </div>
           <div className="candy-grid">
-            {newFlavors.map((f, i) => (
+            {fanFavorites.map((f, i) => (
               <FlavorCard key={f.name + i} f={f} eager={i < 4} />
             ))}
           </div>
@@ -238,18 +204,19 @@ export default async function CandyHome() {
         </div>
       </section>
 
-      {/* ---- best sellers (scroll-snap rack) ---- */}
+      {/* ---- new flavors (scroll-snap slider) — wired to the New Drops collection ---- */}
       <section className="candy-sec" style={{ background: "var(--soda)", borderTop: "2.5px solid var(--ink)" }}>
         <div className="candy-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 30 }}>
             <div>
-              <span className="candy-eyebrow">Crowd pleasers</span>
-              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Fan favorites</h2>
+              <span className="candy-eyebrow">Fresh batch</span>
+              <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>New flavors</h2>
             </div>
+            <Link href="/collections/new-drops" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>See all</Link>
           </div>
         </div>
         <div className="candy-rack">
-          {bestSellers.map((f, i) => (
+          {newFlavors.map((f, i) => (
             <div key={f.name + i} className="candy-rack-item">
               <FlavorCard f={f} />
             </div>
@@ -305,13 +272,5 @@ export default async function CandyHome() {
 
       <Footer />
     </>
-  );
-}
-
-function HeroTile({ img, alt, border }: { img: string; alt: string; border: string }) {
-  return (
-    <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: `3px solid var(--ink)`, boxShadow: "var(--shadow-pop)", background: border }}>
-      <Image src={src(img)} alt={alt} fill sizes="260px" style={{ objectFit: "cover" }} priority />
-    </div>
   );
 }

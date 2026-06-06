@@ -8,7 +8,7 @@ import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 
 const TRUST_POINTS = [
   "10 premium nails + toolkit included",
-  "Lasts up to 7 days",
+  "100% hand-painted",
   `Free shipping over $${FREE_SHIPPING_THRESHOLD}`,
   "30-day unopened returns + fit exchange",
 ];
@@ -94,13 +94,13 @@ export function PurchasePanel({
 
       {/* trust signals — surfaced above the size picker and the Add to Bag CTA */}
       <ul
-        className="mt-6"
+        className="mt-9"
         style={{
           listStyle: "none",
           margin: 0,
           padding: "16px 18px",
           display: "grid",
-          gap: 11,
+          gap: 7,
           background: "var(--cream)",
           border: "2.5px solid var(--ink)",
           borderRadius: 18,

@@ -1,0 +1,362 @@
+{
+  "/Users/stuartxu/webs/nailismo/apps/web/app/about/page.tsx": {
+    "mtime": 1779785456.8468745,
+    "ast_hash": "784d1d027f5b609547f009e8b410c467",
+    "semantic_hash": "784d1d027f5b609547f009e8b410c467"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/account/page.tsx": {
+    "mtime": 1779785456.8470757,
+    "ast_hash": "1df9c156b33f1562f73cddffa0613625",
+    "semantic_hash": "1df9c156b33f1562f73cddffa0613625"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/api/webhooks/shopify/route.ts": {
+    "mtime": 1779799792.5201015,
+    "ast_hash": "5f8b967cb23c5ef32a5322d6ea579e71",
+    "semantic_hash": "5f8b967cb23c5ef32a5322d6ea579e71"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/candy/CandyHome.tsx": {
+    "mtime": 1780639246.757225,
+    "ast_hash": "9ce10e7addd6dfd622b61c876430cbd0",
+    "semantic_hash": "9ce10e7addd6dfd622b61c876430cbd0"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/candy/CandyShell.tsx": {
+    "mtime": 1779785456.847594,
+    "ast_hash": "1682e3dad05e167930bfa81583f23b30",
+    "semantic_hash": "1682e3dad05e167930bfa81583f23b30"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/candy/HeroVideoTile.tsx": {
+    "mtime": 1780631048.6831594,
+    "ast_hash": "ec4f382aa67b73e1e3e91c34bdc14e34",
+    "semantic_hash": "ec4f382aa67b73e1e3e91c34bdc14e34"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/cart/page.tsx": {
+    "mtime": 1780631048.6840312,
+    "ast_hash": "4e78f1f25f28c3899f3012dbaf91e61d",
+    "semantic_hash": "4e78f1f25f28c3899f3012dbaf91e61d"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/collections/[handle]/page.tsx": {
+    "mtime": 1780737203.8410366,
+    "ast_hash": "23b93774478b5a673dfac6b95116fbc2",
+    "semantic_hash": "23b93774478b5a673dfac6b95116fbc2"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/AnnouncementTicker.tsx": {
+    "mtime": 1779785456.8486192,
+    "ast_hash": "113a5883cc36a36b16399516cbda0bf4",
+    "semantic_hash": "113a5883cc36a36b16399516cbda0bf4"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/Faq.tsx": {
+    "mtime": 1780737203.841655,
+    "ast_hash": "ab5f8d9202dd0c7070a58f061995f4ae",
+    "semantic_hash": "ab5f8d9202dd0c7070a58f061995f4ae"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/Footer.tsx": {
+    "mtime": 1780737203.8417773,
+    "ast_hash": "fc3218acab47a1debbed56d260342257",
+    "semantic_hash": "fc3218acab47a1debbed56d260342257"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/Header.tsx": {
+    "mtime": 1780631048.6843297,
+    "ast_hash": "3abc0b73e5f3e360eb815e0c7e1812ec",
+    "semantic_hash": "3abc0b73e5f3e360eb815e0c7e1812ec"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/MobileMenu.tsx": {
+    "mtime": 1780631048.6845362,
+    "ast_hash": "d86ecd7b47020dd1fa376a32bac2e347",
+    "semantic_hash": "d86ecd7b47020dd1fa376a32bac2e347"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/NewsletterForm.tsx": {
+    "mtime": 1779796531.5455878,
+    "ast_hash": "74a0955ef59b2a02566023569169e1bd",
+    "semantic_hash": "74a0955ef59b2a02566023569169e1bd"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/SiteSchema.tsx": {
+    "mtime": 1780737203.8420234,
+    "ast_hash": "c617733035cd9390d1b9ebaafa460139",
+    "semantic_hash": "c617733035cd9390d1b9ebaafa460139"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/StarterGateway.tsx": {
+    "mtime": 1779796531.5458167,
+    "ast_hash": "92247f920e3db92ebaf08f91a7edd495",
+    "semantic_hash": "92247f920e3db92ebaf08f91a7edd495"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/components/UgcStrip.tsx": {
+    "mtime": 1780631048.68475,
+    "ast_hash": "f63faaf3a4f2570096884a66014abc0f",
+    "semantic_hash": "f63faaf3a4f2570096884a66014abc0f"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/contact/page.tsx": {
+    "mtime": 1779785456.8495562,
+    "ast_hash": "c09c3bcb84cc20bf081276f5abf89d3e",
+    "semantic_hash": "c09c3bcb84cc20bf081276f5abf89d3e"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/faq/page.tsx": {
+    "mtime": 1779785456.8497818,
+    "ast_hash": "69753bd36f295bfcccf529d5493836b1",
+    "semantic_hash": "69753bd36f295bfcccf529d5493836b1"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/FitGuide.tsx": {
+    "mtime": 1780018783.9982502,
+    "ast_hash": "1b14e1890b99cab7ea8935a35e554568",
+    "semantic_hash": "1b14e1890b99cab7ea8935a35e554568"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/components/CalibrationCard.tsx": {
+    "mtime": 1780018783.9984634,
+    "ast_hash": "a534bc6c4b709e159970749870c76756",
+    "semantic_hash": "a534bc6c4b709e159970749870c76756"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/components/HandDiagram.tsx": {
+    "mtime": 1780018783.9986734,
+    "ast_hash": "6ce5e34c82832b53fbdb0eaa56ac8191",
+    "semantic_hash": "6ce5e34c82832b53fbdb0eaa56ac8191"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/components/NailCaliper.tsx": {
+    "mtime": 1780018783.9988058,
+    "ast_hash": "60ce658975131544b638d72a5d28df0d",
+    "semantic_hash": "60ce658975131544b638d72a5d28df0d"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/components/SizeMapCard.tsx": {
+    "mtime": 1780018783.9989762,
+    "ast_hash": "926b354ef4b6c92981cb2a4890b4c613",
+    "semantic_hash": "926b354ef4b6c92981cb2a4890b4c613"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/fit/page.tsx": {
+    "mtime": 1780018783.999261,
+    "ast_hash": "127ba90f4df95150da181c87a7ab05f8",
+    "semantic_hash": "127ba90f4df95150da181c87a7ab05f8"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/journal/[handle]/page.tsx": {
+    "mtime": 1780737203.8424323,
+    "ast_hash": "131ceb40cdd890399f433c6fd3d02a96",
+    "semantic_hash": "131ceb40cdd890399f433c6fd3d02a96"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/journal/guideSchema.test.ts": {
+    "mtime": 1780737203.8429606,
+    "ast_hash": "a0ce5d4fe8b74bfa9ee89e398ceee279",
+    "semantic_hash": "a0ce5d4fe8b74bfa9ee89e398ceee279"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/journal/guideSchema.ts": {
+    "mtime": 1780737203.8430579,
+    "ast_hash": "dde40c2639414f357df02fe1f2b21a18",
+    "semantic_hash": "dde40c2639414f357df02fe1f2b21a18"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/journal/page.tsx": {
+    "mtime": 1779785456.851346,
+    "ast_hash": "b5f2340d4f795e08f1ad97fe5b194500",
+    "semantic_hash": "b5f2340d4f795e08f1ad97fe5b194500"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/layout.tsx": {
+    "mtime": 1780737203.8431954,
+    "ast_hash": "86866cf680d06c9483bf0e0cc1e15803",
+    "semantic_hash": "86866cf680d06c9483bf0e0cc1e15803"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/lookbook/[handle]/page.tsx": {
+    "mtime": 1780737203.8433626,
+    "ast_hash": "f4c18630500bc1567bfe341958ab48a5",
+    "semantic_hash": "f4c18630500bc1567bfe341958ab48a5"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/lookbook/data.ts": {
+    "mtime": 1780737203.8434753,
+    "ast_hash": "e0ef140770a54ee86490e5589269218b",
+    "semantic_hash": "e0ef140770a54ee86490e5589269218b"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/lookbook/page.tsx": {
+    "mtime": 1780639246.7648401,
+    "ast_hash": "25bff24794b0ce7cf76a808f80ed0ed7",
+    "semantic_hash": "25bff24794b0ce7cf76a808f80ed0ed7"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/manifest.ts": {
+    "mtime": 1780737203.8436213,
+    "ast_hash": "df4b28e827f8f5807ddba4faaca25596",
+    "semantic_hash": "df4b28e827f8f5807ddba4faaca25596"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/not-found.tsx": {
+    "mtime": 1779785456.8522413,
+    "ast_hash": "3d93e962c78708608f6ffa3e017bc067",
+    "semantic_hash": "3d93e962c78708608f6ffa3e017bc067"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/page.tsx": {
+    "mtime": 1779796531.5460784,
+    "ast_hash": "b867fd6f22918359ae697993d52190c3",
+    "semantic_hash": "b867fd6f22918359ae697993d52190c3"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/policies/[handle]/page.tsx": {
+    "mtime": 1780737203.8438363,
+    "ast_hash": "65a77ea8c077cbdc7db4dc2cb320f056",
+    "semantic_hash": "65a77ea8c077cbdc7db4dc2cb320f056"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/product/[handle]/ProductFaq.tsx": {
+    "mtime": 1780737203.8440697,
+    "ast_hash": "5a243e81b04787dad0e0e52e984e0c51",
+    "semantic_hash": "5a243e81b04787dad0e0e52e984e0c51"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/product/[handle]/ProductGallery.tsx": {
+    "mtime": 1780631048.6849823,
+    "ast_hash": "6f9c1eac8c59dc26bbaf9959b8cb558e",
+    "semantic_hash": "6f9c1eac8c59dc26bbaf9959b8cb558e"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/product/[handle]/PurchasePanel.tsx": {
+    "mtime": 1780631048.6851342,
+    "ast_hash": "4d784dbf29616354ceb08644418e4b2e",
+    "semantic_hash": "4d784dbf29616354ceb08644418e4b2e"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/product/[handle]/page.tsx": {
+    "mtime": 1780737203.8442442,
+    "ast_hash": "03a798b8d14c0d640be30d199c1ef287",
+    "semantic_hash": "03a798b8d14c0d640be30d199c1ef287"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/robots.ts": {
+    "mtime": 1779311990.1033955,
+    "ast_hash": "4bb17efe6d557b5333a9de0d6c38044e",
+    "semantic_hash": "4bb17efe6d557b5333a9de0d6c38044e"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/search/page.tsx": {
+    "mtime": 1780027330.1899052,
+    "ast_hash": "731d2c69c360c3e80e383e939f026d6f",
+    "semantic_hash": "731d2c69c360c3e80e383e939f026d6f"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/shop/page.tsx": {
+    "mtime": 1780737203.844412,
+    "ast_hash": "c07eb77f88bd7972161a82604de4ce7c",
+    "semantic_hash": "c07eb77f88bd7972161a82604de4ce7c"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/sitemap.ts": {
+    "mtime": 1779311979.9350085,
+    "ast_hash": "6ca0c59f00f10eca768f36198c0f62bc",
+    "semantic_hash": "6ca0c59f00f10eca768f36198c0f62bc"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/thank-you/ClearCartOnMount.tsx": {
+    "mtime": 1779796531.5465176,
+    "ast_hash": "22425b315e59081ce2d40e6933b1270f",
+    "semantic_hash": "22425b315e59081ce2d40e6933b1270f"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/thank-you/page.tsx": {
+    "mtime": 1779796531.5484245,
+    "ast_hash": "ae1f050b4021fe0634f5c27b8cef6894",
+    "semantic_hash": "ae1f050b4021fe0634f5c27b8cef6894"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/e2e/purchase-path.spec.ts": {
+    "mtime": 1779785456.856088,
+    "ast_hash": "280572243f3c76fc2cd1647500f879b2",
+    "semantic_hash": "280572243f3c76fc2cd1647500f879b2"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/eslint.config.mjs": {
+    "mtime": 1779303111.365355,
+    "ast_hash": "7ac000cd485a4d0bc9ea4591cc750f1e",
+    "semantic_hash": "7ac000cd485a4d0bc9ea4591cc750f1e"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/fit/sizing.test.ts": {
+    "mtime": 1780018783.9998357,
+    "ast_hash": "9ae1efcbfce8a029d0073a082b459fac",
+    "semantic_hash": "9ae1efcbfce8a029d0073a082b459fac"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/fit/sizing.ts": {
+    "mtime": 1780214305.745842,
+    "ast_hash": "7c68e00fe246e6299fe9a67afaa2dad5",
+    "semantic_hash": "7c68e00fe246e6299fe9a67afaa2dad5"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/product-colors.ts": {
+    "mtime": 1780027282.1195443,
+    "ast_hash": "b0ffd1225ba9bd52c2718a921f0643bc",
+    "semantic_hash": "b0ffd1225ba9bd52c2718a921f0643bc"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shipping.test.ts": {
+    "mtime": 1780631048.6853478,
+    "ast_hash": "4f91c90bb9bf4a0bc36461c23f1c368a",
+    "semantic_hash": "4f91c90bb9bf4a0bc36461c23f1c368a"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shipping.ts": {
+    "mtime": 1780631048.6854017,
+    "ast_hash": "76e4b36ab90c4c990c714448906477e1",
+    "semantic_hash": "76e4b36ab90c4c990c714448906477e1"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shopify/cart.ts": {
+    "mtime": 1779312484.0612943,
+    "ast_hash": "fc3e5576ef8fcd876570bc9dbfddde7a",
+    "semantic_hash": "fc3e5576ef8fcd876570bc9dbfddde7a"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shopify/client.ts": {
+    "mtime": 1780214305.7459557,
+    "ast_hash": "8cd033af9cf6f84bb4952a7af25474ef",
+    "semantic_hash": "8cd033af9cf6f84bb4952a7af25474ef"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shopify/newsletter.ts": {
+    "mtime": 1779312547.2690651,
+    "ast_hash": "b3b201002c73b74aca4f353625139eab",
+    "semantic_hash": "b3b201002c73b74aca4f353625139eab"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shopify/queries.ts": {
+    "mtime": 1780214305.746056,
+    "ast_hash": "1b3cb70379a3c8cf9431c62524b1b8ef",
+    "semantic_hash": "1b3cb70379a3c8cf9431c62524b1b8ef"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/lib/shopify/types.ts": {
+    "mtime": 1780214305.746158,
+    "ast_hash": "7c0c8cd0e4b49540e554459a425982f8",
+    "semantic_hash": "7c0c8cd0e4b49540e554459a425982f8"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/next.config.ts": {
+    "mtime": 1780631048.6854937,
+    "ast_hash": "78adf7c39c3347efd635cd081989e9e6",
+    "semantic_hash": "78adf7c39c3347efd635cd081989e9e6"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/package.json": {
+    "mtime": 1780737203.8478425,
+    "ast_hash": "6bd103319eb030332b553e73b58e5db3",
+    "semantic_hash": "6bd103319eb030332b553e73b58e5db3"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/playwright.config.ts": {
+    "mtime": 1779785456.856374,
+    "ast_hash": "1cc6d23ef13f2ffbacbb8d6f11a78b71",
+    "semantic_hash": "1cc6d23ef13f2ffbacbb8d6f11a78b71"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/postcss.config.mjs": {
+    "mtime": 1779302910.146925,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/tsconfig.json": {
+    "mtime": 1779785456.8576765,
+    "ast_hash": "b636f853dc02166f2f09624e519f7764",
+    "semantic_hash": "b636f853dc02166f2f09624e519f7764"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/vercel.json": {
+    "mtime": 1780214305.7464037,
+    "ast_hash": "c99bf4fa346fc2179b9c13aebc74a454",
+    "semantic_hash": "c99bf4fa346fc2179b9c13aebc74a454"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/vitest.config.ts": {
+    "mtime": 1779785456.8578,
+    "ast_hash": "843004da799a00e91e21da8755f19471",
+    "semantic_hash": "843004da799a00e91e21da8755f19471"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/AGENTS.md": {
+    "mtime": 1779302918.4095976,
+    "ast_hash": "9e09241799026ac05be315a2f0b50055",
+    "semantic_hash": "9e09241799026ac05be315a2f0b50055"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/CLAUDE.md": {
+    "mtime": 1779302918.409691,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": "5c27369b226fcf2be8a6cfe52224e767"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/README.md": {
+    "mtime": 1779302910.1467211,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/opengraph-image.alt.txt": {
+    "mtime": 1780020059.1874874,
+    "ast_hash": "d20a986f5d01c4e32e1ab6c655f7e0ba",
+    "semantic_hash": "d20a986f5d01c4e32e1ab6c655f7e0ba"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/app/twitter-image.alt.txt": {
+    "mtime": 1780737203.8446324,
+    "ast_hash": "d20a986f5d01c4e32e1ab6c655f7e0ba",
+    "semantic_hash": "d20a986f5d01c4e32e1ab6c655f7e0ba"
+  },
+  "/Users/stuartxu/webs/nailismo/apps/web/pnpm-workspace.yaml": {
+    "mtime": 1779302910.1482666,
+    "ast_hash": "bb50e932d44a2dde6b7fe1bbea2c98c5",
+    "semantic_hash": "bb50e932d44a2dde6b7fe1bbea2c98c5"
+  }
+}

@@ -179,12 +179,6 @@ export default async function CollectionPage({
           <p style={{ marginTop: 8 }}><strong>{products.length}</strong> {products.length === 1 ? "set" : "sets"}</p>
         </div>
 
-        {collection.image && (
-          <div style={{ position: "relative", aspectRatio: "16/6", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)", marginTop: 24 }}>
-            <Image src={collection.image.url} alt={collection.image.altText ?? collection.title} fill sizes="100vw" style={{ objectFit: "cover" }} />
-          </div>
-        )}
-
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginTop: 36, marginBottom: 28 }}>
           <div>
             <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Sort</span>
