@@ -118,8 +118,33 @@ export default async function ArticlePage({
   if (!article) notFound();
   const related = await fetchRelated(article.id);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description:
+      article.excerpt?.slice(0, 200) ||
+      article.contentHtml.replace(/<[^>]+>/g, "").slice(0, 200),
+    image: article.image ? [article.image.url] : undefined,
+    datePublished: article.publishedAt,
+    author: article.authorV2?.name
+      ? { "@type": "Person", name: article.authorV2.name }
+      : { "@type": "Organization", name: "Nailismo" },
+    publisher: {
+      "@type": "Organization",
+      name: "Nailismo",
+      logo: { "@type": "ImageObject", url: `${siteUrl}/icon.png` },
+    },
+    mainEntityOfPage: `${siteUrl}/journal/${article.handle}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <AnnouncementTicker />
       <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>

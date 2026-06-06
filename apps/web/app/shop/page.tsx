@@ -106,8 +106,32 @@ export default async function ShopPage({
     : all;
   const items = sortProducts(filtered, activeSort);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
+  const shopSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Shop every flavor",
+    description:
+      "Every Nailismo press-on set — minimalist, statement, and expressive looks. Sizing range and adhesive ship in every box.",
+    url: `${siteUrl}/shop`,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: items.length,
+      itemListElement: items.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${siteUrl}/product/${p.handle}`,
+        name: p.title,
+      })),
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopSchema) }}
+      />
       <AnnouncementTicker />
       <Header />
       <main>

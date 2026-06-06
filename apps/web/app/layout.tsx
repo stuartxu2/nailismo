@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Nunito, Fredoka } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { CandyShell } from "./candy/CandyShell";
+import { SiteSchema } from "./components/SiteSchema";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -55,6 +58,12 @@ export const metadata: Metadata = {
     siteName: "Nailismo",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nailismo | Press-On Nails — Press On, Show Off",
+    description:
+      "Press-on nail sets for every hand. On in minutes, lasts up to 7 days. 10 premium nails + toolkit.",
+  },
 };
 
 export default function RootLayout({
@@ -66,7 +75,10 @@ export default function RootLayout({
       className={`${geograph.variable} ${akkuratMono.variable} ${fredoka.variable} ${nunito.variable}`}
     >
       <body className="bg-paper text-tetsu">
+        <SiteSchema />
         <CandyShell>{children}</CandyShell>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
