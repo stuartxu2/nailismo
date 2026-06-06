@@ -4,9 +4,6 @@ import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { SHOP_POLICIES_QUERY } from "@/lib/shopify/queries";
 import type { ShopPoliciesQueryResult, ShopifyPolicy } from "@/lib/shopify/types";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 
 type Params = { handle: string };
 
@@ -193,8 +190,6 @@ export default async function PolicyPage({
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -229,7 +224,6 @@ export default async function PolicyPage({
           </article>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

@@ -4,9 +4,6 @@ import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { SEARCH_PRODUCTS_QUERY } from "@/lib/shopify/queries";
 import type { SearchProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { cardDots } from "@/lib/product-colors";
 
 export const metadata: Metadata = {
@@ -55,8 +52,6 @@ export default async function SearchPage({
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -152,7 +147,6 @@ export default async function SearchPage({
           </div>
         )}
       </main>
-      <Footer />
     </>
   );
 }

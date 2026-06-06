@@ -3,9 +3,6 @@ import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { PRODUCTS_QUERY } from "@/lib/shopify/queries";
 import type { ProductsQueryResult, ShopifyProduct } from "@/lib/shopify/types";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { STARTER_HANDLES } from "@/app/components/StarterGateway";
 import { FitGuide } from "./FitGuide";
 
@@ -48,8 +45,6 @@ export default async function FitPage() {
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main>
         <section className="candy-wrap" style={{ paddingTop: 36 }}>
           <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
@@ -74,7 +69,6 @@ export default async function FitPage() {
 
         <FitGuide products={starters} />
       </main>
-      <Footer />
     </>
   );
 }

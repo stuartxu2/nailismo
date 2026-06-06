@@ -1,8 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { ClearCartOnMount } from "./ClearCartOnMount";
 export const metadata: Metadata = {
   title: "Order Confirmed · Nailismo",
@@ -31,8 +28,6 @@ export default async function ThankYouPage({
   return (
     <>
       <ClearCartOnMount />
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -79,7 +74,6 @@ export default async function ThankYouPage({
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

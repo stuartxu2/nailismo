@@ -1,8 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { LOOKS } from "./data";
 
 export const metadata: Metadata = {
@@ -22,8 +19,6 @@ const UGC = [
 export default function LookbookIndexPage() {
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main
         className="candy-wrap"
         style={{ position: "relative", paddingTop: 28, paddingBottom: "clamp(64px,9vw,120px)" }}
@@ -147,7 +142,6 @@ export default function LookbookIndexPage() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

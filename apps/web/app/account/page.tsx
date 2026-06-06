@@ -1,8 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: "Account · Nailismo",
@@ -20,8 +17,6 @@ const ordersUrl = shopDomain ? `https://${shopDomain}/account/orders` : "#";
 export default function AccountPage() {
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -57,7 +52,6 @@ export default function AccountPage() {
           <a href={ordersUrl} className="candy-btn is-ghost">Open orders</a>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

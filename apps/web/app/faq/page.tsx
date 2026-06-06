@@ -1,8 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { Faq } from "@/app/components/Faq";
 
 export const metadata: Metadata = {
@@ -15,8 +12,6 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main>
         <section className="candy-wrap" style={{ paddingTop: 36 }}>
           <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
@@ -31,7 +26,6 @@ export default function FaqPage() {
         </section>
         <Faq />
       </main>
-      <Footer />
     </>
   );
 }

@@ -13,9 +13,6 @@ import type {
   ShopifyProduct,
 } from "@/lib/shopify/types";
 import Image from "next/image";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { UgcStrip } from "@/app/components/UgcStrip";
 import { cardDots } from "@/lib/product-colors";
 
@@ -159,8 +156,6 @@ export default async function CollectionPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -245,7 +240,6 @@ export default async function CollectionPage({
           <UgcStrip />
         </div>
       </main>
-      <Footer />
     </>
   );
 }

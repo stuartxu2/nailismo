@@ -4,9 +4,6 @@ import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { ARTICLES_QUERY } from "@/lib/shopify/queries";
 import type { ArticlesQueryResult, ShopifyArticleSummary } from "@/lib/shopify/types";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: "Journal · Nailismo",
@@ -46,8 +43,6 @@ export default async function JournalPage() {
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -111,7 +106,6 @@ export default async function JournalPage() {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

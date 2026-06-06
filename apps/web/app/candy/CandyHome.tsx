@@ -3,9 +3,6 @@ import Link from "next/link";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { COLLECTION_BY_HANDLE_QUERY } from "@/lib/shopify/queries";
 import type { CollectionByHandleQueryResult, ShopifyProduct } from "@/lib/shopify/types";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
 import { HeroSlider } from "./HeroSlider";
 
@@ -144,8 +141,6 @@ export default async function CandyHome() {
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
 
       {/* ---- hero carousel (candy intro + Wairo 和色 series) ---- */}
       <HeroSlider />
@@ -267,7 +262,6 @@ export default async function CandyHome() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

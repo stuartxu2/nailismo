@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { LOOKS, getLook } from "../data";
 
 type Params = { handle: string };
@@ -53,8 +50,6 @@ export default async function LookPage({
 
   return (
     <>
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap" style={{ position: "relative", paddingTop: 28 }}>
         {/* atmosphere */}
         <div className="candy-blob" aria-hidden style={{ width: 340, height: 340, background: "var(--lemon)", top: -40, right: -70 }} />
@@ -203,7 +198,6 @@ export default async function LookPage({
           </section>
         )}
       </main>
-      <Footer />
     </>
   );
 }

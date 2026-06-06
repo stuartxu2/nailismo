@@ -136,13 +136,16 @@ export function HeroSlider() {
             </div>
 
             <div style={{ position: "relative", minHeight: 420 }} className="candy-hero-art">
-              <div className="candy-float d2" style={{ ["--rot" as string]: "-3deg", position: "absolute", top: 18, left: "2%", width: "56%", maxWidth: 272, zIndex: 3 }}>
-                <HeroTile img="/images/website/wairo-amber.avif" alt="Model wearing Wairo matte amber press-on nails" border="var(--soda)" />
+              <div className="candy-float d2" style={{ ["--rot" as string]: "-3deg", position: "absolute", top: 18, left: "2%", width: "52%", maxWidth: 252, zIndex: 3 }}>
+                <HeroTile img="/images/website/wairo-model-amber.avif" alt="Model wearing Wairo matte amber press-on nails" border="var(--soda)" />
               </div>
-              <div className="candy-float d1" style={{ ["--rot" as string]: "7deg", position: "absolute", bottom: 0, right: "1%", width: "44%", maxWidth: 208, zIndex: 2 }}>
-                <HeroTile img="/images/website/wairo-yellow.avif" alt="Model wearing Wairo matte yamabuki yellow press-on nails" border="var(--lemon)" />
+              <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "0%", width: "42%", maxWidth: 200, zIndex: 2 }}>
+                <HeroTile img="/images/website/wairo-model-pink.avif" alt="Model wearing Wairo matte sakura pink press-on nails" border="var(--bubblegum)" />
               </div>
-              <span className="candy-sticker is-soda candy-float" style={{ position: "absolute", top: 0, right: "6%", zIndex: 5, fontSize: 14 }}>
+              <div className="candy-float d1" style={{ ["--rot" as string]: "-8deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 158, zIndex: 1 }}>
+                <HeroTile img="/images/website/wairo-model-gloss.avif" alt="Model wearing Wairo glossy pink press-on nails" border="var(--lemon)" />
+              </div>
+              <span className="candy-sticker is-soda candy-float" style={{ position: "absolute", top: 0, left: "26%", zIndex: 5, fontSize: 14 }}>
                 8 new shades
               </span>
             </div>

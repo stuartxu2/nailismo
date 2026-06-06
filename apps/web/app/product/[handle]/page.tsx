@@ -11,9 +11,6 @@ import type {
   ShopifyProductDetail,
   ShopifyVariant,
 } from "@/lib/shopify/types";
-import { Header } from "@/app/components/Header";
-import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
-import { Footer } from "@/app/components/Footer";
 import { ProductGallery, type GalleryItem } from "./ProductGallery";
 import { PurchasePanel } from "./PurchasePanel";
 import { ProductFaq } from "./ProductFaq";
@@ -167,8 +164,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <AnnouncementTicker />
-      <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 28 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           <Link href="/" className="candy-crumb">Home</Link>
@@ -228,7 +223,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <UgcStrip />
         </div>
       </main>
-      <Footer />
       {/* clearance so the mobile sticky Add-to-Bag bar never covers the footer */}
       <div aria-hidden className="md:hidden" style={{ height: 84 }} />
     </>
