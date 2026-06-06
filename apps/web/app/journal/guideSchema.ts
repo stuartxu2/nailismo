@@ -11,7 +11,7 @@ export type HowToStep = { name: string; text: string };
 export type FaqItem = { q: string; a: string };
 export type GuideSchemaData = { howToSteps?: HowToStep[]; faq: FaqItem[] };
 
-export const GUIDE_SCHEMA: Record<string, GuideSchemaData> = {
+export const GUIDE_SCHEMA: Readonly<Record<string, Readonly<GuideSchemaData>>> = {
   "how-to-apply-press-on-nails": {
     howToSteps: [
       { name: "Prep your nails", text: "Wash your hands, push back the cuticles, and lightly buff the nail surface. Wipe each nail with an alcohol pad so the adhesive grips." },
@@ -89,15 +89,17 @@ export function buildGuideJsonLd(
     });
   }
 
-  out.push({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: data.faq.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  });
+  if (data.faq.length) {
+    out.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: data.faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
 
   return out;
 }
