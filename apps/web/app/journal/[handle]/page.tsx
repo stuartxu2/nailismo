@@ -18,6 +18,7 @@ import Image from "next/image";
 import { AnnouncementTicker } from "@/app/components/AnnouncementTicker";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
+import { buildGuideJsonLd } from "@/app/journal/guideSchema";
 
 type Params = { handle: string };
 
@@ -139,12 +140,26 @@ export default async function ArticlePage({
     mainEntityOfPage: `${siteUrl}/journal/${article.handle}`,
   };
 
+  const guideJsonLd = buildGuideJsonLd(
+    article.handle,
+    article.title,
+    `${siteUrl}/journal/${article.handle}`,
+    article.image?.url,
+  );
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {guideJsonLd.map((schema, i) => (
+        <script
+          key={`guide-ld-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <AnnouncementTicker />
       <Header />
       <main className="candy-wrap candy-sec" style={{ paddingTop: 36 }}>
