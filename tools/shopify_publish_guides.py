@@ -6,7 +6,7 @@ If the article exists -> articleUpdate; otherwise -> articleCreate. The lookup
 is a read, so it runs in --dry-run too.
 
 Each article gets a hero image: an existing public AVIF asset is converted to
-webp via `sips`, staged-uploaded, registered with fileCreate, polled until
+JPEG via `sips`, staged-uploaded, registered with fileCreate, polled until
 READY, and its Shopify CDN url is attached as the article image. The image
 path is graceful: any failure logs a warning and the article still publishes
 without an image (never aborts the article).
@@ -205,16 +205,18 @@ def upload_image(env: dict, token: str, handle: str, avif_rel: str, alt: str) ->
         return None
     try:
         os.makedirs(TMP_DIR, exist_ok=True)
-        webp_name = f"{handle}.webp"
-        webp_path = os.path.join(TMP_DIR, webp_name)
+        # sips on this host cannot write webp ("Can't write format webp"), so we
+        # convert AVIF -> JPEG, which sips supports and Shopify accepts.
+        jpg_name = f"{handle}.jpg"
+        jpg_path = os.path.join(TMP_DIR, jpg_name)
         subprocess.run(
-            ["sips", "-s", "format", "webp", avif_path, "--out", webp_path],
+            ["sips", "-s", "format", "jpeg", avif_path, "--out", jpg_path],
             check=True, capture_output=True,
         )
 
-        size = os.path.getsize(webp_path)
+        size = os.path.getsize(jpg_path)
         staged = gql(env, token, STAGED_UPLOADS, {"input": [{
-            "filename": webp_name, "mimeType": "image/webp", "resource": "FILE",
+            "filename": jpg_name, "mimeType": "image/jpeg", "resource": "FILE",
             "httpMethod": "POST", "fileSize": str(size),
         }]})["stagedUploadsCreate"]
         if staged["userErrors"]:
@@ -222,10 +224,10 @@ def upload_image(env: dict, token: str, handle: str, avif_rel: str, alt: str) ->
             return None
         target = staged["stagedTargets"][0]
 
-        with open(webp_path, "rb") as fh:
+        with open(jpg_path, "rb") as fh:
             data = fh.read()
         fields = [(p["name"], p["value"]) for p in target["parameters"]]
-        post_body, boundary = _multipart(fields, "file", webp_name, "image/webp", data)
+        post_body, boundary = _multipart(fields, "file", jpg_name, "image/jpeg", data)
         post_req = urllib.request.Request(
             target["url"], data=post_body,
             headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
@@ -256,7 +258,7 @@ def upload_image(env: dict, token: str, handle: str, avif_rel: str, alt: str) ->
         return None
     except subprocess.CalledProcessError as exc:
         stderr = exc.stderr.decode()[:200] if exc.stderr else ""
-        print(f"       WARN image: sips webp conversion failed: {stderr}")
+        print(f"       WARN image: sips jpeg conversion failed: {stderr}")
         return None
     except urllib.error.HTTPError as exc:
         print(f"       WARN image: upload HTTP {exc.code}: {exc.read().decode()[:200]}")
