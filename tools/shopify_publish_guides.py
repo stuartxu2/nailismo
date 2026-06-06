@@ -14,8 +14,9 @@ without an image (never aborts the article).
 Body HTML is read at runtime from tools/guides/<handle>.html.
 
 Usage (loaded from apps/web/.env.local via shopify_auth):
-  python tools/shopify_publish_guides.py --dry-run   # plan only, no mutations
-  python tools/shopify_publish_guides.py             # real publish (image + write)
+  python tools/shopify_publish_guides.py             # dry-run plan, no mutations (default)
+  python tools/shopify_publish_guides.py --dry-run   # same (explicit no-op alias)
+  python tools/shopify_publish_guides.py --apply     # real publish (image + write)
 
 Env: SHOPIFY_STORE_DOMAIN, SHOPIFY_API_VERSION,
      SHOPIFY_ADMIN_CLIENT_ID, SHOPIFY_ADMIN_CLIENT_SECRET   (scope: write_content)
@@ -230,7 +231,10 @@ def upload_image(env: dict, token: str, handle: str, avif_rel: str, alt: str) ->
             headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
             method="POST",
         )
-        urllib.request.urlopen(post_req)
+        with urllib.request.urlopen(post_req) as resp:
+            if resp.status not in (200, 201, 204):
+                print(f"  [warn] staged upload POST returned {resp.status} for {handle}; skipping image")
+                return None
 
         created = gql(env, token, FILE_CREATE, {"files": [{
             "originalSource": target["resourceUrl"], "contentType": "IMAGE", "alt": alt,
@@ -309,7 +313,8 @@ def publish(env: dict, token: str, guide: dict, existing_id: str | None) -> None
 
 # --------------------------------------------------------------------------- #
 def main() -> None:
-    dry_run = "--dry-run" in sys.argv
+    apply = "--apply" in sys.argv
+    dry_run = not apply  # safe-by-default: --dry-run is an explicit no-op alias
 
     # Validate guide bodies + image assets exist up front.
     for g in GUIDES:
@@ -321,7 +326,8 @@ def main() -> None:
     token = get_admin_token(env)
     print(f"Store {env['SHOPIFY_STORE_DOMAIN']} | API {env['SHOPIFY_API_VERSION']}")
     print(f"blog {BLOG_ID}")
-    print("MODE:", "DRY-RUN (no mutations)" if dry_run else "PUBLISH (writing)")
+    print("MODE:", "dry-run (no changes) — pass --apply to publish" if dry_run
+          else "APPLY (writing to production)")
 
     for g in GUIDES:
         existing_id = find_existing(env, token, g["handle"])  # read; safe in dry-run
@@ -340,7 +346,7 @@ def main() -> None:
             publish(env, token, g, existing_id)
 
     if dry_run:
-        print("\nDRY-RUN complete. Re-run without --dry-run to publish.")
+        print("\nDRY-RUN complete. Re-run with --apply to publish.")
     else:
         print("\nPUBLISHED.")
 
