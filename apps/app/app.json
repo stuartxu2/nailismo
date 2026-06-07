@@ -37,6 +37,12 @@
         }
       ],
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Nailismo uses your photos so you can measure your nail size from a picture of your hand next to a bank card."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#208AEF",
