@@ -171,7 +171,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
 
         <div key={step} className="candy-rise" style={{ padding: "clamp(24px,4vw,48px)" }}>
           {step === "start" && (
-            <div className="grid grid-cols-12 gap-8 items-center">
+            <div className="grid grid-cols-12 gap-x-0 gap-y-8 lg:gap-x-8 items-center">
               <div className="col-span-12 lg:col-span-7">
                 <span className="candy-eyebrow">Find my size</span>
                 <h2 style={{ fontSize: "clamp(32px,5vw,56px)", marginTop: 12 }}>
@@ -251,7 +251,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
           )}
 
           {step === "calibrate" && (
-            <div className="grid grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="grid grid-cols-12 gap-x-0 gap-y-8 lg:gap-x-12 items-center">
               <div className="col-span-12 lg:col-span-5">
                 <span className="candy-eyebrow">Step 1 · Calibrate</span>
                 <h2 style={{ fontSize: "clamp(28px,3.6vw,46px)", marginTop: 12 }}>Match the card</h2>
@@ -279,7 +279,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
           )}
 
           {step === "measure" && (
-            <div className="grid grid-cols-12 gap-8 lg:gap-12 items-start">
+            <div className="grid grid-cols-12 gap-x-0 gap-y-8 lg:gap-x-12 items-start">
               <div className="col-span-12 lg:col-span-5">
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
                   <span className="candy-eyebrow">Nail {index + 1} of {FINGERS.length}</span>
