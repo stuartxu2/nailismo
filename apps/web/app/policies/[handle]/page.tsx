@@ -42,7 +42,7 @@ const FALLBACK_POLICIES: Record<string, ShopifyPolicy> = {
     title: "Shipping",
     url: "",
     body: `
-      <p>Every order ships from our Brooklyn warehouse within one business day. You'll get tracking the moment your label prints.</p>
+      <p>Every order ships from our Los Angeles warehouse within one business day. You'll get tracking the moment your label prints.</p>
       <h2>Domestic (US)</h2>
       <ul>
         <li><strong>Standard</strong> · 3–5 business days · Free on orders over $35</li>
@@ -89,13 +89,13 @@ const FALLBACK_POLICIES: Record<string, ShopifyPolicy> = {
       <h2>Pricing & Promotions</h2>
       <p>Prices are listed in USD and may change without notice. Promotional codes are single-use unless stated otherwise.</p>
       <h2>Intellectual Property</h2>
-      <p>All content — copy, imagery, product design, and the Nailismo wordmark — is owned by Nailismo Inc. Don't reproduce without written permission.</p>
+      <p>All content — copy, imagery, product design, and the Nailismo wordmark — is owned by Premium Purring LLC. Don't reproduce without written permission.</p>
       <h2>User Content</h2>
       <p>By tagging us in your photos, you grant Nailismo a non-exclusive license to repost with credit.</p>
       <h2>Limitation of Liability</h2>
       <p>To the maximum extent permitted by law, Nailismo is not liable for indirect, incidental, or consequential damages arising from product use.</p>
       <h2>Governing Law</h2>
-      <p>These terms are governed by the laws of the State of New York.</p>
+      <p>These terms are governed by the laws of the State of California.</p>
       <h2>Contact</h2>
       <p>Questions? <a href="mailto:hello@nailismo.com">hello@nailismo.com</a></p>
     `,
@@ -118,6 +118,31 @@ const FALLBACK_POLICIES: Record<string, ShopifyPolicy> = {
       </ul>
       <h2>Your rights</h2>
       <p>Email <a href="mailto:hello@nailismo.com">hello@nailismo.com</a> to request access, correction, or deletion of your data.</p>
+    `,
+  },
+  "legal-notice": {
+    handle: "legal-notice",
+    title: "Legal Notice",
+    url: "",
+    body: `
+      <p>This legal notice identifies the publisher of nailismo.com and the party responsible for its content.</p>
+      <h2>Publisher</h2>
+      <p>The website nailismo.com ("the Site") is published by:</p>
+      <ul>
+        <li><strong>Legal entity:</strong> Premium Purring LLC</li>
+        <li><strong>Registered address:</strong> 3900 W 1st St., Los Angeles, CA 90004, USA</li>
+        <li><strong>Business registration:</strong> EIN 99-2677551</li>
+      </ul>
+      <h2>Contact</h2>
+      <p>Email <a href="mailto:hello@nailismo.com">hello@nailismo.com</a> for any question regarding the Site or its content.</p>
+      <h2>Hosting</h2>
+      <p>The Site is hosted by Vercel Inc., San Francisco, California, USA — <a href="https://vercel.com" rel="nofollow">vercel.com</a>. Catalog, checkout, and payment processing are operated by Shopify Inc.</p>
+      <h2>Intellectual property</h2>
+      <p>All content on the Site — copy, imagery, product design, and the Nailismo wordmark — is the property of Premium Purring LLC and protected by intellectual-property law. Reproduction without written permission is prohibited. See our <a href="/policies/terms">Terms of Service</a> for details.</p>
+      <h2>Personal data</h2>
+      <p>How we handle personal data is described in our <a href="/policies/privacy">Privacy Policy</a>.</p>
+      <h2>Governing law</h2>
+      <p>The Site and this notice are governed by the laws of the State of California, USA.</p>
     `,
   },
 };
@@ -144,8 +169,11 @@ function resolvePolicy(
   return FALLBACK_POLICIES[fallbackKey] ?? null;
 }
 
+// Custom pages with no Shopify-native policy field (resolved from FALLBACK_POLICIES).
+const CUSTOM_SLUGS = ["legal-notice"];
+
 export async function generateStaticParams(): Promise<Params[]> {
-  return Object.keys(SLUG_MAP).map((handle) => ({ handle }));
+  return [...Object.keys(SLUG_MAP), ...CUSTOM_SLUGS].map((handle) => ({ handle }));
 }
 
 export async function generateMetadata({
@@ -176,6 +204,7 @@ const POLICY_INDEX = [
   { slug: "returns", label: "Returns" },
   { slug: "privacy", label: "Privacy" },
   { slug: "terms", label: "Terms" },
+  { slug: "legal-notice", label: "Legal" },
 ];
 
 export default async function PolicyPage({

@@ -16,9 +16,10 @@ const CHANNELS = [
 ];
 
 const SOCIAL = [
-  { label: "Instagram", handle: "@nailismo", href: "#" },
-  { label: "TikTok", handle: "@nailismo", href: "#" },
-  { label: "X", handle: "@nailismo", href: "#" },
+  { label: "Instagram", handle: "@shopnailismo", href: "https://instagram.com/shopnailismo" },
+  { label: "TikTok", handle: "@shopnailismo", href: "https://tiktok.com/@shopnailismo" },
+  { label: "X", handle: "@shopnailismo", href: "https://x.com/shopnailismo" },
+  { label: "Pinterest", handle: "@shopnailismo", href: "https://pinterest.com/shopnailismo" },
 ];
 
 export default function ContactPage() {
@@ -52,7 +53,7 @@ export default function ContactPage() {
           <span className="candy-eyebrow" style={{ display: "block", marginBottom: 14 }}>Find us online</span>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {SOCIAL.map((s) => (
-              <a key={s.label} href={s.href} className="candy-chip">{s.label} · {s.handle}</a>
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="candy-chip">{s.label} · {s.handle}</a>
             ))}
           </div>
         </div>

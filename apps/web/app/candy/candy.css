@@ -288,6 +288,17 @@
 .candy-iconbtn.candy-md-only { display: none; }
 @media (min-width: 768px) { .candy-iconbtn.candy-md-only { display: inline-grid; } }
 
+/* footer social icons — tuned for the dark footer */
+.candy-soc {
+  width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center;
+  background: rgba(230,213,235,0.12); color: var(--cotton);
+  transition: background-color .2s ease, color .2s ease, transform .12s ease;
+}
+.candy-soc:hover { background: var(--lemon); color: var(--ink); transform: translateY(-2px); }
+.candy-soc:active { transform: scale(.92); }
+.candy-soc:focus-visible { outline: 3px solid var(--lemon); outline-offset: 2px; }
+.candy-soc svg { width: 18px; height: 18px; display: block; }
+
 /* hero: single column on mobile, two columns from md */
 @media (min-width: 880px) {
   .candy-hero-grid { grid-template-columns: 1.05fr 0.95fr !important; }
