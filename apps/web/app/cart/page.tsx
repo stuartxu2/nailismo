@@ -31,7 +31,7 @@ function LineRow({ line }: { line: ShopifyCartLine }) {
         ) : null}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <Link href={`/product/${m.product.handle}`} style={{ fontFamily: "var(--display)", fontSize: 22, lineHeight: 1.1 }}>
+        <Link href={`/products/${m.product.handle}`} style={{ fontFamily: "var(--display)", fontSize: 22, lineHeight: 1.1 }}>
           {m.product.title}
         </Link>
         {variantLabel && (

@@ -112,7 +112,7 @@ export default async function SearchPage({
               const alt = p.featuredImage?.altText ?? p.title;
               const { dots, labeled } = cardDots(p.tags, i);
               return (
-                <Link key={p.id} href={`/product/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
+                <Link key={p.id} href={`/products/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
                   <div className="candy-card-img">
                     <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                   </div>

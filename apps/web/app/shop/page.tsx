@@ -161,7 +161,7 @@ export default async function ShopPage({
       itemListElement: items.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${siteUrl}/product/${p.handle}`,
+        url: `${siteUrl}/products/${p.handle}`,
         name: p.title,
       })),
     },
@@ -282,14 +282,14 @@ export default async function ShopPage({
                         Editor pick
                       </span>
                     )}
-                    <Link href={`/product/${p.handle}`} className="candy-card-img" aria-label={p.title}>
+                    <Link href={`/products/${p.handle}`} className="candy-card-img" aria-label={p.title}>
                       <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                     </Link>
                     <div style={{ padding: "16px 6px 6px" }}>
                       <div className="candy-cardhead">
                         <div className="candy-cardhead-text">
                           <h2 className="candy-cardtitle">
-                            <Link href={`/product/${p.handle}`}>{p.title}</Link>
+                            <Link href={`/products/${p.handle}`}>{p.title}</Link>
                           </h2>
                         </div>
                         <span className="candy-cardprice">{price}</span>

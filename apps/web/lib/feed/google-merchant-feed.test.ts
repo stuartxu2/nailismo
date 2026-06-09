@@ -65,9 +65,9 @@ describe("buildGoogleMerchantFeed", () => {
     expect((xml.match(/<\/item>/g) ?? []).length).toBe(1);
   });
 
-  it("links to the singular /product/ path on the custom domain", () => {
+  it("links to the /products/ path on the custom domain", () => {
     const xml = buildGoogleMerchantFeed([product()], SITE);
-    expect(xml).toContain("<g:link>https://nailismo.com/product/pet-pals</g:link>");
+    expect(xml).toContain("<g:link>https://nailismo.com/products/pet-pals</g:link>");
   });
 
   it("strips emoji from the title", () => {

@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Any product mutation can change price/availability on these surfaces.
-  if (handle) revalidatePath(`/product/${handle}`);
+  if (handle) revalidatePath(`/products/${handle}`);
   revalidatePath("/shop");
   revalidatePath("/");
   revalidatePath("/search");

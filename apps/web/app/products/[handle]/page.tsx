@@ -62,7 +62,7 @@ export async function generateMetadata({
   return {
     title: `${product.title} · Nailismo`,
     description,
-    alternates: { canonical: `/product/${product.handle}` },
+    alternates: { canonical: `/products/${product.handle}` },
     openGraph: {
       title: `${product.title} · Nailismo`,
       description,
@@ -124,7 +124,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const galleryItems = buildGalleryItems(product.media?.nodes, images);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
-  const productUrl = `${siteUrl}/product/${product.handle}`;
+  const productUrl = `${siteUrl}/products/${product.handle}`;
   const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
   const jsonLd = [
     {

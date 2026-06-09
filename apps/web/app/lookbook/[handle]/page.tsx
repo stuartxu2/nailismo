@@ -88,7 +88,7 @@ export default async function LookPage({
             <h1 className="lb-display" style={{ fontSize: "clamp(44px,8vw,108px)", marginTop: 12 }}>{look.title}</h1>
             <p style={{ marginTop: 18, fontSize: 17, fontWeight: 600, color: "var(--ink-soft)", maxWidth: 460 }}>{look.desc}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 24 }}>
-              <Link href={`/product/${look.pairing.productHandle}`} className="candy-btn">
+              <Link href={`/products/${look.pairing.productHandle}`} className="candy-btn">
                 Shop {look.pairing.set} <span className="pop" aria-hidden>🛍️</span>
               </Link>
               <a href="#feed" className="candy-btn is-ghost">See it worn ↓</a>
@@ -165,7 +165,7 @@ export default async function LookPage({
               <p style={{ marginTop: 12, fontWeight: 600, color: "rgba(230,213,235,0.82)", maxWidth: 480 }}>{look.pairing.note}</p>
             </div>
             <div className="md:flex md:justify-end" style={{ position: "relative", zIndex: 1 }}>
-              <Link href={`/product/${look.pairing.productHandle}`} className="candy-btn">Shop the set <span className="pop" aria-hidden>🛍️</span></Link>
+              <Link href={`/products/${look.pairing.productHandle}`} className="candy-btn">Shop the set <span className="pop" aria-hidden>🛍️</span></Link>
             </div>
           </div>
         </section>

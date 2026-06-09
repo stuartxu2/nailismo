@@ -45,7 +45,7 @@ function toFlavor(p: ShopifyProduct, i: number): Flavor {
     finish: p.tags[0] ?? "Gloss",
     price: money(p),
     image: p.featuredImage?.url ?? FALLBACK[i % FALLBACK.length].image,
-    href: `/product/${p.handle}`,
+    href: `/products/${p.handle}`,
     swatches: [SWATCH_CYCLE[i % SWATCH_CYCLE.length], SWATCH_CYCLE[(i + 2) % SWATCH_CYCLE.length]],
   };
 }
