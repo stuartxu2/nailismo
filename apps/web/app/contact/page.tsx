@@ -19,7 +19,6 @@ const SOCIAL = [
   { label: "Instagram", handle: "@shopnailismo", href: "https://instagram.com/shopnailismo" },
   { label: "TikTok", handle: "@shopnailismo", href: "https://tiktok.com/@shopnailismo" },
   { label: "X", handle: "@shopnailismo", href: "https://x.com/shopnailismo" },
-  { label: "YouTube", handle: "@shopnailismo", href: "https://youtube.com/@shopnailismo" },
   { label: "Pinterest", handle: "@shopnailismo", href: "https://pinterest.com/shopnailismo" },
 ];
 

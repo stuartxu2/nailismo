@@ -17,7 +17,6 @@ const schema = [
       "https://instagram.com/shopnailismo",
       "https://tiktok.com/@shopnailismo",
       "https://x.com/shopnailismo",
-      "https://youtube.com/@shopnailismo",
       "https://pinterest.com/shopnailismo",
     ],
   },
