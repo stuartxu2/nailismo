@@ -75,6 +75,7 @@ export function Footer() {
               { label: "Shipping", href: "/policies/shipping" },
               { label: "Returns & Refunds", href: "/policies/returns" },
               { label: "Terms of Service", href: "/policies/terms" },
+              { label: "Privacy Policy", href: "/policies/privacy" },
               { label: "Legal Notice", href: "/policies/legal-notice" },
               { label: "Contact", href: "/contact" },
               { label: "hello@nailismo.com", href: "mailto:hello@nailismo.com" },
