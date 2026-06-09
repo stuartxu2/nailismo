@@ -19,10 +19,14 @@ const nextConfig: NextConfig = {
   },
   // The nav label is "Sets" but the catalog lives at /shop. Catch any stale
   // bookmark, ad, or SEO link to /sets (308) so it never dead-ends on a 404.
+  // Product detail pages moved /product/:handle -> /products/:handle; the 308
+  // preserves SEO equity and keeps already-indexed links + Google Merchant feed
+  // URLs alive while Google recrawls the new path.
   async redirects() {
     return [
       { source: "/sets", destination: "/shop", permanent: true },
       { source: "/sets/:path*", destination: "/shop", permanent: true },
+      { source: "/product/:handle", destination: "/products/:handle", permanent: true },
     ];
   },
 };

@@ -35,7 +35,7 @@ export async function Header() {
               {n.label}
             </Link>
           ))}
-          <Link href="/product/nailismo-gift-card" className="candy-gift-link">
+          <Link href="/products/nailismo-gift-card" className="candy-gift-link">
             <span className="pop" aria-hidden>🎁</span> Gift Card
           </Link>
         </nav>

@@ -76,7 +76,7 @@ function buildItem(p: ProductsFeedNode, site: string): string | null {
   // server-side truncation (mirrors the 5000-char description guard).
   const title = (stripEmoji(p.title) || p.handle).slice(0, 150);
   const description = htmlToText(p.descriptionHtml) || title;
-  const link = `${site}/product/${p.handle}`;
+  const link = `${site}/products/${p.handle}`;
   const price = `${p.priceRange.minVariantPrice.amount} ${p.priceRange.minVariantPrice.currencyCode}`;
   const availability = p.availableForSale ? "in_stock" : "out_of_stock";
   const brand = p.vendor || "Nailismo";

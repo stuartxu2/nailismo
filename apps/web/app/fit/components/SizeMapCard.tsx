@@ -170,7 +170,7 @@ export function SizeMapCard({
                   </button>
                 </form>
               ) : (
-                <Link href={`/product/${recommended.handle}`} className="candy-btn" style={{ width: "100%", marginTop: 22 }}>
+                <Link href={`/products/${recommended.handle}`} className="candy-btn" style={{ width: "100%", marginTop: 22 }}>
                   View set <span className="pop" aria-hidden>→</span>
                 </Link>
               )}

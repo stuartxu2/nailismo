@@ -84,7 +84,7 @@ export function MobileMenu({ count = 0 }: { count?: number }) {
             <nav className="candy-wrap" style={{ flex: 1, overflowY: "auto", paddingTop: 28, paddingBottom: 28 }}>
               <span className="candy-eyebrow">Browse</span>
               <Link
-                href="/product/nailismo-gift-card"
+                href="/products/nailismo-gift-card"
                 onClick={() => setOpen(false)}
                 style={{
                   display: "flex",

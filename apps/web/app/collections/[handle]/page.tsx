@@ -144,7 +144,7 @@ export default async function CollectionPage({
       itemListElement: products.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${siteUrl}/product/${p.handle}`,
+        url: `${siteUrl}/products/${p.handle}`,
         name: p.title,
       })),
     },
@@ -201,7 +201,7 @@ export default async function CollectionPage({
               const alt = p.featuredImage?.altText ?? p.title;
               const { dots, labeled } = cardDots(p.tags, i);
               return (
-                <Link key={p.id} href={`/product/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
+                <Link key={p.id} href={`/products/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
                   <div className="candy-card-img">
                     <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                   </div>
