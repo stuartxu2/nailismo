@@ -105,19 +105,60 @@ const FALLBACK_POLICIES: Record<string, ShopifyPolicy> = {
     title: "Privacy Policy",
     url: "",
     body: `
-      <p>We collect the minimum data needed to run the store: name, email, shipping address, and payment method (processed by Shopify, never stored on our servers).</p>
-      <h2>What we collect</h2>
+      <p><strong>Effective June 9, 2026.</strong> This Privacy Policy explains how Premium Purring LLC ("Nailismo," "we," "us") collects, uses, and shares personal information when you visit nailismo.com or place an order, and the rights you have under California law (CCPA/CPRA).</p>
+      <h2>Who we are</h2>
+      <p>The business responsible for your personal information is Premium Purring LLC, 3900 W 1st St., Los Angeles, CA 90004, USA. Reach us anytime at <a href="mailto:hello@nailismo.com">hello@nailismo.com</a>.</p>
+      <h2>Information we collect</h2>
       <ul>
-        <li>Order and account details you provide at checkout or signup</li>
-        <li>Basic analytics (page views, referrers) via privacy-friendly tooling</li>
+        <li><strong>Identifiers</strong> — name, email, shipping and billing address, phone number.</li>
+        <li><strong>Order &amp; commercial data</strong> — products purchased, order history, transaction amounts.</li>
+        <li><strong>Payment data</strong> — processed by Shopify and its payment partners; we never see or store full card numbers on our servers.</li>
+        <li><strong>Internet activity</strong> — pages viewed, referrers, device and browser type, and similar analytics.</li>
+        <li><strong>Approximate location</strong> — coarse location inferred from your IP address.</li>
       </ul>
+      <p>We do not request, and do not knowingly collect, sensitive personal information.</p>
+      <h2>Where it comes from</h2>
+      <p>Directly from you — at checkout, signup, or when you contact us — and automatically from your device via cookies and similar technologies.</p>
       <h2>How we use it</h2>
       <ul>
-        <li>Fulfill orders and provide customer service</li>
-        <li>Send order updates and (with consent) marketing emails</li>
+        <li>Fulfill and ship your orders, and provide customer service.</li>
+        <li>Send order and shipping updates.</li>
+        <li>Send marketing emails where you have opted in (unsubscribe anytime).</li>
+        <li>Measure and improve the store, and keep it secure and fraud-free.</li>
+        <li>Comply with our legal obligations.</li>
       </ul>
-      <h2>Your rights</h2>
-      <p>Email <a href="mailto:hello@nailismo.com">hello@nailismo.com</a> to request access, correction, or deletion of your data.</p>
+      <h2>Who we share it with</h2>
+      <p>We share personal information only with service providers that help us run the store, under contracts that limit how they use it:</p>
+      <ul>
+        <li><strong>Shopify Inc.</strong> — catalog, checkout, and payment processing.</li>
+        <li><strong>Vercel Inc.</strong> — website hosting.</li>
+        <li><strong>Shipping carriers</strong> — to deliver your order.</li>
+        <li><strong>Email &amp; analytics providers</strong> — to send updates and understand site usage.</li>
+      </ul>
+      <p><strong>We do not sell your personal information for money.</strong> If we ever share information for cross-context behavioral advertising, we will honor your right to opt out (below). We may also disclose information when required by law or to protect our rights.</p>
+      <h2>Cookies &amp; tracking</h2>
+      <p>We use cookies and similar technologies for essential site function, to remember your cart, and for basic analytics. You can control cookies through your browser settings; blocking some may affect how the store works.</p>
+      <h2>How long we keep it</h2>
+      <p>We keep order records as long as needed to fulfill the order and meet tax, accounting, and legal requirements, then delete or anonymize them. Marketing data is kept until you unsubscribe.</p>
+      <h2>Your California privacy rights</h2>
+      <p>If you are a California resident, you have the right to:</p>
+      <ul>
+        <li><strong>Know</strong> what personal information we collect, use, and share.</li>
+        <li><strong>Access</strong> a copy of your personal information.</li>
+        <li><strong>Delete</strong> your personal information.</li>
+        <li><strong>Correct</strong> inaccurate personal information.</li>
+        <li><strong>Opt out</strong> of any "sale" or "sharing" of personal information.</li>
+        <li><strong>Non-discrimination</strong> — we will not treat you differently for exercising these rights.</li>
+      </ul>
+      <p>To exercise any right, email <a href="mailto:hello@nailismo.com">hello@nailismo.com</a> with the subject "Privacy Request." We verify your identity using your order or account details before acting, and you may use an authorized agent. We respond within the timeframes required by law.</p>
+      <h2>Children</h2>
+      <p>The store is not directed to children under 16, and we do not knowingly collect their personal information.</p>
+      <h2>Security</h2>
+      <p>We use reasonable technical and organizational measures to protect personal information. No method of transmission or storage is 100% secure, but we work to keep your data safe.</p>
+      <h2>Changes</h2>
+      <p>We may update this policy from time to time. The "Effective" date above reflects the latest version.</p>
+      <h2>Contact</h2>
+      <p>Questions about your privacy? Email <a href="mailto:hello@nailismo.com">hello@nailismo.com</a> or write to Premium Purring LLC, 3900 W 1st St., Los Angeles, CA 90004, USA.</p>
     `,
   },
   "legal-notice": {
