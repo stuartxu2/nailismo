@@ -122,7 +122,8 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
 const STEPS = [
   { n: "1", t: "Match", d: "Use Find My Size for a perfect fit in 30 seconds. No salon, no guesswork.", emoji: "📏" },
   { n: "2", t: "Press", d: "Peel, press, hold for ten seconds. A full set on in minutes, anywhere.", emoji: "💅" },
-  { n: "3", t: "Show off", d: "Wear them all week. When you're done, they pop off clean — no damage.", emoji: "✨" },
+  { n: "3", t: "Clip", d: "Trim and file to your perfect length and shape. Totally up to you.", emoji: "✂️" },
+  { n: "4", t: "Show off", d: "Wear them all week. When you're done, they pop off clean — no damage.", emoji: "✨" },
 ];
 
 const REVIEWS = [
@@ -179,7 +180,7 @@ export default async function CandyHome() {
         <div className="candy-wrap">
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <span className="candy-eyebrow" style={{ justifyContent: "center" }}>So easy it&apos;s silly</span>
-            <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Press on in 3 steps</h2>
+            <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Press on in 4 steps</h2>
           </div>
           <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
             {STEPS.map((s) => (
