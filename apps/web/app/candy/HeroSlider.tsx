@@ -83,10 +83,13 @@ export function HeroSlider() {
 
             <div style={{ position: "relative", minHeight: 420 }} className="candy-hero-art">
               <div className="candy-float d1" style={{ ["--rot" as string]: "-9deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 150, zIndex: 1 }}>
-                <HeroTile img="/images/listing/pink and silver press on nails.avif" alt="Bubblegum Pop set" border="var(--bubblegum)" />
+                <HeroTile img="/images/listing/g-dragon press on nails.avif" alt="G-Dragon monochrome press-on nail set" border="var(--bubblegum)" />
               </div>
               <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "-1%", width: "46%", maxWidth: 218, zIndex: 2 }}>
                 <HeroTile img="/images/website/hero-festive-nails-model.avif" alt="Model showing off Nailismo press-on nails with festive art" border="var(--lemon)" />
+              </div>
+              <div className="candy-float d1" style={{ ["--rot" as string]: "7deg", position: "absolute", top: "58%", right: "-1%", width: "34%", maxWidth: 148, zIndex: 2 }}>
+                <HeroTile img="/images/listing/christmas press on nails.avif" alt="Hand-painted Christmas press-on nail set" border="var(--grape)" />
               </div>
               <div className="candy-float d2" style={{ ["--rot" as string]: "-4deg", position: "absolute", top: 44, left: "1%", width: "52%", maxWidth: 256, zIndex: 3 }}>
                 <HeroVideoTile
@@ -141,6 +144,9 @@ export function HeroSlider() {
               </div>
               <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "0%", width: "42%", maxWidth: 200, zIndex: 2 }}>
                 <HeroTile img="/images/website/wairo-model-pink.avif" alt="Model wearing Wairo matte sakura pink press-on nails" border="var(--bubblegum)" />
+              </div>
+              <div className="candy-float d1" style={{ ["--rot" as string]: "8deg", position: "absolute", top: "56%", right: "0%", width: "36%", maxWidth: 160, zIndex: 2 }}>
+                <HeroTile img="/images/website/wairo-tsutsuji.avif" alt="Wairo tsutsuji azalea matte pink press-on nails" border="var(--grape)" />
               </div>
               <div className="candy-float d1" style={{ ["--rot" as string]: "-8deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 158, zIndex: 1 }}>
                 <HeroTile img="/images/website/wairo-model-gloss.avif" alt="Model wearing Wairo glossy pink press-on nails" border="var(--lemon)" />
