@@ -98,6 +98,16 @@ describe("buildGoogleMerchantFeed", () => {
     expect((xml.match(/additional_image_link/g) ?? []).length).toBe(2);
   });
 
+  it("emits no additional_image_link when the only image is the featured one", () => {
+    const xml = buildGoogleMerchantFeed(
+      [product({ images: { nodes: [{ url: "https://cdn.shopify.com/a.jpg" }] } })],
+      SITE,
+    );
+    expect((xml.match(/<item>/g) ?? []).length).toBe(1);
+    expect(xml).not.toContain("additional_image_link");
+    expect(xml).not.toContain("\n\n"); // no stray blank line from an empty additional block
+  });
+
   it("escapes the CDATA terminator sequence in free-text fields", () => {
     const xml = buildGoogleMerchantFeed([product({ title: "a ]]> b" })], SITE);
     expect(xml).toContain("<g:title><![CDATA[a ]]]]><![CDATA[> b]]></g:title>");

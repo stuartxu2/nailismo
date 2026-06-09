@@ -1,9 +1,9 @@
 import type { ProductsFeedNode } from "@nailismo/shopify/types";
 
-// Emoji, pictographs, skin-tone modifiers, regional-indicator flags,
-// variation selectors, ZWJ, and tag characters used in flag sequences.
+// Emoji, pictographs, misc-technical/dingbat symbols, skin-tone modifiers,
+// regional-indicator flags, variation selectors, ZWJ, and tag characters.
 const EMOJI_RE =
-  /[\u{1F000}-\u{1FAFF}\u{1F3FB}-\u{1F3FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F1E6}-\u{1F1FF}\u{FE00}-\u{FE0F}\u{200D}\u{E0020}-\u{E007F}]/gu;
+  /[\u{1F000}-\u{1FAFF}\u{1F3FB}-\u{1F3FF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F1E6}-\u{1F1FF}\u{FE00}-\u{FE0F}\u{200D}\u{E0020}-\u{E007F}]/gu;
 
 // XML 1.0 forbids control characters other than \t \n \r. A single one
 // invalidates the entire feed, so strip them from every emitted field.
@@ -72,7 +72,9 @@ function buildItem(p: ProductsFeedNode, site: string): string | null {
   const image = p.featuredImage?.url;
   if (!image) return null;
 
-  const title = stripEmoji(p.title) || p.handle;
+  // Google Merchant Center caps titles at 150 chars; truncate to avoid silent
+  // server-side truncation (mirrors the 5000-char description guard).
+  const title = (stripEmoji(p.title) || p.handle).slice(0, 150);
   const description = htmlToText(p.descriptionHtml) || title;
   const link = `${site}/product/${p.handle}`;
   const price = `${p.priceRange.minVariantPrice.amount} ${p.priceRange.minVariantPrice.currencyCode}`;

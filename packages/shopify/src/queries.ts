@@ -343,7 +343,7 @@ export const PRODUCTS_FEED_QUERY = /* GraphQL */ `
         isGiftCard
         availableForSale
         featuredImage { url }
-        images(first: 10) { nodes { url } }
+        images(first: 11) { nodes { url } }
         priceRange { minVariantPrice { amount currencyCode } }
       }
     }
