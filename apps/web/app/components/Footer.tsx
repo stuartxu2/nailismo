@@ -59,7 +59,9 @@ export function Footer() {
             ]} />
             <Col title="Help" links={[
               { label: "Shipping", href: "/policies/shipping" },
-              { label: "Returns", href: "/policies/returns" },
+              { label: "Returns & Refunds", href: "/policies/returns" },
+              { label: "Terms of Service", href: "/policies/terms" },
+              { label: "Legal Notice", href: "/policies/legal-notice" },
               { label: "Contact", href: "/contact" },
               { label: "hello@nailismo.com", href: "mailto:hello@nailismo.com" },
             ]} />
