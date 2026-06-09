@@ -50,6 +50,9 @@ export const metadata: Metadata = {
   description:
     "Press-on nail sets for every hand. Minimalist, statement, and expressive looks built for daily wear, nightlife, and modern style. 10 premium nails + toolkit, on in minutes, lasts up to 7 days.",
   alternates: { canonical: "/" },
+  verification: {
+    other: { "p:domain_verify": "0234472b37b03eaa4964ca4785501020" },
+  },
   openGraph: {
     title: "Nailismo | Press-On Nails — Press On, Show Off",
     description:
