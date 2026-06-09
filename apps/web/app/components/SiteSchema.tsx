@@ -13,6 +13,13 @@ const schema = [
     description:
       "Press-on nail sets for every hand — minimalist, statement, and expressive looks built for daily wear, nightlife, and modern style.",
     email: "hello@nailismo.com",
+    sameAs: [
+      "https://instagram.com/shopnailismo",
+      "https://tiktok.com/@shopnailismo",
+      "https://x.com/shopnailismo",
+      "https://youtube.com/@shopnailismo",
+      "https://pinterest.com/shopnailismo",
+    ],
   },
   {
     "@context": "https://schema.org",

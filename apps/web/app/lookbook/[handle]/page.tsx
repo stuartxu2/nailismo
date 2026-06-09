@@ -142,7 +142,7 @@ export default async function LookPage({
               />
               <span className="lb-play" aria-hidden><span>▶</span></span>
               <span className="lb-tile-tag">▶ clip</span>
-              <span className="lb-tile-src">@nailismo</span>
+              <span className="lb-tile-src">@shopnailismo</span>
             </div>
 
             {tiles.map((n, i) => (
