@@ -74,8 +74,6 @@ export function Footer() {
             <Col title="Help" links={[
               { label: "Shipping", href: "/policies/shipping" },
               { label: "Returns & Refunds", href: "/policies/returns" },
-              { label: "Terms of Service", href: "/policies/terms" },
-              { label: "Privacy Policy", href: "/policies/privacy" },
               { label: "Legal Notice", href: "/policies/legal-notice" },
               { label: "Contact", href: "/contact" },
               { label: "hello@nailismo.com", href: "mailto:hello@nailismo.com" },
@@ -83,7 +81,11 @@ export function Footer() {
           </div>
         </div>
         <div style={{ borderTop: "1.5px solid rgba(230,213,235,0.18)", marginTop: 40, paddingTop: 22, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.6)" }}>© {new Date().getFullYear()} Nailismo</span>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.6)" }}>© {new Date().getFullYear()} Nailismo</span>
+            <Link href="/policies/terms" style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.7)" }}>Terms of Service</Link>
+            <Link href="/policies/privacy" style={{ fontSize: 13, fontWeight: 600, color: "rgba(230,213,235,0.7)" }}>Privacy Policy</Link>
+          </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {PAYMENTS.map((p) => (
               <span key={p} style={{ fontFamily: "var(--body)", fontWeight: 700, fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "rgba(230,213,235,0.12)" }}>{p}</span>
