@@ -331,3 +331,21 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
     }
   }
 `;
+
+export const PRODUCTS_FEED_QUERY = /* GraphQL */ `
+  query ProductsFeed($first: Int!) {
+    products(first: $first) {
+      nodes {
+        handle
+        title
+        descriptionHtml
+        vendor
+        isGiftCard
+        availableForSale
+        featuredImage { url }
+        images(first: 10) { nodes { url } }
+        priceRange { minVariantPrice { amount currencyCode } }
+      }
+    }
+  }
+`;

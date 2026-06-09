@@ -217,3 +217,19 @@ export type CartCreateResult = { cartCreate: CartMutationResult };
 export type CartLinesAddResult = { cartLinesAdd: CartMutationResult };
 export type CartLinesRemoveResult = { cartLinesRemove: CartMutationResult };
 export type CartLinesUpdateResult = { cartLinesUpdate: CartMutationResult };
+
+export type ProductsFeedNode = {
+  handle: string;
+  title: string;
+  descriptionHtml: string;
+  vendor: string;
+  isGiftCard: boolean;
+  availableForSale: boolean;
+  featuredImage: { url: string } | null;
+  images: { nodes: { url: string }[] };
+  priceRange: { minVariantPrice: ShopifyMoney };
+};
+
+export type ProductsFeedQueryResult = {
+  products: { nodes: ProductsFeedNode[] };
+};
