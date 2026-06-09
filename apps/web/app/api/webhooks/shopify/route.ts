@@ -53,6 +53,7 @@ export async function POST(req: NextRequest) {
   revalidatePath("/");
   revalidatePath("/search");
   revalidatePath("/collections/[handle]", "page");
+  revalidatePath("/feed/google.xml");
 
   console.log(`shopify webhook ok: topic=${topic} handle=${handle ?? "-"}`);
   return NextResponse.json({ ok: true });
