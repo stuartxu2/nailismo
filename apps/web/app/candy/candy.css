@@ -124,18 +124,30 @@
   transition: background-color .2s ease, color .2s ease, transform .12s ease;
 }
 .candy-nav a:hover { background: var(--lemon); transform: translateY(-1px); }
-/* gift card — highlighted sticker pill so it reads as an obvious standout */
-.candy-nav a.candy-gift-link {
-  display: inline-flex; align-items: center; gap: 7px;
+/* Fit — highlighted feature pill (the on-screen ruler sizer). Lime sticker so
+   it's the obvious standout; icon tilts on hover. */
+.candy-nav a.candy-fit-link {
+  display: inline-flex; align-items: center; gap: 6px;
   background: var(--bubblegum); border: 2px solid var(--ink);
   box-shadow: 0 3px 0 var(--ink);
   transition: transform .12s cubic-bezier(.34,1.56,.64,1), box-shadow .12s ease, background-color .2s ease;
 }
-.candy-nav a.candy-gift-link:hover  { background: var(--bubblegum-d); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
-.candy-nav a.candy-gift-link:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
-.candy-nav a.candy-gift-link:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
+.candy-nav a.candy-fit-link:hover  { background: var(--bubblegum-d); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+.candy-nav a.candy-fit-link:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.candy-nav a.candy-fit-link:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
+.candy-fit-link .pop { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.candy-nav a.candy-fit-link:hover .pop { transform: rotate(-12deg) scale(1.12); }
+
+/* gift card — a touch more prominent than plain links: soft lilac pill, no heavy
+   sticker shadow, so it sits above the regular items but below the Fit standout. */
+.candy-nav a.candy-gift-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--marshmallow); color: var(--ink);
+}
+.candy-nav a.candy-gift-link:hover { background: var(--lemon); transform: translateY(-1px); }
 .candy-gift-link .pop { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
-.candy-nav a.candy-gift-link:hover .pop { transform: rotate(18deg) scale(1.15); }
+.candy-nav a.candy-gift-link:hover .pop { transform: rotate(18deg) scale(1.12); }
+
 .candy-nav a:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
 
 /* ---- shop dropdown (CSS-only: opens on hover or keyboard focus) ---- */
