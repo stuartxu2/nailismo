@@ -41,8 +41,8 @@ export function MobileMenu({ count = 0 }: { count?: number }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="candy-iconbtn md:hidden"
-        style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4 }}
+        className="candy-iconbtn candy-mobile-only"
+        style={{ flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4 }}
         aria-label="Open menu"
         aria-expanded={open}
         aria-controls="mobile-menu"

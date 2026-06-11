@@ -321,6 +321,11 @@
 .candy-iconbtn.candy-md-only { display: none; }
 @media (min-width: 768px) { .candy-iconbtn.candy-md-only { display: inline-grid; } }
 
+/* hamburger: shown on mobile only — desktop has the full inline nav, so it's
+   redundant there. Two-class selector outranks `.candy-iconbtn`. */
+.candy-iconbtn.candy-mobile-only { display: inline-flex; }
+@media (min-width: 768px) { .candy-iconbtn.candy-mobile-only { display: none; } }
+
 /* footer social icons — tuned for the dark footer */
 .candy-soc {
   width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center;
