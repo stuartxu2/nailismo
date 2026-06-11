@@ -4,12 +4,6 @@ import { MobileMenu } from "./MobileMenu";
 import { getCart } from "@/lib/shopify/cart";
 import { getMenuCollections } from "@/lib/shopify/collections";
 
-const NAV = [
-  { href: "/collections/new-drops", label: "New" },
-  { href: "/fit", label: "Fit" },
-  { href: "/lookbook", label: "Lookbook" },
-];
-
 export async function Header() {
   const [cart, collections] = await Promise.all([getCart(), getMenuCollections()]);
   const count = cart?.totalQuantity ?? 0;
@@ -45,11 +39,11 @@ export async function Header() {
               </div>
             </div>
           </div>
-          {NAV.map((n) => (
-            <Link key={n.label} href={n.href}>
-              {n.label}
-            </Link>
-          ))}
+          <Link href="/collections/new-drops">New</Link>
+          <Link href="/fit" className="candy-fit-link">
+            <span className="pop" aria-hidden>📏</span> Fit
+          </Link>
+          <Link href="/lookbook">Lookbook</Link>
           <Link href="/products/nailismo-gift-card" className="candy-gift-link">
             <span className="pop" aria-hidden>🎁</span> Gift Card
           </Link>
