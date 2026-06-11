@@ -136,6 +136,39 @@
 .candy-nav a.candy-gift-link:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
 .candy-gift-link .pop { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
 .candy-nav a.candy-gift-link:hover .pop { transform: rotate(18deg) scale(1.15); }
+.candy-nav a:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
+
+/* ---- shop dropdown (CSS-only: opens on hover or keyboard focus) ---- */
+.candy-navdrop { position: relative; }
+.candy-navdrop-trigger { display: inline-flex; align-items: center; gap: 6px; }
+.candy-navdrop-trigger svg { transition: transform .2s ease; }
+.candy-navdrop:hover .candy-navdrop-trigger svg,
+.candy-navdrop:focus-within .candy-navdrop-trigger svg { transform: rotate(180deg); }
+.candy-navdrop:hover .candy-navdrop-trigger,
+.candy-navdrop:focus-within .candy-navdrop-trigger { background: var(--lemon); }
+.candy-dropdown {
+  position: absolute; top: 100%; left: 0;
+  padding-top: 10px; /* hover bridge between trigger and panel */
+  opacity: 0; transform: translateY(10px) scale(.96); transform-origin: top left;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.candy-navdrop:hover .candy-dropdown,
+.candy-navdrop:focus-within .candy-dropdown {
+  opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;
+}
+.candy-dropdown-inner {
+  min-width: 224px; display: flex; flex-direction: column; gap: 2px;
+  padding: 10px; border-radius: 22px;
+  background: var(--cream); border: 2.5px solid var(--ink);
+  box-shadow: var(--shadow-candy);
+}
+.candy-nav .candy-dropdown-inner a {
+  display: block; font-size: 14px; padding: 9px 14px; border-radius: 14px;
+  white-space: nowrap;
+}
+.candy-nav .candy-dropdown-inner a:hover { transform: translateX(2px); }
+.candy-nav .candy-dropdown-inner a:active { transform: translateX(2px) scale(.98); }
 
 /* ---- marquee ---- */
 .candy-marquee { overflow: hidden; }

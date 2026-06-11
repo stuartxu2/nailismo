@@ -2,18 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { getCart } from "@/lib/shopify/cart";
+import { getMenuCollections } from "@/lib/shopify/collections";
 
 const NAV = [
   { href: "/collections/new-drops", label: "New" },
-  { href: "/shop", label: "Sets" },
-  { href: "/collections/best-sellers", label: "Best Sellers" },
   { href: "/fit", label: "Fit" },
   { href: "/lookbook", label: "Lookbook" },
-  { href: "/about", label: "About" },
 ];
 
 export async function Header() {
-  const cart = await getCart();
+  const [cart, collections] = await Promise.all([getCart(), getMenuCollections()]);
   const count = cart?.totalQuantity ?? 0;
   return (
     <header className="candy-head">
@@ -30,6 +28,23 @@ export async function Header() {
         </Link>
 
         <nav className="candy-nav" style={{ gap: 4 }}>
+          <div className="candy-navdrop">
+            <Link href="/shop" className="candy-navdrop-trigger">
+              Shop
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </Link>
+            <div className="candy-dropdown">
+              <div className="candy-dropdown-inner">
+                {collections.map((c) => (
+                  <Link key={c.handle} href={`/collections/${c.handle}`}>
+                    {c.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
           {NAV.map((n) => (
             <Link key={n.label} href={n.href}>
               {n.label}
