@@ -14,6 +14,8 @@ import type {
 import { ProductGallery, type GalleryItem } from "./ProductGallery";
 import { PurchasePanel } from "./PurchasePanel";
 import { ProductFaq } from "./ProductFaq";
+import { ProductReviews } from "./ProductReviews";
+import { parseReviews, aggregate } from "./reviews";
 import { UgcStrip } from "@/app/components/UgcStrip";
 
 type Params = { handle: string };
@@ -126,24 +128,46 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
   const productUrl = `${siteUrl}/products/${product.handle}`;
   const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: product.title,
-      description: product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 5000),
-      image: images.map((i) => i.url),
-      brand: { "@type": "Brand", name: product.vendor || "Nailismo" },
-      offers: {
-        "@type": "Offer",
-        price: Number(price.amount).toFixed(2),
-        priceCurrency: price.currencyCode,
-        availability: product.availableForSale
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-        url: productUrl,
-      },
+  const reviews = parseReviews(product.reviews?.value);
+  const reviewAgg = aggregate(reviews);
+  const productNode: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 5000),
+    image: images.map((i) => i.url),
+    brand: { "@type": "Brand", name: product.vendor || "Nailismo" },
+    offers: {
+      "@type": "Offer",
+      price: Number(price.amount).toFixed(2),
+      priceCurrency: price.currencyCode,
+      availability: product.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: productUrl,
     },
+  };
+
+  if (reviewAgg) {
+    productNode.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: reviewAgg.ratingValue,
+      reviewCount: reviewAgg.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    };
+    productNode.review = reviews.map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.author },
+      reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      reviewBody: r.body,
+      datePublished: r.date,
+      ...(r.title ? { name: r.title } : {}),
+    }));
+  }
+
+  const jsonLd = [
+    productNode,
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -218,6 +242,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
 
         <ProductFaq title={product.title} productType={product.productType} />
+
+        <ProductReviews reviews={reviews} productTitle={product.title} />
 
         <div style={{ marginTop: 56 }}>
           <UgcStrip />
