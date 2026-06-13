@@ -95,6 +95,7 @@ export type ShopifyProductDetail = {
   productType: string;
   tags: string[];
   vendor: string;
+  reviews: { value: string | null } | null;
   availableForSale: boolean;
   featuredImage: { url: string; altText: string | null } | null;
   images: { nodes: ShopifyImage[] };
