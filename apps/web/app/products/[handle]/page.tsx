@@ -50,6 +50,18 @@ async function fetchProduct(handle: string): Promise<ShopifyProductDetail | null
   }
 }
 
+// Strip emoji, variation selectors, ZWJ, and keycaps so the SERP <title> stays
+// clean — search engines may garble or drop emoji in the title tag.
+const EMOJI_RE = /[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{20E3}]/gu;
+
+// Plain-text meta description clamped to a clean word boundary at <=155 chars,
+// so SERP snippets never cut off mid-word.
+function clampDescription(html: string, max = 155): string {
+  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  return text.slice(0, max - 1).replace(/\s+\S*$/, "").trimEnd() + "…";
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -58,12 +70,23 @@ export async function generateMetadata({
   const { handle } = await params;
   const product = await fetchProduct(handle);
   if (!product) return { title: "Product Not Found · Nailismo" };
-  const description = product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 160);
+
+  // Lead the SERP title with the emoji-free product name and fold in the
+  // category keyword from Shopify's productType (default "Press-On Nails").
+  const cleanTitle = product.title.replace(EMOJI_RE, "").replace(/\s+/g, " ").trim();
+  const category = product.productType?.trim() || "Press-On Nails";
+  const titleBase = cleanTitle.toLowerCase().includes(category.toLowerCase())
+    ? cleanTitle
+    : `${cleanTitle} — ${category}`;
+  const metaTitle = `${titleBase} · Nailismo`;
+  const description = clampDescription(product.descriptionHtml);
+
   return {
-    title: `${product.title} · Nailismo`,
+    title: metaTitle,
     description,
     alternates: { canonical: `/products/${product.handle}` },
     openGraph: {
+      // Social cards keep the branded, emoji-styled title.
       title: `${product.title} · Nailismo`,
       description,
       type: "website",
