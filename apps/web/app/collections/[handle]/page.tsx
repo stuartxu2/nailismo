@@ -10,21 +10,11 @@ import type {
   CollectionByHandleQueryResult,
   CollectionHandlesQueryResult,
   ShopifyCollectionDetail,
-  ShopifyProduct,
 } from "@/lib/shopify/types";
-import Image from "next/image";
 import { UgcStrip } from "@/app/components/UgcStrip";
-import { cardDots } from "@/lib/product-colors";
+import { CollectionBrowser } from "./CollectionBrowser";
 
 type Params = { handle: string };
-type SearchParams = { sort?: string };
-
-const SORT_OPTIONS = [
-  { key: "featured", label: "Featured" },
-  { key: "price-asc", label: "Price ↑" },
-  { key: "price-desc", label: "Price ↓" },
-  { key: "title", label: "A–Z" },
-] as const;
 
 export async function generateStaticParams(): Promise<Params[]> {
   try {
@@ -83,51 +73,16 @@ export async function generateMetadata({
   };
 }
 
-function formatPrice(amount: string, currency: string) {
-  const value = Number(amount);
-  if (!Number.isFinite(value)) return amount;
-  if (currency === "USD") return `$${value % 1 === 0 ? value.toFixed(0) : value.toFixed(2)}`;
-  return `${value.toFixed(value % 1 === 0 ? 0 : 2)} ${currency}`;
-}
-
-function sortProducts(products: ShopifyProduct[], sort: string): ShopifyProduct[] {
-  const copy = [...products];
-  if (sort === "price-asc") {
-    copy.sort(
-      (a, b) =>
-        Number(a.priceRange.minVariantPrice.amount) -
-        Number(b.priceRange.minVariantPrice.amount),
-    );
-  } else if (sort === "price-desc") {
-    copy.sort(
-      (a, b) =>
-        Number(b.priceRange.minVariantPrice.amount) -
-        Number(a.priceRange.minVariantPrice.amount),
-    );
-  } else if (sort === "title") {
-    copy.sort((a, b) => a.title.localeCompare(b.title));
-  }
-  return copy;
-}
-
-function buildHref(handle: string, sort: string): string {
-  if (!sort || sort === "featured") return `/collections/${handle}`;
-  return `/collections/${handle}?sort=${sort}`;
-}
-
 export default async function CollectionPage({
   params,
-  searchParams,
 }: {
   params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
 }) {
-  const [{ handle }, sp] = await Promise.all([params, searchParams]);
+  const { handle } = await params;
   const collection = await fetchCollection(handle);
   if (!collection) notFound();
 
-  const activeSort = sp.sort ?? "featured";
-  const products = sortProducts(collection.products.nodes, activeSort);
+  const products = collection.products.nodes;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
   const collectionSchema = {
@@ -174,67 +129,7 @@ export default async function CollectionPage({
           <p style={{ marginTop: 8 }}><strong>{products.length}</strong> {products.length === 1 ? "set" : "sets"}</p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginTop: 36, marginBottom: 28 }}>
-          <div>
-            <span className="candy-eyebrow" style={{ display: "block", marginBottom: 12 }}>Sort</span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {SORT_OPTIONS.map((s) => (
-                <Link key={s.key} href={buildHref(collection.handle, s.key)} className={`candy-chip ${activeSort === s.key ? "is-active" : ""}`}>{s.label}</Link>
-              ))}
-            </div>
-          </div>
-          <Link href="/shop" className="candy-btn is-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>View all</Link>
-        </div>
-
-        {products.length === 0 ? (
-          <div className="candy-empty">
-            <div className="emoji" aria-hidden>🍬</div>
-            <h2>No sets in this edit yet</h2>
-            <p>Check back soon — or browse the full rack.</p>
-            <Link href="/shop" className="candy-btn" style={{ marginTop: 22 }}>Browse all</Link>
-          </div>
-        ) : (
-          <div className="candy-grid">
-            {products.map((p, i) => {
-              const price = formatPrice(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode);
-              const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
-              const alt = p.featuredImage?.altText ?? p.title;
-              const { dots, labeled } = cardDots(p.tags, i);
-              return (
-                <Link key={p.id} href={`/products/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
-                  <div className="candy-card-img">
-                    <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
-                  </div>
-                  <div style={{ padding: "16px 6px 6px" }}>
-                    <div className="candy-cardhead">
-                      <div className="candy-cardhead-text">
-                        <h2 className="candy-cardtitle">{p.title}</h2>
-                      </div>
-                      <span className="candy-cardprice">{price}</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
-                      <span
-                        style={{ display: "inline-flex", gap: 6 }}
-                        aria-label={labeled ? `Colors: ${dots.map((d) => d.name).join(", ")}` : undefined}
-                      >
-                        {dots.map((c, j) => (
-                          <span
-                            key={j}
-                            className="candy-swatch"
-                            style={{ background: c.hex }}
-                            title={c.name || undefined}
-                            aria-hidden={c.name ? undefined : true}
-                          />
-                        ))}
-                      </span>
-                      <span className="candy-quickadd" aria-hidden>→</span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+        <CollectionBrowser products={products} handle={collection.handle} />
 
         <div style={{ marginTop: 64 }}>
           <UgcStrip />
