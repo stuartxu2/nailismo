@@ -53,11 +53,14 @@ enum FitSizing {
         return min(Double(setSizes.count - 1), max(0, mm - baseline))
     }
 
-    /// Aggregate measured nails into one set size. Average per-finger size index,
-    /// round (ties up). Returns nil until at least one nail is measured.
+    /// Aggregate the four measured fingers (index, middle, ring, pinky) into one
+    /// set size. Each finger votes a continuous size index; average and round (ties
+    /// up). Returns nil until at least one measured finger has a value. Any thumb
+    /// entry in the map is ignored — the thumb is derived for display only and
+    /// never votes.
     static func sizeFromMeasurements(_ fingerMm: [String: Double]) -> String? {
         var indices: [Double] = []
-        for finger in fingers {
+        for finger in measuredFingers {
             if let mm = fingerMm[finger] { indices.append(sizeIndex(finger, mm)) }
         }
         guard !indices.isEmpty else { return nil }
