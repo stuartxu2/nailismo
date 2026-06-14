@@ -88,12 +88,16 @@ export async function generateMetadata({
   const product = await fetchProduct(handle);
   if (!product) return { title: "Product Not Found · Nailismo" };
   const description = product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 160);
+  // Inject the primary keyword into the title for nail sets (skip gift cards /
+  // care essentials, where "Press-On Nails" would misdescribe the product).
+  const cls = classifyProduct({ handle: product.handle, isGiftCard: product.isGiftCard });
+  const titleBase = cls === "nail" ? `${product.title} — Press-On Nails` : product.title;
   return {
-    title: `${product.title} · Nailismo`,
+    title: `${titleBase} · Nailismo`,
     description,
     alternates: { canonical: `/products/${product.handle}` },
     openGraph: {
-      title: `${product.title} · Nailismo`,
+      title: `${titleBase} · Nailismo`,
       description,
       type: "website",
       images: product.featuredImage ? [{ url: product.featuredImage.url }] : undefined,

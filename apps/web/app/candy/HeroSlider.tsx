@@ -122,10 +122,10 @@ export function HeroSlider() {
           <div style={{ display: "grid", gap: 40, gridTemplateColumns: "1fr", alignItems: "center" }} className="candy-hero-grid">
             <div className="candy-rise">
               <span className="candy-eyebrow">New series · matte solids</span>
-              <h1 style={{ fontSize: "clamp(48px, 8.4vw, 96px)", marginTop: 16 }}>
+              <h2 style={{ fontSize: "clamp(48px, 8.4vw, 96px)", marginTop: 16 }}>
                 Wairo{" "}
                 <span lang="ja" style={{ color: "var(--soda)" }}>和色</span>
-              </h1>
+              </h2>
               <p style={{ fontSize: "clamp(17px, 2.2vw, 21px)", fontWeight: 700, color: "var(--ink-soft)", maxWidth: 470, marginTop: 18 }}>
                 Eight traditional Japanese hues in a soft matte finish — kuchiba amber,
                 sakura pink, yamabuki gold. Quiet color, worn loud.
