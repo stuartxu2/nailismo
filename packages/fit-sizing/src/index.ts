@@ -80,9 +80,9 @@ export function clampMm(mm: number): number {
  * Prefers the middle finger (+3mm), falls back to the index (+4mm), and returns
  * null when neither is available. The result is clamped to the caliper range.
  *
- * Display-only: the derived thumb is shown to the user but must NOT be fed into
- * `sizeFromMeasurements` — it carries no independent information and would only
- * re-weight the middle finger's vote.
+ * Display-only: the derived thumb is shown to the user. It carries no
+ * independent information, so it never votes — `sizeFromMeasurements` ignores
+ * any thumb entry and aggregates the four measured fingers alone.
  */
 export function deriveThumbMm(
   fingerMm: Partial<Record<FingerKey, number>>,
