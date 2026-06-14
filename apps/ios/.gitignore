@@ -1,0 +1,15 @@
+# XcodeGen output — regenerate with `xcodegen generate`
+*.xcodeproj
+
+# Build artifacts
+build/
+DerivedData/
+.build/
+
+# Secrets — copy Secrets.example.xcconfig to Secrets.xcconfig and fill locally
+Secrets.xcconfig
+
+# macOS / Xcode cruft
+.DS_Store
+*.xcuserstate
+xcuserdata/
