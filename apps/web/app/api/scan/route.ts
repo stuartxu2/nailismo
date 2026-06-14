@@ -2,15 +2,17 @@
 //
 // Takes one top-down photo (downscaled base64 JPEG) of a flat hand beside a
 // standard ID-1 / bank card and returns, in normalized image coordinates, the
-// card's long edge plus a width segment across each of the five fingernails.
-// The mobile app converts those to mm using the card (85.6mm) as the scale and
+// card's long edge plus a width segment across each of the four measured
+// fingernails (index, middle, ring, pinky). The thumb lies edge-on in a flat
+// top-down photo and is derived separately client-side. The mobile app
+// converts those to mm using the card (85.6mm) as the scale and
 // recommends a press-on set size. Vision runs on Gemini 2.5 Flash, routed
 // through Vercel AI Gateway (best-in-class at precise coordinate output).
 //
 // The model is imperfect on exact pixels, which is by design: the app shows the
 // returned segments as editable outlines the user can nudge before computing.
 
-import { FINGERS, type FingerKey } from "@nailismo/fit-sizing";
+import { FINGERS, MEASURED_FINGERS, type FingerKey } from "@nailismo/fit-sizing";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -105,7 +107,7 @@ function normalize(raw: unknown): ScanResult {
     }
   }
 
-  const nails = FINGERS.map((f) => seen.get(f)).filter(
+  const nails = MEASURED_FINGERS.map((f) => seen.get(f)).filter(
     (n): n is NailDetection => Boolean(n),
   );
   if (nails.length < 3) return { found: false };
