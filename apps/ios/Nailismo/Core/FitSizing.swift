@@ -7,6 +7,14 @@ enum FitSizing {
     static let fingers = ["thumb", "index", "middle", "ring", "pinky"]
     static let setSizes = ["S", "M", "L", "XL"]
 
+    /// The four nails the top-down camera can actually measure (thumb excluded —
+    /// it lies edge-on in a flat photo and is derived from a sibling instead).
+    static let measuredFingers = ["index", "middle", "ring", "pinky"]
+
+    /// Exact, constant chart offsets used to estimate the thumb.
+    static let thumbOffsetFromMiddleMM: Double = 3
+    static let thumbOffsetFromIndexMM: Double = 4
+
     /// ISO/IEC 7810 ID-1 card width in mm — the calibration reference.
     static let cardWidthMM: Double = 85.6
 
@@ -29,6 +37,15 @@ enum FitSizing {
     }
 
     static func clampMm(_ mm: Double) -> Double { min(maxMM, max(minMM, mm)) }
+
+    /// Estimate the thumb's width (mm) from a measured sibling finger. Prefers
+    /// the middle (+3mm), falls back to the index (+4mm), nil if neither.
+    /// Clamped. Display-only — must NOT be passed into sizeFromMeasurements.
+    static func deriveThumbMm(_ fingerMm: [String: Double]) -> Double? {
+        if let m = fingerMm["middle"] { return clampMm(m + thumbOffsetFromMiddleMM) }
+        if let i = fingerMm["index"] { return clampMm(i + thumbOffsetFromIndexMM) }
+        return nil
+    }
 
     /// Continuous set-size position (0=S … 3=XL) for one finger at a width.
     private static func sizeIndex(_ finger: String, _ mm: Double) -> Double {
