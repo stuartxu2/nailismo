@@ -3,10 +3,12 @@ import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import {
   PRODUCT_HANDLES_QUERY,
   COLLECTION_HANDLES_QUERY,
+  ARTICLE_HANDLES_QUERY,
 } from "@/lib/shopify/queries";
 import type {
   ProductHandlesQueryResult,
   CollectionHandlesQueryResult,
+  ArticleHandlesQueryResult,
 } from "@/lib/shopify/types";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://nailismo.com";
@@ -24,8 +26,8 @@ const STATIC_ROUTES: { path: string; priority: number; changeFreq: MetadataRoute
   { path: "/policies/terms", priority: 0.4, changeFreq: "yearly" },
 ];
 
-async function fetchHandles(): Promise<{ products: string[]; collections: string[] }> {
-  const [products, collections] = await Promise.all([
+async function fetchHandles(): Promise<{ products: string[]; collections: string[]; articles: string[] }> {
+  const [products, collections, articles] = await Promise.all([
     storefrontFetch<ProductHandlesQueryResult>(
       PRODUCT_HANDLES_QUERY,
       { first: 100 },
@@ -42,13 +44,21 @@ async function fetchHandles(): Promise<{ products: string[]; collections: string
       if (!(err instanceof ShopifyConfigError)) console.error("[sitemap] collections:", err);
       return [];
     }),
+    storefrontFetch<ArticleHandlesQueryResult>(
+      ARTICLE_HANDLES_QUERY,
+      { first: 100 },
+      { revalidate: 3600 },
+    ).then((d) => d.articles.nodes.map((n) => n.handle)).catch((err) => {
+      if (!(err instanceof ShopifyConfigError)) console.error("[sitemap] articles:", err);
+      return [];
+    }),
   ]);
-  return { products, collections };
+  return { products, collections, articles };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const { products, collections } = await fetchHandles();
+  const { products, collections, articles } = await fetchHandles();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
     url: `${SITE}${r.path}`,
@@ -71,5 +81,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...productEntries, ...collectionEntries];
+  const articleEntries: MetadataRoute.Sitemap = articles.map((handle) => ({
+    url: `${SITE}/journal/${handle}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...productEntries, ...collectionEntries, ...articleEntries];
 }

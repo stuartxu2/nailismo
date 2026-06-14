@@ -176,10 +176,21 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       "@type": "Offer",
       price: Number(price.amount).toFixed(2),
       priceCurrency: price.currencyCode,
+      // ~1 year out so the offer never reads as stale; refreshes on each ISR build.
+      priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
       availability: product.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
       url: productUrl,
+      // Mirrors /policies/returns: 30 days from delivery, US, return by mail.
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 30,
+        returnMethod: "https://schema.org/ReturnByMail",
+      },
     },
   };
 

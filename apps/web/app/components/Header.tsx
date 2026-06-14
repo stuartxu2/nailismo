@@ -1,12 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
-import { getCart } from "@/lib/shopify/cart";
+import { CartCountProvider, CartBadge } from "./CartCount";
 import { getMenuCollections } from "@/lib/shopify/collections";
 
 export async function Header() {
-  const [cart, collections] = await Promise.all([getCart(), getMenuCollections()]);
-  const count = cart?.totalQuantity ?? 0;
+  const collections = await getMenuCollections();
   return (
     <header className="candy-head">
       <div className="candy-wrap flex items-center justify-between h-[70px]">
@@ -49,6 +48,7 @@ export async function Header() {
           </Link>
         </nav>
 
+        <CartCountProvider>
         <div className="flex items-center gap-2.5">
           <Link href="/search" className="candy-iconbtn candy-md-only" aria-label="Search">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -62,29 +62,13 @@ export async function Header() {
               <path d="M5.5 20c0-3.6 2.9-5.5 6.5-5.5s6.5 1.9 6.5 5.5" />
             </svg>
           </Link>
-          <Link href="/cart" className="candy-btn is-soda" style={{ padding: "10px 18px", fontSize: 14 }} aria-label={`Cart, ${count} items`}>
+          <Link href="/cart" className="candy-btn is-soda" style={{ padding: "10px 18px", fontSize: 14 }} aria-label="Cart">
             Cart
-            <span
-              aria-hidden
-              style={{
-                display: "inline-grid",
-                placeItems: "center",
-                minWidth: 22,
-                height: 22,
-                padding: "0 6px",
-                borderRadius: 999,
-                background: "var(--bubblegum)",
-                color: "var(--ink)",
-                border: "2px solid var(--ink)",
-                fontWeight: 800,
-                fontSize: 12,
-              }}
-            >
-              {count}
-            </span>
+            <CartBadge />
           </Link>
-          <MobileMenu count={count} />
+          <MobileMenu />
         </div>
+        </CartCountProvider>
       </div>
     </header>
   );
