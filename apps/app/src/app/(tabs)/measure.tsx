@@ -25,10 +25,12 @@ import {
 } from "@/lib/shopify";
 import {
   FINGERS,
+  MEASURED_FINGERS,
   clampMm,
   pxToMm,
   pxPerMm,
   sizeFromMeasurements,
+  deriveThumbMm,
   type FingerKey,
 } from "@nailismo/fit-sizing";
 import { useFit } from "@/store/fit";
@@ -50,7 +52,7 @@ const STEPS = [
   "Use the blank back, a gift card, or cover any private numbers.",
   "Keep the card and hand on the same flat surface.",
   "Shoot straight down, from directly above.",
-  "Make sure all five nails are visible and not in shadow.",
+  "Keep your four fingers' nails visible and not in shadow.",
 ];
 
 type Photo = { uri: string; w: number; h: number };
@@ -153,6 +155,7 @@ export default function MeasureScreen() {
     ];
 
     for (const n of detection.nails) {
+      if (n.finger === "thumb") continue; // thumb is derived, never measured
       map[n.finger] = segPx(n, bw, bh);
       segs.push({
         id: n.finger,
@@ -167,7 +170,7 @@ export default function MeasureScreen() {
 
     // Missing nails: a small centered default, staggered so they don't stack.
     let i = 0;
-    for (const f of FINGERS) {
+    for (const f of MEASURED_FINGERS) {
       if (present.has(f)) continue;
       const y: [number, number] = [0.42, 0.32 + i * 0.09];
       const a: [number, number] = [0.42, y[1]];
@@ -249,11 +252,17 @@ export default function MeasureScreen() {
     if (!cardPx || cardPx <= 0) return;
     const f = pxPerMm(cardPx);
     setCardPxWidth(cardPx);
+    const measured: Partial<Record<FingerKey, number>> = {};
     for (const seg of reviewSegments) {
       if (seg.id === "card") continue;
       const px = segPxMap[seg.id] ?? 0;
-      if (px > 0) setFingerMm(seg.id as FingerKey, clampMm(pxToMm(px, f)));
+      if (px > 0) measured[seg.id as FingerKey] = clampMm(pxToMm(px, f));
     }
+    for (const [finger, mm] of Object.entries(measured)) {
+      setFingerMm(finger as FingerKey, mm);
+    }
+    const thumb = deriveThumbMm(measured); // display-only; sizeFromMeasurements ignores it
+    if (thumb != null) setFingerMm("thumb", thumb);
     setPhase("result");
   }
 
@@ -270,7 +279,7 @@ export default function MeasureScreen() {
               </Text>
               <Text style={{ fontFamily: font.body, fontSize: 15, lineHeight: 23, color: colors.subtle }}>
                 Lay a hand flat beside any bank card (exactly 85.6&nbsp;mm wide) and shoot from
-                above. We detect every nail, you check the outlines, and we read your set size.
+                above. We read your four fingers, estimate the thumb, and read your set size.
               </Text>
             </View>
             <Card style={{ padding: 20, gap: 12 }}>
@@ -330,7 +339,7 @@ export default function MeasureScreen() {
           Finding your nails…
         </Text>
         <Text style={{ fontFamily: font.body, fontSize: 14, color: colors.subtle, textAlign: "center" }}>
-          Reading the card for scale and outlining all five nails.
+          Reading the card for scale and outlining your nails.
         </Text>
       </View>
     );
@@ -422,14 +431,14 @@ export default function MeasureScreen() {
 
   // ---- nail (manual fallback) ----
   if (phase === "nail") {
-    const finger = FINGERS[nailIndex];
+    const finger = MEASURED_FINGERS[nailIndex];
     const mm = factor ? clampMm(pxToMm(livePx, factor)) : 0;
-    const last = nailIndex === FINGERS.length - 1;
+    const last = nailIndex === MEASURED_FINGERS.length - 1;
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg }}>
         <SafeAreaView edges={["top"]} style={{ flex: 1, padding: 16, gap: 14 }}>
           <View style={{ gap: 4 }}>
-            <Eyebrow>{`step 2 · nail ${nailIndex + 1} of 5`}</Eyebrow>
+            <Eyebrow>{`step 2 · nail ${nailIndex + 1} of 4`}</Eyebrow>
             <Text style={{ fontFamily: font.displaySemi, fontSize: 22, color: colors.ink }}>
               Measure your {FINGER_LABELS[finger]}
             </Text>
@@ -450,10 +459,17 @@ export default function MeasureScreen() {
             label={last ? "See my size" : "Next nail"}
             disabled={!factor || livePx < 4}
             onPress={() => {
-              if (factor) setFingerMm(finger, clampMm(pxToMm(livePx, factor)));
+              const measuredMm = factor ? clampMm(pxToMm(livePx, factor)) : 0;
+              if (factor) setFingerMm(finger, measuredMm);
               setLivePx(0);
-              if (last) setPhase("result");
-              else setNailIndex((n) => n + 1);
+              if (last) {
+                const full = { ...fingerMm, [finger]: measuredMm };
+                const thumb = deriveThumbMm(full); // display-only; never votes
+                if (thumb != null) setFingerMm("thumb", thumb);
+                setPhase("result");
+              } else {
+                setNailIndex((n) => n + 1);
+              }
             }}
           />
         </SafeAreaView>
@@ -474,16 +490,26 @@ export default function MeasureScreen() {
           </View>
           <Card style={{ padding: 20, gap: 10 }}>
             {FINGERS.map((f) => (
-              <View key={f} style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={{ fontFamily: font.bodyMd, fontSize: 14, color: colors.subtle, textTransform: "capitalize" }}>
-                  {FINGER_LABELS[f]}
-                </Text>
+              <View key={f} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                  <Text style={{ fontFamily: font.bodyMd, fontSize: 14, color: colors.subtle, textTransform: "capitalize" }}>
+                    {FINGER_LABELS[f]}
+                  </Text>
+                  {f === "thumb" ? (
+                    <Text style={{ fontFamily: font.bodyBold, fontSize: 10, color: colors.onPop, backgroundColor: colors.accent, borderRadius: 8, paddingHorizontal: 6, paddingVertical: 1, overflow: "hidden" }}>
+                      est.
+                    </Text>
+                  ) : null}
+                </View>
                 <Text style={{ fontFamily: font.bodyBold, fontSize: 14, color: colors.ink }}>
                   {typeof fingerMm[f] === "number" ? `${fingerMm[f]!.toFixed(1)} mm` : "—"}
                 </Text>
               </View>
             ))}
           </Card>
+          <Text style={{ fontFamily: font.body, fontSize: 12.5, lineHeight: 18, color: colors.subtle }}>
+            Thumb estimated from your middle finger — it lies edge-on in a flat photo, so we read your four fingers and size from those.
+          </Text>
 
           {recs.length && size ? (
             <View style={{ gap: 12, paddingTop: 4 }}>
