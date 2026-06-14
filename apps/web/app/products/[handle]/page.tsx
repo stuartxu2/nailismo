@@ -16,6 +16,7 @@ import { PurchasePanel } from "./PurchasePanel";
 import { ProductFaq } from "./ProductFaq";
 import { ProductReviews } from "./ProductReviews";
 import { parseReviews, aggregate } from "./reviews";
+import { fetchProductReviews } from "./judgeme";
 import { UgcStrip } from "@/app/components/UgcStrip";
 
 type Params = { handle: string };
@@ -128,7 +129,12 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
   const productUrl = `${siteUrl}/products/${product.handle}`;
   const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
-  const reviews = parseReviews(product.reviews?.value);
+  // Judge.me is the live review source; fall back to the seeded `custom.reviews`
+  // metafield if Judge.me returns nothing (e.g. before any review is published).
+  const judgemeReviews = await fetchProductReviews(product.id);
+  const reviews = judgemeReviews.length
+    ? judgemeReviews
+    : parseReviews(product.reviews?.value);
   const reviewAgg = aggregate(reviews);
   const productNode: Record<string, unknown> = {
     "@context": "https://schema.org",
