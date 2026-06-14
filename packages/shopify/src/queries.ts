@@ -19,6 +19,9 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
       productType
       tags
       vendor
+      reviews: metafield(namespace: "custom", key: "reviews") {
+        value
+      }
       availableForSale
       featuredImage {
         url
