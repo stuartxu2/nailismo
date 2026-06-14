@@ -6,8 +6,9 @@
  * against Nailismo's printed S/M/L/XL set-size chart.
  *
  * Sets are sold as a single size (S/M/L/XL) — one tray that fits the whole hand
- * — so the guide measures all five nails and aggregates them into ONE set size
- * that maps straight onto a Shopify "Size" variant.
+ * — so the guide measures the four camera-facing nails (the thumb is derived,
+ * not measured) and aggregates them into ONE set size that maps straight onto a
+ * Shopify "Size" variant.
  *
  * No React, no DOM, no storage — shared verbatim by web (/fit) and the mobile
  * camera flow. Persistence (localStorage / AsyncStorage) lives per-platform.
