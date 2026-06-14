@@ -15,6 +15,10 @@ import {
   FINGERS,
   MIN_MM,
   MAX_MM,
+  deriveThumbMm,
+  MEASURED_FINGERS,
+  THUMB_OFFSET_FROM_MIDDLE_MM,
+  THUMB_OFFSET_FROM_INDEX_MM,
 } from "./index";
 
 describe("calibration math", () => {
@@ -199,5 +203,46 @@ describe("firstVariantId", () => {
 describe("SET_SIZES", () => {
   it("is ordered narrowest to widest", () => {
     expect(SET_SIZES).toEqual(["S", "M", "L", "XL"]);
+  });
+});
+
+describe("MEASURED_FINGERS", () => {
+  it("is the four camera-facing nails, excluding the thumb", () => {
+    expect(MEASURED_FINGERS).toEqual(["index", "middle", "ring", "pinky"]);
+    expect(MEASURED_FINGERS).not.toContain("thumb");
+  });
+});
+
+describe("deriveThumbMm", () => {
+  it("estimates the thumb from the middle finger (+3mm)", () => {
+    expect(deriveThumbMm({ middle: 12 })).toBe(15);
+  });
+
+  it("falls back to the index finger (+4mm) when middle is absent", () => {
+    expect(deriveThumbMm({ index: 11 })).toBe(15);
+  });
+
+  it("prefers the middle finger when both are present", () => {
+    expect(deriveThumbMm({ middle: 12, index: 99 })).toBe(15);
+  });
+
+  it("returns null when neither middle nor index is measured", () => {
+    expect(deriveThumbMm({ ring: 11, pinky: 8 })).toBeNull();
+    expect(deriveThumbMm({})).toBeNull();
+  });
+
+  it("clamps the derived value into the caliper range", () => {
+    expect(deriveThumbMm({ middle: 19 })).toBe(MAX_MM); // 19+3=22 -> 20
+  });
+
+  it("uses the exact, constant chart offsets it estimates from", () => {
+    for (const size of SET_SIZES) {
+      expect(SIZE_CHART.thumb[size] - SIZE_CHART.middle[size]).toBe(
+        THUMB_OFFSET_FROM_MIDDLE_MM,
+      );
+      expect(SIZE_CHART.thumb[size] - SIZE_CHART.index[size]).toBe(
+        THUMB_OFFSET_FROM_INDEX_MM,
+      );
+    }
   });
 });

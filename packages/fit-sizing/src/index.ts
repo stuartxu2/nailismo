@@ -17,6 +17,21 @@
 export const FINGERS = ["thumb", "index", "middle", "ring", "pinky"] as const;
 export type FingerKey = (typeof FINGERS)[number];
 
+/**
+ * The four nails the top-down camera can actually measure. The thumb is
+ * excluded: with the hand flat palm-down its nail plane sits ~90° to these
+ * four, so a straight-down photo only ever sees the thumb nail edge-on and its
+ * width is unrecoverable. The thumb is derived from a sibling instead.
+ */
+export const MEASURED_FINGERS = ["index", "middle", "ring", "pinky"] as const;
+
+/**
+ * Chart offsets used to estimate the thumb. The printed chart is exact and
+ * constant: thumb = middle + 3mm and thumb = index + 4mm at every size.
+ */
+export const THUMB_OFFSET_FROM_MIDDLE_MM = 3;
+export const THUMB_OFFSET_FROM_INDEX_MM = 4;
+
 /** The four set sizes Nailismo sells, narrowest → widest. */
 export const SET_SIZES = ["S", "M", "L", "XL"] as const;
 export type SetSize = (typeof SET_SIZES)[number];
@@ -61,6 +76,27 @@ export function clampMm(mm: number): number {
 }
 
 /**
+ * Estimate the thumb's nail-bed width (mm) from a measured sibling finger.
+ * Prefers the middle finger (+3mm), falls back to the index (+4mm), and returns
+ * null when neither is available. The result is clamped to the caliper range.
+ *
+ * Display-only: the derived thumb is shown to the user but must NOT be fed into
+ * `sizeFromMeasurements` — it carries no independent information and would only
+ * re-weight the middle finger's vote.
+ */
+export function deriveThumbMm(
+  fingerMm: Partial<Record<FingerKey, number>>,
+): number | null {
+  if (typeof fingerMm.middle === "number") {
+    return clampMm(fingerMm.middle + THUMB_OFFSET_FROM_MIDDLE_MM);
+  }
+  if (typeof fingerMm.index === "number") {
+    return clampMm(fingerMm.index + THUMB_OFFSET_FROM_INDEX_MM);
+  }
+  return null;
+}
+
+/**
  * Continuous set-size position (0 = S … 3 = XL) for a single finger at a given
  * width. The chart steps +1mm per size, so the offset from the S baseline IS
  * the size index. Clamped to the chart's range so one oversized nail can't drag
@@ -81,7 +117,8 @@ export function sizeFromMm(finger: FingerKey, mm: number): SetSize {
  * Aggregate measured nails into one recommended set size. Each finger votes a
  * continuous size index; we average the votes and round to the nearest size.
  * Ties round UP — a slightly large nail can be filed down, a small one can't be
- * stretched. Returns null until at least one nail is measured.
+ * stretched. Returns null until at least one nail is measured. Callers pass only
+ * the measured fingers; the thumb is derived for display and never votes here.
  */
 export function sizeFromMeasurements(
   fingerMm: Partial<Record<FingerKey, number>>,
