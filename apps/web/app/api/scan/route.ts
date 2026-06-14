@@ -44,12 +44,12 @@ Return ONLY a JSON object. All coordinates are normalized to the image: x runs 0
 
 Find:
 1. The reference card. Give the two endpoints "a" and "b" of ONE LONG edge (the 85.6mm side). Choose the long edge that is clearest and least occluded.
-2. Each of the five fingernails. For each, give endpoints "a" and "b" of the nail's WIDTH — the widest span across the nail bed, perpendicular to the finger. This is the WIDTH, not the length. Include a "confidence" between 0 and 1.
+2. FOUR fingernails: index, middle, ring, and pinky. Do NOT measure the thumb — in a flat top-down photo the thumb nail faces sideways (edge-on) and its width cannot be read; it is estimated separately. For each of the four, give endpoints "a" and "b" of the nail's WIDTH — the widest span across the nail bed, perpendicular to the finger. This is the WIDTH, not the length. Include a "confidence" between 0 and 1.
 
 Respond with exactly this shape:
-{"found":true,"card":{"a":[x,y],"b":[x,y]},"nails":[{"finger":"thumb","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"index","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"middle","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"ring","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"pinky","a":[x,y],"b":[x,y],"confidence":0.9}]}
+{"found":true,"card":{"a":[x,y],"b":[x,y]},"nails":[{"finger":"index","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"middle","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"ring","a":[x,y],"b":[x,y],"confidence":0.9},{"finger":"pinky","a":[x,y],"b":[x,y],"confidence":0.9}]}
 
-If you cannot clearly find both the card and at least three nails, return {"found":false}. Output JSON only — no prose, no code fences.`;
+If you cannot clearly find both the card and at least three of the four fingernails, return {"found":false}. Output JSON only — no prose, no code fences.`;
 
 type Point = [number, number];
 type Seg = { a: Point; b: Point };
@@ -93,6 +93,7 @@ function normalize(raw: unknown): ScanResult {
       const rec = n as Record<string, unknown>;
       const finger = rec.finger as FingerKey;
       if (!FINGERS.includes(finger)) continue;
+      if (finger === "thumb") continue; // thumb is derived client-side, never measured
       const seg = asSeg(rec);
       if (!seg) continue;
       const confidence = clamp01(Number(rec.confidence ?? 0.5));
