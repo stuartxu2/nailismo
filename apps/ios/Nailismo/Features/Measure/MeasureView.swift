@@ -131,7 +131,7 @@ struct MeasureView: View {
             Spacer()
             ProgressView().tint(Candy.accent).scaleEffect(1.3)
             Text("Finding your nails…").font(.display(20)).foregroundStyle(Candy.ink)
-            Text("Reading the card for scale and outlining all five nails.")
+            Text("Reading the card for scale and outlining your nails.")
                 .font(.bodyFont(14)).foregroundStyle(Candy.subtle)
                 .multilineTextAlignment(.center).padding(.horizontal, 40)
             Spacer(); Spacer()
@@ -216,7 +216,7 @@ struct MeasureView: View {
                 .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Candy.border, lineWidth: 1))
                 .candyShadow()
 
-                Text("Thumb estimated from your middle finger — it lies edge-on in a flat photo, so we read your other four nails and size from those.")
+                Text("Thumb estimated from your middle finger — it lies edge-on in a flat photo, so we read your four fingers and size from those.")
                     .font(.bodyFont(12)).foregroundStyle(Candy.subtle).lineSpacing(2)
 
                 if !recs.isEmpty, let size = fit.size {
