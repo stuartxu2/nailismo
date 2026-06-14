@@ -12,7 +12,7 @@ private let scanSteps = [
     "Use the blank back, or cover any private numbers.",
     "Keep the card and hand on the same flat surface.",
     "Shoot straight down, from directly above.",
-    "Make sure all five nails are visible and not in shadow.",
+    "Keep your four fingers' nails visible and not in shadow.",
 ]
 
 struct MeasureView: View {
@@ -76,7 +76,7 @@ struct MeasureView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("One photo. Your size.")
                         .font(.display(30)).foregroundStyle(Candy.ink)
-                    Text("Lay a hand flat beside any bank card (exactly 85.6 mm wide) and shoot from above. We detect every nail, you check the outlines, and we read your set size.")
+                    Text("Lay a hand flat beside any bank card (exactly 85.6 mm wide) and shoot from above. We read your four fingers, estimate the thumb, and read your set size.")
                         .font(.bodyFont(15)).foregroundStyle(Candy.subtle).lineSpacing(3)
                 }
 
@@ -199,6 +199,12 @@ struct MeasureView: View {
                         HStack {
                             Text(FitSizing.fingerLabels[f] ?? f)
                                 .font(.bodyFont(14, .semibold)).foregroundStyle(Candy.subtle)
+                            if f == "thumb" {
+                                Text("est.")
+                                    .font(.bodyFont(10, .bold)).foregroundStyle(Candy.onPop)
+                                    .padding(.horizontal, 6).padding(.vertical, 2)
+                                    .background(Candy.accent, in: Capsule())
+                            }
                             Spacer()
                             Text(fit.fingerMm[f].map { String(format: "%.1f mm", $0) } ?? "—")
                                 .font(.bodyFont(14, .bold)).foregroundStyle(Candy.ink)
@@ -209,6 +215,9 @@ struct MeasureView: View {
                 .background(Candy.surface, in: RoundedRectangle(cornerRadius: Radius.lg))
                 .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Candy.border, lineWidth: 1))
                 .candyShadow()
+
+                Text("Thumb estimated from your middle finger — it lies edge-on in a flat photo, so we read your other four nails and size from those.")
+                    .font(.bodyFont(12)).foregroundStyle(Candy.subtle).lineSpacing(2)
 
                 if !recs.isEmpty, let size = fit.size {
                     VStack(alignment: .leading, spacing: 12) {
@@ -271,7 +280,7 @@ struct MeasureView: View {
                         a: CGPoint(x: box.width * 0.22, y: box.height * 0.16),
                         b: CGPoint(x: box.width * 0.78, y: box.height * 0.16), dim: true),
         ]
-        for (i, f) in FitSizing.fingers.enumerated() {
+        for (i, f) in FitSizing.measuredFingers.enumerated() {
             let y = 0.34 + Double(i) * 0.10
             segs.append(ScanSegment(id: f, label: FitSizing.fingerLabels[f] ?? f, color: Candy.accent,
                                     a: CGPoint(x: box.width * 0.42, y: box.height * y),
@@ -287,13 +296,13 @@ struct MeasureView: View {
                                     a: point(card.a, box), b: point(card.b, box), dim: false))
         }
         let present = Set((result.nails ?? []).map(\.finger))
-        for n in result.nails ?? [] where FitSizing.fingers.contains(n.finger) {
+        for n in result.nails ?? [] where FitSizing.measuredFingers.contains(n.finger) {
             segs.append(ScanSegment(id: n.finger, label: FitSizing.fingerLabels[n.finger] ?? n.finger,
                                     color: Candy.accent, a: point(n.a, box), b: point(n.b, box),
                                     dim: (n.confidence ?? 1) < 0.5))
         }
         var i = 0
-        for f in FitSizing.fingers where !present.contains(f) {
+        for f in FitSizing.measuredFingers where !present.contains(f) {
             let y = 0.32 + Double(i) * 0.09
             segs.append(ScanSegment(id: f, label: FitSizing.fingerLabels[f] ?? f, color: Candy.accent,
                                     a: CGPoint(x: box.width * 0.42, y: box.height * y),
@@ -312,7 +321,11 @@ struct MeasureView: View {
         for s in segments where s.id != "card" {
             mm[s.id] = FitSizing.clampMm(FitSizing.pxToMm(Double(distance(s.a, s.b)), factor: factor))
         }
-        return (mm, FitSizing.sizeFromMeasurements(mm))
+        // Size from the four measured fingers ONLY, then back-fill the derived
+        // thumb for display so it never sways the recommendation.
+        let size = FitSizing.sizeFromMeasurements(mm)
+        if let thumb = FitSizing.deriveThumbMm(mm) { mm["thumb"] = thumb }
+        return (mm, size)
     }
 
     private func confirm() {
