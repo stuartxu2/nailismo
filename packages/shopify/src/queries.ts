@@ -89,6 +89,7 @@ export const PRODUCT_HANDLES_QUERY = /* GraphQL */ `
     products(first: $first) {
       nodes {
         handle
+        updatedAt
       }
     }
   }
@@ -97,7 +98,7 @@ export const PRODUCT_HANDLES_QUERY = /* GraphQL */ `
 export const COLLECTION_HANDLES_QUERY = /* GraphQL */ `
   query CollectionHandles($first: Int!) {
     collections(first: $first) {
-      nodes { handle }
+      nodes { handle updatedAt }
     }
   }
 `;
@@ -252,7 +253,7 @@ export const ARTICLES_QUERY = /* GraphQL */ `
 export const ARTICLE_HANDLES_QUERY = /* GraphQL */ `
   query ArticleHandles($first: Int!) {
     articles(first: $first) {
-      nodes { handle blog { handle } }
+      nodes { handle blog { handle } publishedAt }
     }
   }
 `;

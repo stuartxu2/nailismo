@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useCartCount } from "./CartCount";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -12,7 +13,8 @@ const navLinks = [
   { href: "/lookbook", label: "Lookbook" },
 ];
 
-export function MobileMenu({ count = 0 }: { count?: number }) {
+export function MobileMenu() {
+  const count = useCartCount();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 

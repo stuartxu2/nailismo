@@ -117,7 +117,7 @@ export type ProductByHandleQueryResult = {
 };
 
 export type ProductHandlesQueryResult = {
-  products: { nodes: { handle: string }[] };
+  products: { nodes: { handle: string; updatedAt: string }[] };
 };
 
 export type ShopifyArticleSummary = {
@@ -136,7 +136,7 @@ export type ArticlesQueryResult = {
 };
 
 export type ArticleHandlesQueryResult = {
-  articles: { nodes: { handle: string; blog: { handle: string } }[] };
+  articles: { nodes: { handle: string; blog: { handle: string }; publishedAt: string }[] };
 };
 
 export type ShopifyArticleDetail = {
@@ -165,7 +165,7 @@ export type ShopifyCollectionSummary = {
 };
 
 export type CollectionHandlesQueryResult = {
-  collections: { nodes: { handle: string }[] };
+  collections: { nodes: { handle: string; updatedAt: string }[] };
 };
 
 export type ShopifyCollectionCard = ShopifyCollectionSummary & {
