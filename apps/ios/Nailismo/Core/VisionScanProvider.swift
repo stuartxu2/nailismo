@@ -71,7 +71,6 @@ struct VisionScanProvider: ScanProvider {
         let finger: String
     }
     private static let joints: [Joint] = [
-        .init(tip: .thumbTip, base: .thumbIP, finger: "thumb"),
         .init(tip: .indexTip, base: .indexDIP, finger: "index"),
         .init(tip: .middleTip, base: .middleDIP, finger: "middle"),
         .init(tip: .ringTip, base: .ringDIP, finger: "ring"),
