@@ -33,22 +33,28 @@ struct MeasureView: View {
     private let scanner: ScanProvider = HybridScanProvider()
 
     var body: some View {
-        VStack(spacing: 0) {
-            HeaderBand(eyebrow: "scan my size", title: "Measure")
-            content
-        }
-        .background(Candy.bg.ignoresSafeArea())
-        .fullScreenCover(isPresented: $showCamera) {
-            CameraPicker { ui in detect(ui) }.ignoresSafeArea()
-        }
-        .onChange(of: photoItem) { _, item in
-            guard let item else { return }
-            Task {
-                if let data = try? await item.loadTransferable(type: Data.self),
-                   let ui = UIImage(data: data) {
-                    detect(ui)
+        // Own NavigationStack so the recommended ProductCards (NavigationLink ->
+        // ProductRoute) actually push a PDP — this tab isn't hosted by Shop's stack.
+        NavigationStack {
+            VStack(spacing: 0) {
+                HeaderBand(eyebrow: "scan my size", title: "Measure")
+                content
+            }
+            .background(Candy.bg.ignoresSafeArea())
+            .navigationBarHidden(true)
+            .navigationDestination(for: ProductRoute.self) { ProductDetailView(handle: $0.handle) }
+            .fullScreenCover(isPresented: $showCamera) {
+                CameraPicker { ui in detect(ui) }.ignoresSafeArea()
+            }
+            .onChange(of: photoItem) { _, item in
+                guard let item else { return }
+                Task {
+                    if let data = try? await item.loadTransferable(type: Data.self),
+                       let ui = UIImage(data: data) {
+                        detect(ui)
+                    }
+                    photoItem = nil
                 }
-                photoItem = nil
             }
         }
     }
