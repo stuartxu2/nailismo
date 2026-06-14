@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Nunito, Fredoka } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -82,6 +83,11 @@ export default function RootLayout({
         <CandyShell>{children}</CandyShell>
         <Analytics />
         <SpeedInsights />
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="gvde+94oRaDFB0lSzfoszg"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
