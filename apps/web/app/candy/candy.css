@@ -677,6 +677,63 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
   .lb-bar-track, .lb-wall-track { animation: none !important; }
 }
 
+/* ---- PDP: "Press on in 4 steps" guide (left column, under gallery) ---- */
+.pog {
+  margin-top: clamp(20px, 3vw, 32px);
+  padding: clamp(22px, 3vw, 30px);
+  background:
+    radial-gradient(130% 120% at 0% 0%, rgba(159,237,64,0.18), transparent 55%),
+    var(--cream);
+  border: 2.5px solid var(--ink);
+  border-radius: 26px;
+  box-shadow: var(--shadow-candy);
+}
+.pog-head { margin-bottom: clamp(16px, 2vw, 22px); }
+.pog-title {
+  font-family: var(--display); font-weight: 700; color: var(--ink);
+  font-size: clamp(24px, 3vw, 32px); line-height: 1.05; margin-top: 8px;
+}
+.pog-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 12px; grid-template-columns: 1fr;
+}
+@media (min-width: 520px) { .pog-grid { grid-template-columns: repeat(2, 1fr); } }
+.pog-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 16px 16px 18px;
+  background: var(--cotton);
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  transition: transform .2s cubic-bezier(.22,1,.36,1);
+}
+.pog-step:hover { transform: translateY(-2px); }
+.pog-num {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--lemon); border: 2.5px solid var(--ink);
+  font-family: var(--display); font-weight: 700; font-size: 17px; color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+}
+.pog-step-text { min-width: 0; }
+.pog-emoji { font-size: 17px; line-height: 1; margin-right: 7px; }
+.pog-step-title {
+  display: flex; align-items: center;
+  font-family: var(--display); font-weight: 700;
+  font-size: 18px; color: var(--ink); margin-bottom: 5px;
+}
+.pog-step-body {
+  font-family: var(--body); font-weight: 600;
+  font-size: 13.5px; line-height: 1.5; color: var(--ink-soft);
+}
+.poglink {
+  font-weight: 800; color: var(--ink);
+  text-decoration: underline; text-decoration-color: var(--bubblegum-d);
+  text-decoration-thickness: 2px; text-underline-offset: 2px;
+}
+.poglink:hover { background: var(--lemon); }
+.poglink:focus-visible { outline: 3px solid var(--grape); outline-offset: 2px; }
+
 /* ---- reduced motion: calm everything ---- */
 @media (prefers-reduced-motion: reduce) {
   .candy *,

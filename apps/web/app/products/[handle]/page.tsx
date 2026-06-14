@@ -2,12 +2,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
-import { PRODUCT_BY_HANDLE_QUERY, PRODUCT_HANDLES_QUERY } from "@/lib/shopify/queries";
+import {
+  PRODUCT_BY_HANDLE_QUERY,
+  PRODUCT_HANDLES_QUERY,
+  PRODUCT_RECOMMENDATIONS_QUERY,
+} from "@/lib/shopify/queries";
 import type {
   ProductByHandleQueryResult,
   ProductHandlesQueryResult,
+  ProductRecommendationsQueryResult,
   ShopifyImage,
   ShopifyMediaNode,
+  ShopifyProduct,
   ShopifyProductDetail,
   ShopifyVariant,
 } from "@/lib/shopify/types";
@@ -15,6 +21,8 @@ import { ProductGallery, type GalleryItem } from "./ProductGallery";
 import { PurchasePanel } from "./PurchasePanel";
 import { ProductFaq } from "./ProductFaq";
 import { ProductReviews } from "./ProductReviews";
+import { PressOnSteps } from "./PressOnSteps";
+import { RelatedProducts } from "./RelatedProducts";
 import { parseReviews, aggregate } from "./reviews";
 import { fetchProductReviews } from "./judgeme";
 import { UgcStrip } from "@/app/components/UgcStrip";
@@ -32,6 +40,22 @@ export async function generateStaticParams(): Promise<Params[]> {
   } catch (err) {
     if (!(err instanceof ShopifyConfigError)) {
       console.error("[shopify] generateStaticParams failed:", err);
+    }
+    return [];
+  }
+}
+
+async function fetchRecommendations(productId: string): Promise<ShopifyProduct[]> {
+  try {
+    const data = await storefrontFetch<ProductRecommendationsQueryResult>(
+      PRODUCT_RECOMMENDATIONS_QUERY,
+      { productId },
+      { revalidate: 600 },
+    );
+    return data.productRecommendations ?? [];
+  } catch (err) {
+    if (!(err instanceof ShopifyConfigError)) {
+      console.error(`[shopify] recommendations fetch failed for ${productId}:`, err);
     }
     return [];
   }
@@ -131,7 +155,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const price = defaultVariant?.price ?? product.priceRange.minVariantPrice;
   // Judge.me is the live review source; fall back to the seeded `custom.reviews`
   // metafield if Judge.me returns nothing (e.g. before any review is published).
-  const judgemeReviews = await fetchProductReviews(product.id);
+  const [judgemeReviews, recommendations] = await Promise.all([
+    fetchProductReviews(product.id),
+    fetchRecommendations(product.id),
+  ]);
   const reviews = judgemeReviews.length
     ? judgemeReviews
     : parseReviews(product.reviews?.value);
@@ -204,6 +231,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         <div className="grid grid-cols-12 gap-6 md:gap-12 items-start">
           <div className="col-span-12 lg:col-span-7">
             <ProductGallery items={galleryItems} title={product.title} />
+            <PressOnSteps />
           </div>
 
           <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-24">
@@ -246,6 +274,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             </div>
           </div>
         </div>
+
+        <RelatedProducts products={recommendations} />
 
         <ProductFaq title={product.title} productType={product.productType} />
 

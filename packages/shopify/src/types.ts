@@ -35,6 +35,10 @@ export type ProductsQueryResult = {
 
 export type SearchProductsQueryResult = ProductsQueryResult;
 
+export type ProductRecommendationsQueryResult = {
+  productRecommendations: ShopifyProduct[] | null;
+};
+
 export type ShopifyPolicy = {
   handle: string;
   title: string;

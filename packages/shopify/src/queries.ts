@@ -335,6 +335,34 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
   }
 `;
 
+export const PRODUCT_RECOMMENDATIONS_QUERY = /* GraphQL */ `
+  query ProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId, intent: RELATED) {
+      id
+      title
+      handle
+      productType
+      tags
+      featuredImage {
+        url
+        altText
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      variants(first: 1) {
+        nodes {
+          id
+          availableForSale
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCTS_FEED_QUERY = /* GraphQL */ `
   query ProductsFeed($first: Int!) {
     products(first: $first) {
