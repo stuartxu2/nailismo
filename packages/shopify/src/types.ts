@@ -101,6 +101,7 @@ export type ShopifyProductDetail = {
   vendor: string;
   reviews: { value: string | null } | null;
   availableForSale: boolean;
+  isGiftCard: boolean;
   featuredImage: { url: string; altText: string | null } | null;
   images: { nodes: ShopifyImage[] };
   media?: { nodes: ShopifyMediaNode[] };

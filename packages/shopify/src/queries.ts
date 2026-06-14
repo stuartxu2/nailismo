@@ -23,6 +23,7 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
         value
       }
       availableForSale
+      isGiftCard
       featuredImage {
         url
         altText

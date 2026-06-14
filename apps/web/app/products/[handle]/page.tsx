@@ -23,6 +23,8 @@ import { ProductFaq } from "./ProductFaq";
 import { ProductReviews } from "./ProductReviews";
 import { PressOnSteps } from "./PressOnSteps";
 import { RelatedProducts } from "./RelatedProducts";
+import { SimpleProductTemplate } from "./SimpleProductTemplate";
+import { classifyProduct } from "@/lib/shopify/product-class";
 import { parseReviews, aggregate } from "./reviews";
 import { fetchProductReviews } from "./judgeme";
 import { UgcStrip } from "@/app/components/UgcStrip";
@@ -212,15 +214,36 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     },
   ];
 
+  const jsonLdScripts = jsonLd.map((schema, i) => (
+    <script
+      key={i}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  ));
+
+  // Gift cards + care essentials render the leaner template; nail sets keep the
+  // full product page below.
+  const productClass = classifyProduct(product);
+  if (productClass !== "nail") {
+    return (
+      <>
+        {jsonLdScripts}
+        <SimpleProductTemplate
+          product={product}
+          galleryItems={galleryItems}
+          defaultVariantId={defaultVariant?.id ?? null}
+          reviews={reviews}
+          recommendations={recommendations}
+          kind={productClass}
+        />
+      </>
+    );
+  }
+
   return (
     <>
-      {jsonLd.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
+      {jsonLdScripts}
       <main className="candy-wrap candy-sec" style={{ paddingTop: 28 }}>
         <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           <Link href="/" className="candy-crumb">Home</Link>
