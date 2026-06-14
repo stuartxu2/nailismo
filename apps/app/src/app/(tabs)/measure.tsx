@@ -137,8 +137,9 @@ export default function MeasureScreen() {
     setPhase("intro");
   }
 
-  // Build the editable card + 5-nail segments from a detection, filling any nail
-  // the model missed with a dim default the user can drag into place.
+  // Build the editable card + four-finger segments from a detection, filling any
+  // nail the model missed with a dim default the user can drag into place. The
+  // thumb is edge-on in a flat photo, so it is derived later, not measured here.
   function enterReview(detection: Extract<Detection, { found: true }>, img: Photo) {
     const { bw, bh } = fitBox(img);
     const present = new Set(detection.nails.map((n) => n.finger));
