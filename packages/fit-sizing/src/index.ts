@@ -114,17 +114,18 @@ export function sizeFromMm(finger: FingerKey, mm: number): SetSize {
 }
 
 /**
- * Aggregate measured nails into one recommended set size. Each finger votes a
- * continuous size index; we average the votes and round to the nearest size.
- * Ties round UP — a slightly large nail can be filed down, a small one can't be
- * stretched. Returns null until at least one nail is measured. Callers pass only
- * the measured fingers; the thumb is derived for display and never votes here.
+ * Aggregate the four measured fingers (index, middle, ring, pinky) into one
+ * recommended set size. Each finger votes a continuous size index; we average
+ * the votes and round to the nearest size. Ties round UP — a slightly large
+ * nail can be filed down, a small one can't be stretched. Returns null until
+ * at least one measured finger has a value. Any thumb entry in the map is
+ * ignored: the thumb is derived for display only and never votes.
  */
 export function sizeFromMeasurements(
   fingerMm: Partial<Record<FingerKey, number>>,
 ): SetSize | null {
   const indices: number[] = [];
-  for (const finger of FINGERS) {
+  for (const finger of MEASURED_FINGERS) {
     const mm = fingerMm[finger];
     if (typeof mm === "number") indices.push(sizeIndexForFinger(finger, mm));
   }

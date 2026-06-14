@@ -103,8 +103,15 @@ describe("sizeFromMeasurements", () => {
     ).toBe("L");
   });
 
-  it("works from a partial measurement", () => {
-    expect(sizeFromMeasurements({ thumb: 17 })).toBe("XL");
+  it("works from a partial measurement of the measured fingers", () => {
+    expect(sizeFromMeasurements({ index: 13 })).toBe("XL");
+  });
+
+  it("ignores the thumb — it never votes, even when present", () => {
+    const measured = { index: 10, middle: 11, ring: 10, pinky: 7 };
+    expect(sizeFromMeasurements(measured)).toBe("S");
+    expect(sizeFromMeasurements({ ...measured, thumb: 99 })).toBe("S");
+    expect(sizeFromMeasurements({ thumb: 17 })).toBeNull();
   });
 
   it("returns null before any nail is measured", () => {
