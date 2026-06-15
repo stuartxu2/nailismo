@@ -175,7 +175,7 @@ export default async function ArticlePage({
         </div>
 
         {article.image && (
-          <div style={{ position: "relative", aspectRatio: "16/9", borderRadius: 28, overflow: "hidden", border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-candy)", marginTop: 36 }}>
+          <div style={{ position: "relative", aspectRatio: "16/9", borderRadius: 28, overflow: "hidden", boxShadow: "var(--shadow-candy)", marginTop: 36 }}>
             <Image src={article.image.url} alt={article.image.altText ?? article.title} fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
         )}

@@ -101,7 +101,7 @@ export default async function CartPage() {
               </div>
 
               <aside className="col-span-12 lg:col-span-4 lg:sticky lg:top-24 self-start">
-                <div style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 24, boxShadow: "var(--shadow-candy)" }}>
+                <div style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 24, boxShadow: "var(--shadow-candy)" }}>
                   <span className="candy-eyebrow" style={{ display: "block", marginBottom: 14 }}>Summary</span>
                   <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "2px solid var(--marshmallow)" }}>
                     <span style={{ fontWeight: 700, color: "var(--ink-soft)" }}>Subtotal</span>

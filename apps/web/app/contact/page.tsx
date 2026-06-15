@@ -39,7 +39,7 @@ export default function ContactPage() {
 
         <div style={{ marginTop: 48, display: "grid", gap: 18, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
           {CHANNELS.map((c) => (
-            <article key={c.num} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 26, boxShadow: "var(--shadow-candy)" }}>
+            <article key={c.num} style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 26, boxShadow: "var(--shadow-candy)" }}>
               <span className="candy-eyebrow">{c.label}</span>
               <a href={c.href} style={{ display: "block", fontFamily: "var(--display)", fontSize: 24, lineHeight: 1.1, marginTop: 8, color: "var(--soda)", textDecoration: "underline", textUnderlineOffset: 3 }}>
                 {c.handle}
@@ -49,7 +49,7 @@ export default function ContactPage() {
           ))}
         </div>
 
-        <div style={{ marginTop: 32, background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 26, boxShadow: "var(--shadow-candy)" }}>
+        <div style={{ marginTop: 32, background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 26, boxShadow: "var(--shadow-candy)" }}>
           <span className="candy-eyebrow" style={{ display: "block", marginBottom: 14 }}>Find us online</span>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {SOCIAL.map((s) => (

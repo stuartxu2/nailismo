@@ -172,7 +172,7 @@
 .candy-dropdown-inner {
   min-width: 224px; display: flex; flex-direction: column; gap: 2px;
   padding: 10px; border-radius: 22px;
-  background: var(--cream); border: 2.5px solid var(--ink);
+  background: var(--cream); border: 1px solid var(--marshmallow);
   box-shadow: var(--shadow-candy);
 }
 .candy-nav .candy-dropdown-inner a {
@@ -201,19 +201,22 @@
   50%     { transform: translateY(-16px) rotate(var(--rot, 0deg)); }
 }
 
-/* ---- product card (candy tile) ---- */
+/* ---- product card (candy tile) ----
+   Surface containers wear a hairline lilac border + soft shadow so the frame
+   recedes and the nail photo is the loudest thing on the tile. The thick ink
+   "sticker" outline (border + 0 Npx 0 ink offset shadow) is reserved for CTAs
+   and badges only — that's what still pops. */
 .candy-card {
   position: relative; display: flex; flex-direction: column;
   min-width: 0; /* let 1fr grid tracks shrink below content min-size (prevents mobile overflow) */
   border-radius: 28px; padding: 14px; background: var(--cream);
-  border: 2.5px solid var(--ink);
+  border: 1px solid var(--marshmallow);
   box-shadow: var(--shadow-candy);
   transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
 }
 .candy-card:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: var(--shadow-pop); }
 .candy-card-img {
   position: relative; aspect-ratio: 4/5; border-radius: 18px; overflow: hidden;
-  border: 2px solid var(--ink);
 }
 .candy-card-img img { object-fit: cover; transition: transform .6s cubic-bezier(.22,1,.36,1); }
 .candy-card:hover .candy-card-img img { transform: scale(1.06); }
@@ -267,7 +270,7 @@
 
 /* ---- step card ---- */
 .candy-step {
-  position: relative; background: var(--cream); border: 2.5px solid var(--ink);
+  position: relative; background: var(--cream); border: 1px solid var(--marshmallow);
   border-radius: 26px; padding: 30px 26px; box-shadow: var(--shadow-candy);
 }
 .candy-step .num {
@@ -278,7 +281,7 @@
 
 /* ---- review bubble ---- */
 .candy-review {
-  background: var(--cream); border: 2.5px solid var(--ink); border-radius: 24px;
+  background: var(--cream); border: 1px solid var(--marshmallow); border-radius: 24px;
   padding: 24px; box-shadow: var(--shadow-candy); position: relative;
 }
 .candy-stars { color: var(--lemon); -webkit-text-stroke: 1.4px var(--ink); font-size: 18px; letter-spacing: 2px; }
@@ -286,7 +289,7 @@
 /* ---- newsletter input ---- */
 .candy-input {
   font-family: var(--body); font-weight: 600; font-size: 16px;
-  padding: 15px 20px; border-radius: 999px; border: 2.5px solid var(--ink);
+  padding: 15px 20px; border-radius: 999px; border: 1px solid var(--marshmallow);
   background: var(--cream); color: var(--ink); width: 100%;
 }
 .candy-input::placeholder { color: var(--ink-soft); }
@@ -371,7 +374,7 @@
 }
 .candy-collcard-img {
   position: relative; aspect-ratio: 4/5; border-radius: 22px; overflow: hidden;
-  border: 2.5px solid var(--ink); box-shadow: var(--shadow-candy);
+  box-shadow: var(--shadow-candy);
   transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
 }
 .candy-collcard:hover .candy-collcard-img { transform: translateY(-5px) rotate(-1deg); box-shadow: var(--shadow-pop); }
@@ -420,7 +423,7 @@
 
 /* page header band */
 .candy-pagehead {
-  background: var(--cream); border: 2.5px solid var(--ink);
+  background: var(--cream); border: 1px solid var(--marshmallow);
   border-radius: 28px; box-shadow: var(--shadow-candy);
   padding: clamp(24px, 4vw, 44px);
 }
@@ -441,7 +444,7 @@
 .candy-label { display: block; font-family: var(--body); font-weight: 800; font-size: 14px; margin-bottom: 7px; }
 .candy-field {
   font-family: var(--body); font-weight: 600; font-size: 16px;
-  padding: 14px 18px; border-radius: 18px; border: 2.5px solid var(--ink);
+  padding: 14px 18px; border-radius: 18px; border: 1px solid var(--marshmallow);
   background: var(--cream); color: var(--ink); width: 100%;
 }
 .candy-field::placeholder { color: var(--ink-soft); }
@@ -451,7 +454,7 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
 
 /* accordion */
 .candy-accordion {
-  border: 2.5px solid var(--ink); border-radius: 22px; background: var(--cream);
+  border: 1px solid var(--marshmallow); border-radius: 22px; background: var(--cream);
   box-shadow: var(--shadow-candy); overflow: hidden;
 }
 .candy-accordion + .candy-accordion { margin-top: 14px; }
@@ -471,11 +474,11 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
 /* cart line item */
 .candy-line {
   display: flex; align-items: center; gap: 16px;
-  background: var(--cream); border: 2.5px solid var(--ink); border-radius: 22px;
+  background: var(--cream); border: 1px solid var(--marshmallow); border-radius: 22px;
   padding: 14px; box-shadow: var(--shadow-candy);
 }
 .candy-line + .candy-line { margin-top: 14px; }
-.candy-line-img { position: relative; flex: none; width: 84px; aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; border: 2px solid var(--ink); }
+.candy-line-img { position: relative; flex: none; width: 84px; aspect-ratio: 4/5; border-radius: 14px; overflow: hidden; }
 .candy-line-img img { object-fit: cover; }
 .candy-step-btn {
   width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center;
@@ -684,7 +687,7 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
   background:
     radial-gradient(130% 120% at 0% 0%, rgba(159,237,64,0.18), transparent 55%),
     var(--cream);
-  border: 2.5px solid var(--ink);
+  border: 1px solid var(--marshmallow);
   border-radius: 26px;
   box-shadow: var(--shadow-candy);
 }
@@ -702,7 +705,7 @@ textarea.candy-field { min-height: 130px; border-radius: 20px; resize: vertical;
   display: flex; gap: 12px; align-items: flex-start;
   padding: 16px 16px 18px;
   background: var(--cotton);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--marshmallow);
   border-radius: 18px;
   transition: transform .2s cubic-bezier(.22,1,.36,1);
 }

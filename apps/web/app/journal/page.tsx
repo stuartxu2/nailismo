@@ -68,7 +68,7 @@ export default async function JournalPage() {
               {hero && (
                 <Link href={`/journal/${hero.handle}`} className="candy-card" style={{ marginBottom: 32, padding: 16 }}>
                   <div className="grid grid-cols-12 gap-6 md:gap-8 items-center">
-                    <div className="col-span-12 md:col-span-7" style={{ position: "relative", aspectRatio: "16/10", borderRadius: 18, overflow: "hidden", border: "2px solid var(--ink)" }}>
+                    <div className="col-span-12 md:col-span-7" style={{ position: "relative", aspectRatio: "16/10", borderRadius: 18, overflow: "hidden" }}>
                       {hero.image && (
                         <Image src={hero.image.url} alt={hero.image.altText ?? hero.title} fill sizes="(max-width:768px) 100vw, 60vw" style={{ objectFit: "cover" }} />
                       )}

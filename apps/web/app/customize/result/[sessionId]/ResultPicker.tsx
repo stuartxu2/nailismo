@@ -142,7 +142,6 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
                 borderRadius: 26,
                 overflow: "hidden",
                 background: "var(--cream)",
-                border: "3px solid var(--ink)",
                 boxShadow: "var(--shadow-candy)",
               }}
             >
@@ -228,7 +227,7 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
           <div
             style={{
               background: "var(--cream)",
-              border: "2.5px solid var(--ink)",
+              border: "1px solid var(--marshmallow)",
               borderRadius: 26,
               boxShadow: "var(--shadow-candy)",
               padding: "clamp(20px, 3vw, 30px)",

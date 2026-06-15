@@ -45,7 +45,7 @@ export function ProductGallery({
     return (
       <div
         className="flex items-center justify-center"
-        style={{ aspectRatio: "1/1", borderRadius: 28, border: "2.5px solid var(--ink)", background: "var(--cream)" }}
+        style={{ aspectRatio: "1/1", borderRadius: 28, border: "1px solid var(--marshmallow)", background: "var(--cream)" }}
       >
         <span className="candy-eyebrow">No imagery</span>
       </div>
@@ -63,7 +63,6 @@ export function ProductGallery({
         style={{
           aspectRatio: "1/1",
           borderRadius: 28,
-          border: "2.5px solid var(--ink)",
           boxShadow: "var(--shadow-candy)",
           cursor: heroIsImage ? "zoom-in" : "default",
         }}
@@ -159,7 +158,7 @@ export function ProductGallery({
                 style={{
                   aspectRatio: "1/1",
                   borderRadius: 16,
-                  border: "2.5px solid var(--ink)",
+                  border: isActive ? "2px solid var(--ink)" : "1px solid var(--marshmallow)",
                   background: "var(--cream)",
                   opacity: isActive ? 1 : 0.7,
                   boxShadow: isActive ? "0 4px 0 var(--ink)" : "none",

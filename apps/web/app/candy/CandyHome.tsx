@@ -147,7 +147,7 @@ export default async function CandyHome() {
       <HeroSlider />
 
       {/* ---- flavor ticker ---- */}
-      <div className="candy-marquee" style={{ background: "var(--grape)", borderBlock: "2.5px solid var(--ink)", padding: "12px 0" }}>
+      <div className="candy-marquee" style={{ background: "var(--grape)", padding: "12px 0" }}>
         <div className="candy-marquee-track" style={{ animationDuration: "32s" }}>
           {[0, 1].map((k) => (
             <span key={k} style={{ paddingRight: 0, fontSize: 22, color: "#fff" }}>
@@ -176,7 +176,7 @@ export default async function CandyHome() {
       </section>
 
       {/* ---- 3 steps ---- */}
-      <section className="candy-sec" style={{ background: "var(--marshmallow)", borderTop: "2.5px solid var(--ink)" }}>
+      <section className="candy-sec" style={{ background: "var(--marshmallow)" }}>
         <div className="candy-wrap">
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <span className="candy-eyebrow" style={{ justifyContent: "center" }}>So easy it&apos;s silly</span>
@@ -198,7 +198,7 @@ export default async function CandyHome() {
       </section>
 
       {/* ---- new flavors (scroll-snap slider) — wired to the New Drops collection ---- */}
-      <section className="candy-sec" style={{ background: "var(--soda)", borderTop: "2.5px solid var(--ink)" }}>
+      <section className="candy-sec" style={{ background: "var(--soda)" }}>
         <div className="candy-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 30 }}>
             <div>
@@ -241,7 +241,7 @@ export default async function CandyHome() {
       </section>
 
       {/* ---- find my size band ---- */}
-      <section className="candy-sec" style={{ background: "var(--lemon)", borderBlock: "2.5px solid var(--ink)" }}>
+      <section className="candy-sec" style={{ background: "var(--lemon)" }}>
         <div className="candy-wrap" style={{ textAlign: "center" }}>
           <h2 style={{ fontSize: "clamp(34px, 6vw, 64px)" }}>Not sure of your size?</h2>
           <p style={{ fontSize: 19, fontWeight: 700, color: "var(--ink)", maxWidth: 520, margin: "16px auto 0" }}>

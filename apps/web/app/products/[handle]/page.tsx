@@ -304,7 +304,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                 { k: "In the box", v: "10 nails + toolkit" },
                 { k: "Removal", v: "Clean & easy" },
               ].map((c) => (
-                <div key={c.k} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
+                <div key={c.k} style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
                   <span className="candy-eyebrow" style={{ fontSize: 11 }}>{c.k}</span>
                   <p style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, marginTop: 4 }}>{c.v}</p>
                 </div>
