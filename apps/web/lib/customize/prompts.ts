@@ -1,10 +1,14 @@
-// Server-side prompt assembly for the 3 design mockups.
+// Server-side prompt assembly for the 3 mockups.
 //
-// Three fixed variation angles (flat-lay / on-model / minimal) guarantee a
-// genuine spread, not near-duplicates. Two of them lean on a fixed brand asset
-// (a second reference image) so output stays unmistakably Nailismo. User text
-// ({NOTE}) is sanitized and embedded only as a short aesthetic aside — never as
-// free-form instructions.
+// Strategy: 3 VIEWS OF ONE DESIGN (not 3 different designs).
+//  - slot 0 "flatlay": the canonical design — an artisan, hand-paintable
+//    interpretation of the upload (paint + mixed-media embellishments), shot in
+//    the brand flat-lay style. This is the single source of truth.
+//  - slot 1 "hand":    the SAME design worn on a photogenic hand.
+//  - slot 2 "package":  the SAME design presented in the retail kit.
+// Slots 1 & 2 are anchored on slot 0's *output image* at generation time (see
+// `base`), so all three share one design. User text ({NOTE}) is sanitized and
+// only steers the canonical design (slot 0); the derived views copy it verbatim.
 
 export type PromptInput = {
   /** Server-derived palette/motif/mood descriptor of the upload ({REF}). */
@@ -15,13 +19,18 @@ export type PromptInput = {
   note?: string;
 };
 
-export type BrandAsset = "flatlay" | "model";
+export type BrandAsset = "flatlay" | "package";
+
+/** Primary reference source: the customer upload, or slot 0's generated design. */
+export type BaseRef = "upload" | "design";
 
 export type DesignPrompt = {
   slot: 0 | 1 | 2;
-  variation: "flatlay" | "on-model" | "minimal";
+  variation: "flatlay" | "hand" | "package";
   seed: number;
   prompt: string;
+  /** Which image is the primary reference (refs[0]) at generation time. */
+  base: BaseRef;
   /** Fixed brand asset to attach as the *second* reference image, if any. */
   brandAsset?: BrandAsset;
 };
@@ -29,8 +38,6 @@ export type DesignPrompt = {
 const SEEDS = [101, 202, 303] as const;
 const DEFAULT_SHAPE = "medium almond";
 const NEGATIVE = "Do not render: extra fingers, distorted hands, text, logos, watermarks, blur.";
-const FRAMING =
-  "A set of press-on false nails arranged and also shown worn on one realistic hand, studio product photography, soft diffused lighting, clean light-grey seamless background, ultra-detailed glossy finish, photoreal, 2k.";
 
 /**
  * Reduce an untrusted note to a short, safe aesthetic aside: single line, no
@@ -59,31 +66,44 @@ export function buildPrompts(input: PromptInput): DesignPrompt[] {
   const ref = input.referenceDescriptor.trim();
   const note = noteClause(input.note);
 
+  // slot 0 — canonical, artisan hand-painted design in the brand flat-lay style.
   const flatlay =
     `Match the styling of the second reference image exactly: a full set of 10 short ${shape} ` +
     `press-on nails graded by size, arranged in the same diagonal flat-lay on a pale blue-grey ` +
     `seamless background, soft even studio lighting, gentle shadows, no hand, photoreal, 2k. ` +
-    `Instead of blank nails, apply the design from the first reference (${ref}): faithfully ` +
-    `reproduce its colors, patterns and key motifs across all ten nails as a cohesive set, ` +
-    `balanced so no nail is overcrowded.${note} Keep the layout, background and lighting ` +
-    `identical to the second reference; change ONLY the nail art. ${NEGATIVE}`;
+    `Interpret the first reference (${ref}) as an artisan, 100% hand-painted nail-art set: ` +
+    `translate it into a simplified, slightly abstract design — bold shapes, clean color blocks ` +
+    `and loose, organic brushwork a nail artist could realistically paint by hand, not a ` +
+    `photographic copy. Build the look from paint plus mixed-media embellishments: a few ` +
+    `rhinestones or gems, tiny pearls, gold-foil flakes, small charms and little decals/stickers, ` +
+    `placed tastefully as accents on 2-4 nails with the rest kept simpler.${note} Keep the layout, ` +
+    `background and lighting identical to the second reference; change ONLY the nail art. ${NEGATIVE}`;
 
-  const onModel =
-    `Use the second reference image only for the person, pose and scene. Render that person ` +
-    `wearing a custom press-on set derived from the first reference image (${ref}): ${shape}, ` +
-    `the design wrapped cleanly across all visible nails, salon-quality, photoreal, 2k.${note} ` +
-    `Keep the person's identity, pose, framing, clothing and lighting faithful to the second ` +
-    `reference; change ONLY the nail art. Editorial, Gen-Z, unisex, aspirational. ${NEGATIVE}`;
+  // slot 1 — the SAME design, worn on a realistic hand (refs: slot 0 output only).
+  const hand =
+    `Ultra-realistic, photogenic close-up photograph of one elegant human hand wearing ` +
+    `salon-quality press-on nails painted EXACTLY like the nails in the reference image: ` +
+    `reproduce the identical hand-painted design — same colors, patterns, finish, applied gems, ` +
+    `charms and stickers, and ${shape} shape — on every nail, with no deviation. Natural healthy ` +
+    `skin and well-groomed cuticles, soft diffused studio lighting, shallow depth of field, ` +
+    `tasteful clean neutral background, editorial beauty photography, photoreal, 2k. Present the ` +
+    `SAME design worn on a real hand; do not redesign the nails. ${NEGATIVE}`;
 
-  const minimal =
-    `${FRAMING} ${shape} nails. A refined minimal set inspired by this reference (${ref}): pull ` +
-    `only the 1-2 strongest colors and one signature motif, applied as tasteful accents over a ` +
-    `clean neutral or sheer base, most nails simple with 2-3 statement accent nails.${note} ` +
-    `Understated, elegant, everyday-wearable. ${NEGATIVE}`;
+  // slot 2 — the SAME design, presented in the retail kit (refs: slot 0 output + package asset).
+  const pkg =
+    `Match the styling of the second reference image exactly: a flat-lay of the Nailismo press-on ` +
+    `nail kit on a pastel colour-blocked geometric background — a black branded box with a clear ` +
+    `window showing the nail set, a sheet of teardrop adhesive tabs, a sterile alcohol prep pad, ` +
+    `a slim wooden cuticle stick and a teal nail file, soft even studio lighting, gentle shadows, ` +
+    `photoreal, 2k. Render the press-on nails — both in the box window and as the set — painted ` +
+    `EXACTLY like the nails in the FIRST reference image: identical design, colors, patterns, ` +
+    `finish and any 3D embellishments (gems, charms, stickers), ${shape}. Keep the packaging ` +
+    `layout, props, background and lighting identical to the second reference; change ONLY the ` +
+    `nail art shown. ${NEGATIVE}`;
 
   return [
-    { slot: 0, variation: "flatlay", seed: SEEDS[0], prompt: flatlay, brandAsset: "flatlay" },
-    { slot: 1, variation: "on-model", seed: SEEDS[1], prompt: onModel, brandAsset: "model" },
-    { slot: 2, variation: "minimal", seed: SEEDS[2], prompt: minimal },
+    { slot: 0, variation: "flatlay", seed: SEEDS[0], prompt: flatlay, base: "upload", brandAsset: "flatlay" },
+    { slot: 1, variation: "hand", seed: SEEDS[1], prompt: hand, base: "design" },
+    { slot: 2, variation: "package", seed: SEEDS[2], prompt: pkg, base: "design", brandAsset: "package" },
   ];
 }

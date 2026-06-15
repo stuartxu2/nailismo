@@ -40,14 +40,14 @@ describe("startGeneration", () => {
     expect(upsertSession).not.toHaveBeenCalled();
   });
 
-  it("renders 3 slots, stores them, and marks the session ready", async () => {
+  it("renders 3 views, stores them, and marks the session ready", async () => {
     getSession.mockResolvedValueOnce(SESSION);
     generateDesign.mockResolvedValue("data:image/png;base64,QUJD"); // "ABC"
     putResult.mockImplementation(async (_s: string, slot: number) => `https://blob/r${slot}.png`);
 
     await startGeneration("s1");
 
-    expect(generateDesign).toHaveBeenCalledTimes(3);
+    expect(generateDesign).toHaveBeenCalledTimes(3); // 1 canonical + 2 derived
     expect(putResult).toHaveBeenCalledTimes(3);
     const arg = upsertSession.mock.calls.at(-1)![0];
     expect(arg.status).toBe("ready");
@@ -61,51 +61,55 @@ describe("startGeneration", () => {
     expect(refundDeposit).not.toHaveBeenCalled();
   });
 
-  it("passes the customer upload + brand asset as refs, with the seed", async () => {
+  it("anchors slot 0 on the upload, then slots 1 & 2 on slot 0's output image", async () => {
     getSession.mockResolvedValueOnce(SESSION);
     generateDesign.mockResolvedValue("data:image/png;base64,QUJD");
     putResult.mockResolvedValue("https://blob/r.png");
 
     await startGeneration("s1");
 
-    // slot 0 (flat-lay): upload + flatlay brand asset, seed 101
-    const [, refs0, opts0] = [
-      generateDesign.mock.calls[0][0],
-      generateDesign.mock.calls[0][1],
-      generateDesign.mock.calls[0][2],
-    ];
-    expect(refs0[0]).toBe("https://blob/upload");
-    expect(refs0[1]).toContain("/brand/flatlay.jpg");
-    expect(opts0.seed).toBe(101);
-    // slot 2 (minimal): no brand asset
-    expect(generateDesign.mock.calls[2][1]).toEqual(["https://blob/upload"]);
+    // call[0] = canonical slot 0: upload + flatlay brand asset, seed 101
+    expect(generateDesign.mock.calls[0][1][0]).toBe("https://blob/upload");
+    expect(generateDesign.mock.calls[0][1][1]).toContain("/brand/flatlay.jpg");
+    expect(generateDesign.mock.calls[0][2].seed).toBe(101);
+    // call[1] = hand: anchored on slot 0's output data URL only, seed 202
+    expect(generateDesign.mock.calls[1][1]).toEqual(["data:image/png;base64,QUJD"]);
+    expect(generateDesign.mock.calls[1][2].seed).toBe(202);
+    // call[2] = package: slot 0's output + package brand asset, seed 303
+    expect(generateDesign.mock.calls[2][1][0]).toBe("data:image/png;base64,QUJD");
+    expect(generateDesign.mock.calls[2][1][1]).toContain("/brand/package.jpg");
+    expect(generateDesign.mock.calls[2][2].seed).toBe(303);
   });
 
-  it("counts a slot failed only after both attempts fail (others still ready)", async () => {
+  it("a derived view can fail (after retry) while the others stay ready", async () => {
     getSession.mockResolvedValueOnce(SESSION);
-    // slot 0 (seed 101) fails on both attempts; slots 1 & 2 succeed. Target by
-    // seed since the 3 slots render in parallel (call order isn't stable).
+    // package (seed 303) fails both attempts; canonical + hand succeed.
     generateDesign.mockImplementation(async (_p: string, _refs: string[], opts: { seed: number }) => {
-      if (opts.seed === 101) throw new Error("boom");
+      if (opts.seed === 303) throw new Error("boom");
       return "data:image/png;base64,QUJD";
     });
     putResult.mockResolvedValue("https://blob/r.png");
 
     await startGeneration("s1");
     const arg = upsertSession.mock.calls.at(-1)![0];
-    expect(arg.status).toBe("ready"); // 2 of 3 still usable
+    expect(arg.status).toBe("ready"); // canonical + hand still usable
     expect(arg.jobs.filter((j: { status: string }) => j.status === "ready")).toHaveLength(2);
-    expect(arg.jobs.find((j: { seed: number }) => j.seed === 101).status).toBe("failed");
+    expect(arg.jobs.find((j: { seed: number }) => j.seed === 303).status).toBe("failed");
   });
 
-  it("fails the session and refunds when all 3 fail", async () => {
+  it("fails the session and refunds when the canonical design can't be made", async () => {
     getSession.mockResolvedValueOnce(SESSION);
-    generateDesign.mockRejectedValue(new Error("down"));
+    // slot 0 fails both attempts → can't derive the views → fail everything.
+    generateDesign.mockImplementation(async (_p: string, _refs: string[], opts: { seed: number }) => {
+      if (opts.seed === 101) throw new Error("down");
+      return "data:image/png;base64,QUJD";
+    });
 
     await startGeneration("s1");
 
     const arg = upsertSession.mock.calls.at(-1)![0];
     expect(arg.status).toBe("failed");
+    expect(arg.jobs.every((j: { status: string }) => j.status === "failed")).toBe(true);
     expect(refundDeposit).toHaveBeenCalledWith("pi_1");
     expect(putResult).not.toHaveBeenCalled();
   });
