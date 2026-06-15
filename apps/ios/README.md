@@ -7,14 +7,17 @@ the same Shopify Storefront API and the web app's `/api/scan` + `/api/reviews`
 endpoints.
 
 **Status: feature-complete with web parity.** Design system, fonts, and the
-5-tab navigation (Home · Shop · **Measure** · Favorite · Account) with the
-raised lime Measure button are in place. Storefront browsing, cart + checkout,
+6-tab navigation (Home · Shop · **Measure** · Custom · Favorite · Account) with
+the raised lime Measure button are in place. Storefront browsing, cart + checkout,
 favorites, customer auth, and the camera measure flow are live. The PDP mirrors
 the web product page: trust card, sizing, free-ship nudge, the "Press on in 4
 steps" guide, per-product FAQ, UGC strip, Shopify recommendations ("You may also
 like"), and Judge.me reviews (served via the web `/api/reviews` BFF). Gift cards
 and care essentials render the leaner template (`ProductClass`), matching web's
-`SimpleProductTemplate`.
+`SimpleProductTemplate`. The **Customize to Order** AI studio is native too:
+intake (camera/photo, length/shape/note/email) → $2 Stripe deposit (native
+PaymentSheet) → generation polling → 3 views → size → Shopify checkout, plus a
+"My designs" history/resume list. It reuses the web `/api/customize/*` BFF.
 
 ## Requirements
 - Xcode 26+
@@ -37,6 +40,9 @@ xcodebuild -project Nailismo.xcodeproj -scheme Nailismo \
 Copy `Secrets.example.xcconfig` to `Secrets.xcconfig` (gitignored) and fill the
 public Storefront values from `apps/app/.env`. See that file for the key mapping
 and the xcconfig `//`-in-URLs caveat.
+
+Also set `STRIPE_PUBLISHABLE_KEY` (the publishable `pk_…` key, same value as the
+web's `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`) for the Customize $2 deposit.
 
 ## Layout
 ```
