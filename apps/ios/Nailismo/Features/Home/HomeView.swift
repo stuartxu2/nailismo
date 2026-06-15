@@ -25,6 +25,8 @@ struct HomeView: View {
 
                         HeroCard { onSelectTab(.shop) }
 
+                        CustomizeBand { onSelectTab(.customize) }
+
                         if let error = catalog.errorMessage, catalog.products.isEmpty {
                             ErrorRow(message: error) { Task { await catalog.reload() } }
                         } else if catalog.products.isEmpty {
@@ -104,6 +106,27 @@ private struct HeroCard: View {
         }
         .background(Candy.muted, in: RoundedRectangle(cornerRadius: 26))
         .clipShape(RoundedRectangle(cornerRadius: 26))
+        .candyShadow()
+    }
+}
+
+// Lilac promo for the AI customize studio.
+private struct CustomizeBand: View {
+    var onTap: () -> Void
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Eyebrow("customize to order", color: Candy.onAccent.opacity(0.85))
+            Text("Your inspo, made wearable.")
+                .font(.display(24)).foregroundStyle(Candy.surface)
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Upload any pic. AI designs one custom set, shown 3 ways. $2 to preview.")
+                .font(.bodyFont(14)).foregroundStyle(Candy.surface.opacity(0.9))
+            CandyButton(title: "Design my set ✨", variant: .pop, action: onTap)
+                .frame(maxWidth: 220)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Candy.accent, in: RoundedRectangle(cornerRadius: 26))
         .candyShadow()
     }
 }

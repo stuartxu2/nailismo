@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AccountView: View {
     var onSelectTab: (Tab) -> Void = { _ in }
+    @State private var showDesigns = false
     @Environment(FavoritesStore.self) private var favorites
     @Environment(FitStore.self) private var fit
     @Environment(AuthStore.self) private var auth
@@ -39,6 +40,11 @@ struct AccountView: View {
             }
         }
         .background(Candy.bg)
+        .sheet(isPresented: $showDesigns) {
+            NavigationStack {
+                MyDesignsView().background(Candy.bg.ignoresSafeArea())
+            }
+        }
     }
 
     private var profileHeader: some View {
@@ -64,6 +70,9 @@ struct AccountView: View {
             Divider().background(Candy.border)
             AccountRow(icon: "heart", title: "Favorites",
                        subtitle: favorites.items.isEmpty ? "Nothing saved yet" : "\(favorites.items.count) saved") { onSelectTab(.favorites) }
+            Divider().background(Candy.border)
+            AccountRow(icon: "sparkles", title: "My custom designs",
+                       subtitle: "Your AI custom sets") { showDesigns = true }
             Divider().background(Candy.border)
             AccountRow(icon: "shippingbox", title: "Orders",
                        subtitle: auth.isSignedIn ? "\(auth.customer?.orders.nodes.count ?? 0) total" : "Sign in to view")
