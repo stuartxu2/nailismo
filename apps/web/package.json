@@ -15,11 +15,15 @@
     "@nailismo/fit-sizing": "workspace:*",
     "@nailismo/shopify": "workspace:*",
     "@nailismo/theme": "workspace:*",
+    "@stripe/react-stripe-js": "^6.6.0",
+    "@stripe/stripe-js": "^9.8.0",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.4.0",
     "@vercel/speed-insights": "^2.0.0",
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "stripe": "^22.2.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
@@ -30,6 +34,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5",
     "vitest": "^4.1.7"
   }
