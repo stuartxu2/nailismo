@@ -3,9 +3,9 @@
 
 export type SessionStatus =
   | "pending_payment" // session created, awaiting the $2 Stripe deposit
-  | "generating" // deposit captured, 3 designs being generated
-  | "ready" // all designs landed, awaiting the customer's pick
-  | "selected" // a design chosen, $2-off code minted
+  | "generating" // deposit captured, the design (3 views) being generated
+  | "ready" // the design landed, awaiting the customer's order
+  | "selected" // order confirmed, $2-off code minted
   | "ordered" // $69 order placed (reconciled from orders/paid)
   | "refunded" // deposit refunded (generation failed / no-credit safety net)
   | "failed"; // generation failed before any usable design

@@ -34,29 +34,29 @@ beforeEach(() => {
 });
 
 describe("POST /api/customize/select", () => {
-  it("validates index and size", async () => {
-    expect((await POST(req({ sessionId: "s", selectedIndex: -1, size: "S" }))).status).toBe(400);
-    expect((await POST(req({ sessionId: "s", selectedIndex: 0, size: "XXL" }))).status).toBe(400);
+  it("validates size", async () => {
+    expect((await POST(req({ sessionId: "s", size: "XXL" }))).status).toBe(400);
+    expect((await POST(req({ size: "S" }))).status).toBe(400); // missing sessionId
   });
 
   it("404s for unknown session, 409 if not ready", async () => {
     getSession.mockResolvedValueOnce(null);
-    expect((await POST(req({ sessionId: "s", selectedIndex: 0, size: "S" }))).status).toBe(404);
+    expect((await POST(req({ sessionId: "s", size: "S" }))).status).toBe(404);
     getSession.mockResolvedValueOnce({ status: "generating", jobs: [] });
-    expect((await POST(req({ sessionId: "s", selectedIndex: 0, size: "S" }))).status).toBe(409);
+    expect((await POST(req({ sessionId: "s", size: "S" }))).status).toBe(409);
   });
 
-  it("400s when the chosen slot isn't ready", async () => {
+  it("400s when no design view is ready", async () => {
     getSession.mockResolvedValueOnce({ status: "ready", jobs: [{ seed: 101, status: "failed" }] });
-    expect((await POST(req({ sessionId: "s", selectedIndex: 0, size: "S" }))).status).toBe(400);
+    expect((await POST(req({ sessionId: "s", size: "S" }))).status).toBe(400);
   });
 
-  it("mints a code, records selection, returns the checkout URL", async () => {
+  it("mints a code, records the order, returns the checkout URL (canonical design)", async () => {
     getSession.mockResolvedValueOnce(READY);
     mintDepositCode.mockResolvedValueOnce("C2O-XYZ");
     createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/abc");
 
-    const res = await POST(req({ sessionId: "s1", selectedIndex: 0, size: "M" }));
+    const res = await POST(req({ sessionId: "s1", size: "M" }));
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ checkoutUrl: "https://shop/checkout/abc" });
 
@@ -73,10 +73,27 @@ describe("POST /api/customize/select", () => {
     expect(arg.attributes).toContainEqual({ key: "_payment_intent", value: "pi_1" });
   });
 
+  it("uses the first ready view as the design when slot 0 failed", async () => {
+    getSession.mockResolvedValueOnce({
+      status: "ready",
+      jobs: [
+        { seed: 101, status: "failed" },
+        { seed: 202, status: "ready", resultUrl: "https://blob/1.png" },
+      ],
+    });
+    mintDepositCode.mockResolvedValueOnce("C2O-FB");
+    createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/fb");
+    await POST(req({ sessionId: "s1", size: "S" }));
+    expect(createCustomCheckout.mock.calls[0][0].attributes).toContainEqual({
+      key: "_design_url",
+      value: "https://blob/1.png",
+    });
+  });
+
   it("reuses an already-minted code without re-minting", async () => {
     getSession.mockResolvedValueOnce({ ...READY, status: "selected", discountCode: "C2O-OLD" });
     createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/def");
-    await POST(req({ sessionId: "s1", selectedIndex: 0, size: "S" }));
+    await POST(req({ sessionId: "s1", size: "S" }));
     expect(mintDepositCode).not.toHaveBeenCalled();
     expect(createCustomCheckout.mock.calls[0][0].discountCode).toBe("C2O-OLD");
   });

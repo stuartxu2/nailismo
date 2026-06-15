@@ -12,8 +12,8 @@ const SHAPES = ["Almond", "Coffin", "Square", "Round"] as const;
 
 const STEPS = [
   ["📸", "Upload your inspo", "Any pic — a photo, a pattern, a vibe."],
-  ["✨", "Preview for $2", "3 designs in ~1 min. Refunded if you don't love them."],
-  ["💅", "Pick & checkout", "Choose one + your size. The $2 comes off your $69."],
+  ["✨", "Preview for $2", "Your set, shown 3 ways in ~1 min. Refunded if you don't love it."],
+  ["💅", "Size & checkout", "Pick your size. The $2 comes off your $69."],
   ["💖", "We hand-make it", "Made just for you and shipped in days."],
 ] as const;
 
@@ -95,9 +95,9 @@ export default function CustomizeStudio() {
         <p
           style={{ fontSize: 19, fontWeight: 700, color: "var(--ink-soft)", marginTop: 20, maxWidth: 560 }}
         >
-          Drop any pic — a photo, a pattern, a whole mood. Our AI whips up{" "}
-          <span style={{ color: "var(--ink)" }}>3 custom nail sets</span> in about a minute. Pick
-          your fave, we hand-make it. 💅
+          Drop any pic — a photo, a pattern, a whole mood. Our AI designs{" "}
+          <span style={{ color: "var(--ink)" }}>one custom set</span> and shows it 3 ways in about a
+          minute. Love it? We hand-make it. 💅
         </p>
         <span className="candy-sticker is-gum" style={{ marginTop: 22 }}>
           $2 to preview · credited to your order
@@ -237,7 +237,7 @@ export default function CustomizeStudio() {
                 className="candy-btn"
                 style={{ marginTop: 26, width: "100%", opacity: !preview || busy ? 0.45 : 1 }}
               >
-                {busy ? "Starting…" : "Preview my 3 designs — $2"}
+                {busy ? "Starting…" : "Preview my design — $2"}
                 <span className="pop" aria-hidden>✨</span>
               </button>
               <p
@@ -350,7 +350,7 @@ function PayForm({ sessionId }: { sessionId: string }) {
       </button>
       <ul style={{ marginTop: 16, display: "grid", gap: 6, fontWeight: 800, fontSize: 13, color: "var(--ink-soft)" }}>
         <li>↺ $2 comes off your $69 order automatically</li>
-        <li>🎨 3 unique designs, yours to keep</li>
+        <li>🎨 Your custom design in 3 views, yours to keep</li>
       </ul>
     </form>
   );

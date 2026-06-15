@@ -11,10 +11,17 @@ type StatusResp = {
 const SIZES = ["S", "M", "L", "XL"] as const;
 const POLL_MS = 2500;
 
+// One design, three views. Slot order is fixed by generation: 0 = the canonical
+// flat-lay (the set we hand-make), 1 = worn on a hand, 2 = in its retail kit.
+const VIEWS = [
+  { label: "The set", caption: "Flat-lay" },
+  { label: "On your hand", caption: "Worn" },
+  { label: "Your kit", caption: "In the box" },
+] as const;
+
 export default function ResultPicker({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<StatusResp | null>(null);
   const [notFound, setNotFound] = useState(false);
-  const [selected, setSelected] = useState<number | null>(null);
   const [size, setSize] = useState<(typeof SIZES)[number] | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,14 +54,14 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
   }, [sessionId]);
 
   async function order() {
-    if (selected === null || !size || busy) return;
+    if (!size || busy) return;
     setBusy(true);
     setError(null);
     try {
       const res = await fetch("/api/customize/select", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, selectedIndex: selected, size }),
+        body: JSON.stringify({ sessionId, size }),
       });
       if (!res.ok) throw new Error("Couldn't start checkout — please retry.");
       const { checkoutUrl } = (await res.json()) as { checkoutUrl: string };
@@ -81,7 +88,7 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
     );
   }
 
-  const readyCount = (data?.jobs ?? []).filter((j) => j.status === "ready" && j.resultUrl).length;
+  const hasDesign = (data?.jobs ?? []).some((j) => j.status === "ready" && j.resultUrl);
 
   return (
     <main className="candy-wrap" style={{ paddingBlock: "clamp(40px, 6vw, 88px)" }}>
@@ -94,24 +101,24 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
         </a>
       </div>
       <header style={{ maxWidth: 680 }} className="candy-rise">
-        <span className="candy-eyebrow">{ready ? "Pick your favorite" : "Designing"}</span>
+        <span className="candy-eyebrow">{ready ? "Your custom set" : "Designing"}</span>
         <h1 style={{ fontSize: "clamp(34px, 6.5vw, 64px)", marginTop: 12 }}>
           {ready ? (
             <>
-              Three takes on <span className="lb-hl">your</span> idea.
+              Your design, <span className="lb-hl">3 ways</span>.
             </>
           ) : (
             <>Painting your nails… 💅</>
           )}
         </h1>
-        {!ready && (
-          <p style={{ fontSize: 17, fontWeight: 700, color: "var(--ink-soft)", marginTop: 14 }}>
-            Reading your pic, sketching 3 looks, rendering on nails. About a minute! ✨
-          </p>
-        )}
+        <p style={{ fontSize: 17, fontWeight: 700, color: "var(--ink-soft)", marginTop: 14 }}>
+          {ready
+            ? "One hand-painted set — here it is as a flat-lay, worn on a hand, and in its kit. Grab your size to order it."
+            : "Reading your pic, painting one custom set, then shooting it 3 ways. About a minute! ✨"}
+        </p>
       </header>
 
-      {/* Design grid */}
+      {/* The one design, three views */}
       <section
         style={{
           marginTop: "clamp(28px, 4vw, 52px)",
@@ -123,26 +130,20 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
         {[0, 1, 2].map((i) => {
           const job = data?.jobs?.[i];
           const isReady = job?.status === "ready" && job.resultUrl;
-          const isSelected = selected === i;
+          const view = VIEWS[i];
           return (
-            <button
+            <figure
               key={i}
-              type="button"
-              disabled={!isReady}
-              onClick={() => setSelected(i)}
-              className={isSelected ? "candy-rise" : undefined}
+              className="candy-rise"
               style={{
+                margin: 0,
                 position: "relative",
                 aspectRatio: "4 / 5",
                 borderRadius: 26,
                 overflow: "hidden",
                 background: "var(--cream)",
-                border: `3px solid var(--ink)`,
-                boxShadow: isSelected ? "var(--shadow-pop)" : "var(--shadow-candy)",
-                transform: isSelected ? "translateY(-6px) rotate(-1deg)" : "none",
-                transition: "transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease",
-                cursor: isReady ? "pointer" : "default",
-                padding: 0,
+                border: "3px solid var(--ink)",
+                boxShadow: "var(--shadow-candy)",
               }}
             >
               {isReady ? (
@@ -150,19 +151,19 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={job!.resultUrl}
-                    alt={`Design ${i + 1}`}
+                    alt={`${view.label} — your custom nail set`}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
-                  <span
-                    className={`candy-sticker ${isSelected ? "is-gum" : "is-soda"}`}
-                    style={{ position: "absolute", top: 12, left: 14, color: isSelected ? "var(--ink)" : "#fff" }}
+                  <figcaption
+                    className="candy-sticker is-soda"
+                    style={{ position: "absolute", top: 12, left: 14, color: "#fff" }}
                   >
-                    {isSelected ? "✓ Picked" : `Design ${i + 1}`}
-                  </span>
+                    {view.label}
+                  </figcaption>
                 </>
               ) : job?.status === "failed" ? (
                 <span style={{ display: "grid", placeItems: "center", height: "100%", fontWeight: 800, color: "var(--ink-soft)" }}>
-                  unavailable 🥲
+                  {view.caption} unavailable 🥲
                 </span>
               ) : (
                 <span
@@ -180,17 +181,17 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
                     <span style={{ fontSize: 40, display: "block" }} aria-hidden>
                       💅
                     </span>
-                    Rendering {i + 1}…
+                    {view.caption}…
                   </span>
                 </span>
               )}
-            </button>
+            </figure>
           );
         })}
       </section>
 
       {/* Buy panel */}
-      {ready && readyCount > 0 && (
+      {ready && hasDesign && (
         <section
           className="candy-rise"
           style={{
@@ -246,19 +247,15 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
             <button
               type="button"
               onClick={order}
-              disabled={selected === null || !size || busy}
+              disabled={!size || busy}
               className="candy-btn"
-              style={{ marginTop: 22, width: "100%", opacity: selected === null || !size || busy ? 0.45 : 1 }}
+              style={{ marginTop: 22, width: "100%", opacity: !size || busy ? 0.45 : 1 }}
             >
               {busy ? "Starting checkout…" : "Order my custom set"}
               <span className="pop" aria-hidden>💖</span>
             </button>
             <p style={{ marginTop: 12, textAlign: "center", fontWeight: 700, color: "var(--ink-soft)" }}>
-              {selected === null
-                ? "Pick a design above ☝️"
-                : !size
-                  ? "Choose your size"
-                  : "Hand-made to order · ships in days"}
+              {!size ? "Choose your size" : "Hand-made to order · ships in days"}
             </p>
           </div>
         </section>
