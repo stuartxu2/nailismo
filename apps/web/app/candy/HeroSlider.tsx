@@ -179,7 +179,7 @@ export function HeroSlider() {
 
 function HeroTile({ img, alt, border }: { img: string; alt: string; border: string }) {
   return (
-    <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", border: `3px solid var(--ink)`, boxShadow: "var(--shadow-pop)", background: border }}>
+    <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 24, overflow: "hidden", boxShadow: "var(--shadow-pop)", background: border }}>
       <Image src={src(img)} alt={alt} fill sizes="280px" style={{ objectFit: "cover" }} />
     </div>
   );

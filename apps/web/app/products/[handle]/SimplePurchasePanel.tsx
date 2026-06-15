@@ -141,7 +141,7 @@ export function SimplePurchasePanel({
           display: "grid",
           gap: 7,
           background: "var(--cream)",
-          border: "2.5px solid var(--ink)",
+          border: "1px solid var(--marshmallow)",
           borderRadius: 18,
           boxShadow: "var(--shadow-candy)",
         }}
@@ -175,7 +175,7 @@ export function SimplePurchasePanel({
           display: "flex", alignItems: "center", gap: 12,
           padding: "12px 16px calc(12px + env(safe-area-inset-bottom))",
           background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)",
-          borderTop: "2.5px solid var(--ink)",
+          borderTop: "2px solid var(--marshmallow)",
         }}
       >
         <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 20 }}>{priceLabel}</span>

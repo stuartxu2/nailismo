@@ -120,7 +120,7 @@ export default function CustomizeStudio() {
           className="candy-rise candy-d1"
           style={{
             background: "var(--cream)",
-            border: "2.5px solid var(--ink)",
+            border: "1px solid var(--marshmallow)",
             borderRadius: 28,
             boxShadow: "var(--shadow-candy)",
             padding: "clamp(20px, 3vw, 34px)",

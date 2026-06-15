@@ -30,13 +30,13 @@ export default function AccountPage() {
         </div>
 
         <div className="grid grid-cols-12 gap-6" style={{ marginTop: 40 }}>
-          <div className="col-span-12 md:col-span-6" style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)" }}>
+          <div className="col-span-12 md:col-span-6" style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)" }}>
             <span className="candy-eyebrow">Returning</span>
             <h2 style={{ fontSize: 28, marginTop: 8 }}>Already have an account?</h2>
             <p style={{ marginTop: 10, fontWeight: 600, color: "var(--ink-soft)" }}>Pull up past orders, addresses, and saved sets.</p>
             <a href={loginUrl} className="candy-btn" style={{ marginTop: 22 }}>Sign in <span className="pop" aria-hidden>→</span></a>
           </div>
-          <div className="col-span-12 md:col-span-6" style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)" }}>
+          <div className="col-span-12 md:col-span-6" style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)" }}>
             <span className="candy-eyebrow">New here</span>
             <h2 style={{ fontSize: 28, marginTop: 8 }}>First time?</h2>
             <p style={{ marginTop: 10, fontWeight: 600, color: "var(--ink-soft)" }}>Make an account in 30 seconds — faster checkout, tracking, early access to drops.</p>
@@ -44,7 +44,7 @@ export default function AccountPage() {
           </div>
         </div>
 
-        <div style={{ marginTop: 24, background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <div style={{ marginTop: 24, background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 24, padding: 28, boxShadow: "var(--shadow-candy)", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
           <div style={{ maxWidth: 520 }}>
             <span className="candy-eyebrow">Order lookup</span>
             <h3 style={{ fontSize: 22, marginTop: 8 }}>Guest checkout? Track via the link in your confirmation email — or sign in to see everything in one place.</h3>

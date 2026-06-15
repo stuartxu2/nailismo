@@ -33,7 +33,6 @@ export function HeroVideoTile({
         aspectRatio: "4/5",
         borderRadius: 24,
         overflow: "hidden",
-        border: "3px solid var(--ink)",
         boxShadow: "var(--shadow-pop)",
         background: border,
       }}

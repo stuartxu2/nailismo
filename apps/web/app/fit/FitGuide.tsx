@@ -107,7 +107,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
       <div
         style={{
           position: "relative",
-          border: "2.5px solid var(--ink)",
+          border: "1px solid var(--marshmallow)",
           background: "var(--cream)",
           borderRadius: 28,
           boxShadow: "var(--shadow-candy)",
@@ -192,10 +192,10 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                         gap: 16,
                         alignItems: "flex-start",
                         background: "var(--cotton)",
-                        border: "2.5px solid var(--ink)",
+                        border: "1px solid var(--marshmallow)",
                         borderRadius: 20,
                         padding: "16px 18px",
-                        boxShadow: "0 3px 0 var(--ink)",
+                        boxShadow: "var(--shadow-candy)",
                       }}
                     >
                       <span
@@ -235,7 +235,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                 <div
                   style={{
                     background: "var(--cotton)",
-                    border: "2.5px solid var(--ink)",
+                    border: "1px solid var(--marshmallow)",
                     borderRadius: 24,
                     padding: 28,
                     boxShadow: "var(--shadow-candy)",
@@ -288,7 +288,7 @@ export function FitGuide({ products }: { products: ShopifyProduct[] }) {
                 <div
                   style={{
                     background: "var(--cotton)",
-                    border: "2.5px solid var(--ink)",
+                    border: "1px solid var(--marshmallow)",
                     borderRadius: 24,
                     padding: 24,
                     boxShadow: "var(--shadow-candy)",

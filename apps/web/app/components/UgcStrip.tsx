@@ -41,7 +41,6 @@ export function UgcStrip({ heading = "Worn loud. Worn minimal." }: { heading?: s
               aspectRatio: "1 / 1",
               borderRadius: 18,
               overflow: "hidden",
-              border: "2.5px solid var(--ink)",
               boxShadow: "var(--shadow-candy)",
             }}
           >

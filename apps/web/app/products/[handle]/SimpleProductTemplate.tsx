@@ -94,7 +94,7 @@ export function SimpleProductTemplate({
 
             <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               {copy.info.map((c) => (
-                <div key={c.k} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
+                <div key={c.k} style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 18, padding: "14px 16px", boxShadow: "var(--shadow-candy)" }}>
                   <span className="candy-eyebrow" style={{ fontSize: 11 }}>{c.k}</span>
                   <p style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 16, marginTop: 4 }}>{c.v}</p>
                 </div>
@@ -111,7 +111,7 @@ export function SimpleProductTemplate({
             </div>
             <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
               {GIFT_STEPS.map((s, i) => (
-                <div key={s.title} style={{ background: "var(--cream)", border: "2.5px solid var(--ink)", borderRadius: 22, padding: "22px 22px 24px", boxShadow: "var(--shadow-candy)" }}>
+                <div key={s.title} style={{ background: "var(--cream)", border: "1px solid var(--marshmallow)", borderRadius: 22, padding: "22px 22px 24px", boxShadow: "var(--shadow-candy)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
                     <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", background: "var(--lemon)", border: "2.5px solid var(--ink)", fontFamily: "var(--display)", fontWeight: 700, fontSize: 17, boxShadow: "0 3px 0 var(--ink)" }}>{i + 1}</span>
                     <span aria-hidden style={{ fontSize: 24, lineHeight: 1 }}>{s.emoji}</span>

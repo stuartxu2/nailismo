@@ -118,7 +118,7 @@ export function SizeMapCard({
         <div
           style={{
             background: "var(--cream)",
-            border: "2.5px solid var(--ink)",
+            border: "1px solid var(--marshmallow)",
             borderRadius: 26,
             padding: "clamp(20px,3vw,28px)",
             boxShadow: "var(--shadow-candy)",
@@ -135,7 +135,6 @@ export function SizeMapCard({
                   aspectRatio: "4 / 5",
                   overflow: "hidden",
                   borderRadius: 18,
-                  border: "2.5px solid var(--ink)",
                   background: "var(--cotton)",
                 }}
               >
