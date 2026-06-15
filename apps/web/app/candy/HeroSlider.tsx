@@ -23,8 +23,10 @@ export function HeroSlider() {
 
   useEffect(() => {
     reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Randomize which slide greets each visit. Done on mount (not during render)
-    // so SSR/CSR markup matches and there's no hydration mismatch.
+    // Randomize which slide greets each visit. Must run on mount (not in a
+    // useState initializer) so SSR/CSR markup matches — the extra render is the
+    // price of hydration-safe randomness, so the set-state-in-effect is intended.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe one-shot randomization
     setActive(Math.floor(Math.random() * SLIDES.length));
   }, []);
 

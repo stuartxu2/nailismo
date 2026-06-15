@@ -104,7 +104,9 @@ describe("sizeFromMeasurements", () => {
   });
 
   it("works from a partial measurement", () => {
-    expect(sizeFromMeasurements({ thumb: 17 })).toBe("XL");
+    // One measured finger is enough. The thumb is display-only and never votes,
+    // so size from a single measured finger (index XL = 13mm).
+    expect(sizeFromMeasurements({ index: 13 })).toBe("XL");
   });
 
   it("returns null before any nail is measured", () => {
