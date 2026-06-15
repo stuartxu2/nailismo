@@ -43,3 +43,28 @@ targets:
     dependencies:
       - package: Stripe
         product: StripePaymentSheet
+
+  NailismoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: NailismoTests
+    dependencies:
+      - target: Nailismo
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nailismo.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+
+schemes:
+  Nailismo:
+    build:
+      targets:
+        Nailismo: all
+    test:
+      targets:
+        - NailismoTests
+    run:
+      config: Debug
