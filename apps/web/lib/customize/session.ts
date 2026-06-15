@@ -62,6 +62,11 @@ export function toFields(s: Partial<CustomizeSession>): MetaobjectField[] {
   put("reference_descriptor", s.referenceDescriptor);
   put("shape", s.shape);
   put("note", s.note);
+  put("finish", s.finish);
+  put("feel", s.feel);
+  put("occasion", s.occasion);
+  put("detail", s.detail);
+  put("interpretation", s.interpretation);
   put("payment_intent_id", s.paymentIntentId);
   if (s.jobs !== undefined) fields.push({ key: "jobs", value: JSON.stringify(s.jobs) });
   if (s.selectedIndex !== undefined) {
@@ -91,6 +96,11 @@ export function fromFields(fields: MetaobjectReadField[]): CustomizeSession {
     referenceDescriptor: m.get("reference_descriptor"),
     shape: m.get("shape"),
     note: m.get("note"),
+    finish: m.get("finish"),
+    feel: m.get("feel"),
+    occasion: m.get("occasion"),
+    detail: m.get("detail"),
+    interpretation: m.get("interpretation"),
     paymentIntentId: m.get("payment_intent_id"),
     jobs: jobsRaw ? safeParseJobs(jobsRaw) : undefined,
     selectedIndex: idxRaw !== undefined && idxRaw !== "" ? Number(idxRaw) : undefined,

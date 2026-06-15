@@ -70,6 +70,11 @@ describe("toFields / fromFields", () => {
     discountCode: "C2O-XYZ",
     shopifyOrderId: "gid://shopify/Order/999",
     shopifyCustomerId: "gid://shopify/Customer/42",
+    finish: "matte",
+    feel: "masculine",
+    occasion: "nightlife",
+    detail: "loaded",
+    interpretation: "literal",
   };
 
   it("round-trips a full session", () => {
