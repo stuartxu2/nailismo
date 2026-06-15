@@ -6,6 +6,7 @@
 
 import { getSession, upsertSession } from "@/lib/customize/session";
 import { mintDepositCode } from "@/lib/customize/discount";
+import { depositAmountPaid } from "@/lib/customize/stripe";
 import { createCustomCheckout, type CartAttribute } from "@/lib/customize/checkout";
 import { CUSTOM_VARIANTS, isNailSize } from "@/lib/customize/product";
 
@@ -41,8 +42,15 @@ export async function POST(req: Request): Promise<Response> {
     return Response.json({ error: "design not ready" }, { status: 400 });
   }
 
+  // Credit only what the customer actually paid for the preview: a promo may have
+  // reduced or waived the $2, so read the captured amount from the PaymentIntent.
+  // A comped (free) preview has no PaymentIntent → no credit (full $69 checkout).
   // Reuse an already-minted code on re-order (deterministic + idempotent).
-  const discountCode = session.discountCode ?? (await mintDepositCode(sessionId));
+  let discountCode = session.discountCode;
+  if (!discountCode && session.paymentIntentId) {
+    const paidCents = await depositAmountPaid(session.paymentIntentId);
+    if (paidCents > 0) discountCode = await mintDepositCode(sessionId, paidCents / 100);
+  }
 
   await upsertSession({ sessionId, selectedIndex: 0, discountCode, status: "selected" });
 

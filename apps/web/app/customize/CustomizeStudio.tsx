@@ -12,7 +12,7 @@ const SHAPES = ["Almond", "Coffin", "Square", "Round"] as const;
 
 const STEPS = [
   ["📸", "Upload your inspo", "Any pic — a photo, a pattern, a vibe."],
-  ["✨", "Preview for $2", "Your set, shown 3 ways in ~1 min. Refunded if you don't love it."],
+  ["✨", "Preview for $2", "Your set, shown 3 ways in ~1 min. The $2 covers AI processing."],
   ["💅", "Size & checkout", "Pick your size. The $2 comes off your $69."],
   ["💖", "We hand-make it", "Made just for you and shipped in days."],
 ] as const;
@@ -32,14 +32,18 @@ async function downscale(file: File, max = 1280, quality = 0.72): Promise<string
 }
 
 export default function CustomizeStudio() {
+  const router = useRouter();
   const [preview, setPreview] = useState<string | null>(null);
   const [length, setLength] = useState<(typeof LENGTHS)[number]>("Medium");
   const [shape, setShape] = useState<(typeof SHAPES)[number]>("Almond");
   const [note, setNote] = useState("");
   const [email, setEmail] = useState("");
+  const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [amountCents, setAmountCents] = useState(200);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [over, setOver] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -55,7 +59,7 @@ export default function CustomizeStudio() {
   }
 
   async function startPreview() {
-    if (!preview || busy) return;
+    if (!preview || !agreed || busy) return;
     setBusy(true);
     setError(null);
     try {
@@ -70,13 +74,27 @@ export default function CustomizeStudio() {
       const intent = await fetch("/api/customize/intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: sid }),
+        body: JSON.stringify({ sessionId: sid, promoCode: promo }),
       });
-      if (!intent.ok) throw new Error("Couldn't start checkout — please retry.");
-      const { clientSecret: cs } = (await intent.json()) as { clientSecret: string };
+      const data = (await intent.json()) as {
+        clientSecret?: string;
+        amountCents?: number;
+        free?: boolean;
+        error?: string;
+      };
+      if (!intent.ok) {
+        throw new Error(data.error ?? "Couldn't start checkout — please retry.");
+      }
+      // A promo that nets to $0 skips Stripe entirely — generation is already
+      // running server-side; go straight to the result page (it polls /status).
+      if (data.free) {
+        router.push(`/customize/result/${sid}`);
+        return;
+      }
 
       setSessionId(sid);
-      setClientSecret(cs);
+      setClientSecret(data.clientSecret ?? null);
+      setAmountCents(data.amountCents ?? 200);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally {
@@ -225,17 +243,50 @@ export default function CustomizeStudio() {
                   placeholder="you@email.com"
                 />
               </div>
+              <div style={{ marginTop: 18 }}>
+                <label className="candy-label" htmlFor="c2o-promo">
+                  Promo code <span style={{ color: "var(--ink-soft)" }}>(optional)</span>
+                </label>
+                <input
+                  id="c2o-promo"
+                  className="candy-field"
+                  value={promo}
+                  onChange={(e) => setPromo(e.target.value.toUpperCase())}
+                  placeholder="Have a code? Enter it here"
+                  autoCapitalize="characters"
+                  autoComplete="off"
+                  spellCheck={false}
+                  style={{ textTransform: "uppercase" }}
+                />
+              </div>
 
               {error && (
                 <p style={{ marginTop: 18, fontWeight: 700, color: "#C0392B" }}>{error}</p>
               )}
 
+              <label className="c2o-agree" style={{ marginTop: 24 }}>
+                <input
+                  type="checkbox"
+                  className="sr-only c2o-agree-input"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                />
+                <span className="c2o-agree-box" aria-hidden>
+                  {agreed ? "✓" : ""}
+                </span>
+                <span className="c2o-agree-text">
+                  I understand the <strong>$2 covers AI processing</strong> (Gemini 3 Pro Image) and
+                  comes off my $69 order. If I'm really unhappy with my design, I'll email{" "}
+                  <a href="mailto:hello@nailismo.com">hello@nailismo.com</a>.
+                </span>
+              </label>
+
               <button
                 type="button"
                 onClick={startPreview}
-                disabled={!preview || busy}
+                disabled={!preview || !agreed || busy}
                 className="candy-btn"
-                style={{ marginTop: 26, width: "100%", opacity: !preview || busy ? 0.45 : 1 }}
+                style={{ marginTop: 20, width: "100%", opacity: !preview || !agreed || busy ? 0.45 : 1 }}
               >
                 {busy ? "Starting…" : "Preview my design — $2"}
                 <span className="pop" aria-hidden>✨</span>
@@ -249,7 +300,7 @@ export default function CustomizeStudio() {
                   color: "var(--ink-soft)",
                 }}
               >
-                Not a fee — a $2 deposit, credited to your order 💸
+                Credited to your $69 order at checkout 💸
               </p>
             </>
           ) : (
@@ -263,7 +314,7 @@ export default function CustomizeStudio() {
                 },
               }}
             >
-              <PayForm sessionId={sessionId!} />
+              <PayForm sessionId={sessionId!} amountCents={amountCents} />
             </Elements>
           )}
         </div>
@@ -296,17 +347,28 @@ export default function CustomizeStudio() {
         </aside>
       </section>
 
-      <style>{`@media (max-width: 860px){ .candy-studio-grid{ grid-template-columns: 1fr !important; } }`}</style>
+      <style>{`
+        @media (max-width: 860px){ .candy-studio-grid{ grid-template-columns: 1fr !important; } }
+        .c2o-agree{ display:flex; gap:11px; align-items:flex-start; cursor:pointer; }
+        .c2o-agree-box{ flex:none; width:24px; height:24px; border-radius:8px; border:2.5px solid var(--ink); background:var(--cotton); display:grid; place-items:center; font-weight:900; color:var(--ink); font-size:14px; line-height:1; transition: background-color .15s ease, transform .12s ease, box-shadow .15s ease; }
+        .c2o-agree:hover .c2o-agree-box{ box-shadow:0 0 0 4px rgba(0,0,0,.06); }
+        .c2o-agree:active .c2o-agree-box{ transform: scale(.9); }
+        .c2o-agree-input:checked + .c2o-agree-box{ background:#9FED40; }
+        .c2o-agree-input:focus-visible + .c2o-agree-box{ outline:3px solid var(--ink); outline-offset:2px; }
+        .c2o-agree-text{ font-weight:800; font-size:13px; color:var(--ink-soft); line-height:1.45; }
+        .c2o-agree-text a{ color:var(--ink); text-decoration:underline; text-underline-offset:2px; }
+      `}</style>
     </main>
   );
 }
 
-function PayForm({ sessionId }: { sessionId: string }) {
+function PayForm({ sessionId, amountCents }: { sessionId: string; amountCents: number }) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const money = `$${(amountCents / 100).toFixed(2)}`;
 
   async function pay(e: React.FormEvent) {
     e.preventDefault();
@@ -330,7 +392,7 @@ function PayForm({ sessionId }: { sessionId: string }) {
     <form onSubmit={pay}>
       <span className="candy-eyebrow">Hold your spot</span>
       <h2 style={{ fontSize: "clamp(24px, 4vw, 32px)", marginTop: 10 }}>
-        $2 deposit — you get it back 💸
+        {money} to generate — credited to your set 💸
       </h2>
       <p style={{ fontWeight: 700, color: "var(--ink-soft)", marginTop: 8 }}>
         Credited straight to your $69 set when you order.
@@ -345,11 +407,11 @@ function PayForm({ sessionId }: { sessionId: string }) {
         className="candy-btn"
         style={{ marginTop: 24, width: "100%", opacity: !stripe || busy ? 0.5 : 1 }}
       >
-        {busy ? "Processing…" : "Pay $2 & generate"}
+        {busy ? "Processing…" : `Pay ${money} & generate`}
         <span className="pop" aria-hidden>✨</span>
       </button>
       <ul style={{ marginTop: 16, display: "grid", gap: 6, fontWeight: 800, fontSize: 13, color: "var(--ink-soft)" }}>
-        <li>↺ $2 comes off your $69 order automatically</li>
+        <li>↺ {money} comes off your $69 order automatically</li>
         <li>🎨 Your custom design in 3 views, yours to keep</li>
       </ul>
     </form>

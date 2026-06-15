@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 enum Tab: Int, CaseIterable {
-    case home, shop, measure, favorites, account
+    case home, shop, measure, customize, favorites, account
 }
 
 struct RootTabView: View {
@@ -21,8 +21,9 @@ struct RootTabView: View {
             Group {
                 switch tab {
                 case .home: HomeView(onSelectTab: { tab = $0 })
-                case .shop: ShopView()
+                case .shop: ShopView(onSelectTab: { tab = $0 })
                 case .measure: MeasureView(onSelectTab: { tab = $0 })
+                case .customize: CustomizeView(onSelectTab: { tab = $0 })
                 case .favorites: FavoritesView(onSelectTab: { tab = $0 })
                 case .account: AccountView(onSelectTab: { tab = $0 })
                 }
@@ -63,6 +64,7 @@ struct CandyTabBar: View {
         (.home, "house.fill", "Home"),
         (.shop, "bag.fill", "Shop"),
         (.measure, "wand.and.rays", "Measure"),
+        (.customize, "sparkles", "Custom"),
         (.favorites, "heart.fill", "Faves"),
         (.account, "person.fill", "You"),
     ]

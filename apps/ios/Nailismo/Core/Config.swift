@@ -7,6 +7,7 @@ enum Config {
     static let storefrontToken = info("ShopifyStorefrontToken")
     static let apiVersion = infoOr("ShopifyApiVersion", "2026-01")
     static let scanHost = infoOr("ScanApiHost", "nailismo.com")
+    static let stripePublishableKey = info("StripePublishableKey")
 
     static var scanBaseURL: URL { URL(string: "https://\(scanHost)")! }
     static var isConfigured: Bool { !storeDomain.isEmpty && !storefrontToken.isEmpty }
