@@ -41,7 +41,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Nailismo uses your camera to measure your nail size from a photo of your hand beside a bank card.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Nailismo can measure your nail size from a photo you choose from your library.</string>
+	<string>Nailismo uses your photos to measure your nail size and to read the inspo image for a custom design.</string>
 	<key>ShopifyStoreDomain</key>
 	<string>$(SHOPIFY_STORE_DOMAIN)</string>
 	<key>ShopifyStorefrontToken</key>
@@ -50,5 +50,7 @@
 	<string>$(SHOPIFY_API_VERSION)</string>
 	<key>ScanApiHost</key>
 	<string>$(SCAN_API_HOST)</string>
+	<key>StripePublishableKey</key>
+	<string>$(STRIPE_PUBLISHABLE_KEY)</string>
 </dict>
 </plist>
