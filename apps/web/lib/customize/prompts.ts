@@ -17,6 +17,12 @@ export type PromptInput = {
   shape?: string;
   /** Raw, untrusted user note ({NOTE}). */
   note?: string;
+  /** Optional style axes; values are normalized to lowercase internally, and unknown/neutral values fall back to today's defaults. */
+  finish?: string;
+  feel?: string;
+  occasion?: string;
+  detail?: string;
+  interpretation?: string;
 };
 
 export type BrandAsset = "flatlay" | "package";
@@ -38,6 +44,61 @@ export type DesignPrompt = {
 const SEEDS = [101, 202, 303] as const;
 const DEFAULT_SHAPE = "medium almond";
 const NEGATIVE = "Do not render: extra fingers, distorted hands, text, logos, watermarks, blur.";
+
+// Style-axis steering. Neutral selections (e.g. "any" / "neutral") are simply
+// absent from the *_CLAUSES maps → no clause emitted → output matches today.
+const FINISH_CLAUSES: Record<string, string> = {
+  glossy: "Finish: high-gloss glassy topcoat with a wet-look shine.",
+  matte: "Finish: flat matte finish, no shine, soft velvety surface.",
+  glass: "Finish: sheer translucent jelly/glass finish, candy-like see-through layers.",
+  chrome: "Finish: mirror chrome metallic finish with reflective foil.",
+};
+const FEEL_CLAUSES: Record<string, string> = {
+  masculine:
+    "Lean masculine — muted or darker palette, clean geometric or minimal motifs, restrained embellishment.",
+  feminine:
+    "Lean feminine — soft pastel or warm palette, floral, heart or bow motifs, dainty embellishment.",
+};
+const OCCASION_CLAUSES: Record<string, string> = {
+  daylight: "Everyday daytime mood — natural, soft, understated tones.",
+  nightlife:
+    "Going-out night mood — bold and high-shine, metallic or glitter accents, deeper or neon tones.",
+};
+
+// Detail + Interpretation REPLACE a segment of the canonical prompt. The default
+// key reproduces the current production wording verbatim (regression-locked).
+const INTERPRETATION_SEGMENTS: Record<string, string> = {
+  abstract:
+    "translate it into a simplified, slightly abstract design — bold shapes, clean color blocks " +
+    "and loose, organic brushwork a nail artist could realistically paint by hand, not a photographic copy",
+  balanced:
+    "render a recognizable interpretation — keep the key colors and main motifs of the inspiration " +
+    "clearly, stylized for hand-painting",
+  literal:
+    "render a faithful reproduction — reproduce the inspiration's actual imagery, colors and details " +
+    "as closely as a skilled nail artist can hand-paint",
+};
+const EMBELLISHMENT_SEGMENTS: Record<string, string> = {
+  balanced:
+    "Build the look from paint plus mixed-media embellishments: a few rhinestones or gems, tiny pearls, " +
+    "gold-foil flakes, small charms and little decals/stickers, placed tastefully as accents on 2-4 nails " +
+    "with the rest kept simpler.",
+  minimal: "Build the look from paint only — no 3D embellishments, clean and understated across all nails.",
+  loaded:
+    "Build the look maximally — rich 3D embellishment (gems, pearls, charms, gold-foil flakes, " +
+    "decals/stickers) across most nails, layered and ornate.",
+};
+
+/** Resolve an appended clause; empty string when neutral/unknown. */
+function styleClause(map: Record<string, string>, value?: string): string {
+  const k = value?.trim().toLowerCase();
+  return (k && map[k]) || "";
+}
+/** Resolve a replaceable segment; falls back to the default key when neutral/unknown. */
+function styleSegment(map: Record<string, string>, value: string | undefined, fallbackKey: string): string {
+  const k = value?.trim().toLowerCase();
+  return (k && map[k]) || map[fallbackKey] || "";
+}
 
 /**
  * Reduce an untrusted note to a short, safe aesthetic aside: single line, no
@@ -67,16 +128,25 @@ export function buildPrompts(input: PromptInput): DesignPrompt[] {
   const note = noteClause(input.note);
 
   // slot 0 — canonical, artisan hand-painted design in the brand flat-lay style.
+  // Interpretation + embellishment are replaceable segments (defaults = today's
+  // wording); finish/feel/occasion append clauses only when non-neutral.
+  const interpretationSeg = styleSegment(INTERPRETATION_SEGMENTS, input.interpretation, "abstract");
+  const embellishmentSeg = styleSegment(EMBELLISHMENT_SEGMENTS, input.detail, "balanced");
+  const styleClauses = [
+    styleClause(FINISH_CLAUSES, input.finish),
+    styleClause(FEEL_CLAUSES, input.feel),
+    styleClause(OCCASION_CLAUSES, input.occasion),
+  ]
+    .filter(Boolean)
+    .map((c) => ` ${c}`)
+    .join("");
+
   const flatlay =
     `Match the styling of the second reference image exactly: a full set of 10 short ${shape} ` +
     `press-on nails graded by size, arranged in the same diagonal flat-lay on a pale blue-grey ` +
     `seamless background, soft even studio lighting, gentle shadows, no hand, photoreal, 2k. ` +
     `Interpret the first reference (${ref}) as an artisan, 100% hand-painted nail-art set: ` +
-    `translate it into a simplified, slightly abstract design — bold shapes, clean color blocks ` +
-    `and loose, organic brushwork a nail artist could realistically paint by hand, not a ` +
-    `photographic copy. Build the look from paint plus mixed-media embellishments: a few ` +
-    `rhinestones or gems, tiny pearls, gold-foil flakes, small charms and little decals/stickers, ` +
-    `placed tastefully as accents on 2-4 nails with the rest kept simpler.${note} Keep the layout, ` +
+    `${interpretationSeg}. ${embellishmentSeg}${styleClauses}${note} Keep the layout, ` +
     `background and lighting identical to the second reference; change ONLY the nail art. ${NEGATIVE}`;
 
   // slot 1 — the SAME design, worn on a realistic hand (refs: slot 0 output only).
