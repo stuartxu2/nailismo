@@ -129,7 +129,7 @@ struct CustomizeResultView: View {
         VStack(spacing: 12) {
             Text("🫶").font(.system(size: 44))
             Text("That render didn't work out.").font(.display(20)).foregroundStyle(Candy.ink)
-            Text("Your $2 deposit's been refunded — no charge unless you love it. Try again with another pic!")
+            Text("That one flopped on our end, so your $2's been refunded. Try again with another pic!")
                 .font(.bodyFont(14)).foregroundStyle(Candy.subtle).multilineTextAlignment(.center)
             CandyButton(title: "Start a new design", variant: .pop) { store.reset() }.frame(maxWidth: 240)
         }

@@ -14,6 +14,7 @@ struct CustomizeIntakeView: View {
     @State private var shape = "Almond"
     @State private var note = ""
     @State private var email = ""
+    @State private var agreed = false
     @State private var showCamera = false
     @State private var photoItem: PhotosPickerItem?
 
@@ -52,17 +53,19 @@ struct CustomizeIntakeView: View {
                     Text(error).font(.bodyFont(13, .semibold)).foregroundStyle(Color(hex: "C0392B"))
                 }
 
+                agreementRow
+
                 CandyButton(title: store.phase == .uploading ? "Starting…" : "Preview my design — $2", variant: .pop) {
-                    guard let image, store.phase == .intake else { return }
+                    guard let image, agreed, store.phase == .intake else { return }
                     let dataURL = "data:image/jpeg;base64," + (image.processedForScan().jpegData(compressionQuality: 0.72)?.base64EncodedString() ?? "")
                     Task {
                         await store.beginPayment(imageDataURL: dataURL, shape: "\(length) \(shape)", note: note, email: email)
                     }
                 }
-                .disabled(image == nil || store.phase == .uploading)
-                .opacity(image == nil || store.phase == .uploading ? 0.45 : 1)
+                .disabled(image == nil || !agreed || store.phase == .uploading)
+                .opacity(image == nil || !agreed || store.phase == .uploading ? 0.45 : 1)
 
-                Text("Not a fee — a $2 deposit, credited to your order 💸")
+                Text("Credited to your $69 order at checkout 💸")
                     .font(.bodyFont(12, .bold)).foregroundStyle(Candy.subtle)
                     .frame(maxWidth: .infinity, alignment: .center)
 
@@ -82,6 +85,36 @@ struct CustomizeIntakeView: View {
                 }
                 photoItem = nil
             }
+        }
+    }
+
+    private var agreementText: AttributedString {
+        let md = "I understand the **$2 covers AI processing** (Gemini 3 Pro Image) and comes off my $69 order. If I'm really unhappy with my design, I'll email [hello@nailismo.com](mailto:hello@nailismo.com)."
+        return (try? AttributedString(markdown: md)) ?? AttributedString(md)
+    }
+
+    private var agreementRow: some View {
+        HStack(alignment: .top, spacing: 11) {
+            Button { agreed.toggle() } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(agreed ? Candy.pop : Candy.surface)
+                        .frame(width: 26, height: 26)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(agreed ? Candy.pop : Candy.ink, lineWidth: 2.5))
+                    if agreed {
+                        Image(systemName: "checkmark").font(.system(size: 13, weight: .black)).foregroundStyle(Candy.onPop)
+                    }
+                }
+            }
+            .buttonStyle(PressableStyle())
+            .accessibilityLabel("I agree to the $2 AI processing terms")
+            .accessibilityAddTraits(agreed ? [.isSelected] : [])
+
+            Text(agreementText)
+                .font(.bodyFont(13, .semibold)).foregroundStyle(Candy.subtle)
+                .tint(Candy.ink)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

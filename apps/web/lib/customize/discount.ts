@@ -22,7 +22,7 @@ type CreateResult = {
   discountCodeBasicCreate: { userErrors: Array<{ message: string }> };
 };
 
-export async function mintDepositCode(sessionId: string): Promise<string> {
+export async function mintDepositCode(sessionId: string, amountDollars = 2): Promise<string> {
   const code = depositCodeFor(sessionId);
   const data = await adminFetch<CreateResult>(CREATE, {
     basicCodeDiscount: {
@@ -36,7 +36,7 @@ export async function mintDepositCode(sessionId: string): Promise<string> {
       // this (single-use) code.
       customerSelection: { all: true },
       customerGets: {
-        value: { discountAmount: { amount: "2.0", appliesOnEachItem: false } },
+        value: { discountAmount: { amount: amountDollars.toFixed(2), appliesOnEachItem: false } },
         items: { products: { productsToAdd: [CUSTOM_PRODUCT_ID] } },
       },
     },

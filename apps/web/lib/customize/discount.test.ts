@@ -24,8 +24,16 @@ describe("mintDepositCode", () => {
     expect(code).toMatch(/^C2O-/);
     expect(input.code).toBe(code);
     expect(input.usageLimit).toBe(1);
-    expect(input.customerGets.value.discountAmount.amount).toBe("2.0");
+    expect(input.customerGets.value.discountAmount.amount).toBe("2.00");
     expect(input.customerGets.items.products.productsToAdd).toEqual([CUSTOM_PRODUCT_ID]);
+  });
+
+  it("credits a custom amount when the preview was discounted", async () => {
+    adminFetch.mockResolvedValueOnce({ discountCodeBasicCreate: { userErrors: [] } });
+    await mintDepositCode("sess-1", 1);
+    expect(adminFetch.mock.calls[0][1].basicCodeDiscount.customerGets.value.discountAmount.amount).toBe(
+      "1.00",
+    );
   });
 
   it("tolerates a 'code taken' re-mint (idempotent)", async () => {

@@ -12,7 +12,7 @@ struct CustomizePayView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Eyebrow("hold your spot")
-            Text("$2 deposit — you get it back 💸")
+            Text("$2 to generate — credited to your set 💸")
                 .font(.display(26)).foregroundStyle(Candy.ink)
                 .fixedSize(horizontal: false, vertical: true)
             Text("Credited straight to your $69 set when you order.")
