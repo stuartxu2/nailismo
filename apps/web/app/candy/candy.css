@@ -403,6 +403,13 @@
   transition: opacity .55s ease, visibility 0s;
 }
 .candy-hero-wairo { background: linear-gradient(158deg, #F3EDE3 0%, var(--cotton) 68%); }
+/* Customize slide: lime "studio glow" top-right, fading into the page pink —
+   a fresh, made-to-order signal distinct from the warm Wairo gradient. */
+.candy-hero-customize {
+  background:
+    radial-gradient(120% 130% at 100% 0%, rgba(159, 237, 64, 0.22), transparent 56%),
+    linear-gradient(202deg, #FFFFFF 0%, var(--cotton) 72%);
+}
 .candy-hero-dots {
   position: absolute; z-index: 3; left: 50%; bottom: 16px; transform: translateX(-50%);
   display: inline-flex; gap: 10px; padding: 8px 12px; border-radius: 999px;

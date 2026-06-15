@@ -9,13 +9,15 @@ function src(path: string): string {
   return path.startsWith("http") ? path : encodeURI(path);
 }
 
-const SLIDES = ["candy", "wairo"] as const;
+const SLIDES = ["candy", "wairo", "customize"] as const;
+const DOT_LABELS = ["Press on, show off", "Wairo 和色", "Customize to order"] as const;
 const ADVANCE_MS = 7000;
 
-/* Two-up hero carousel: the evergreen candy intro + a feature slide for the
-   新 Wairo 和色 matte series. Crossfades via opacity (grid-stacked so the tallest
-   slide sets the height — no layout jump). Auto-advances unless the user hovers,
-   focuses inside, or has prefers-reduced-motion set. */
+/* Three-up hero carousel: the evergreen candy intro, a feature slide for the
+   新 Wairo 和色 matte series, and the Customize-to-order AI studio. Crossfades via
+   opacity (grid-stacked so the tallest slide sets the height — no layout jump).
+   Auto-advances unless the user hovers, focuses inside, or has
+   prefers-reduced-motion set. */
 export function HeroSlider() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -161,6 +163,59 @@ export function HeroSlider() {
         </div>
       </section>
 
+      {/* ---- slide 3: Customize to order (AI studio) ---- */}
+      <section
+        className={`candy-hero-slide candy-hero-customize ${active === 2 ? "is-active" : ""}`}
+        aria-hidden={active !== 2}
+        aria-roledescription="slide"
+        aria-label="Customize to order — your idea, made real"
+        style={{ position: "relative", overflow: "hidden" }}
+      >
+        <div className="candy-blob" style={{ width: 360, height: 360, background: "var(--bubblegum)", top: -90, right: -60 }} />
+        <div className="candy-blob" style={{ width: 280, height: 280, background: "var(--soda)", bottom: -50, left: -50, animationDelay: "-5s" }} />
+        <div className="candy-blob" style={{ width: 220, height: 220, background: "var(--marshmallow)", top: 90, left: "40%", animationDelay: "-8s" }} />
+
+        <div className="candy-wrap" style={{ position: "relative", zIndex: 2, paddingBlock: "clamp(48px, 7vw, 96px)" }}>
+          <div style={{ display: "grid", gap: 40, gridTemplateColumns: "1fr", alignItems: "center" }} className="candy-hero-grid">
+            <div className="candy-rise">
+              <span className="candy-eyebrow">New · Customize to order</span>
+              <h2 style={{ fontSize: "clamp(48px, 8.4vw, 96px)", marginTop: 16 }}>
+                Dream it up.<br />
+                <span style={{ color: "var(--bubblegum-d)" }}>We</span>{" "}
+                <span style={{ color: "var(--grape)" }}>make it.</span>
+              </h2>
+              <p style={{ fontSize: "clamp(17px, 2.2vw, 21px)", fontWeight: 700, color: "var(--ink-soft)", maxWidth: 470, marginTop: 18 }}>
+                Upload any inspo — our studio designs <strong style={{ color: "var(--ink)" }}>one custom set, shown 3 ways</strong>, in about a minute. Love it? We hand-paint it for your nails. Just $2 to preview.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 30 }}>
+                <Link href="/customize" className="candy-btn" tabIndex={active === 2 ? 0 : -1}>
+                  Design My Set <span className="pop" aria-hidden>✨</span>
+                </Link>
+                <Link href="/fit" className="candy-btn is-ghost" tabIndex={active === 2 ? 0 : -1}>Find My Size</Link>
+              </div>
+            </div>
+
+            <div style={{ position: "relative", minHeight: 420 }} className="candy-hero-art">
+              <div className="candy-float d1" style={{ ["--rot" as string]: "-9deg", position: "absolute", bottom: -6, left: "30%", width: "34%", maxWidth: 150, zIndex: 1 }}>
+                <HeroTile img="/images/listing/black and white press on nails.avif" alt="Hand-painted black-and-white graphic press-on nail set" border="var(--grape)" />
+              </div>
+              <div className="candy-float d3" style={{ ["--rot" as string]: "6deg", position: "absolute", top: 0, right: "-1%", width: "46%", maxWidth: 218, zIndex: 2 }}>
+                <HeroTile img="/images/listing/deep end press on nails model.avif" alt="Model wearing a custom-designed Nailismo press-on set" border="var(--soda)" />
+              </div>
+              <div className="candy-float d1" style={{ ["--rot" as string]: "7deg", position: "absolute", top: "58%", right: "-1%", width: "34%", maxWidth: 148, zIndex: 2 }}>
+                <HeroTile img="/images/listing/amber and gold press on nails.avif" alt="Warm amber and gold embellished press-on nail set" border="var(--lemon)" />
+              </div>
+              <div className="candy-float d2" style={{ ["--rot" as string]: "-4deg", position: "absolute", top: 44, left: "1%", width: "52%", maxWidth: 256, zIndex: 3 }}>
+                <HeroTile img="/images/website/customize-lime-slate.avif" alt="Custom-designed press-on set in lime and slate hand-painted art" border="var(--bubblegum)" />
+              </div>
+              <span className="candy-sticker is-gum candy-float" style={{ position: "absolute", top: 6, left: "26%", zIndex: 5, fontSize: 14 }}>
+                Made just for you ✨
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ---- dots ---- */}
       <div className="candy-hero-dots" role="tablist" aria-label="Choose slide">
         {SLIDES.map((s, i) => (
@@ -169,7 +224,7 @@ export function HeroSlider() {
             type="button"
             role="tab"
             aria-selected={active === i}
-            aria-label={i === 0 ? "Press on, show off" : "Wairo 和色"}
+            aria-label={DOT_LABELS[i]}
             className={`candy-hero-dot ${active === i ? "is-active" : ""}`}
             onClick={() => go(i)}
           />
