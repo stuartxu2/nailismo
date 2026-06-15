@@ -3,7 +3,12 @@ import PhotosUI
 import UIKit
 
 private let LENGTHS = ["Short", "Medium", "Long"]
-private let SHAPES = ["Almond", "Coffin", "Square", "Round"]
+private let SHAPES = ["Almond", "Squoval", "Square", "Oval", "Round", "Coffin"]
+private let FINISHES = ["Any", "Glossy", "Matte", "Glass", "Chrome"]
+private let FEELS = ["Neutral", "Masculine", "Feminine"]
+private let OCCASIONS = ["Any", "Daylight", "Nightlife"]
+private let DETAILS = ["Balanced", "Minimal", "Loaded"]
+private let INTERPRETATIONS = ["Abstract", "Balanced", "Literal"]
 
 struct CustomizeIntakeView: View {
     @Environment(CustomizeStore.self) private var store
@@ -12,6 +17,11 @@ struct CustomizeIntakeView: View {
     @State private var image: UIImage?
     @State private var length = "Medium"
     @State private var shape = "Almond"
+    @State private var finish = "Any"
+    @State private var feel = "Neutral"
+    @State private var occasion = "Any"
+    @State private var detail = "Balanced"
+    @State private var interpretation = "Abstract"
     @State private var note = ""
     @State private var email = ""
     @State private var agreed = false
@@ -45,6 +55,11 @@ struct CustomizeIntakeView: View {
 
                 chips(title: "Nail length", options: LENGTHS, selection: $length)
                 chips(title: "Shape", options: SHAPES, selection: $shape)
+                chips(title: "Finish", options: FINISHES, selection: $finish)
+                chips(title: "Feel", options: FEELS, selection: $feel)
+                chips(title: "Occasion", options: OCCASIONS, selection: $occasion)
+                chips(title: "Detail", options: DETAILS, selection: $detail)
+                chips(title: "Interpretation", options: INTERPRETATIONS, selection: $interpretation)
 
                 field(label: "Anything to add? (optional)", text: $note, placeholder: "e.g. matte finish, gold accents")
                 field(label: "Email (so we can save your designs)", text: $email, placeholder: "you@email.com", keyboard: .emailAddress)
@@ -59,7 +74,19 @@ struct CustomizeIntakeView: View {
                     guard let image, agreed, store.phase == .intake else { return }
                     let dataURL = "data:image/jpeg;base64," + (image.processedForScan().jpegData(compressionQuality: 0.72)?.base64EncodedString() ?? "")
                     Task {
-                        await store.beginPayment(imageDataURL: dataURL, shape: "\(length) \(shape)", note: note, email: email)
+                        await store.beginPayment(
+                            imageDataURL: dataURL,
+                            shape: "\(length) \(shape)",
+                            note: note,
+                            email: email,
+                            style: [
+                                "finish": finish.lowercased(),
+                                "feel": feel.lowercased(),
+                                "occasion": occasion.lowercased(),
+                                "detail": detail.lowercased(),
+                                "interpretation": interpretation.lowercased(),
+                            ]
+                        )
                     }
                 }
                 .disabled(image == nil || !agreed || store.phase == .uploading)
@@ -141,17 +168,19 @@ struct CustomizeIntakeView: View {
     private func chips(title: String, options: [String], selection: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Eyebrow(title)
-            HStack(spacing: 8) {
-                ForEach(options, id: \.self) { o in
-                    let active = selection.wrappedValue == o
-                    Button { selection.wrappedValue = o } label: {
-                        Text(o).font(.bodyFont(13, .bold))
-                            .foregroundStyle(active ? Candy.onPop : Candy.ink)
-                            .padding(.horizontal, 14).padding(.vertical, 9)
-                            .background(active ? Candy.pop : Candy.surface, in: Capsule())
-                            .overlay(Capsule().stroke(active ? Candy.pop : Candy.border, lineWidth: 1.5))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(options, id: \.self) { o in
+                        let active = selection.wrappedValue == o
+                        Button { selection.wrappedValue = o } label: {
+                            Text(o).font(.bodyFont(13, .bold))
+                                .foregroundStyle(active ? Candy.onPop : Candy.ink)
+                                .padding(.horizontal, 14).padding(.vertical, 9)
+                                .background(active ? Candy.pop : Candy.surface, in: Capsule())
+                                .overlay(Capsule().stroke(active ? Candy.pop : Candy.border, lineWidth: 1.5))
+                        }
+                        .buttonStyle(PressableStyle())
                     }
-                    .buttonStyle(PressableStyle())
                 }
             }
         }

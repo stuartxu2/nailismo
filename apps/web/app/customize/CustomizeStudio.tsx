@@ -8,7 +8,12 @@ import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "");
 
 const LENGTHS = ["Short", "Medium", "Long"] as const;
-const SHAPES = ["Almond", "Coffin", "Square", "Round"] as const;
+const SHAPES = ["Almond", "Squoval", "Square", "Oval", "Round", "Coffin"] as const;
+const FINISHES = ["Any", "Glossy", "Matte", "Glass", "Chrome"] as const;
+const FEELS = ["Neutral", "Masculine", "Feminine"] as const;
+const OCCASIONS = ["Any", "Daylight", "Nightlife"] as const;
+const DETAILS = ["Balanced", "Minimal", "Loaded"] as const;
+const INTERPRETATIONS = ["Abstract", "Balanced", "Literal"] as const;
 
 const STEPS = [
   ["📸", "Upload your inspo", "Any pic — a photo, a pattern, a vibe."],
@@ -36,6 +41,11 @@ export default function CustomizeStudio() {
   const [preview, setPreview] = useState<string | null>(null);
   const [length, setLength] = useState<(typeof LENGTHS)[number]>("Medium");
   const [shape, setShape] = useState<(typeof SHAPES)[number]>("Almond");
+  const [finish, setFinish] = useState<(typeof FINISHES)[number]>("Any");
+  const [feel, setFeel] = useState<(typeof FEELS)[number]>("Neutral");
+  const [occasion, setOccasion] = useState<(typeof OCCASIONS)[number]>("Any");
+  const [detail, setDetail] = useState<(typeof DETAILS)[number]>("Balanced");
+  const [interpretation, setInterpretation] = useState<(typeof INTERPRETATIONS)[number]>("Abstract");
   const [note, setNote] = useState("");
   const [email, setEmail] = useState("");
   const [promo, setPromo] = useState("");
@@ -66,7 +76,17 @@ export default function CustomizeStudio() {
       const up = await fetch("/api/customize/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: preview, shape: `${length} ${shape}`, note, email }),
+        body: JSON.stringify({
+          image: preview,
+          shape: `${length} ${shape}`,
+          note,
+          email,
+          finish: finish.toLowerCase(),
+          feel: feel.toLowerCase(),
+          occasion: occasion.toLowerCase(),
+          detail: detail.toLowerCase(),
+          interpretation: interpretation.toLowerCase(),
+        }),
       });
       if (!up.ok) throw new Error("Upload hiccup — please retry.");
       const { sessionId: sid } = (await up.json()) as { sessionId: string };
@@ -216,6 +236,26 @@ export default function CustomizeStudio() {
               <div style={{ marginTop: 18 }}>
                 <span className="candy-label">Shape</span>
                 <ChipRow options={SHAPES} value={shape} onChange={setShape} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <span className="candy-label">Finish</span>
+                <ChipRow options={FINISHES} value={finish} onChange={setFinish} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <span className="candy-label">Feel</span>
+                <ChipRow options={FEELS} value={feel} onChange={setFeel} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <span className="candy-label">Occasion</span>
+                <ChipRow options={OCCASIONS} value={occasion} onChange={setOccasion} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <span className="candy-label">Detail</span>
+                <ChipRow options={DETAILS} value={detail} onChange={setDetail} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <span className="candy-label">Interpretation</span>
+                <ChipRow options={INTERPRETATIONS} value={interpretation} onChange={setInterpretation} />
               </div>
               <div style={{ marginTop: 18 }}>
                 <label className="candy-label" htmlFor="c2o-note">

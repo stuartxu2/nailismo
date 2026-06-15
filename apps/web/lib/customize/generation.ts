@@ -43,6 +43,11 @@ export async function startGeneration(sessionId: string): Promise<void> {
     referenceDescriptor: session.referenceDescriptor ?? "",
     shape: session.shape,
     note: session.note,
+    finish: session.finish,
+    feel: session.feel,
+    occasion: session.occasion,
+    detail: session.detail,
+    interpretation: session.interpretation,
   });
   const canonical = prompts.find((p) => p.base === "upload")!; // slot 0
   const derived = prompts.filter((p) => p.base === "design"); // slots 1 & 2

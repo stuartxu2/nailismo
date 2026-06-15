@@ -4,7 +4,7 @@ import XCTest
 @MainActor
 final class CustomizeStoreTests: XCTestCase {
     private final class MockClient: CustomizeClienting {
-        func upload(imageDataURL: String, shape: String, note: String?, email: String?) async throws -> UploadResp { UploadResp(sessionId: "s1", uploadUrl: nil) }
+        func upload(imageDataURL: String, shape: String, note: String?, email: String?, style: [String: String]) async throws -> UploadResp { UploadResp(sessionId: "s1", uploadUrl: nil) }
         func intent(sessionId: String) async throws -> IntentResp { IntentResp(clientSecret: "cs") }
         func status(sessionId: String) async throws -> StatusResp { StatusResp(status: "generating", jobs: []) }
         func select(sessionId: String, size: String) async throws -> SelectResp { SelectResp(checkoutUrl: "https://shop/checkout") }

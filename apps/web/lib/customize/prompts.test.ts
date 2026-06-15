@@ -80,3 +80,51 @@ describe("buildPrompts", () => {
     expect(withNote).toContain("add gold accents");
   });
 });
+
+describe("buildPrompts style axes", () => {
+  const input = { referenceDescriptor: "warm coral gradient, palm motifs, tropical mood" };
+
+  it("emits no style clauses by default (regression: matches today)", () => {
+    const flatlay = buildPrompts(input)[0].prompt;
+    expect(flatlay).toMatch(/slightly abstract/);
+    expect(flatlay).toContain("accents on 2-4 nails");
+    expect(flatlay).not.toMatch(/Finish:/);
+    expect(flatlay).not.toMatch(/Lean masculine|Lean feminine/);
+    expect(flatlay).not.toMatch(/daytime mood|night mood/i);
+  });
+
+  it("injects the finish clause when set", () => {
+    expect(buildPrompts({ ...input, finish: "matte" })[0].prompt).toContain("flat matte finish");
+    expect(buildPrompts({ ...input, finish: "Glass" })[0].prompt).toContain("jelly/glass finish");
+  });
+
+  it("injects feel and occasion clauses when set", () => {
+    expect(buildPrompts({ ...input, feel: "masculine" })[0].prompt).toMatch(/Lean masculine/);
+    expect(buildPrompts({ ...input, occasion: "nightlife" })[0].prompt).toMatch(/night mood/i);
+  });
+
+  it("detail replaces the embellishment segment", () => {
+    const minimal = buildPrompts({ ...input, detail: "minimal" })[0].prompt;
+    expect(minimal).toContain("paint only");
+    expect(minimal).not.toContain("rhinestones");
+    expect(buildPrompts({ ...input, detail: "loaded" })[0].prompt).toMatch(/maximally/i);
+  });
+
+  it("interpretation replaces the abstract segment", () => {
+    const literal = buildPrompts({ ...input, interpretation: "literal" })[0].prompt;
+    expect(literal).toContain("faithful reproduction");
+    expect(literal).not.toMatch(/slightly abstract/);
+  });
+
+  it("never leaks style steering into the derived views", () => {
+    const [, hand, pkg] = buildPrompts({ ...input, finish: "matte", feel: "masculine", detail: "loaded" });
+    expect(hand.prompt).not.toMatch(/Finish:|Lean masculine|maximally/i);
+    expect(pkg.prompt).not.toMatch(/Finish:|Lean masculine|maximally/i);
+  });
+
+  it("treats unknown/neutral values as the default", () => {
+    expect(buildPrompts({ ...input, finish: "any", feel: "neutral" })[0].prompt).not.toMatch(/Finish:/);
+    expect(buildPrompts({ ...input, interpretation: "abstract" })[0].prompt).toMatch(/slightly abstract/);
+    expect(buildPrompts({ ...input, detail: "balanced" })[0].prompt).toContain("accents on 2-4 nails");
+  });
+});
