@@ -8,6 +8,7 @@ private enum SortOrder: String, CaseIterable {
 }
 
 struct ShopView: View {
+    var onSelectTab: (Tab) -> Void = { _ in }
     @Environment(CatalogStore.self) private var catalog
     @Environment(CartStore.self) private var cart
     @Environment(AppRouter.self) private var router
@@ -54,6 +55,22 @@ struct ShopView: View {
                         chips(title: nil, items: SortOrder.allCases.map(\.rawValue), selected: sort.rawValue) { raw in
                             if let s = SortOrder(rawValue: raw) { sort = s }
                         }
+
+                        Button { onSelectTab(.customize) } label: {
+                            HStack(spacing: 12) {
+                                Text("✨").font(.system(size: 22))
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Customize to order").font(.bodyFont(15, .bold)).foregroundStyle(Candy.ink)
+                                    Text("Upload inspo → one custom set, 3 ways").font(.bodyFont(12)).foregroundStyle(Candy.subtle)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold)).foregroundStyle(Candy.border)
+                            }
+                            .padding(14)
+                            .background(Candy.surface, in: RoundedRectangle(cornerRadius: Radius.lg))
+                            .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Candy.border, lineWidth: 1))
+                        }
+                        .buttonStyle(.plain)
 
                         if catalog.products.isEmpty {
                             if let error = catalog.errorMessage {

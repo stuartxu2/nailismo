@@ -5,6 +5,10 @@ options:
     iOS: "17.0"
   createIntermediateGroups: true
   generateEmptyDirectories: true
+packages:
+  Stripe:
+    url: https://github.com/stripe/stripe-ios
+    from: 24.0.0
 settings:
   base:
     MARKETING_VERSION: "1.0"
@@ -36,3 +40,31 @@ targets:
         # Pass 1 verifies via the simulator, which needs no signing.
         CODE_SIGNING_ALLOWED: NO
         CODE_SIGNING_REQUIRED: NO
+    dependencies:
+      - package: Stripe
+        product: StripePaymentSheet
+
+  NailismoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: NailismoTests
+    dependencies:
+      - target: Nailismo
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nailismo.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+
+schemes:
+  Nailismo:
+    build:
+      targets:
+        Nailismo: all
+    test:
+      targets:
+        - NailismoTests
+    run:
+      config: Debug

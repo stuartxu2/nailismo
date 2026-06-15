@@ -27,9 +27,10 @@ export function stripe(): Stripe {
  */
 export async function createDepositIntent(
   sessionId: string,
+  amountCents: number = DEPOSIT_AMOUNT_CENTS,
 ): Promise<{ clientSecret: string; paymentIntentId: string }> {
   const pi = await stripe().paymentIntents.create({
-    amount: DEPOSIT_AMOUNT_CENTS,
+    amount: amountCents,
     currency: "usd",
     description: "Nailismo Customize-to-Order design deposit",
     metadata: { sessionId },
@@ -37,6 +38,12 @@ export async function createDepositIntent(
   });
   if (!pi.client_secret) throw new Error("PaymentIntent missing client_secret");
   return { clientSecret: pi.client_secret, paymentIntentId: pi.id };
+}
+
+/** Cents actually captured for a deposit PaymentIntent — drives the checkout credit. */
+export async function depositAmountPaid(paymentIntentId: string): Promise<number> {
+  const pi = await stripe().paymentIntents.retrieve(paymentIntentId);
+  return pi.amount_received ?? 0;
 }
 
 /** Refund the $2 deposit (used when all 3 generations fail). */

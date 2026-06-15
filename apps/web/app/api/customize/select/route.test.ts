@@ -5,10 +5,12 @@ const { getSession, upsertSession } = vi.hoisted(() => ({
   upsertSession: vi.fn(),
 }));
 const { mintDepositCode } = vi.hoisted(() => ({ mintDepositCode: vi.fn() }));
+const { depositAmountPaid } = vi.hoisted(() => ({ depositAmountPaid: vi.fn() }));
 const { createCustomCheckout } = vi.hoisted(() => ({ createCustomCheckout: vi.fn() }));
 
 vi.mock("@/lib/customize/session", () => ({ getSession, upsertSession }));
 vi.mock("@/lib/customize/discount", () => ({ mintDepositCode }));
+vi.mock("@/lib/customize/stripe", () => ({ depositAmountPaid }));
 vi.mock("@/lib/customize/checkout", () => ({ createCustomCheckout }));
 
 import { POST } from "./route";
@@ -30,6 +32,7 @@ beforeEach(() => {
   getSession.mockReset();
   upsertSession.mockReset();
   mintDepositCode.mockReset();
+  depositAmountPaid.mockReset();
   createCustomCheckout.mockReset();
 });
 
@@ -51,8 +54,9 @@ describe("POST /api/customize/select", () => {
     expect((await POST(req({ sessionId: "s", size: "S" }))).status).toBe(400);
   });
 
-  it("mints a code, records the order, returns the checkout URL (canonical design)", async () => {
+  it("credits the full $2 paid, records the order, returns the checkout URL (canonical design)", async () => {
     getSession.mockResolvedValueOnce(READY);
+    depositAmountPaid.mockResolvedValueOnce(200);
     mintDepositCode.mockResolvedValueOnce("C2O-XYZ");
     createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/abc");
 
@@ -60,6 +64,7 @@ describe("POST /api/customize/select", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ checkoutUrl: "https://shop/checkout/abc" });
 
+    expect(mintDepositCode).toHaveBeenCalledWith("s1", 2);
     expect(upsertSession).toHaveBeenCalledWith({
       sessionId: "s1",
       selectedIndex: 0,
@@ -71,6 +76,27 @@ describe("POST /api/customize/select", () => {
     expect(arg.discountCode).toBe("C2O-XYZ");
     expect(arg.attributes).toContainEqual({ key: "_design_url", value: "https://blob/0.png" });
     expect(arg.attributes).toContainEqual({ key: "_payment_intent", value: "pi_1" });
+  });
+
+  it("credits only what was paid for a discounted preview ($1)", async () => {
+    getSession.mockResolvedValueOnce(READY);
+    depositAmountPaid.mockResolvedValueOnce(100);
+    mintDepositCode.mockResolvedValueOnce("C2O-HALF");
+    createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/half");
+    await POST(req({ sessionId: "s1", size: "S" }));
+    expect(mintDepositCode).toHaveBeenCalledWith("s1", 1);
+  });
+
+  it("mints no credit for a comped (free) preview — no PaymentIntent, full $69", async () => {
+    getSession.mockResolvedValueOnce({
+      status: "ready",
+      jobs: [{ seed: 101, status: "ready", resultUrl: "https://blob/0.png" }],
+    });
+    createCustomCheckout.mockResolvedValueOnce("https://shop/checkout/free");
+    await POST(req({ sessionId: "s1", size: "S" }));
+    expect(depositAmountPaid).not.toHaveBeenCalled();
+    expect(mintDepositCode).not.toHaveBeenCalled();
+    expect(createCustomCheckout.mock.calls[0][0].discountCode).toBeUndefined();
   });
 
   it("uses the first ready view as the design when slot 0 failed", async () => {

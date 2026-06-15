@@ -83,7 +83,7 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
       <Centered
         emoji="🫶"
         title="That render didn't work out."
-        body="Your $2 deposit's been refunded — no charge unless you love it. Try again with another pic!"
+        body="That one flopped on our end, so your $2's been refunded. Try again with another pic!"
       />
     );
   }
