@@ -123,7 +123,7 @@ export async function sendDesignsReady(opts: {
   const html = `
   <div style="max-width:520px;margin:0 auto;font-family:system-ui,sans-serif;color:#111">
     <h1 style="font-size:24px">Your custom nail designs are ready ✨</h1>
-    <p>We turned your inspo into 3 looks. Tap below to view them and finish your order.</p>
+    <p>We turned your inspo into one custom set — here it is 3 ways. Tap below to view it and finish your order.</p>
     <div style="text-align:center;margin:18px 0">${thumbs}</div>
     <div style="text-align:center;margin:24px 0">${button(opts.loginUrl, "View &amp; finish your order")}</div>
     <p style="color:#555;font-size:14px">Your <strong>$2 deposit is already credited</strong> — you’ll pay $67 for your $69 custom set. This link also signs you in to see all your designs anytime.</p>
