@@ -31,6 +31,12 @@ export type CustomizeSession = {
   referenceDescriptor?: string;
   shape?: string;
   note?: string;
+  /** Optional style axes (lowercase keys); unset/neutral → today's defaults. */
+  finish?: string;
+  feel?: string;
+  occasion?: string;
+  detail?: string;
+  interpretation?: string;
   paymentIntentId?: string;
   jobs?: DesignJob[];
   selectedIndex?: number;

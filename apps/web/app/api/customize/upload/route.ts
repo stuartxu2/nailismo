@@ -23,7 +23,17 @@ export async function POST(req: Request): Promise<Response> {
     return Response.json({ error: "rate limited" }, { status: 429 });
   }
 
-  let body: { image?: unknown; shape?: unknown; note?: unknown; email?: unknown };
+  let body: {
+    image?: unknown;
+    shape?: unknown;
+    note?: unknown;
+    email?: unknown;
+    finish?: unknown;
+    feel?: unknown;
+    occasion?: unknown;
+    detail?: unknown;
+    interpretation?: unknown;
+  };
   try {
     body = (await req.json()) as typeof body;
   } catch {
@@ -70,6 +80,11 @@ export async function POST(req: Request): Promise<Response> {
     referenceDescriptor,
     shape: asStr(body.shape),
     note: asStr(body.note),
+    finish: asStr(body.finish),
+    feel: asStr(body.feel),
+    occasion: asStr(body.occasion),
+    detail: asStr(body.detail),
+    interpretation: asStr(body.interpretation),
     email: asStr(body.email),
   });
 
