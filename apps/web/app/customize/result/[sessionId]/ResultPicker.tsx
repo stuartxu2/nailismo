@@ -85,6 +85,14 @@ export default function ResultPicker({ sessionId }: { sessionId: string }) {
 
   return (
     <main className="candy-wrap" style={{ paddingBlock: "clamp(40px, 6vw, 88px)" }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8 }}>
+        <a
+          href="/account/designs"
+          style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)", textDecoration: "none" }}
+        >
+          My designs →
+        </a>
+      </div>
       <header style={{ maxWidth: 680 }} className="candy-rise">
         <span className="candy-eyebrow">{ready ? "Pick your favorite" : "Designing"}</span>
         <h1 style={{ fontSize: "clamp(34px, 6.5vw, 64px)", marginTop: 12 }}>
