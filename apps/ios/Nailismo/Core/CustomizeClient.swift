@@ -3,7 +3,7 @@ import UIKit
 // Networking for the Customize flow. A protocol so CustomizeStore can be unit
 // tested with a stub. Live impl mirrors HTTPScanProvider's style.
 protocol CustomizeClienting {
-    func upload(imageDataURL: String, shape: String, note: String?, email: String?) async throws -> UploadResp
+    func upload(imageDataURL: String, shape: String, note: String?, email: String?, style: [String: String]) async throws -> UploadResp
     func intent(sessionId: String) async throws -> IntentResp
     func status(sessionId: String) async throws -> StatusResp
     func select(sessionId: String, size: String) async throws -> SelectResp
@@ -13,10 +13,11 @@ protocol CustomizeClienting {
 struct CustomizeClient: CustomizeClienting {
     private var base: String { "https://\(Config.scanHost)/api/customize" }
 
-    func upload(imageDataURL: String, shape: String, note: String?, email: String?) async throws -> UploadResp {
+    func upload(imageDataURL: String, shape: String, note: String?, email: String?, style: [String: String]) async throws -> UploadResp {
         var body: [String: Any] = ["image": imageDataURL, "shape": shape]
         if let note, !note.isEmpty { body["note"] = note }
         if let email, !email.isEmpty { body["email"] = email }
+        for (k, v) in style where !v.isEmpty { body[k] = v }
         return try await post("\(base)/upload", body: body, timeout: 45)
     }
 

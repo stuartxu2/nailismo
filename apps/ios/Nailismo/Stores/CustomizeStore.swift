@@ -47,12 +47,12 @@ final class CustomizeStore {
 
     /// Upload the reference + create the $2 PaymentIntent. Advances to `.paying`
     /// on success so the view can present the Stripe sheet with `clientSecret`.
-    func beginPayment(imageDataURL: String, shape: String, note: String?, email: String?) async {
+    func beginPayment(imageDataURL: String, shape: String, note: String?, email: String?, style: [String: String]) async {
         guard phase == .intake else { return }
         phase = .uploading
         errorMessage = nil
         do {
-            let up = try await client.upload(imageDataURL: imageDataURL, shape: shape, note: note, email: email)
+            let up = try await client.upload(imageDataURL: imageDataURL, shape: shape, note: note, email: email, style: style)
             let intent = try await client.intent(sessionId: up.sessionId)
             sessionId = up.sessionId
             clientSecret = intent.clientSecret
