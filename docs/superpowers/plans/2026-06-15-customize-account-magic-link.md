@@ -6,7 +6,9 @@
 
 **Architecture:** Stateless HMAC magic-link tokens + signed cookie (no DB). Resend via REST (no new dep) sends the ready-email. A small `customize_account` metaobject indexes email → sessionIds for the aggregate list. Hook fires from `startGeneration` after status→ready; result page stays public/shareable, only `/account/designs` is gated.
 
-**Tech Stack:** Next.js 16 App Router (route handlers, server components, `cookies()` from next/headers, `NextResponse`), Node `crypto` HMAC, Shopify Admin metaobjects (`adminFetch`), Resend REST, Vitest.
+**Tech Stack:** Next.js 16 App Router (route handlers, server components, `cookies()` from next/headers, `NextResponse`), Node `crypto` HMAC, Shopify Admin metaobjects (`adminFetch`), Vitest.
+
+> **Provider note (resolved during build):** Task 4 was planned against Resend, but the supplied key was a **Fastmail JMAP token**, so `email.ts` was implemented against **Fastmail's JMAP API** (session → discover Sent mailbox + identity → `Email/set` + `EmailSubmission/set`) and the env var is **`FASTMAIL_API_TOKEN`** (not `RESEND_API_KEY`). Sender: `hello@nailismo.com`. The Task 4 / Task 8 snippets below show the original Resend wording — the shipped code is Fastmail JMAP.
 
 > **Next 16 caveat (apps/web/AGENTS.md):** APIs differ from training data. Before writing route handlers / `cookies()` usage, skim `node_modules/next/dist/docs/` for the current `cookies()` and Route Handler signatures. `cookies()` is async (`await cookies()`).
 
