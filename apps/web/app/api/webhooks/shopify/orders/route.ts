@@ -8,7 +8,9 @@
 
 import { verifyShopifyHmac } from "@/lib/shopify/webhook-verify";
 import { getSession, transitionSession } from "@/lib/customize/session";
+import { linkShopifyCustomer } from "@/lib/customize/account";
 import { refundDeposit } from "@/lib/customize/stripe";
+import type { CustomizeSession } from "@/lib/customize/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,8 +18,11 @@ export const dynamic = "force-dynamic";
 type OrderProp = { name: string; value: string };
 type OrderLine = { properties?: OrderProp[] };
 type OrderPayload = {
+  id?: number;
+  admin_graphql_api_id?: string;
   line_items?: OrderLine[];
   discount_codes?: Array<{ code?: string }>;
+  customer?: { id?: number; admin_graphql_api_id?: string; email?: string };
 };
 
 function prop(lines: OrderLine[], key: string): string | undefined {
@@ -48,9 +53,30 @@ export async function POST(req: Request): Promise<Response> {
   const session = await getSession(sessionId);
   if (!session) return Response.json({ ok: true });
 
-  // Mark ordered (idempotent: skip if already past selection).
+  // Soft link to Shopify (gids): stamp the session + designs account so a design
+  // can be traced to its order/buyer and vice-versa, without merging logins.
+  const shopifyOrderId =
+    order.admin_graphql_api_id ?? (order.id ? `gid://shopify/Order/${order.id}` : undefined);
+  const shopifyCustomerId =
+    order.customer?.admin_graphql_api_id ??
+    (order.customer?.id ? `gid://shopify/Customer/${order.customer.id}` : undefined);
+
+  // Mark ordered (idempotent: skip if already past selection), stamping the link.
   if (session.status === "selected" || session.status === "ready") {
-    await transitionSession(sessionId, "ordered");
+    const extra: Partial<CustomizeSession> = {};
+    if (shopifyOrderId) extra.shopifyOrderId = shopifyOrderId;
+    if (shopifyCustomerId) extra.shopifyCustomerId = shopifyCustomerId;
+    await transitionSession(sessionId, "ordered", extra);
+  }
+
+  // Tie the email's designs account to its Shopify customer (best-effort).
+  const customerEmail = order.customer?.email ?? session.email;
+  if (shopifyCustomerId && customerEmail) {
+    try {
+      await linkShopifyCustomer(customerEmail, shopifyCustomerId);
+    } catch {
+      // non-critical; the order is already recorded
+    }
   }
 
   // Reconcile the deposit credit: if our code wasn't applied, refund the $2.

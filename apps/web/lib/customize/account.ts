@@ -68,3 +68,21 @@ export async function addSessionToAccount(email: string, sessionId: string): Pro
   const errs = data.metaobjectUpsert.userErrors;
   if (errs.length) throw new Error(`account upsert failed: ${errs.map((e) => e.message).join("; ")}`);
 }
+
+/**
+ * Soft-link the email's designs account to its Shopify customer. Upsert merges,
+ * so `session_ids` is preserved. Idempotent.
+ */
+export async function linkShopifyCustomer(email: string, shopifyCustomerId: string): Promise<void> {
+  const data = await adminFetch<Upsert>(UPSERT, {
+    handle: { type: TYPE, handle: accountHandle(email) },
+    metaobject: {
+      fields: [
+        { key: "email", value: normEmail(email) },
+        { key: "shopify_customer_id", value: shopifyCustomerId },
+      ],
+    },
+  });
+  const errs = data.metaobjectUpsert.userErrors;
+  if (errs.length) throw new Error(`account link failed: ${errs.map((e) => e.message).join("; ")}`);
+}

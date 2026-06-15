@@ -35,4 +35,7 @@ export type CustomizeSession = {
   jobs?: DesignJob[];
   selectedIndex?: number;
   discountCode?: string;
+  /** Soft link to Shopify, stamped from the orders/paid webhook. */
+  shopifyOrderId?: string;
+  shopifyCustomerId?: string;
 };

@@ -68,6 +68,8 @@ export function toFields(s: Partial<CustomizeSession>): MetaobjectField[] {
     fields.push({ key: "selected_index", value: String(s.selectedIndex) });
   }
   put("discount_code", s.discountCode);
+  put("shopify_order_id", s.shopifyOrderId);
+  put("shopify_customer_id", s.shopifyCustomerId);
   return fields;
 }
 
@@ -93,6 +95,8 @@ export function fromFields(fields: MetaobjectReadField[]): CustomizeSession {
     jobs: jobsRaw ? safeParseJobs(jobsRaw) : undefined,
     selectedIndex: idxRaw !== undefined && idxRaw !== "" ? Number(idxRaw) : undefined,
     discountCode: m.get("discount_code"),
+    shopifyOrderId: m.get("shopify_order_id"),
+    shopifyCustomerId: m.get("shopify_customer_id"),
   };
 }
 

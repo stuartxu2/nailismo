@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const { adminFetch } = vi.hoisted(() => ({ adminFetch: vi.fn() }));
 vi.mock("../shopify/admin", () => ({ adminFetch }));
 
-import { accountHandle, addSessionToAccount, listSessionIds } from "./account";
+import { accountHandle, addSessionToAccount, listSessionIds, linkShopifyCustomer } from "./account";
 
 beforeEach(() => {
   process.env.CUSTOMIZE_AUTH_SECRET = "test-secret";
@@ -51,5 +51,20 @@ describe("addSessionToAccount", () => {
     });
     await addSessionToAccount("a@b.com", "s1");
     expect(adminFetch).toHaveBeenCalledTimes(1); // read only, no upsert
+  });
+});
+
+describe("linkShopifyCustomer", () => {
+  it("upserts the email's account with the Shopify customer id (merge preserves ids)", async () => {
+    adminFetch.mockResolvedValueOnce({ metaobjectUpsert: { userErrors: [] } });
+    await linkShopifyCustomer(" Buyer@X.com ", "gid://shopify/Customer/42");
+    const vars = adminFetch.mock.calls[0][1] as {
+      handle: { handle: string };
+      metaobject: { fields: { key: string; value: string }[] };
+    };
+    expect(vars.handle.handle).toBe(accountHandle("buyer@x.com"));
+    const fields = new Map(vars.metaobject.fields.map((f) => [f.key, f.value]));
+    expect(fields.get("shopify_customer_id")).toBe("gid://shopify/Customer/42");
+    expect(fields.get("email")).toBe("buyer@x.com");
   });
 });

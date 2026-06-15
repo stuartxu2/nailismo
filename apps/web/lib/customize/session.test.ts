@@ -68,6 +68,8 @@ describe("toFields / fromFields", () => {
     ],
     selectedIndex: 0,
     discountCode: "C2O-XYZ",
+    shopifyOrderId: "gid://shopify/Order/999",
+    shopifyCustomerId: "gid://shopify/Customer/42",
   };
 
   it("round-trips a full session", () => {
