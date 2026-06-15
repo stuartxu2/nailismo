@@ -7,11 +7,15 @@ const { getSession, upsertSession } = vi.hoisted(() => ({
 const { generateDesign } = vi.hoisted(() => ({ generateDesign: vi.fn() }));
 const { putResult } = vi.hoisted(() => ({ putResult: vi.fn() }));
 const { refundDeposit } = vi.hoisted(() => ({ refundDeposit: vi.fn() }));
+const { addSessionToAccount } = vi.hoisted(() => ({ addSessionToAccount: vi.fn() }));
+const { sendDesignsReady } = vi.hoisted(() => ({ sendDesignsReady: vi.fn() }));
 
 vi.mock("./session", () => ({ getSession, upsertSession }));
 vi.mock("./imagegen", () => ({ generateDesign }));
 vi.mock("./blob", () => ({ putResult }));
 vi.mock("./stripe", () => ({ refundDeposit }));
+vi.mock("./account", () => ({ addSessionToAccount }));
+vi.mock("./email", () => ({ sendDesignsReady }));
 
 import { startGeneration } from "./generation";
 
@@ -30,6 +34,8 @@ beforeEach(() => {
   generateDesign.mockReset();
   putResult.mockReset();
   refundDeposit.mockReset();
+  addSessionToAccount.mockReset();
+  sendDesignsReady.mockReset();
 });
 
 describe("startGeneration", () => {
@@ -112,5 +118,40 @@ describe("startGeneration", () => {
     expect(arg.jobs.every((j: { status: string }) => j.status === "failed")).toBe(true);
     expect(refundDeposit).toHaveBeenCalledWith("pi_1");
     expect(putResult).not.toHaveBeenCalled();
+  });
+
+  it("indexes + emails the customer when ready and an email is present", async () => {
+    getSession.mockResolvedValueOnce({ ...SESSION, email: "buyer@x.com" });
+    generateDesign.mockResolvedValue("data:image/png;base64,QUJD");
+    putResult.mockImplementation(async (_s: string, slot: number) => `https://blob/r${slot}.png`);
+
+    await startGeneration("s1");
+
+    expect(addSessionToAccount).toHaveBeenCalledWith("buyer@x.com", "s1");
+    expect(sendDesignsReady).toHaveBeenCalledTimes(1);
+    const arg = sendDesignsReady.mock.calls[0][0];
+    expect(arg.email).toBe("buyer@x.com");
+    expect(arg.jobs).toHaveLength(3);
+    expect(arg.loginUrl).toContain("/account/verify");
+  });
+
+  it("stays ready even if the email/index step throws", async () => {
+    getSession.mockResolvedValueOnce({ ...SESSION, email: "buyer@x.com" });
+    generateDesign.mockResolvedValue("data:image/png;base64,QUJD");
+    putResult.mockResolvedValue("https://blob/r.png");
+    addSessionToAccount.mockRejectedValueOnce(new Error("shopify down"));
+
+    await startGeneration("s1");
+
+    const arg = upsertSession.mock.calls.at(-1)![0];
+    expect(arg.status).toBe("ready");
+  });
+
+  it("skips email when no email is on the session", async () => {
+    getSession.mockResolvedValueOnce(SESSION); // no email
+    generateDesign.mockResolvedValue("data:image/png;base64,QUJD");
+    putResult.mockResolvedValue("https://blob/r.png");
+    await startGeneration("s1");
+    expect(sendDesignsReady).not.toHaveBeenCalled();
   });
 });

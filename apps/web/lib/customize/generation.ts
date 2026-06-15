@@ -14,6 +14,9 @@ import { generateDesign } from "./imagegen";
 import { putResult } from "./blob";
 import { getSession, upsertSession } from "./session";
 import { refundDeposit } from "./stripe";
+import { addSessionToAccount } from "./account";
+import { sendDesignsReady } from "./email";
+import { magicLinkUrl } from "./auth";
 import type { DesignJob } from "./types";
 
 /** Generate one slot; one silent retry before giving up. Returns a data URL. */
@@ -84,4 +87,19 @@ export async function startGeneration(sessionId: string): Promise<void> {
 
   // Slot 0 is guaranteed ready here, so the session is always usable.
   await upsertSession({ sessionId, jobs, status: "ready" });
+
+  // Deliver: index the session under the customer's email and email them their
+  // designs + a magic link. Best-effort — never flip the session out of ready.
+  if (session.email) {
+    try {
+      await addSessionToAccount(session.email, sessionId);
+      await sendDesignsReady({
+        email: session.email,
+        jobs,
+        loginUrl: magicLinkUrl(session.email, `/customize/result/${sessionId}`),
+      });
+    } catch {
+      // Delivery is non-critical; the result page is still reachable by URL.
+    }
+  }
 }
