@@ -1,22 +1,104 @@
-// Transactional email via Resend's REST API (no SDK dependency). Sends are
+// Transactional email via Fastmail's JMAP API (no SDK dependency). Sends are
 // best-effort: any failure returns false and is swallowed by callers so the
-// generation/critical path is never broken. Server-only (reads RESEND_API_KEY).
+// generation/critical path is never broken. Server-only — reads
+// FASTMAIL_API_TOKEN (a Fastmail JMAP bearer token, `fmu…`).
+//
+// Flow: GET the session (apiUrl + mail accountId) → discover the Sent mailbox +
+// the hello@nailismo.com sending identity → Email/set (create) +
+// EmailSubmission/set (send), chained via a "#" back-reference in one request.
 
 import type { DesignJob } from "./types";
 
-const RESEND_URL = "https://api.resend.com/emails";
-const FROM = "Nailismo <hello@nailismo.com>";
+const SESSION_URL = "https://api.fastmail.com/jmap/session";
+const FROM_EMAIL = "hello@nailismo.com";
+const FROM_NAME = "Nailismo";
+const CAP_MAIL = "urn:ietf:params:jmap:mail";
+const CAP_SUBMISSION = "urn:ietf:params:jmap:submission";
+
+type JmapSession = { apiUrl: string; primaryAccounts: Record<string, string> };
+type JmapResponse = { methodResponses: [string, Record<string, unknown>, string][] };
+
+async function jmapPost(apiUrl: string, token: string, body: unknown): Promise<JmapResponse> {
+  const res = await fetch(apiUrl, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`jmap ${res.status}`);
+  return (await res.json()) as JmapResponse;
+}
 
 async function sendEmail(to: string, subject: string, html: string): Promise<boolean> {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return false;
+  const token = process.env.FASTMAIL_API_TOKEN;
+  if (!token) return false;
   try {
-    const res = await fetch(RESEND_URL, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: [to], subject, html }),
+    const sres = await fetch(SESSION_URL, { headers: { Authorization: `Bearer ${token}` } });
+    if (!sres.ok) return false;
+    const session = (await sres.json()) as JmapSession;
+    const apiUrl = session.apiUrl;
+    const accountId = session.primaryAccounts?.[CAP_MAIL];
+    if (!apiUrl || !accountId) return false;
+
+    // Discover the Sent mailbox + the sending identity.
+    const disc = await jmapPost(apiUrl, token, {
+      using: [CAP_MAIL, CAP_SUBMISSION],
+      methodCalls: [
+        ["Mailbox/get", { accountId, properties: ["role", "name"] }, "0"],
+        ["Identity/get", { accountId }, "1"],
+      ],
     });
-    return res.ok;
+    const mailboxes = (disc.methodResponses[0][1].list ?? []) as { id: string; role: string | null }[];
+    const identities = (disc.methodResponses[1][1].list ?? []) as { id: string; email: string }[];
+    const sent =
+      mailboxes.find((m) => m.role === "sent") ??
+      mailboxes.find((m) => m.role === "drafts") ??
+      mailboxes[0];
+    const identity =
+      identities.find((i) => i.email.toLowerCase() === FROM_EMAIL) ?? identities[0];
+    if (!sent || !identity) return false;
+
+    // Create the message (filed in Sent, marked read) and submit it.
+    const send = await jmapPost(apiUrl, token, {
+      using: [CAP_MAIL, CAP_SUBMISSION],
+      methodCalls: [
+        [
+          "Email/set",
+          {
+            accountId,
+            create: {
+              msg: {
+                mailboxIds: { [sent.id]: true },
+                keywords: { $seen: true },
+                from: [{ name: FROM_NAME, email: FROM_EMAIL }],
+                to: [{ email: to }],
+                subject,
+                htmlBody: [{ partId: "body", type: "text/html" }],
+                bodyValues: { body: { value: html } },
+              },
+            },
+          },
+          "0",
+        ],
+        [
+          "EmailSubmission/set",
+          {
+            accountId,
+            create: {
+              sub: {
+                emailId: "#msg",
+                identityId: identity.id,
+                envelope: { mailFrom: { email: FROM_EMAIL }, rcptTo: [{ email: to }] },
+              },
+            },
+          },
+          "1",
+        ],
+      ],
+    });
+    const emailSet = send.methodResponses[0][1] as { created?: Record<string, unknown>; notCreated?: Record<string, unknown> };
+    const subSet = send.methodResponses[1][1] as { created?: Record<string, unknown>; notCreated?: Record<string, unknown> };
+    if (emailSet.notCreated?.msg || subSet.notCreated?.sub) return false;
+    return Boolean(subSet.created?.sub);
   } catch {
     return false;
   }
