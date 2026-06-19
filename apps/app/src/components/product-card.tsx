@@ -1,10 +1,14 @@
 import { Link } from "expo-router";
 import { Image } from "expo-image";
-import { Pressable, Text, View } from "react-native";
+import { Dimensions, Pressable, Text, View } from "react-native";
 import type { ShopifyProduct } from "@/lib/shopify";
 import { formatMoney } from "@/lib/format";
 import { tagDots } from "@/lib/tag-colors";
 import { colors, font, radii, shadow, tileTints } from "@/theme";
+
+// Square image height = the 2-up column width (16px gutters + 12px gap). Computed
+// rather than `aspectRatio: 1`, which fails to lay out in this RN/Fabric build.
+const IMG = (Dimensions.get("window").width - 16 * 2 - 12) / 2;
 
 export function ProductCard({ product, index }: { product: ShopifyProduct; index: number }) {
   const tint = tileTints[index % tileTints.length];
@@ -27,7 +31,7 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
         >
           <View
             style={{
-              aspectRatio: 1,
+              height: IMG,
               borderRadius: radii.md,
               overflow: "hidden",
               backgroundColor: colors.surface,
