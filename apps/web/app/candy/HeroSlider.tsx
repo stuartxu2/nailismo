@@ -77,7 +77,7 @@ export function HeroSlider() {
                 <span style={{ color: "var(--grape)" }}>off.</span>
               </h1>
               <p style={{ fontSize: "clamp(17px, 2.2vw, 21px)", fontWeight: 700, color: "var(--ink-soft)", maxWidth: 460, marginTop: 18 }}>
-                Bright, collectible nail sets — <strong style={{ color: "var(--ink)" }}>100% hand-painted</strong>, ready in minutes. Easy to wear, easy to remove, impossible to resist.
+                Bright, collectible press-on nail sets — <strong style={{ color: "var(--ink)" }}>100% hand-painted</strong>, ready in minutes. Easy to wear, easy to remove, impossible to resist.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 30 }}>
                 <Link href="/shop" className="candy-btn" tabIndex={active === 0 ? 0 : -1}>Shop the Candy Rack <span className="pop" aria-hidden>🍬</span></Link>

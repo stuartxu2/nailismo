@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Cart · Nailismo",
   description: "Your bag. Checkout runs on Shopify — secure and fast.",
   alternates: { canonical: "/cart" },
+  robots: { index: false, follow: true },
 };
 
 export const dynamic = "force-dynamic";

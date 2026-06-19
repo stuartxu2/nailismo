@@ -5,7 +5,7 @@ import { Faq } from "@/app/components/Faq";
 export const metadata: Metadata = {
   title: "FAQ · Nailismo",
   description:
-    "Sizing, wear, removal, and styling — direct answers to the questions men actually ask about press-on manicures.",
+    "Sizing, wear, removal, and styling — direct answers to the questions people actually ask about press-on nails.",
   alternates: { canonical: "/faq" },
 };
 

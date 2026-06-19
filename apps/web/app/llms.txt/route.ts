@@ -14,6 +14,11 @@ const BODY = `# Nailismo
 - [Best Sellers](${SITE}/collections/best-sellers): The most popular sets in rotation.
 - [New Drops](${SITE}/collections/new-drops): The latest releases.
 
+## Tools & Features
+- [Customize to Order](${SITE}/customize): Upload an inspiration photo and get a made-to-order set designed to your hand.
+- [Find My Size](${SITE}/fit): Map your exact nail sizes in about a minute before ordering.
+- [Lookbook](${SITE}/lookbook): Real sets styled on real hands for inspiration.
+
 ## Guides
 - [How to apply press-on nails](${SITE}/journal/how-to-apply-press-on-nails): Step-by-step application for a set that lasts up to 7 days.
 - [How to remove press-on nails](${SITE}/journal/how-to-remove-press-on-nails): Damage-free removal by soaking and loosening gently.
@@ -22,6 +27,7 @@ const BODY = `# Nailismo
 
 ## Company
 - [About Nailismo](${SITE}/about): Brand story and what makes the sets different.
+- [FAQ](${SITE}/faq): Direct answers on sizing, wear, removal, and styling.
 - [Contact](${SITE}/contact): How to reach customer support.
 
 ## Policies

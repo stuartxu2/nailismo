@@ -58,9 +58,6 @@ export function Footer() {
             <Col title="Shop" links={[
               { label: "New Drops", href: "/collections/new-drops" },
               { label: "Best Sellers", href: "/collections/best-sellers" },
-              { label: "Chrome Club", href: "/collections/chrome-club" },
-              { label: "Loud & Graphic", href: "/collections/loud-and-graphic" },
-              { label: "Latte & Neutrals", href: "/collections/latte-and-neutrals" },
               { label: "Wairo 和色", href: "/collections/wairo" },
               { label: "Shop All", href: "/shop" },
             ]} />
