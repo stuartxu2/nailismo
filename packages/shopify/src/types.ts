@@ -80,6 +80,7 @@ export type ShopifyMediaNode = {
 export type ShopifyVariant = {
   id: string;
   title: string;
+  sku: string | null;
   availableForSale: boolean;
   selectedOptions: { name: string; value: string }[];
   price: ShopifyMoney;

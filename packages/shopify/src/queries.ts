@@ -69,6 +69,7 @@ export const PRODUCT_BY_HANDLE_QUERY = /* GraphQL */ `
         nodes {
           id
           title
+          sku
           availableForSale
           selectedOptions {
             name

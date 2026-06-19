@@ -176,8 +176,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     description: product.descriptionHtml.replace(/<[^>]+>/g, "").slice(0, 5000),
     image: images.map((i) => i.url),
     brand: { "@type": "Brand", name: product.vendor || "Nailismo" },
+    ...(defaultVariant?.sku ? { sku: defaultVariant.sku } : {}),
     offers: {
       "@type": "Offer",
+      ...(defaultVariant?.sku ? { sku: defaultVariant.sku } : {}),
       price: Number(price.amount).toFixed(2),
       priceCurrency: price.currencyCode,
       // ~1 year out so the offer never reads as stale; refreshes on each ISR build.

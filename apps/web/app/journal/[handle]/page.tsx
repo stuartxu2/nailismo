@@ -126,6 +126,9 @@ export default async function ArticlePage({
       article.contentHtml.replace(/<[^>]+>/g, "").slice(0, 200),
     image: article.image ? [article.image.url] : undefined,
     datePublished: article.publishedAt,
+    // Storefront API exposes no article updatedAt; reuse publishedAt so the
+    // freshness signal is present and accurate to the published version.
+    dateModified: article.publishedAt,
     author: article.authorV2?.name
       ? { "@type": "Person", name: article.authorV2.name }
       : { "@type": "Organization", name: "Nailismo" },
@@ -134,7 +137,25 @@ export default async function ArticlePage({
       name: "Nailismo",
       logo: { "@type": "ImageObject", url: `${siteUrl}/icon.png` },
     },
-    mainEntityOfPage: `${siteUrl}/journal/${article.handle}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/journal/${article.handle}`,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Journal", item: `${siteUrl}/journal` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: `${siteUrl}/journal/${article.handle}`,
+      },
+    ],
   };
 
   const guideJsonLd = buildGuideJsonLd(
@@ -149,6 +170,10 @@ export default async function ArticlePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {guideJsonLd.map((schema, i) => (
         <script
