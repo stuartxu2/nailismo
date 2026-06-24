@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import type { ShopifyProductOption, ShopifyVariant } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
+import type { FavItem } from "@/lib/favorites";
 
 const TRUST_POINTS = [
   "10 premium nails + toolkit included",
@@ -55,10 +57,12 @@ export function PurchasePanel({
   options,
   variants,
   defaultVariantId,
+  fav,
 }: {
   options: ShopifyProductOption[];
   variants: ShopifyVariant[];
   defaultVariantId: string | null;
+  fav: { id: string; handle: string; title: string; image: string | null };
 }) {
   const initialSelected = useMemo(() => {
     const def = variants.find((v) => v.id === defaultVariantId) ?? variants[0];
@@ -73,6 +77,13 @@ export function PurchasePanel({
 
   const variant = matchVariant(variants, selected);
   const available = Boolean(variant?.availableForSale);
+  const favItem: FavItem = {
+    ...fav,
+    price: variant?.price.amount ?? "",
+    currency: variant?.price.currencyCode ?? "USD",
+    variantId: variant?.id ?? defaultVariantId,
+    available,
+  };
   const priceLabel = variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : "—";
   const priceNum = variant ? Number(variant.price.amount) : NaN;
   const underFreeShip = Number.isFinite(priceNum) && priceNum < FREE_SHIPPING_THRESHOLD;
@@ -187,6 +198,7 @@ export function PurchasePanel({
           <span className="candy-btn is-ghost" style={{ opacity: 0.6, pointerEvents: "none" }}>Sold Out</span>
         )}
         <Link href="/fit" className="candy-btn is-ghost">Find My Size</Link>
+        <FavoriteButton className="candy-fav-pdp" item={favItem} />
       </div>
 
       {/* sticky add-to-bag bar (mobile) */}

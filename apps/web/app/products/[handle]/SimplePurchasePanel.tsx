@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import type { ShopifyProductOption, ShopifyVariant } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
+import type { FavItem } from "@/lib/favorites";
 
 const TRUST: Record<"gift" | "essential", string[]> = {
   gift: [
@@ -66,12 +68,14 @@ export function SimplePurchasePanel({
   defaultVariantId,
   kind,
   ctaLabel,
+  fav,
 }: {
   options: ShopifyProductOption[];
   variants: ShopifyVariant[];
   defaultVariantId: string | null;
   kind: "gift" | "essential";
   ctaLabel: string;
+  fav: { id: string; handle: string; title: string; image: string | null };
 }) {
   const initialSelected = useMemo(() => {
     const def = variants.find((v) => v.id === defaultVariantId) ?? variants[0];
@@ -87,6 +91,13 @@ export function SimplePurchasePanel({
   const variant = matchVariant(variants, selected);
   const available = Boolean(variant?.availableForSale);
   const priceLabel = variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : "—";
+  const favItem: FavItem = {
+    ...fav,
+    price: variant?.price.amount ?? "",
+    currency: variant?.price.currencyCode ?? "USD",
+    variantId: variant?.id ?? defaultVariantId,
+    available,
+  };
 
   function isValueAvailable(optName: string, value: string) {
     const probe = { ...selected, [optName]: value };
@@ -165,6 +176,7 @@ export function SimplePurchasePanel({
         ) : (
           <span className="candy-btn is-ghost" style={{ opacity: 0.6, pointerEvents: "none" }}>Sold Out</span>
         )}
+        <FavoriteButton className="candy-fav-pdp" item={favItem} />
       </div>
 
       {/* sticky add bar (mobile) */}

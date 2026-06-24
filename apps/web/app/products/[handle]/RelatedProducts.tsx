@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
 import { cardDots } from "@/lib/product-colors";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
 
 function formatPrice(amount: string, currency: string) {
   const value = Number(amount);
@@ -37,6 +38,19 @@ export function RelatedProducts({ products }: { products: ShopifyProduct[] }) {
           const { dots, labeled } = cardDots(p.tags, i);
           return (
             <article key={p.id} className="candy-card">
+              <FavoriteButton
+                className="candy-fav-oncard"
+                item={{
+                  id: p.id,
+                  handle: p.handle,
+                  title: p.title,
+                  image: p.featuredImage?.url ?? null,
+                  price: p.priceRange.minVariantPrice.amount,
+                  currency: p.priceRange.minVariantPrice.currencyCode,
+                  variantId: variant?.id ?? null,
+                  available: canAdd,
+                }}
+              />
               <Link href={`/products/${p.handle}`} className="candy-card-img" aria-label={p.title}>
                 <Image
                   src={img.startsWith("http") ? img : encodeURI(img)}

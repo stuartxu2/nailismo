@@ -83,6 +83,12 @@ export function SimpleProductTemplate({
               defaultVariantId={defaultVariantId}
               kind={kind}
               ctaLabel={copy.cta}
+              fav={{
+                id: product.id,
+                handle: product.handle,
+                title: product.title,
+                image: product.featuredImage?.url ?? null,
+              }}
             />
 
             {product.descriptionHtml && (

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
 import { cardDots } from "@/lib/product-colors";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
 
 // Filtering/sorting runs client-side so /shop stays statically prerendered
 // (reading searchParams on the server forced the whole route dynamic / uncached).
@@ -161,6 +162,19 @@ export function ShopBrowser({
                     Editor pick
                   </span>
                 )}
+                <FavoriteButton
+                  className="candy-fav-oncard"
+                  item={{
+                    id: p.id,
+                    handle: p.handle,
+                    title: p.title,
+                    image: p.featuredImage?.url ?? null,
+                    price: p.priceRange.minVariantPrice.amount,
+                    currency: p.priceRange.minVariantPrice.currencyCode,
+                    variantId: variant?.id ?? null,
+                    available: canAdd,
+                  }}
+                />
                 <Link href={`/products/${p.handle}`} className="candy-card-img" aria-label={p.title}>
                   <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                 </Link>

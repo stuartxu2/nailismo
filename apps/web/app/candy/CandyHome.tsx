@@ -4,6 +4,8 @@ import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
 import { COLLECTION_BY_HANDLE_QUERY } from "@/lib/shopify/queries";
 import type { CollectionByHandleQueryResult, ShopifyProduct } from "@/lib/shopify/types";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
+import type { FavItem } from "@/lib/favorites";
 import { HeroSlider } from "./HeroSlider";
 
 /* ---------- types & data ---------- */
@@ -17,6 +19,9 @@ type Flavor = {
   href: string;
   swatches: string[];
   sticker?: { label: string; tone: "" | "is-mint" | "is-soda" | "is-gum" };
+  // Present only for real Shopify products (not the static fallback set) so the
+  // homepage cards can be favorited.
+  fav?: FavItem;
 };
 
 const FALLBACK: Flavor[] = [
@@ -39,6 +44,7 @@ function money(p: ShopifyProduct): string {
 }
 
 function toFlavor(p: ShopifyProduct, i: number): Flavor {
+  const variant = p.variants?.nodes[0];
   return {
     name: p.title,
     shape: p.productType || "Almond",
@@ -47,6 +53,16 @@ function toFlavor(p: ShopifyProduct, i: number): Flavor {
     image: p.featuredImage?.url ?? FALLBACK[i % FALLBACK.length].image,
     href: `/products/${p.handle}`,
     swatches: [SWATCH_CYCLE[i % SWATCH_CYCLE.length], SWATCH_CYCLE[(i + 2) % SWATCH_CYCLE.length]],
+    fav: {
+      id: p.id,
+      handle: p.handle,
+      title: p.title,
+      image: p.featuredImage?.url ?? null,
+      price: p.priceRange.minVariantPrice.amount,
+      currency: p.priceRange.minVariantPrice.currencyCode,
+      variantId: variant?.id ?? null,
+      available: variant?.availableForSale ?? false,
+    },
   };
 }
 
@@ -84,6 +100,8 @@ function src(path: string): string {
 
 function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
   return (
+    <div className="candy-cardwrap">
+    {f.fav && <FavoriteButton className="candy-fav-oncard" item={f.fav} />}
     <Link href={f.href} className="candy-card" aria-label={`${f.name} — ${f.price}`}>
       {f.sticker && (
         <span className={`candy-sticker ${f.sticker.tone}`} style={{ position: "absolute", top: -10, left: 16, zIndex: 2 }}>
@@ -116,6 +134,7 @@ function FlavorCard({ f, eager = false }: { f: Flavor; eager?: boolean }) {
         </div>
       </div>
     </Link>
+    </div>
   );
 }
 

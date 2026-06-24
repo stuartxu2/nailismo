@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { ShopifyProduct } from "@/lib/shopify/types";
 import { cardDots } from "@/lib/product-colors";
+import { FavoriteButton } from "@/app/components/FavoriteButton";
 
 // Sorting runs client-side so /collections/[handle] stays statically prerendered
 // (reading searchParams on the server forced the route dynamic / uncached). The
@@ -109,8 +110,23 @@ export function CollectionBrowser({
             const img = p.featuredImage?.url ?? "/images/listing/black and white press on nails.avif";
             const alt = p.featuredImage?.altText ?? p.title;
             const { dots, labeled } = cardDots(p.tags, i);
+            const variant = p.variants?.nodes[0];
             return (
-              <Link key={p.id} href={`/products/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
+              <div key={p.id} className="candy-cardwrap">
+              <FavoriteButton
+                className="candy-fav-oncard"
+                item={{
+                  id: p.id,
+                  handle: p.handle,
+                  title: p.title,
+                  image: p.featuredImage?.url ?? null,
+                  price: p.priceRange.minVariantPrice.amount,
+                  currency: p.priceRange.minVariantPrice.currencyCode,
+                  variantId: variant?.id ?? null,
+                  available: variant?.availableForSale ?? false,
+                }}
+              />
+              <Link href={`/products/${p.handle}`} className="candy-card" aria-label={`${p.title} — ${price}`}>
                 <div className="candy-card-img">
                   <Image src={img.startsWith("http") ? img : encodeURI(img)} alt={alt} fill sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 280px" />
                 </div>
@@ -140,6 +156,7 @@ export function CollectionBrowser({
                   </div>
                 </div>
               </Link>
+              </div>
             );
           })}
         </div>
