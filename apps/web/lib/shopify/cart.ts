@@ -63,31 +63,51 @@ export async function getCart(): Promise<ShopifyCart | null> {
   }
 }
 
+type CartLine = { merchandiseId: string; quantity: number };
+
+// Shared add path: append lines to the existing cart, or create one. Used by both
+// the single-item quick-add (addToCart) and the multi-item compare add
+// (addVariantsToCart). Caller handles revalidate/redirect/navigation.
+async function addLines(lines: CartLine[]): Promise<void> {
+  const jar = await cookies();
+  const existingId = jar.get(CART_COOKIE)?.value;
+
+  if (existingId) {
+    const data = await storefrontFetch<CartLinesAddResult>(
+      CART_LINES_ADD_MUTATION,
+      { cartId: existingId, lines },
+      { revalidate: 0 },
+    );
+    if (data.cartLinesAdd.userErrors.length > 0) {
+      console.error("[shopify] cartLinesAdd errors:", data.cartLinesAdd.userErrors);
+    }
+    if (!data.cartLinesAdd.cart) {
+      await clearCartCookie();
+      await createAndSet(lines);
+    }
+  } else {
+    await createAndSet(lines);
+  }
+}
+
+async function createAndSet(lines: CartLine[]) {
+  const data = await storefrontFetch<CartCreateResult>(
+    CART_CREATE_MUTATION,
+    { lines },
+    { revalidate: 0 },
+  );
+  if (data.cartCreate.cart) {
+    await setCartCookie(data.cartCreate.cart.id);
+  }
+}
+
 export async function addToCart(formData: FormData): Promise<void> {
   const variantId = String(formData.get("variantId") ?? "");
   const quantity = Number(formData.get("quantity") ?? 1);
   if (!variantId) return;
 
-  const jar = await cookies();
-  const existingId = jar.get(CART_COOKIE)?.value;
-
   try {
-    if (existingId) {
-      const data = await storefrontFetch<CartLinesAddResult>(
-        CART_LINES_ADD_MUTATION,
-        { cartId: existingId, lines: [{ merchandiseId: variantId, quantity }] },
-        { revalidate: 0 },
-      );
-      if (data.cartLinesAdd.userErrors.length > 0) {
-        console.error("[shopify] cartLinesAdd errors:", data.cartLinesAdd.userErrors);
-      }
-      if (!data.cartLinesAdd.cart) {
-        await clearCartCookie();
-        await createAndSet(variantId, quantity);
-      }
-    } else {
-      await createAndSet(variantId, quantity);
-    }
+    await addLines([{ merchandiseId: variantId, quantity }]);
   } catch (err) {
     console.error("[shopify] addToCart failed:", err);
     return;
@@ -96,15 +116,23 @@ export async function addToCart(formData: FormData): Promise<void> {
   redirect("/cart");
 }
 
-async function createAndSet(variantId: string, quantity: number) {
-  const data = await storefrontFetch<CartCreateResult>(
-    CART_CREATE_MUTATION,
-    { lines: [{ merchandiseId: variantId, quantity }] },
-    { revalidate: 0 },
-  );
-  if (data.cartCreate.cart) {
-    await setCartCookie(data.cartCreate.cart.id);
+// Bulk add for the Compare board. Called directly from the client (not via a
+// form), so it returns a result instead of redirecting — the client clears the
+// purchased items from Favorites on success, then navigates to /cart itself.
+export async function addVariantsToCart(
+  variantIds: string[],
+): Promise<{ ok: boolean }> {
+  const ids = variantIds.filter(Boolean);
+  if (ids.length === 0) return { ok: false };
+
+  try {
+    await addLines(ids.map((merchandiseId) => ({ merchandiseId, quantity: 1 })));
+  } catch (err) {
+    console.error("[shopify] addVariantsToCart failed:", err);
+    return { ok: false };
   }
+  revalidatePath("/cart");
+  return { ok: true };
 }
 
 export async function removeLine(formData: FormData): Promise<void> {

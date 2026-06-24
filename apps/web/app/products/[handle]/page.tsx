@@ -282,6 +282,12 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               options={product.options}
               variants={variants}
               defaultVariantId={defaultVariant?.id ?? null}
+              fav={{
+                id: product.id,
+                handle: product.handle,
+                title: product.title,
+                image: product.featuredImage?.url ?? null,
+              }}
             />
 
             {product.tags.length > 0 && (

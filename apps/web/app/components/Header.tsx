@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { CartCountProvider, CartBadge } from "./CartCount";
+import { FavLink } from "./FavCount";
 import { getMenuCollections } from "@/lib/shopify/collections";
 
 export async function Header() {
@@ -62,6 +63,7 @@ export async function Header() {
               <path d="M5.5 20c0-3.6 2.9-5.5 6.5-5.5s6.5 1.9 6.5 5.5" />
             </svg>
           </Link>
+          <FavLink />
           <Link href="/cart" className="candy-btn is-soda" style={{ padding: "10px 18px", fontSize: 14 }} aria-label="Cart">
             Cart
             <CartBadge />
