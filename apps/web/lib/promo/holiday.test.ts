@@ -1,9 +1,20 @@
 import { describe, it, expect } from "vitest";
 import { cutoffMessage, getPromoState, giftNav, isBundleEligible } from "./holiday";
 
-const at = (iso: string) => getPromoState(new Date(iso));
+// Window tests run with the offer switched on; the switch has its own test.
+const at = (iso: string) => getPromoState(new Date(iso), true);
 
 describe("getPromoState", () => {
+  it("offer switch off: no offer, season and cutoffs unaffected", () => {
+    expect(getPromoState(new Date("2026-11-20T12:00:00Z"), false)).toEqual({
+      offerLive: false,
+      seasonLive: true,
+      blackFriday: false,
+      cutoff: "standard",
+    });
+    expect(getPromoState(new Date("2026-11-28T12:00:00Z"), false).blackFriday).toBe(false);
+  });
+
   it("mid-November: offer + season live, standard cutoff, not Black Friday", () => {
     expect(at("2026-11-20T12:00:00Z")).toEqual({
       offerLive: true,

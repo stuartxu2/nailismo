@@ -9,6 +9,11 @@ export const BUNDLE_SIZE = 3;
 export const BUNDLE_PRICE = 45;
 export const OFFER_LABEL = "Any 3 sets for $45";
 
+/** Master switch for every 3-for-$45 surface (PDP chip + nudge, ticker, band,
+ *  cart savings/nudge/suggestions). Stays false until the EPD rule is live and
+ *  tools/verify_bundle_discount.py passes; season + cutoff copy ship regardless. */
+export const OFFER_ENABLED = false;
+
 /** Offer ends Dec 15 23:59 PT (exclusive end = Dec 16 00:00 PT). */
 export const OFFER_END = new Date("2026-12-16T08:00:00Z");
 /** Standard shipping Christmas cutoff: Mon Dec 14, 2pm ET. */
@@ -28,8 +33,9 @@ export type PromoState = {
   cutoff: "standard" | "express" | "giftcard" | null;
 };
 
-export function getPromoState(now: Date): PromoState {
+export function getPromoState(now: Date, offerEnabled: boolean = OFFER_ENABLED): PromoState {
   const t = now.getTime();
+  const offerLive = offerEnabled && t < OFFER_END.getTime();
   const cutoff: PromoState["cutoff"] =
     t < STANDARD_CUTOFF.getTime()
       ? "standard"
@@ -39,9 +45,9 @@ export function getPromoState(now: Date): PromoState {
           ? "giftcard"
           : null;
   return {
-    offerLive: t < OFFER_END.getTime(),
+    offerLive,
     seasonLive: t < SEASON_END.getTime(),
-    blackFriday: t >= BF_START.getTime() && t < BF_END.getTime(),
+    blackFriday: offerLive && t >= BF_START.getTime() && t < BF_END.getTime(),
     cutoff,
   };
 }

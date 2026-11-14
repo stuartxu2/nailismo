@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { OFFER_END, SEASON_END } from "../lib/promo/holiday";
+import { OFFER_ENABLED, OFFER_END, SEASON_END } from "../lib/promo/holiday";
 
 /**
  * Holiday 2026 package: "Any 3 sets for $45" (Every Possible Discount) plus the
@@ -8,7 +8,7 @@ import { OFFER_END, SEASON_END } from "../lib/promo/holiday";
  * Requires live Storefront data and the live EPD rule (PLAYWRIGHT_BASE_URL).
  */
 
-const offerOver = () => Date.now() >= OFFER_END.getTime();
+const offerOver = () => !OFFER_ENABLED || Date.now() >= OFFER_END.getTime();
 const seasonOver = () => Date.now() >= SEASON_END.getTime();
 
 async function addToBag(page: Page, handle: string) {
@@ -18,7 +18,7 @@ async function addToBag(page: Page, handle: string) {
 }
 
 test.describe("3 for $45 offer", () => {
-  test.beforeEach(() => test.skip(offerOver(), "offer ended"));
+  test.beforeEach(() => test.skip(offerOver(), "offer switched off or ended"));
 
   test("eligible set PDP shows the offer", async ({ page }) => {
     await page.goto("/products/midnight-circuit");
@@ -45,6 +45,18 @@ test.describe("3 for $45 offer", () => {
   test("home ticker leads with the offer", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("body")).toContainText("ANY 3 SETS FOR $45");
+  });
+});
+
+test.describe("offer switched off", () => {
+  test.beforeEach(() => test.skip(OFFER_ENABLED, "offer switched on"));
+
+  test("no offer copy on home or an eligible PDP", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("body")).not.toContainText(/any 3 sets for \$45/i);
+    await page.goto("/products/midnight-circuit");
+    await expect(page.getByRole("button", { name: /add to bag/i }).first()).toBeVisible();
+    await expect(page.locator("body")).not.toContainText(/any 3 sets for \$45/i);
   });
 });
 
