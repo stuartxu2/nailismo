@@ -10,6 +10,7 @@ import type {
   ShopifyCollectionCard,
 } from "@/lib/shopify/types";
 import { ShopBrowser } from "./ShopBrowser";
+import { displayTags } from "@/lib/shopify/tags";
 
 export const metadata: Metadata = {
   title: "Shop · Nailismo",
@@ -73,7 +74,7 @@ function collectionImage(c: ShopifyCollectionCard): { url: string; alt: string }
 function collectTags(products: ShopifyProduct[]): string[] {
   const counts = new Map<string, number>();
   for (const p of products) {
-    for (const t of p.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+    for (const t of displayTags(p.tags)) counts.set(t, (counts.get(t) ?? 0) + 1);
   }
   return [...counts.entries()]
     .sort((a, b) => b[1] - a[1])
