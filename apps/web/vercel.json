@@ -2,5 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile --filter web...",
-  "buildCommand": "cd ../.. && pnpm --filter web build"
+  "buildCommand": "cd ../.. && pnpm --filter web build",
+  "crons": [
+    {
+      "path": "/api/cron/promo-refresh",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/promo-refresh",
+      "schedule": "0 19 * * *"
+    }
+  ]
 }

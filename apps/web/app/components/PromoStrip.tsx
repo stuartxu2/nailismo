@@ -5,8 +5,8 @@ const GUIDE_HREF = "/collections/holiday-gift-guide";
 
 /** Seasonal band: the 3-for-$45 offer (while live) and the current US
  *  Christmas cutoff line. Renders nothing outside the season. All timing comes
- *  from lib/promo/holiday.ts; the root layout revalidates hourly so the copy
- *  flips on time. `linkGuide={false}` on the gift guide page itself. */
+ *  from lib/promo/holiday.ts; hourly revalidation plus the promo-refresh cron
+ *  flip the copy on time. `linkGuide={false}` on the gift guide page itself. */
 export function PromoStrip({
   now = new Date(),
   linkGuide = true,

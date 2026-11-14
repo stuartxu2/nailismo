@@ -46,8 +46,9 @@ const akkuratMono = localFont({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
 
 // Seasonal copy (ticker, nav, promo bands — lib/promo/holiday.ts) is computed at
-// render time; revalidate every route at least hourly so it flips on schedule
-// even on otherwise-static pages.
+// render time; revalidate every route at least hourly, and the promo-refresh
+// cron (app/api/cron/promo-refresh, vercel.json) marks every page stale at each
+// boundary so a page nobody revisited can't serve expired copy to its next visitor.
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
