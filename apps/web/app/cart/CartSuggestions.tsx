@@ -127,7 +127,7 @@ export async function CartSuggestions({ lines, setCount }: { lines: ShopifyCartL
               <p style={{ marginTop: 8, fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, lineHeight: 1.25 }}>{c.title}</p>
             </Link>
             {c.addOn && (
-              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "var(--ink-soft)" }}>Add-on, not part of the 3-pack</p>
+              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "var(--ink-soft)" }}>Add-on, not part of the <span style={{ whiteSpace: "nowrap" }}>3-pack</span></p>
             )}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
               <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 14 }}>{c.price}</span>
