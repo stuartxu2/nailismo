@@ -20,6 +20,8 @@ export type ShopifyProduct = {
   priceRange: {
     minVariantPrice: ShopifyMoney;
   };
+  // Only selected by NEWEST_PRODUCTS_QUERY (to filter gift cards out).
+  isGiftCard?: boolean;
   variants?: {
     nodes: {
       id: string;

@@ -338,6 +338,39 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
   }
 `;
 
+// Newest-first catalog slice for the homepage "New flavors" shelf. Same card
+// fields as PRODUCTS_QUERY plus isGiftCard so non-set products can be dropped.
+export const NEWEST_PRODUCTS_QUERY = /* GraphQL */ `
+  query NewestProducts($first: Int!) {
+    products(first: $first, sortKey: CREATED_AT, reverse: true) {
+      nodes {
+        id
+        title
+        handle
+        productType
+        tags
+        isGiftCard
+        featuredImage {
+          url
+          altText
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        variants(first: 1) {
+          nodes {
+            id
+            availableForSale
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PRODUCT_RECOMMENDATIONS_QUERY = /* GraphQL */ `
   query ProductRecommendations($productId: ID!) {
     productRecommendations(productId: $productId, intent: RELATED) {
