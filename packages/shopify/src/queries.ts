@@ -143,6 +143,7 @@ export const COLLECTION_BY_HANDLE_QUERY = /* GraphQL */ `
           priceRange {
             minVariantPrice { amount currencyCode }
           }
+          variants(first: 1) { nodes { id availableForSale } }
         }
       }
     }

@@ -15,9 +15,9 @@ import type {
 } from "@/lib/shopify/types";
 import { addToCart } from "@/lib/shopify/cart";
 import { isBundleEligible } from "@/lib/promo/holiday";
-import { pickSuggestions } from "@/lib/promo/cart";
+import { pickSuggestions, suggestionsHeading } from "@/lib/promo/cart";
 
-type Card = { handle: string; title: string; image: string | null; price: string; variantId: string };
+type Card = { handle: string; title: string; image: string | null; price: string; variantId: string; addOn?: boolean };
 
 async function safe<T>(label: string, run: () => Promise<T>, fallback: T): Promise<T> {
   try {
@@ -45,9 +45,10 @@ function toCard(p: ShopifyProduct): Card | null {
   };
 }
 
-/** "Complete your 3-pack": eligible sets related to the bag (recommendations,
- *  topped up from Best Sellers) plus Nail Glue when it isn't already in the bag. */
-export async function CartSuggestions({ lines }: { lines: ShopifyCartLine[] }) {
+/** 3-pack suggestions: eligible sets related to the bag (recommendations,
+ *  topped up from Best Sellers) plus Nail Glue, labelled as an add-on that
+ *  doesn't count, when it isn't already in the bag. Nothing without set cards. */
+export async function CartSuggestions({ lines, setCount }: { lines: ShopifyCartLine[]; setCount: number }) {
   const inCart = new Set(lines.map((l) => l.merchandise.product.handle));
   const anchor = lines.find((l) => isBundleEligible(l.merchandise.product.tags));
 
@@ -71,6 +72,7 @@ export async function CartSuggestions({ lines }: { lines: ShopifyCartLine[] }) {
     candidates = [...recs, ...best.filter((p) => !seen.has(p.handle))];
   }
   const cards = pickSuggestions(candidates, inCart, 4).map(toCard).filter((c): c is Card => c !== null);
+  if (cards.length === 0) return null;
 
   if (!inCart.has("nail-glue")) {
     const glue = await safe("nail-glue", async () =>
@@ -87,15 +89,15 @@ export async function CartSuggestions({ lines }: { lines: ShopifyCartLine[] }) {
         image: glue.featuredImage?.url ?? null,
         price: price(v.price.amount),
         variantId: v.id,
+        addOn: true,
       });
     }
   }
 
-  if (cards.length === 0) return null;
-
+  const heading = suggestionsHeading(setCount);
   return (
-    <section aria-label="Complete your 3-pack" style={{ marginTop: 32 }}>
-      <h2 style={{ fontSize: "clamp(22px,3vw,30px)" }}>Complete your 3-pack</h2>
+    <section aria-label={heading} style={{ marginTop: 32 }}>
+      <h2 style={{ fontSize: "clamp(22px,3vw,30px)" }}>{heading}</h2>
       <div
         style={{
           marginTop: 14,
@@ -124,6 +126,9 @@ export async function CartSuggestions({ lines }: { lines: ShopifyCartLine[] }) {
               </div>
               <p style={{ marginTop: 8, fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, lineHeight: 1.25 }}>{c.title}</p>
             </Link>
+            {c.addOn && (
+              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "var(--ink-soft)" }}>Add-on, not part of the 3-pack</p>
+            )}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
               <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 14 }}>{c.price}</span>
               <form action={addToCart}>

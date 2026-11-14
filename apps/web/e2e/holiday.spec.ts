@@ -20,9 +20,12 @@ async function addToBag(page: Page, handle: string) {
 test.describe("3 for $45 offer", () => {
   test.beforeEach(() => test.skip(offerOver(), "offer switched off or ended"));
 
-  test("eligible set PDP shows the offer", async ({ page }) => {
+  test("eligible set PDP shows the offer with a nudge that never miscounts", async ({ page }) => {
     await page.goto("/products/midnight-circuit");
-    await expect(page.locator("main")).toContainText("Any 3 sets for $45");
+    const main = page.locator("main");
+    await expect(main).toContainText("Any 3 sets for $45");
+    await expect(main).toContainText("the price drops in your bag");
+    await expect(main).not.toContainText(/add 2 more/i);
   });
 
   for (const handle of ["nailismo-gift-card", "nail-glue"]) {
@@ -38,8 +41,24 @@ test.describe("3 for $45 offer", () => {
       await addToBag(page, handle);
     }
     const main = page.locator("main");
-    await expect(main).toContainText(/you saved/i);
     await expect(main).toContainText(/Total\s*\$45(\.00)?(?!\d)/);
+    await expect(main).toContainText("Includes $8.97 off");
+    await expect(main).not.toContainText(/you saved/i);
+  });
+
+  test("a bag with no sets is offered best-selling sets, glue marked as an add-on", async ({ page }) => {
+    await addToBag(page, "nail-glue");
+    const section = page.getByRole("region", { name: "Build a 3-pack" });
+    await expect(section).toBeVisible();
+    expect(await section.getByRole("button", { name: /^Add .* to bag$/ }).count()).toBeGreaterThanOrEqual(3);
+    await expect(section).not.toContainText("Nail Glue");
+  });
+
+  test("glue suggested beside a partial pack says it doesn't count", async ({ page }) => {
+    await addToBag(page, "midnight-circuit");
+    const section = page.getByRole("region", { name: "Complete your 3-pack" });
+    await expect(section).toBeVisible();
+    await expect(section).toContainText("Add-on, not part of the 3-pack");
   });
 
   test("home ticker leads with the offer", async ({ page }) => {

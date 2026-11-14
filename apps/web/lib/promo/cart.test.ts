@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { bundleNudge, bundleSavings, countEligibleSets, pickSuggestions } from "./cart";
+import { bundleNudge, bundleSavings, countEligibleSets, pickSuggestions, savingsNote, suggestionsHeading } from "./cart";
 import type { ShopifyCart, ShopifyCartLine, ShopifyProduct } from "@/lib/shopify/types";
 
 const money = (amount: string) => ({ amount, currencyCode: "USD" });
@@ -98,5 +98,34 @@ describe("pickSuggestions", () => {
     ];
     const picked = pickSuggestions(candidates, new Set(["in-cart"]), 2);
     expect(picked.map((p) => p.handle)).toEqual(["one", "two"]);
+  });
+});
+
+describe("savingsNote", () => {
+  it("states the discount as already included in the total", () => {
+    expect(savingsNote(8.97)).toBe("Includes $8.97 off");
+    expect(savingsNote(17.94)).toBe("Includes $17.94 off");
+  });
+
+  it("says nothing when there is no real saving", () => {
+    expect(savingsNote(0)).toBeNull();
+    expect(savingsNote(0.004)).toBeNull();
+  });
+});
+
+describe("suggestionsHeading", () => {
+  it("builds a first 3-pack from an empty bag", () => {
+    expect(suggestionsHeading(0)).toBe("Build a 3-pack");
+  });
+
+  it("completes a partial 3-pack", () => {
+    expect(suggestionsHeading(1)).toBe("Complete your 3-pack");
+    expect(suggestionsHeading(2)).toBe("Complete your 3-pack");
+    expect(suggestionsHeading(5)).toBe("Complete your 3-pack");
+  });
+
+  it("starts another 3-pack when the bag holds only full packs", () => {
+    expect(suggestionsHeading(3)).toBe("Start another 3-pack");
+    expect(suggestionsHeading(6)).toBe("Start another 3-pack");
   });
 });

@@ -39,3 +39,17 @@ export function pickSuggestions(
     )
     .slice(0, limit);
 }
+
+/** Savings shown under the Total as already included, so the summary never
+ *  reads like a second subtraction (line-level discounts are already inside
+ *  Shopify's subtotal). Null below one cent. */
+export function savingsNote(savings: number): string | null {
+  const cents = Math.round(savings * 100);
+  return cents > 0 ? `Includes $${(cents / 100).toFixed(2)} off` : null;
+}
+
+/** Heading for the cart's set suggestions, by how many eligible sets are in the bag. */
+export function suggestionsHeading(count: number): string {
+  if (count === 0) return "Build a 3-pack";
+  return count % BUNDLE_SIZE === 0 ? "Start another 3-pack" : "Complete your 3-pack";
+}
