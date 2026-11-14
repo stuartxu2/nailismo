@@ -2,7 +2,8 @@
 """Verify the "Any 3 sets for $45" discount prices correctly in Storefront carts.
 
 Builds real Storefront API carts (no checkout, no orders: abandoned carts only)
-for each scenario and checks the discount the cart reports BEFORE checkout,
+for each scenario and checks the discount the cart reports BEFORE checkout and
+the total the shopper sees (pre-discount value minus the expected saving),
 which is what the headless site shows. Gate for shipping any offer UI
 (docs/superpowers/specs/2026-11-14-holiday-package-design.md, section 1).
 
@@ -47,9 +48,13 @@ query($h: String!) { productByHandle(handle: $h) {
 CART_CREATE_M = """
 mutation($input: CartInput!) { cartCreate(input: $input) {
   cart {
-    cost { totalAmount { amount currencyCode } }
+    cost { totalAmount { amount currencyCode } subtotalAmount { amount currencyCode } }
     discountAllocations { discountedAmount { amount currencyCode } }
-    lines(first: 20) { nodes { quantity discountAllocations { discountedAmount { amount currencyCode } } } }
+    lines(first: 20) { nodes {
+      quantity
+      cost { subtotalAmount { amount currencyCode } }
+      discountAllocations { discountedAmount { amount currencyCode } }
+    } }
   }
   userErrors { field message }
 } }
@@ -65,6 +70,20 @@ def summarize(cart: Cart) -> tuple[float, float]:
         total(line["discountAllocations"]) for line in cart["lines"]["nodes"]
     )
     return float(cart["cost"]["totalAmount"]["amount"]), round(savings, 2)
+
+
+def pre_discount(cart: Cart) -> float:
+    """Merchandise value before any discount (line subtotals precede line-level discounts)."""
+    return round(sum(float(line["cost"]["subtotalAmount"]["amount"]) for line in cart["lines"]["nodes"]), 2)
+
+
+def verdict(total: float, pre: float, saved: float, expected: float | None) -> str:
+    """PASS only when the discount AND the total the shopper sees both match (spec section 1 gate)."""
+    if expected is None:
+        return "REPORT"
+    savings_ok = abs(saved - expected) <= 0.01
+    total_ok = abs(total - (pre - expected)) <= 0.01
+    return "PASS" if savings_ok and total_ok else "FAIL"
 
 
 def storefront(env: dict[str, str], query: str, variables: dict[str, Any]) -> dict[str, Any]:
@@ -102,7 +121,7 @@ def main() -> None:
     env = load_env()
     cache: dict[str, str] = {}
     failures = 0
-    print(f"{'case':<15} {'total':>8} {'saved':>8} {'expected':>9}  result")
+    print(f"{'case':<15} {'pre':>8} {'subtot':>8} {'total':>8} {'saved':>8} {'expected':>9}  result")
     for name, lines, expected in CASES:
         cart_lines = []
         for handle, qty in lines:
@@ -113,16 +132,14 @@ def main() -> None:
             print(f"{name:<15} userErrors: {res['userErrors']}")
             failures += 1
             continue
-        total, saved = summarize(res["cart"])
-        if expected is None:
-            verdict = "REPORT"
-        elif abs(saved - expected) <= 0.01:
-            verdict = "PASS"
-        else:
-            verdict = "FAIL"
-            failures += 1
+        cart = res["cart"]
+        total, saved = summarize(cart)
+        pre = pre_discount(cart)
+        subtotal = float(cart["cost"]["subtotalAmount"]["amount"])
+        result = verdict(total, pre, saved, expected)
+        failures += result == "FAIL"
         exp = "-" if expected is None else f"{expected:.2f}"
-        print(f"{name:<15} {total:>8.2f} {saved:>8.2f} {exp:>9}  {verdict}")
+        print(f"{name:<15} {pre:>8.2f} {subtotal:>8.2f} {total:>8.2f} {saved:>8.2f} {exp:>9}  {result}")
     print("\nGATE:", "PASS" if failures == 0 else f"FAIL ({failures} case(s))")
     sys.exit(1 if failures else 0)
 
