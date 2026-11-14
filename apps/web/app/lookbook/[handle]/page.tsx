@@ -5,8 +5,6 @@ import { LOOKS, getLook } from "../data";
 
 type Params = { handle: string };
 
-const feedSrc = (n: number) => `/images/lookbook/collage/feed-${String(n).padStart(3, "0")}.avif`;
-
 export async function generateStaticParams(): Promise<Params[]> {
   return LOOKS.map((l) => ({ handle: l.handle }));
 }
@@ -44,9 +42,6 @@ export default async function LookPage({
   const related = look.related
     .map((h) => getLook(h))
     .filter((l): l is NonNullable<ReturnType<typeof getLook>> => Boolean(l));
-
-  // double the feed for a dense, "mass" collage wall
-  const tiles = [...look.feed, ...[...look.feed].reverse()];
 
   return (
     <>
@@ -91,7 +86,6 @@ export default async function LookPage({
               <Link href={`/products/${look.pairing.productHandle}`} className="candy-btn">
                 Shop {look.pairing.set} <span className="pop" aria-hidden>🛍️</span>
               </Link>
-              <a href="#feed" className="candy-btn is-ghost">See it worn ↓</a>
             </div>
           </div>
         </section>
@@ -112,46 +106,6 @@ export default async function LookPage({
                 </div>
               ))}
             </dl>
-          </div>
-        </section>
-
-        {/* MASS SOCIAL COLLAGE */}
-        <section id="feed" style={{ marginTop: "clamp(56px,8vw,96px)", position: "relative", zIndex: 1, scrollMarginTop: 90 }}>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 14, marginBottom: 24 }}>
-            <div>
-              <span className="candy-eyebrow">Straight off the feed</span>
-              <h2 style={{ fontSize: "clamp(30px,5vw,54px)", marginTop: 8 }}>How they're <span className="lb-hl">wearing it</span></h2>
-            </div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)", maxWidth: 300 }}>
-              Real hands from the 小红书 · RedNote <em>男生美甲</em> feed — plus one of ours in motion.
-            </p>
-          </div>
-
-          <div className="lb-collage">
-            {/* our own clip — honestly tagged */}
-            <div className="lb-tile is-video">
-              { }
-              <video
-                src="/videos/hero-cloud-nails.mp4"
-                poster={look.src}
-                autoPlay
-                muted
-                loop
-                playsInline
-                aria-label={`${look.title} nails in motion`}
-              />
-              <span className="lb-play" aria-hidden><span>▶</span></span>
-              <span className="lb-tile-tag">▶ clip</span>
-              <span className="lb-tile-src">@shopnailismo</span>
-            </div>
-
-            {tiles.map((n, i) => (
-              <div className="lb-tile" key={`${n}-${i}`}>
-                { }
-                <img src={feedSrc(n)} alt={`${look.title} nail inspiration from the RedNote feed`} loading="lazy" />
-                <span className="lb-tile-src">小红书</span>
-              </div>
-            ))}
           </div>
         </section>
 

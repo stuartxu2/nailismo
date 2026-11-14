@@ -16,8 +16,6 @@ export type Look = {
   outfit: { label: string; value: string }[];
   pairing: { set: string; productHandle: string; note: string };
   related: string[];
-  /** Source numbers (from the 小红书 / RedNote feed) for the mass collage. */
-  feed: number[];
 };
 
 export const LOOKS: Look[] = [
@@ -47,7 +45,6 @@ export const LOOKS: Look[] = [
       note: "Black-and-white architectural line, glossed for evening light.",
     },
     related: ["the-night-out", "the-desk"],
-    feed: [1, 4, 30, 230, 280, 16, 3, 5, 180],
   },
   {
     handle: "the-desk",
@@ -75,7 +72,6 @@ export const LOOKS: Look[] = [
       note: "Low-signal cat-eye black that disappears on camera, holds up to a keyboard.",
     },
     related: ["the-blazer", "the-weekend"],
-    feed: [7, 19, 260, 30, 1, 360, 40, 120],
   },
   {
     handle: "the-night-out",
@@ -105,7 +101,6 @@ export const LOOKS: Look[] = [
       note: "Black-and-white architectural line, glossed to catch bar light without going costume.",
     },
     related: ["the-blazer", "the-weekend"],
-    feed: [11, 15, 50, 65, 280, 300, 12, 5, 180],
   },
   {
     handle: "the-weekend",
@@ -133,7 +128,6 @@ export const LOOKS: Look[] = [
       note: "Pale pinkish silver base with a metallic accent — restraint, not flash.",
     },
     related: ["the-desk", "the-night-out"],
-    feed: [140, 205, 240, 360, 40, 120, 11, 230],
   },
 ];
 

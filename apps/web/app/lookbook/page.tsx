@@ -5,11 +5,11 @@ import { LOOKS } from "./data";
 export const metadata: Metadata = {
   title: "Lookbook · Nailismo",
   description:
-    "Real hands, real fits. Every Nailismo look maps to one set you can cop in a tap. Built for the fit check.",
+    "Every Nailismo look maps to one set you can cop in a tap. Built for the fit check.",
   alternates: { canonical: "/lookbook" },
 };
 
-const HYPE = ["Real hands", "Real fits", "No gatekeeping", "On in minutes", "Lasts 7 days", "Tap to cop"];
+const HYPE = ["No gatekeeping", "On in minutes", "Lasts up to 7 days", "Tap to cop"];
 
 const UGC = [
   "ugc-01", "ugc-02", "ugc-03", "ugc-04", "ugc-05",
@@ -105,16 +105,16 @@ export default function LookbookIndexPage() {
         <div className="candy-wrap" style={{ marginBottom: 22 }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
             <div>
-              <span className="candy-eyebrow">Caught in the wild</span>
-              <h2 style={{ fontSize: "clamp(30px,5vw,52px)", marginTop: 8 }}>Tagged <span className="lb-hl">#Nailismo</span></h2>
+              <span className="candy-eyebrow">Style inspo</span>
+              <h2 style={{ fontSize: "clamp(30px,5vw,52px)", marginTop: 8 }}>Fit check <span className="lb-hl">ideas</span></h2>
             </div>
             <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)", maxWidth: 280 }}>
-              Real sets on real hands — straight off the feed.
+              Styling ideas for every kind of hand.
             </p>
           </div>
         </div>
 
-        <div className="lb-wall" aria-label="Customer nail looks">
+        <div className="lb-wall" aria-label="Styled nail looks">
           <div className="lb-wall-track">
             {[...UGC, ...UGC].map((u, i) => (
               <div className="lb-wall-item" key={i}>
