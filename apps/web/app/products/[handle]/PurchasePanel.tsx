@@ -190,7 +190,7 @@ export function PurchasePanel({
             boxShadow: "var(--shadow-candy)",
           }}
         >
-          <span aria-hidden style={{ fontSize: 18, lineHeight: 1 }}>🚚</span>
+          <span aria-hidden style={{ fontSize: 18, lineHeight: 1 }}>{bundleOffer ? "🛍️" : "🚚"}</span>
           <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, color: "var(--ink)" }}>
             {bundleOffer
               ? "Mix any 3 sets for $45 — add 2 more to your bag."
