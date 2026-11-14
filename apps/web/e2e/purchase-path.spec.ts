@@ -10,12 +10,12 @@ test.describe("purchase path", () => {
   test("browse → PDP → add to cart → checkout redirect", async ({ page }) => {
     // 1. Browse the shop
     await page.goto("/shop");
-    const firstProduct = page.locator('a[href^="/product/"]').first();
+    const firstProduct = page.locator('a[href^="/products/"]').first();
     await expect(firstProduct).toBeVisible();
     await firstProduct.click();
 
     // 2. Land on a product detail page
-    await expect(page).toHaveURL(/\/product\/.+/);
+    await expect(page).toHaveURL(/\/products\/.+/);
     const addToBag = page.getByRole("button", { name: /add to bag/i }).first();
     await expect(addToBag).toBeVisible();
 
@@ -38,8 +38,8 @@ test.describe("purchase path", () => {
 
   test("PDP exposes Product + BreadcrumbList structured data", async ({ page }) => {
     await page.goto("/shop");
-    await page.locator('a[href^="/product/"]').first().click();
-    await expect(page).toHaveURL(/\/product\/.+/);
+    await page.locator('a[href^="/products/"]').first().click();
+    await expect(page).toHaveURL(/\/products\/.+/);
 
     const blocks = await page
       .locator('script[type="application/ld+json"]')
