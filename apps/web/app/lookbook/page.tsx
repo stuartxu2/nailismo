@@ -5,11 +5,11 @@ import { LOOKS } from "./data";
 export const metadata: Metadata = {
   title: "Lookbook · Nailismo",
   description:
-    "Real hands, real fits. Every Nailismo look maps to one set you can cop in a tap. Built for the fit check.",
+    "Every Nailismo look maps to one set you can cop in a tap. Built for the fit check.",
   alternates: { canonical: "/lookbook" },
 };
 
-const HYPE = ["Real hands", "Real fits", "No gatekeeping", "On in minutes", "Lasts 7 days", "Tap to cop"];
+const HYPE = ["No gatekeeping", "On in minutes", "Lasts up to 7 days", "Tap to cop"];
 
 const UGC = [
   "ugc-01", "ugc-02", "ugc-03", "ugc-04", "ugc-05",
@@ -38,8 +38,8 @@ export default function LookbookIndexPage() {
           <div>
             <span className="candy-eyebrow">The fit check</span>
             <h1 className="lb-display" style={{ marginTop: 14 }}>
-              Real <span className="lb-outline">hands</span>.<br />
-              Real <span className="lb-hl">fits</span>.
+              Your <span className="lb-outline">hands</span>.<br />
+              Your <span className="lb-hl">fits</span>.
             </h1>
             <p style={{ marginTop: 20, fontSize: 17, fontWeight: 600, color: "var(--ink-soft)", maxWidth: 460 }}>
               Every look = one set you can actually cop. Steal the whole vibe in a single tap —{" "}
@@ -55,7 +55,7 @@ export default function LookbookIndexPage() {
             { }
             <img src="/images/lookbook/hero.avif" alt="Nailismo lookbook hero — golden-hour blue marble press-on nails" />
             <span className="candy-sticker is-gum" style={{ position: "absolute", top: 16, left: 16 }}>NEW DROP ✦</span>
-            <span className="candy-sticker is-soda" style={{ position: "absolute", bottom: 18, right: 16, color: "var(--cream)" }}>caught IRL</span>
+            <span className="candy-sticker is-soda" style={{ position: "absolute", bottom: 18, right: 16, color: "var(--cream)" }}>styled look</span>
           </div>
         </section>
 
@@ -105,21 +105,21 @@ export default function LookbookIndexPage() {
         <div className="candy-wrap" style={{ marginBottom: 22 }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
             <div>
-              <span className="candy-eyebrow">Caught in the wild</span>
-              <h2 style={{ fontSize: "clamp(30px,5vw,52px)", marginTop: 8 }}>Tagged <span className="lb-hl">#Nailismo</span></h2>
+              <span className="candy-eyebrow">Style inspo</span>
+              <h2 style={{ fontSize: "clamp(30px,5vw,52px)", marginTop: 8 }}>Fit check <span className="lb-hl">ideas</span></h2>
             </div>
             <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)", maxWidth: 280 }}>
-              Real sets on real hands — straight off the feed.
+              Styling ideas for every kind of hand.
             </p>
           </div>
         </div>
 
-        <div className="lb-wall" aria-label="Customer nail looks">
+        <div className="lb-wall" aria-label="Styled nail looks">
           <div className="lb-wall-track">
             {[...UGC, ...UGC].map((u, i) => (
               <div className="lb-wall-item" key={i}>
                 { }
-                <img src={`/images/lookbook/${u}.avif`} alt="Customer nail look tagged Nailismo" loading="lazy" />
+                <img src={`/images/lookbook/${u}.avif`} alt="Styled press-on nail look" loading="lazy" />
               </div>
             ))}
           </div>

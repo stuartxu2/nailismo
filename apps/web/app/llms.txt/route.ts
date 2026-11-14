@@ -17,7 +17,7 @@ const BODY = `# Nailismo
 ## Tools & Features
 - [Customize to Order](${SITE}/customize): Upload an inspiration photo and get a made-to-order set designed to your hand.
 - [Find My Size](${SITE}/fit): Map your exact nail sizes in about a minute before ordering.
-- [Lookbook](${SITE}/lookbook): Real sets styled on real hands for inspiration.
+- [Lookbook](${SITE}/lookbook): Styled looks, each paired with one set, for inspiration.
 
 ## Guides
 - [How to apply press-on nails](${SITE}/journal/how-to-apply-press-on-nails): Step-by-step application for a set that lasts up to 7 days.

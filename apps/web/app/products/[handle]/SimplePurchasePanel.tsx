@@ -180,11 +180,13 @@ export function SimplePurchasePanel({
       </div>
 
       {/* sticky add bar (mobile) */}
+      {/* display lives in className (flex md:hidden): an inline display would
+          override md:hidden and leak this bar onto desktop. */}
       <div
-        className="md:hidden"
+        className="flex md:hidden"
         style={{
           position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50,
-          display: "flex", alignItems: "center", gap: 12,
+          alignItems: "center", gap: 12,
           padding: "12px 16px calc(12px + env(safe-area-inset-bottom))",
           background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)",
           borderTop: "2px solid var(--marshmallow)",

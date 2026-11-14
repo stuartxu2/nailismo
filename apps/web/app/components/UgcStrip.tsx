@@ -1,8 +1,9 @@
 import Image from "next/image";
 
-// Real-hands proof strip — generated UGC-style shots spanning skin tones,
+// Styled-looks strip — generated UGC-style shots spanning skin tones,
 // masc/femme/neutral styling, short + expressive looks. We show diversity
-// rather than claiming it. Used on PDP and collection pages.
+// rather than claiming it. These are not customer photos, so never label them
+// "real hands" or as reviews. Used on PDP and collection pages.
 const SHOTS = [
   { src: "/images/ugc/ugc-1.avif", alt: "Deep skin-tone hand with short glossy black press-on nails and white drip art, mirror selfie" },
   { src: "/images/ugc/ugc-5.avif", alt: "Tattooed hand with short nude press-on nails and minimalist black symbol art — moon, dots, arrow" },
@@ -19,8 +20,8 @@ const SHOTS = [
 
 export function UgcStrip({ heading = "Worn loud. Worn minimal." }: { heading?: string }) {
   return (
-    <section aria-label="Real hands wearing Nailismo" style={{ marginTop: 8 }}>
-      <span className="candy-eyebrow">Real hands</span>
+    <section aria-label="Styled looks" style={{ marginTop: 8 }}>
+      <span className="candy-eyebrow">Styled looks</span>
       <h2 style={{ marginTop: 8, fontSize: "clamp(22px,3vw,30px)" }}>{heading}</h2>
       <p style={{ marginTop: 6, fontSize: 14, fontWeight: 600, color: "var(--ink-soft)" }}>
         Short, long, masc, femme, expressive — styled on every kind of hand.

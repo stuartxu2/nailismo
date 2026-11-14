@@ -6,7 +6,7 @@ const items = [
   { q: "How do I know my size?", a: "Start with a sizing range or starter set, and match each nail before applying. Our Find My Size tool maps your exact fit in about a minute." },
   { q: "How long do they last?", a: "Tabs are best for short wear. Liquid adhesive can last up to 7+ days depending on application, prep, and daily activity." },
   { q: "How do I remove them?", a: "Soak and loosen gently — never rip them off. Most damage comes from forced removal, not from normal wear." },
-  { q: "Which flavor should I start with?", a: "Bubblegum Pop, Soda Pop, or any fan favorite. Bright, easy to wear, and impossible to resist." },
+  { q: "Which flavor should I start with?", a: "Start with any set from Best Sellers — they're the ones people pick most. First time? A short, minimal set is the easiest to wear in." },
 ];
 
 const faqSchema = {

@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { storefrontFetch, ShopifyConfigError } from "@/lib/shopify/client";
-import { COLLECTION_BY_HANDLE_QUERY } from "@/lib/shopify/queries";
-import type { CollectionByHandleQueryResult, ShopifyProduct } from "@/lib/shopify/types";
+import { COLLECTION_BY_HANDLE_QUERY, NEWEST_PRODUCTS_QUERY } from "@/lib/shopify/queries";
+import type {
+  CollectionByHandleQueryResult,
+  ProductsQueryResult,
+  ShopifyProduct,
+} from "@/lib/shopify/types";
+import { pickNewestNailSets } from "@/lib/shopify/newest";
+import { CUSTOM_PRODUCT_ID } from "@/lib/customize/product";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
 import { FavoriteButton } from "@/app/components/FavoriteButton";
 import type { FavItem } from "@/lib/favorites";
@@ -24,16 +30,8 @@ type Flavor = {
   fav?: FavItem;
 };
 
-const FALLBACK: Flavor[] = [
-  { name: "Bubblegum Pop", shape: "Almond", finish: "Gloss", price: "$18", image: "/images/listing/pink and silver press on nails.avif", href: "/shop", swatches: ["#9FED40", "#60779F"], sticker: { label: "New flavor", tone: "is-gum" } },
-  { name: "Cotton Candy", shape: "Oval", finish: "Sheer", price: "$16", image: "/images/listing/pale pinkish and silver press on nails.avif", href: "/shop", swatches: ["#E6D5EB", "#9B7BB0"] },
-  { name: "Cherry Cola", shape: "Almond", finish: "Gloss", price: "$20", image: "/images/listing/cat eye gel red press on nails.avif", href: "/shop", swatches: ["#60779F", "#271028"], sticker: { label: "Fan fave", tone: "" } },
-  { name: "Soda Pop", shape: "Short Square", finish: "Chrome", price: "$22", image: "/images/listing/silver press on nails.avif", href: "/shop", swatches: ["#60779F", "#C9B6D2"], sticker: { label: "New flavor", tone: "is-soda" } },
-  { name: "Lemon Drop", shape: "Oval", finish: "Gloss", price: "$18", image: "/images/listing/amber and gold press on nails.avif", href: "/shop", swatches: ["#9FED40", "#6FBF1F"], sticker: { label: "Almost gone", tone: "is-mint" } },
-  { name: "Midnight Licorice", shape: "Short Square", finish: "Matte", price: "$19", image: "/images/listing/cat eye black press on nails.avif", href: "/shop", swatches: ["#271028", "#60779F"] },
-  { name: "Autumn Caramel", shape: "Almond", finish: "Gloss", price: "$18", image: "/images/listing/autumn retro press on nails.avif", href: "/shop", swatches: ["#6FBF1F", "#9FED40"] },
-  { name: "Tuxedo Mint", shape: "Square", finish: "Gloss", price: "$17", image: "/images/listing/black and white press on nails.avif", href: "/shop", swatches: ["#271028", "#9FED40"] },
-];
+// Card image for a catalog product that has no featured image yet.
+const PLACEHOLDER_IMAGE = "/images/listing/black and white press on nails.avif";
 
 const SWATCH_CYCLE = ["#9FED40", "#60779F", "#271028", "#C9B6D2", "#6FBF1F"];
 
@@ -50,7 +48,7 @@ function toFlavor(p: ShopifyProduct, i: number): Flavor {
     shape: p.productType || "Almond",
     finish: p.tags[0] ?? "Gloss",
     price: money(p),
-    image: p.featuredImage?.url ?? FALLBACK[i % FALLBACK.length].image,
+    image: p.featuredImage?.url ?? PLACEHOLDER_IMAGE,
     href: `/products/${p.handle}`,
     swatches: [SWATCH_CYCLE[i % SWATCH_CYCLE.length], SWATCH_CYCLE[(i + 2) % SWATCH_CYCLE.length]],
     fav: {
@@ -67,8 +65,8 @@ function toFlavor(p: ShopifyProduct, i: number): Flavor {
 }
 
 // Pull a curated collection's products (best-sellers / new-drops) so the
-// homepage shelves track Shopify merchandising. Falls back to the static
-// flavor list when the collection is empty or unreachable.
+// homepage shelves track Shopify merchandising. Returns [] when the collection
+// is empty or unreachable; the section then hides instead of showing fake sets.
 async function getCollectionFlavors(
   handle: string,
   limit: number,
@@ -86,10 +84,28 @@ async function getCollectionFlavors(
       console.error(`[candy] collection ${handle} fetch failed:`, err);
     }
   }
-  if (!flavors.length) flavors = FALLBACK.slice(0, limit).map((f) => ({ ...f, sticker: undefined }));
   return flavors
     .slice(0, limit)
     .map((f, i) => (i === 0 && sticker ? { ...f, sticker } : { ...f, sticker: undefined }));
+}
+
+// The "New flavors" shelf reads the newest nail sets straight from the catalog
+// (by created date) so it never depends on the New Drops collection being
+// curated by hand. Over-fetch so filtering out gift cards / essentials / the
+// Custom Nail Set still leaves a full shelf.
+async function getNewestFlavors(limit: number, sticker: Flavor["sticker"]): Promise<Flavor[]> {
+  let flavors: Flavor[] = [];
+  try {
+    const data = await storefrontFetch<ProductsQueryResult>(NEWEST_PRODUCTS_QUERY, {
+      first: limit + 8,
+    });
+    flavors = pickNewestNailSets(data.products.nodes, limit, [CUSTOM_PRODUCT_ID]).map(toFlavor);
+  } catch (err) {
+    if (!(err instanceof ShopifyConfigError)) {
+      console.error("[candy] newest products fetch failed:", err);
+    }
+  }
+  return flavors.map((f, i) => (i === 0 ? { ...f, sticker } : { ...f, sticker: undefined }));
 }
 
 /* ---------- small pieces ---------- */
@@ -145,19 +161,16 @@ const STEPS = [
   { n: "4", t: "Show off", d: "Wear them all week. When you're done, they pop off clean — no damage.", emoji: "✨" },
 ];
 
-const REVIEWS = [
-  { q: "First time ever wearing press-ons and they stayed on a whole week. So fun!", n: "Riley P.", s: "Bubblegum Pop" },
-  { q: "Looks way more expensive than it is. Got compliments all day.", n: "Devon M.", s: "Soda Pop" },
-  { q: "The removal is actually easy?? Obsessed. Already reordering.", n: "Sam K.", s: "Cherry Cola" },
-];
-
 /* ---------- page ---------- */
 
 export default async function CandyHome() {
   const [fanFavorites, newFlavors] = await Promise.all([
     getCollectionFlavors("best-sellers", 8, { label: "Fan fave", tone: "" }),
-    getCollectionFlavors("new-drops", 10, { label: "New flavor", tone: "is-gum" }),
+    getNewestFlavors(10, { label: "New flavor", tone: "is-gum" }),
   ]);
+  // Marquee names come from the live shelves so it never advertises a set
+  // that isn't in the catalog.
+  const tickerNames = [...new Set([...newFlavors, ...fanFavorites].map((f) => f.name))];
 
   return (
     <>
@@ -166,17 +179,20 @@ export default async function CandyHome() {
       <HeroSlider />
 
       {/* ---- flavor ticker ---- */}
+      {tickerNames.length > 0 && (
       <div className="candy-marquee" style={{ background: "var(--grape)", padding: "12px 0" }}>
         <div className="candy-marquee-track" style={{ animationDuration: "32s" }}>
           {[0, 1].map((k) => (
             <span key={k} style={{ paddingRight: 0, fontSize: 22, color: "#fff" }}>
-              Bubblegum Pop&nbsp;·&nbsp;Mint Chip&nbsp;·&nbsp;Cotton Candy&nbsp;·&nbsp;Soda Pop&nbsp;·&nbsp;Lemon Drop&nbsp;·&nbsp;Grape Soda&nbsp;·&nbsp;Cherry Cola&nbsp;·&nbsp;Sugar Gloss&nbsp;·&nbsp;
+              {tickerNames.map((n) => `${n} · `).join("")}
             </span>
           ))}
         </div>
       </div>
+      )}
 
       {/* ---- fan favorites (grid) — wired to the Best Sellers collection ---- */}
+      {fanFavorites.length > 0 && (
       <section className="candy-sec">
         <div className="candy-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 36 }}>
@@ -193,6 +209,7 @@ export default async function CandyHome() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ---- 3 steps ---- */}
       <section className="candy-sec" style={{ background: "var(--marshmallow)" }}>
@@ -216,7 +233,8 @@ export default async function CandyHome() {
         </div>
       </section>
 
-      {/* ---- new flavors (scroll-snap slider) — wired to the New Drops collection ---- */}
+      {/* ---- new flavors (scroll-snap slider) — newest nail sets by created date ---- */}
+      {newFlavors.length > 0 && (
       <section className="candy-sec" style={{ background: "var(--soda)" }}>
         <div className="candy-wrap">
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 30 }}>
@@ -235,29 +253,7 @@ export default async function CandyHome() {
           ))}
         </div>
       </section>
-
-      {/* ---- social proof ---- */}
-      <section className="candy-sec">
-        <div className="candy-wrap">
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <span className="candy-eyebrow" style={{ justifyContent: "center" }}>Everyone&apos;s wearing them</span>
-            <h2 style={{ fontSize: "clamp(34px, 5vw, 54px)", marginTop: 10 }}>Loved out loud</h2>
-          </div>
-          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
-            {REVIEWS.map((r) => (
-              <figure key={r.n} className="candy-review">
-                <span className="candy-stars" aria-label="5 out of 5 stars">★★★★★</span>
-                <blockquote style={{ fontSize: 18, fontWeight: 700, margin: "14px 0 16px", lineHeight: 1.45 }}>
-                  “{r.q}”
-                </blockquote>
-                <figcaption style={{ fontSize: 14, fontWeight: 700, color: "var(--ink-soft)" }}>
-                  {r.n} · <span style={{ color: "var(--bubblegum-d)" }}>{r.s}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
+      )}
 
       {/* ---- find my size band ---- */}
       <section className="candy-sec" style={{ background: "var(--lemon)" }}>
