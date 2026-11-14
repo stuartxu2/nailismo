@@ -29,6 +29,7 @@ import { parseReviews, aggregate } from "./reviews";
 import { fetchProductReviews } from "./judgeme";
 import { UgcStrip } from "@/app/components/UgcStrip";
 import { getPromoState, isBundleEligible } from "@/lib/promo/holiday";
+import { displayTags } from "@/lib/shopify/tags";
 
 type Params = { handle: string };
 
@@ -292,9 +293,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               bundleOffer={isBundleEligible(product.tags) && getPromoState(new Date()).offerLive}
             />
 
-            {product.tags.length > 0 && (
+            {displayTags(product.tags).length > 0 && (
               <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {product.tags.slice(0, 8).map((t) => (
+                {displayTags(product.tags).slice(0, 8).map((t) => (
                   <span key={t} className="candy-chip" style={{ cursor: "default" }}>{t}</span>
                 ))}
               </div>
