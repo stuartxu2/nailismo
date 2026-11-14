@@ -28,6 +28,7 @@ import { classifyProduct } from "@/lib/shopify/product-class";
 import { parseReviews, aggregate } from "./reviews";
 import { fetchProductReviews } from "./judgeme";
 import { UgcStrip } from "@/app/components/UgcStrip";
+import { getPromoState, isBundleEligible } from "@/lib/promo/holiday";
 
 type Params = { handle: string };
 
@@ -288,6 +289,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                 title: product.title,
                 image: product.featuredImage?.url ?? null,
               }}
+              bundleOffer={isBundleEligible(product.tags) && getPromoState(new Date()).offerLive}
             />
 
             {product.tags.length > 0 && (

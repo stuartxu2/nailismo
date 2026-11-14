@@ -45,6 +45,11 @@ const akkuratMono = localFont({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nailismo.com";
 
+// Seasonal copy (ticker, nav, promo bands — lib/promo/holiday.ts) is computed at
+// render time; revalidate every route at least hourly so it flips on schedule
+// even on otherwise-static pages.
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Nailismo | Press-On Nails — Press On, Show Off",

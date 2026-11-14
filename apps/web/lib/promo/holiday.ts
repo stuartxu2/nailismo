@@ -56,6 +56,15 @@ export function cutoffMessage(c: PromoState["cutoff"]): string | null {
   return c ? CUTOFF_COPY[c] : null;
 }
 
+export type GiftNav = { href: string; label: string };
+
+/** Header / mobile-menu gift link: the gift guide during the season, the gift card otherwise. */
+export function giftNav(state: PromoState): GiftNav {
+  return state.seasonLive
+    ? { href: "/collections/holiday-gift-guide", label: "Gift Guide" }
+    : { href: "/products/nailismo-gift-card", label: "Gift Card" };
+}
+
 export function isBundleEligible(tags: readonly string[]): boolean {
   return tags.includes(BUNDLE_TAG);
 }

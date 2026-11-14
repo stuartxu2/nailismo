@@ -7,7 +7,15 @@ const GUIDE_HREF = "/collections/holiday-gift-guide";
  *  Christmas cutoff line. Renders nothing outside the season. All timing comes
  *  from lib/promo/holiday.ts; the root layout revalidates hourly so the copy
  *  flips on time. `linkGuide={false}` on the gift guide page itself. */
-export function PromoStrip({ now = new Date(), linkGuide = true }: { now?: Date; linkGuide?: boolean }) {
+export function PromoStrip({
+  now = new Date(),
+  linkGuide = true,
+  style,
+}: {
+  now?: Date;
+  linkGuide?: boolean;
+  style?: React.CSSProperties;
+}) {
   const state = getPromoState(now);
   const cutoff = cutoffMessage(state.cutoff);
   if (!state.offerLive && !cutoff) return null;
@@ -32,6 +40,7 @@ export function PromoStrip({ now = new Date(), linkGuide = true }: { now?: Date;
         fontFamily: "var(--body)",
         fontWeight: 800,
         fontSize: 15,
+        ...style,
       }}
     >
       {state.offerLive && (

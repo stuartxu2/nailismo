@@ -148,11 +148,7 @@ export default async function CollectionPage({
           <p style={{ marginTop: 8 }}><strong>{products.length}</strong> {products.length === 1 ? "set" : "sets"}</p>
         </div>
 
-        {collection.handle === "holiday-gift-guide" && (
-          <div style={{ marginTop: 20 }}>
-            <PromoStrip linkGuide={false} />
-          </div>
-        )}
+        {collection.handle === "holiday-gift-guide" && <PromoStrip linkGuide={false} style={{ marginTop: 20 }} />}
 
         <CollectionBrowser products={products} handle={collection.handle} />
 

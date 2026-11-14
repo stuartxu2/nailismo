@@ -13,6 +13,7 @@ import { NewsletterForm } from "@/app/components/NewsletterForm";
 import { FavoriteButton } from "@/app/components/FavoriteButton";
 import type { FavItem } from "@/lib/favorites";
 import { HeroSlider } from "./HeroSlider";
+import { PromoStrip } from "@/app/components/PromoStrip";
 
 /* ---------- types & data ---------- */
 
@@ -190,6 +191,11 @@ export default async function CandyHome() {
         </div>
       </div>
       )}
+
+      {/* ---- seasonal band: 3-for-$45 + US Christmas cutoff (lib/promo/holiday.ts) ---- */}
+      <div className="candy-wrap">
+        <PromoStrip style={{ marginTop: 28 }} />
+      </div>
 
       {/* ---- fan favorites (grid) — wired to the Best Sellers collection ---- */}
       {fanFavorites.length > 0 && (

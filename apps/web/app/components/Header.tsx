@@ -4,9 +4,11 @@ import { MobileMenu } from "./MobileMenu";
 import { CartCountProvider, CartBadge } from "./CartCount";
 import { FavLink } from "./FavCount";
 import { getMenuCollections } from "@/lib/shopify/collections";
+import { getPromoState, giftNav } from "@/lib/promo/holiday";
 
 export async function Header() {
   const collections = await getMenuCollections();
+  const gift = giftNav(getPromoState(new Date()));
   return (
     <header className="candy-head">
       <div className="candy-wrap flex items-center justify-between h-[70px]">
@@ -44,8 +46,8 @@ export async function Header() {
             <span className="pop" aria-hidden>📏</span> Fit
           </Link>
           <Link href="/lookbook">Lookbook</Link>
-          <Link href="/products/nailismo-gift-card" className="candy-gift-link">
-            <span className="pop" aria-hidden>🎁</span> Gift Card
+          <Link href={gift.href} className="candy-gift-link">
+            <span className="pop" aria-hidden>🎁</span> {gift.label}
           </Link>
         </nav>
 
@@ -68,7 +70,7 @@ export async function Header() {
             Cart
             <CartBadge />
           </Link>
-          <MobileMenu />
+          <MobileMenu gift={gift} />
         </div>
         </CartCountProvider>
       </div>

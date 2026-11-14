@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cutoffMessage, getPromoState, isBundleEligible } from "./holiday";
+import { cutoffMessage, getPromoState, giftNav, isBundleEligible } from "./holiday";
 
 const at = (iso: string) => getPromoState(new Date(iso));
 
@@ -50,6 +50,19 @@ describe("cutoffMessage", () => {
     expect(cutoffMessage("express")).toBe("US: order with Express by Mon Dec 21 for Christmas delivery");
     expect(cutoffMessage("giftcard")).toBe("Running late? Gift cards deliver instantly");
     expect(cutoffMessage(null)).toBeNull();
+  });
+});
+
+describe("giftNav", () => {
+  it("points at the gift guide during the season and the gift card after", () => {
+    expect(giftNav(at("2026-12-25T12:00:00Z"))).toEqual({
+      href: "/collections/holiday-gift-guide",
+      label: "Gift Guide",
+    });
+    expect(giftNav(at("2026-12-26T08:00:00Z"))).toEqual({
+      href: "/products/nailismo-gift-card",
+      label: "Gift Card",
+    });
   });
 });
 

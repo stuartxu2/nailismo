@@ -1,13 +1,8 @@
-const ITEMS = [
-  "100% HAND-PAINTED",
-  "FREE SHIPPING OVER $35",
-  "READY IN MINUTES",
-  "EASY CLEAN REMOVAL",
-  "PRESS ON. SHOW OFF.",
-];
+import { getPromoState } from "@/lib/promo/holiday";
+import { tickerItems } from "@/lib/promo/ticker";
 
 export function AnnouncementTicker() {
-  const line = ITEMS.join("  ✦  ") + "  ✦  ";
+  const line = tickerItems(getPromoState(new Date())).join("  ✦  ") + "  ✦  ";
   return (
     <div className="candy-marquee" style={{ background: "var(--ink)", color: "var(--lemon)", padding: "9px 0" }}>
       <div className="candy-marquee-track">
