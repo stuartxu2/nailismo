@@ -101,7 +101,7 @@ export function ProductGallery({
             <img
               key={hero.url}
               src={hero.url}
-              alt={hero.altText ?? title}
+              alt={hero.altText || title}
               className="img-cover [animation:fade-in_240ms_ease]"
               style={{
                 transformOrigin: `${zoom.x}% ${zoom.y}%`,
@@ -166,7 +166,7 @@ export function ProductGallery({
                 }}
               >
                 {src ? (
-                  <img src={src} alt={item.altText ?? `${title} — view ${i + 1}`} className="img-cover" />
+                  <img src={src} alt={item.altText || `${title} — view ${i + 1}`} className="img-cover" />
                 ) : null}
                 {isVideo && (
                   <span
