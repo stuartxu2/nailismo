@@ -158,17 +158,19 @@ export const CART_FRAGMENT = /* GraphQL */ `
       subtotalAmount { amount currencyCode }
       totalAmount { amount currencyCode }
     }
+    discountAllocations { discountedAmount { amount currencyCode } }
     lines(first: 50) {
       nodes {
         id
         quantity
         cost { totalAmount { amount currencyCode } }
+        discountAllocations { discountedAmount { amount currencyCode } }
         merchandise {
           ... on ProductVariant {
             id
             title
             image { url altText }
-            product { handle title }
+            product { id handle title tags }
             price { amount currencyCode }
             selectedOptions { name value }
           }

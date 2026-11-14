@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { getCart, removeLine, updateLineQuantity } from "@/lib/shopify/cart";
 import type { ShopifyCartLine } from "@/lib/shopify/types";
 import { FREE_SHIPPING_THRESHOLD, freeShippingRemaining } from "@/lib/shipping";
+import { getPromoState } from "@/lib/promo/holiday";
+import { bundleNudge, bundleSavings, countEligibleSets } from "@/lib/promo/cart";
+import { CartSuggestions } from "./CartSuggestions";
 
 export const metadata: Metadata = {
   title: "Cart · Nailismo",
@@ -70,6 +73,12 @@ export default async function CartPage() {
   const freeShipRemaining = isUsd ? freeShippingRemaining(subtotalNum) : 0;
   const freeShipUnlocked = isUsd && subtotalNum >= FREE_SHIPPING_THRESHOLD;
   const freeShipProgress = isUsd ? Math.min(1, subtotalNum / FREE_SHIPPING_THRESHOLD) : 0;
+  // 3-for-$45 (lib/promo/holiday.ts): savings come from the automatic discount's
+  // allocations; codes are only entered at Shopify checkout, so anything here is
+  // the bundle.
+  const promo = getPromoState(new Date());
+  const savings = cart ? bundleSavings(cart) : 0;
+  const nudge = promo.offerLive ? bundleNudge(countEligibleSets(lines)) : null;
 
   return (
     <>
@@ -99,6 +108,7 @@ export default async function CartPage() {
                 {lines.map((line) => (
                   <LineRow key={line.id} line={line} />
                 ))}
+                {promo.offerLive && <CartSuggestions lines={lines} />}
               </div>
 
               <aside className="col-span-12 lg:col-span-4 lg:sticky lg:top-24 self-start">
@@ -114,12 +124,35 @@ export default async function CartPage() {
                     <span style={{ fontWeight: 700, color: "var(--ink-soft)" }}>Shipping</span>
                     <span style={{ fontWeight: 700, fontSize: 13, color: "var(--ink-soft)" }}>Calculated at checkout</span>
                   </div>
+                  {promo.offerLive && savings > 0 && (
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "2px solid var(--marshmallow)" }}>
+                      <span style={{ fontWeight: 800, color: "var(--ink)" }}>3 for $45 — you saved</span>
+                      <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 18 }}>${savings.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "16px 0" }}>
                     <span className="candy-eyebrow">Total</span>
                     <span style={{ fontFamily: "var(--display)", fontSize: 34, lineHeight: 1 }}>
                       {cart && formatPrice(cart.cost.totalAmount.amount, cart.cost.totalAmount.currencyCode)}
                     </span>
                   </div>
+                  {nudge && (
+                    <p
+                      style={{
+                        marginTop: 16,
+                        padding: "12px 14px",
+                        background: "var(--lemon)",
+                        border: "2.5px solid var(--ink)",
+                        borderRadius: 16,
+                        fontFamily: "var(--body)",
+                        fontWeight: 800,
+                        fontSize: 13.5,
+                        color: "var(--ink)",
+                      }}
+                    >
+                      {nudge}
+                    </p>
+                  )}
                   {isUsd && (
                     <div
                       style={{

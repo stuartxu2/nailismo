@@ -190,15 +190,18 @@ export type CollectionByHandleQueryResult = {
   collection: ShopifyCollectionDetail | null;
 };
 
+export type ShopifyDiscountAllocation = { discountedAmount: ShopifyMoney };
+
 export type ShopifyCartLine = {
   id: string;
   quantity: number;
   cost: { totalAmount: ShopifyMoney };
+  discountAllocations: ShopifyDiscountAllocation[];
   merchandise: {
     id: string;
     title: string;
     image: { url: string; altText: string | null } | null;
-    product: { handle: string; title: string };
+    product: { id: string; handle: string; title: string; tags: string[] };
     price: ShopifyMoney;
     selectedOptions: { name: string; value: string }[];
   };
@@ -212,6 +215,7 @@ export type ShopifyCart = {
     subtotalAmount: ShopifyMoney;
     totalAmount: ShopifyMoney;
   };
+  discountAllocations: ShopifyDiscountAllocation[];
   lines: { nodes: ShopifyCartLine[] };
 };
 
