@@ -1,0 +1,64 @@
+import { test, expect, type Page } from "@playwright/test";
+import { OFFER_END, SEASON_END } from "../lib/promo/holiday";
+
+/**
+ * Holiday 2026 package: "Any 3 sets for $45" (Every Possible Discount) plus the
+ * gift guide and shipping-cutoff messaging. Each test retires itself once its
+ * window closes, so the suite stays green after the season.
+ * Requires live Storefront data and the live EPD rule (PLAYWRIGHT_BASE_URL).
+ */
+
+const offerOver = () => Date.now() >= OFFER_END.getTime();
+const seasonOver = () => Date.now() >= SEASON_END.getTime();
+
+async function addToBag(page: Page, handle: string) {
+  await page.goto(`/products/${handle}`);
+  await page.getByRole("button", { name: /add to bag/i }).first().click();
+  await page.waitForURL(/\/cart/);
+}
+
+test.describe("3 for $45 offer", () => {
+  test.beforeEach(() => test.skip(offerOver(), "offer ended"));
+
+  test("eligible set PDP shows the offer", async ({ page }) => {
+    await page.goto("/products/midnight-circuit");
+    await expect(page.locator("main")).toContainText("Any 3 sets for $45");
+  });
+
+  for (const handle of ["nailismo-gift-card", "nail-glue"]) {
+    test(`${handle} PDP does not show the offer`, async ({ page }) => {
+      await page.goto(`/products/${handle}`);
+      await expect(page.locator("main")).toBeVisible();
+      await expect(page.locator("main")).not.toContainText("Any 3 sets for $45");
+    });
+  }
+
+  test("3 sets in the bag cost $45", async ({ page }) => {
+    for (const handle of ["midnight-circuit", "monochrome-edge", "rebel-king"]) {
+      await addToBag(page, handle);
+    }
+    const main = page.locator("main");
+    await expect(main).toContainText(/you saved/i);
+    await expect(main).toContainText(/Total\s*\$45(\.00)?(?!\d)/);
+  });
+
+  test("home ticker leads with the offer", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("body")).toContainText("ANY 3 SETS FOR $45");
+  });
+});
+
+test.describe("holiday season", () => {
+  test.beforeEach(() => test.skip(seasonOver(), "season ended"));
+
+  test("gift guide shows its heading and a delivery cutoff", async ({ page }) => {
+    await page.goto("/collections/holiday-gift-guide");
+    await expect(page.getByRole("heading", { name: "Holiday Gift Guide" })).toBeVisible();
+    await expect(page.locator("main")).toContainText(/order by|deliver instantly/i);
+  });
+
+  test("header links to the gift guide", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("header").getByRole("link", { name: /Gift Guide/ }).first()).toBeVisible();
+  });
+});
