@@ -38,8 +38,8 @@ export default function LookbookIndexPage() {
           <div>
             <span className="candy-eyebrow">The fit check</span>
             <h1 className="lb-display" style={{ marginTop: 14 }}>
-              Real <span className="lb-outline">hands</span>.<br />
-              Real <span className="lb-hl">fits</span>.
+              Your <span className="lb-outline">hands</span>.<br />
+              Your <span className="lb-hl">fits</span>.
             </h1>
             <p style={{ marginTop: 20, fontSize: 17, fontWeight: 600, color: "var(--ink-soft)", maxWidth: 460 }}>
               Every look = one set you can actually cop. Steal the whole vibe in a single tap —{" "}
@@ -55,7 +55,7 @@ export default function LookbookIndexPage() {
             { }
             <img src="/images/lookbook/hero.avif" alt="Nailismo lookbook hero — golden-hour blue marble press-on nails" />
             <span className="candy-sticker is-gum" style={{ position: "absolute", top: 16, left: 16 }}>NEW DROP ✦</span>
-            <span className="candy-sticker is-soda" style={{ position: "absolute", bottom: 18, right: 16, color: "var(--cream)" }}>caught IRL</span>
+            <span className="candy-sticker is-soda" style={{ position: "absolute", bottom: 18, right: 16, color: "var(--cream)" }}>styled look</span>
           </div>
         </section>
 
@@ -119,7 +119,7 @@ export default function LookbookIndexPage() {
             {[...UGC, ...UGC].map((u, i) => (
               <div className="lb-wall-item" key={i}>
                 { }
-                <img src={`/images/lookbook/${u}.avif`} alt="Customer nail look tagged Nailismo" loading="lazy" />
+                <img src={`/images/lookbook/${u}.avif`} alt="Styled press-on nail look" loading="lazy" />
               </div>
             ))}
           </div>

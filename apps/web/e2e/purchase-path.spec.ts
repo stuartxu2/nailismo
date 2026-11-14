@@ -10,7 +10,7 @@ test.describe("purchase path", () => {
   test("browse → PDP → add to cart → checkout redirect", async ({ page }) => {
     // 1. Browse the shop
     await page.goto("/shop");
-    const firstProduct = page.locator('a[href^="/products/"]').first();
+    const firstProduct = page.locator('main a[href^="/products/"]:not([href*="gift-card"]):not([href*="glue"])').first();
     await expect(firstProduct).toBeVisible();
     await firstProduct.click();
 
@@ -38,7 +38,7 @@ test.describe("purchase path", () => {
 
   test("PDP exposes Product + BreadcrumbList structured data", async ({ page }) => {
     await page.goto("/shop");
-    await page.locator('a[href^="/products/"]').first().click();
+    await page.locator('main a[href^="/products/"]:not([href*="gift-card"]):not([href*="glue"])').first().click();
     await expect(page).toHaveURL(/\/products\/.+/);
 
     const blocks = await page
