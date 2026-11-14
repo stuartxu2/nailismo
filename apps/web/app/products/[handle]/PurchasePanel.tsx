@@ -7,6 +7,7 @@ import { addToCart } from "@/lib/shopify/cart";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 import { FavoriteButton } from "@/app/components/FavoriteButton";
 import type { FavItem } from "@/lib/favorites";
+import { OFFER_LABEL } from "@/lib/promo/holiday";
 
 const TRUST_POINTS = [
   "10 premium nails + toolkit included",
@@ -58,11 +59,14 @@ export function PurchasePanel({
   variants,
   defaultVariantId,
   fav,
+  bundleOffer = false,
 }: {
   options: ShopifyProductOption[];
   variants: ShopifyVariant[];
   defaultVariantId: string | null;
   fav: { id: string; handle: string; title: string; image: string | null };
+  /** Nail set while the 3-for-$45 offer is live (lib/promo/holiday.ts). */
+  bundleOffer?: boolean;
 }) {
   const initialSelected = useMemo(() => {
     const def = variants.find((v) => v.id === defaultVariantId) ?? variants[0];
@@ -98,8 +102,15 @@ export function PurchasePanel({
     <>
       <div className="mt-6 flex items-center justify-between" style={{ gap: 16 }}>
         <span style={{ fontFamily: "var(--display)", fontSize: 44, lineHeight: 1, color: "var(--ink)" }}>{priceLabel}</span>
-        <span className="candy-sticker is-mint" style={{ fontSize: 12 }}>
-          {available ? "In stock · ships in 24h" : "Sold out"}
+        <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+          <span className="candy-sticker is-mint" style={{ fontSize: 12 }}>
+            {available ? "In stock · ships in 24h" : "Sold out"}
+          </span>
+          {bundleOffer && (
+            <span className="candy-sticker is-gum" style={{ fontSize: 12 }}>
+              {OFFER_LABEL}
+            </span>
+          )}
         </span>
       </div>
 
@@ -164,8 +175,8 @@ export function PurchasePanel({
         </div>
       )}
 
-      {/* AOV nudge — most single sets sit under the free-ship line */}
-      {available && underFreeShip && (
+      {/* AOV nudge — the 3-for-$45 bundle while it runs, otherwise free shipping */}
+      {available && (bundleOffer || underFreeShip) && (
         <div
           className="mt-6"
           style={{
@@ -179,9 +190,11 @@ export function PurchasePanel({
             boxShadow: "var(--shadow-candy)",
           }}
         >
-          <span aria-hidden style={{ fontSize: 18, lineHeight: 1 }}>🚚</span>
+          <span aria-hidden style={{ fontSize: 18, lineHeight: 1 }}>{bundleOffer ? "🛍️" : "🚚"}</span>
           <span style={{ fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, color: "var(--ink)" }}>
-            Add one more set to unlock free shipping.
+            {bundleOffer
+              ? "Mix any 3 sets for $45 — the price drops in your bag."
+              : "Add one more set to unlock free shipping."}
           </span>
         </div>
       )}

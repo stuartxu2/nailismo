@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getPromoState } from "@/lib/promo/holiday";
 import Image from "next/image";
 
 const PAYMENTS = ["Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Klarna"];
@@ -56,6 +57,9 @@ export function Footer() {
           </div>
           <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
             <Col title="Shop" links={[
+              ...(getPromoState(new Date()).seasonLive
+                ? [{ label: "Holiday Gift Guide", href: "/collections/holiday-gift-guide" }]
+                : []),
               { label: "New Drops", href: "/collections/new-drops" },
               { label: "Best Sellers", href: "/collections/best-sellers" },
               { label: "Wairo 和色", href: "/collections/wairo" },

@@ -143,6 +143,7 @@ export const COLLECTION_BY_HANDLE_QUERY = /* GraphQL */ `
           priceRange {
             minVariantPrice { amount currencyCode }
           }
+          variants(first: 1) { nodes { id availableForSale } }
         }
       }
     }
@@ -158,17 +159,19 @@ export const CART_FRAGMENT = /* GraphQL */ `
       subtotalAmount { amount currencyCode }
       totalAmount { amount currencyCode }
     }
+    discountAllocations { discountedAmount { amount currencyCode } }
     lines(first: 50) {
       nodes {
         id
         quantity
         cost { totalAmount { amount currencyCode } }
+        discountAllocations { discountedAmount { amount currencyCode } }
         merchandise {
           ... on ProductVariant {
             id
             title
             image { url altText }
-            product { handle title }
+            product { id handle title tags }
             price { amount currencyCode }
             selectedOptions { name value }
           }

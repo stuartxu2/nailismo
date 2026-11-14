@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useCartCount } from "./CartCount";
+import type { GiftNav } from "@/lib/promo/holiday";
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
@@ -13,7 +14,7 @@ const navLinks = [
   { href: "/lookbook", label: "Lookbook" },
 ];
 
-export function MobileMenu() {
+export function MobileMenu({ gift }: { gift: GiftNav }) {
   const count = useCartCount();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -84,7 +85,7 @@ export function MobileMenu() {
             <nav className="candy-wrap" style={{ flex: 1, overflowY: "auto", paddingTop: 28, paddingBottom: 28 }}>
               <span className="candy-eyebrow">Browse</span>
               <Link
-                href="/products/nailismo-gift-card"
+                href={gift.href}
                 onClick={() => setOpen(false)}
                 style={{
                   display: "flex",
@@ -102,7 +103,7 @@ export function MobileMenu() {
                   boxShadow: "0 4px 0 var(--ink)",
                 }}
               >
-                <span aria-hidden style={{ fontSize: 24 }}>🎁</span> Gift Card
+                <span aria-hidden style={{ fontSize: 24 }}>🎁</span> {gift.label}
               </Link>
               <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0" }}>
                 {navLinks.map((link, i) => (

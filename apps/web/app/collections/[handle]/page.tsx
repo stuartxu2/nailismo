@@ -12,6 +12,7 @@ import type {
   ShopifyCollectionDetail,
 } from "@/lib/shopify/types";
 import { UgcStrip } from "@/app/components/UgcStrip";
+import { PromoStrip } from "@/app/components/PromoStrip";
 import { CollectionBrowser } from "./CollectionBrowser";
 
 type Params = { handle: string };
@@ -146,6 +147,8 @@ export default async function CollectionPage({
           )}
           <p style={{ marginTop: 8 }}><strong>{products.length}</strong> {products.length === 1 ? "set" : "sets"}</p>
         </div>
+
+        {collection.handle === "holiday-gift-guide" && <PromoStrip linkGuide={false} style={{ marginTop: 20 }} />}
 
         <CollectionBrowser products={products} handle={collection.handle} />
 

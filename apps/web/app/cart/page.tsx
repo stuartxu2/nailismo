@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { getCart, removeLine, updateLineQuantity } from "@/lib/shopify/cart";
 import type { ShopifyCartLine } from "@/lib/shopify/types";
 import { FREE_SHIPPING_THRESHOLD, freeShippingRemaining } from "@/lib/shipping";
+import { getPromoState } from "@/lib/promo/holiday";
+import { bundleNudge, bundleSavings, countEligibleSets, savingsNote } from "@/lib/promo/cart";
+import { CartSuggestions } from "./CartSuggestions";
 
 export const metadata: Metadata = {
   title: "Cart · Nailismo",
@@ -70,6 +73,13 @@ export default async function CartPage() {
   const freeShipRemaining = isUsd ? freeShippingRemaining(subtotalNum) : 0;
   const freeShipUnlocked = isUsd && subtotalNum >= FREE_SHIPPING_THRESHOLD;
   const freeShipProgress = isUsd ? Math.min(1, subtotalNum / FREE_SHIPPING_THRESHOLD) : 0;
+  // 3-for-$45 (lib/promo/holiday.ts): savings come from real discount
+  // allocations and are shown as already included in the Total (line-level
+  // discounts are inside Shopify's subtotal, so a subtraction row would double-count).
+  const promo = getPromoState(new Date());
+  const setCount = countEligibleSets(lines);
+  const note = cart ? savingsNote(bundleSavings(cart)) : null;
+  const nudge = promo.offerLive ? bundleNudge(setCount) : null;
 
   return (
     <>
@@ -99,6 +109,7 @@ export default async function CartPage() {
                 {lines.map((line) => (
                   <LineRow key={line.id} line={line} />
                 ))}
+                {promo.offerLive && <CartSuggestions lines={lines} setCount={setCount} />}
               </div>
 
               <aside className="col-span-12 lg:col-span-4 lg:sticky lg:top-24 self-start">
@@ -120,6 +131,28 @@ export default async function CartPage() {
                       {cart && formatPrice(cart.cost.totalAmount.amount, cart.cost.totalAmount.currencyCode)}
                     </span>
                   </div>
+                  {note && (
+                    <p style={{ marginTop: -8, textAlign: "right", fontFamily: "var(--body)", fontWeight: 800, fontSize: 14, color: "var(--ink)" }}>
+                      {note} 🎉
+                    </p>
+                  )}
+                  {nudge && (
+                    <p
+                      style={{
+                        marginTop: 16,
+                        padding: "12px 14px",
+                        background: "var(--lemon)",
+                        border: "2.5px solid var(--ink)",
+                        borderRadius: 16,
+                        fontFamily: "var(--body)",
+                        fontWeight: 800,
+                        fontSize: 13.5,
+                        color: "var(--ink)",
+                      }}
+                    >
+                      {nudge}
+                    </p>
+                  )}
                   {isUsd && (
                     <div
                       style={{
