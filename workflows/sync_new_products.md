@@ -58,11 +58,21 @@ folder, then build the Gen-Z collections and surface them on the storefront.
    should plan `0 add, 0 remove`. The homepage "New flavors" shelf reads
    newest-by-created-date on its own, so it needs no step.
 
-7. **Wire the frontend** if collections are new: `Header.tsx` `NAV`,
+7. **Tag bundle-eligible sets.** Keep the "Nail Set" tag (and the hidden,
+   unpublished `nail-sets` collection that bundle discounts target) in sync:
+   ```
+   python tools/shopify_nail_set_tag.py            # plan
+   python tools/shopify_nail_set_tag.py --apply     # write tags / create collection
+   ```
+   Eligible = ACTIVE, not gift card / glue / remover / Custom Nail Set, price
+   above $15 (so a 3-for-$45 bundle always saves money). Re-run should plan
+   `0 add, 0 remove, collection exists`. Never publish `nail-sets`.
+
+8. **Wire the frontend** if collections are new: `Header.tsx` `NAV`,
    `MobileMenu.tsx` `navLinks`, `Footer.tsx` Shop column. Build (`pnpm build`
    in `apps/web`) to confirm `/collections/[handle]` resolves.
 
-8. **Deploy** per `workflows/deploy_web.md` (merge to `main` = prod; ask first).
+9. **Deploy** per `workflows/deploy_web.md` (merge to `main` = prod; ask first).
 
 ## Constraints / gotchas discovered
 - The Admin token **lacks `read_locations`** — `locations` only returns `id`
